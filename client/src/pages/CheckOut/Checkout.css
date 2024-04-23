@@ -1,0 +1,320 @@
+.checkout_container {
+  font-family: "Poppins", sans-serif;
+  width: 1340px;
+  margin: 5rem auto;
+  padding: 50px 0px 0px;
+  color: #4e5150;
+}
+.checkout_container header {
+  height: 5%;
+  margin-bottom: 30px;
+}
+.checkout_container header > h3 {
+  font-size: 25px;
+  color: #4e5150;
+  font-weight: 500;
+}
+.checkout_container main {
+  height: 85%;
+  display: flex;
+  column-gap: 100px;
+}
+.checkout_container main .checkout-form {
+  width: 60%;
+}
+.checkout_container main .checkout-form form h6 {
+  font-size: 12px;
+  font-weight: 500;
+}
+.checkout_container main .checkout-form form .form-control {
+  margin: 10px 0px;
+  position: relative;
+}
+.checkout_container
+  main
+  .checkout-form
+  form
+  .form-control
+  label:not([for="checkout-checkbox"]) {
+  display: block;
+  font-size: 10px;
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+.checkout_container
+  main
+  .checkout-form
+  form
+  .form-control
+  input:not([type="checkbox"]) {
+  width: 100%;
+  padding: 10px 10px 10px 40px;
+  border-radius: 50px;
+  border: 1px solid #dedede;
+  background: #fff;
+  box-shadow: 1px 0px 9.4px 0px rgba(128, 128, 128, 0.393) inset;
+  font-size: 12px;
+  font-weight: 700;
+}
+.checkout_container
+  main
+  .checkout-form
+  form
+  .form-control
+  input:not([type="checkbox"])::placeholder {
+  font-size: 10px;
+  font-weight: 500;
+}
+.checkout_container
+  main
+  .checkout-form
+  form
+  .form-control
+  label[for="checkout-checkbox"] {
+  font-size: 9px;
+  font-weight: 500;
+  line-height: 10px;
+}
+.checkout_container main .checkout-form form .form-control > div {
+  position: relative;
+}
+.checkout_container main .checkout-form form .form-control > div span.fa {
+  position: absolute;
+  top: 50%;
+  left: 0%;
+  transform: translate(15px, -50%);
+}
+.checkout_container main .checkout-form form .form-group {
+  display: flex;
+  column-gap: 25px;
+}
+.checkout_container main .checkout-form form .checkbox-control {
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+}
+.checkout_container main .checkout-form form .form-control-btn {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.checkout_container main .checkout-form form .form-control-btn button {
+  padding: 10px 25px;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: normal;
+  text-transform: uppercase;
+  color: #fff;
+  border-radius: 60px;
+  background: var(
+    --Linear,
+    linear-gradient(315deg, #07d25f 20.24%, #028139 80.97%)
+  );
+  letter-spacing: 0.5px;
+  cursor: pointer;
+}
+.checkout-details {
+  width: 30%;
+}
+.checkout-details .checkout-details-inner {
+  background: #f2f2f2;
+  border-radius: 10px;
+  padding: 20px;
+}
+.checkout-lists {
+  display: flex;
+  flex-direction: column;
+  row-gap: 15px;
+  margin-bottom: 40px;
+}
+.checkout-lists ._card {
+  width: 100%;
+  display: flex;
+  column-gap: 15px;
+}
+.card-image {
+  width: 35%;
+}
+.card-image img {
+  width: 100%;
+  object-fit: fill;
+  border-radius: 10px;
+}
+
+.card-details {
+  display: flex;
+  flex-direction: column;
+}
+.checkout_container
+  main
+  .checkout-details
+  .checkout-details-inner
+  .checkout-lists
+  ._card
+  .card-details
+  .card-name {
+  font-size: 18px;
+  font-weight: 500;
+}
+.checkout_container
+  main
+  .checkout-details
+  .checkout-details-inner
+  .checkout-lists
+  ._card
+  .card-details
+  ._card-price {
+  font-size: 10px;
+  font-weight: 500;
+  color: #f2994a;
+  margin-top: 5px;
+}
+.checkout_container
+  main
+  .checkout-details
+  .checkout-details-inner
+  .checkout-lists
+  ._card
+  .card-details
+  ._card-price
+  span {
+  color: #4e5150;
+}
+
+.checkout_container
+  main
+  .checkout-details
+  .checkout-details-inner
+  .checkout-shipping,
+.checkout_container
+  main
+  .checkout-details
+  .checkout-details-inner
+  .checkout-total {
+  display: flex;
+  font-size: 16px;
+  padding: 5px 0px;
+  border-top: 1px solid #bdbdbd;
+  justify-content: space-between;
+}
+.checkout_container
+  main
+  .checkout-details
+  .checkout-details-inner
+  .checkout-shipping
+  p,
+.checkout_container
+  main
+  .checkout-details
+  .checkout-details-inner
+  .checkout-total
+  p {
+  font-size: 10px;
+  font-weight: 500;
+}
+
+@media screen and (max-width: 1024px) {
+  .checkout_container {
+    width: 100%;
+  }
+  .checkout_container main {
+    column-gap: 70px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .checkout_container {
+    width: 92%;
+  }
+  .checkout_container main {
+    flex-direction: column-reverse;
+    height: auto;
+    margin-bottom: 50px;
+  }
+  .checkout_container main .checkout-form {
+    width: 100%;
+    margin-top: 35px;
+  }
+  .checkout_container main .checkout-details {
+    width: 100%;
+  }
+}
+
+.payment-type {
+  margin-bottom: 25px;
+}
+.payment-type h4 {
+  margin: 0;
+}
+.payment-type .types {
+  margin: 25px 0;
+}
+.payment-type .types .type {
+  width: 30%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: #f2f4f7;
+  border: 2px solid #e8ebed;
+  padding: 15px 25px;
+  box-sizing: border-box;
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.5s ease;
+}
+.payment-type .types .type:hover {
+  border-color: #28333b;
+}
+.payment-type .types .type:hover .logo,
+.payment-type .types .type:hover p {
+  color: #28333b;
+}
+.payment-type .types .type.selected {
+  background: var(
+    --Linear,
+    linear-gradient(315deg, #07d25f 20.24%, #02813958 80.97%)
+  );
+}
+.payment-type .types .type.selected .logo {
+  color: #40b3ff;
+}
+.payment-type .types .type.selected p {
+  color: #fff;
+}
+.payment-type .types .type.selected::after {
+  content: "\2713";
+  font-weight: 900;
+  position: absolute;
+  height: 40px;
+  width: 40px;
+  top: -21px;
+  right: -21px;
+  color: #fff;
+  background: var(
+    --Linear,
+    linear-gradient(315deg, #07d25f 20.24%, #028139 80.97%)
+  );
+  border: 2px solid #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.payment-type .types .type .logo,
+.payment-type .types .type p {
+  transition: all 0.5s ease;
+}
+.payment-type .types .type .logo {
+  font-size: 48px;
+  color: #8a959c;
+}
+.payment-type .types .type p {
+  margin-bottom: 0;
+  font-size: 10px;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: #8a959c;
+}

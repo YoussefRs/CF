@@ -1,0 +1,115 @@
+:root {
+  --swiper-image-ratio: 33.3%; /* ratio 16:9 = 56.25% */
+
+  --swiper-width: 50%;
+  --swiper-inactive-scale: 0.85; /* makes the other slide smaller */
+
+  /* responsive settings */
+  --swiper-mobile-width: 90%;
+  --swiper-mobile-width: 90%;
+}
+.swiper-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.swiper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.swiper-slide {
+  position: relative;
+  opacity: 0.5;
+  transform: scale(0.84);
+  transition: all 0.3s ease-in-out;
+  border-radius: 0.4285rem;
+  width: 30%;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0px 100px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  box-shadow: 24px 14px 20.8px 0px rgba(0, 0, 0, 0.2);
+}
+.ep-wrapper {
+  position: absolute;
+  top: -60%;
+  transform: translate(-50%, -50%);
+  animation: float 2s ease-in-out infinite;
+}
+.svg-wrapper {
+  position: absolute;
+  bottom: -50px;
+  animation: float 2s ease-in-out infinite;
+}
+
+.swiper-backface-hidden .swiper-slide {
+  transform: scale(0.6) translateZ(0);
+}
+
+.swiper-slide.swiper-slide-active {
+  transform: scale(1) !important;
+  opacity: 1 !important;
+}
+
+.swiper-backface-hidden .swiper-slide.swiper-slide-active {
+  transform: scale(1) translateZ(0) !important;
+}
+
+.swiper-image {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 20px;
+  text-align: center;
+  border-radius: 0 100px;
+  gap: 1rem;
+}
+
+@media only screen and (max-width: 768px) {
+  .swiper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .swiper-slide {
+    width: 100%;
+    margin-top: 3rem;
+    transform: scale(var(--swiper-mobile-inactive-scale));
+  }
+
+  .swiper-backface-hidden .swiper-slide.swiper-slide {
+    transform: scale(var(--swiper-mobile-inactive-scale)) translateZ(0);
+  }
+}
+
+.testimonials_rate {
+  color: #1a1b1a;
+  font-family: "Helvetica Neue", sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 20.024px;
+  text-transform: capitalize;
+}
+.test_description {
+  color: #69776f;
+  text-align: center;
+  font-family: "Caviar Dreams", sans-serif;
+  font-size: 14px;
+  font-style: italic;
+  font-weight: 700;
+  line-height: 22px;
+  text-transform: capitalize;
+}

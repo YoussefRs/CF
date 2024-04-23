@@ -1,0 +1,186 @@
+.booking_inputs input {
+  width: 100%;
+  border-radius: 60px;
+  border: 0.5px solid rgba(158, 158, 158, 0.37);
+  background: rgba(27, 29, 35, 0.09);
+  box-shadow: -5px -3px 9.4px 0px #000 inset;
+  padding: 10px 20px;
+  color: #5d6377 !important;
+  font-family: Montserrat, sans-serif;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  font-variant: small-caps;
+}
+
+#search {
+  position: relative;
+}
+#search {
+  display: inline-block;
+}
+#search .fa-search {
+  position: absolute;
+  top: 5px;
+  right: 15px;
+}
+#input_date {
+  color-scheme: dark;
+}
+
+/*TABLES*/
+.tables {
+  display: block;
+  display: grid;
+  grid-template-rows: min-content 1fr;
+  max-height: 80%;
+  overflow: auto;
+  color: white;
+}
+
+.booking_table {
+  width: 100%;
+  min-width: 800px;
+}
+.table__wrapper {
+  width: 100%;
+  max-height: 100%;
+  /* overflow: auto; */
+}
+.booking_table tr {
+  display: grid;
+  /* grid: auto/200px 250px 1fr 1fr 1fr; */
+  grid: auto/1fr 1fr 1.5fr 1.2fr 1fr;
+  align-items: center;
+}
+.booking_table .table__header tr {
+  border-radius: 50px !important;
+  background: rgba(0, 0, 0, 0.44) !important;
+  margin-bottom: 3px;
+  color: #5d6377;
+  font-family: Montserrat, sans-serif;
+  font-size: clamp(8px, 1vw, 12px);
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  font-variant: small-caps;
+  text-align: left;
+}
+.booking_table td {
+  padding: 18px 15px;
+}
+.table__header {
+  color: var(--neutralShade5);
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+.table__body tr {
+  border-radius: 60px;
+  background: rgba(27, 29, 35, 0.69);
+  margin-bottom: 2px;
+  font-family: Montserrat, sans-serif;
+  font-size: clamp(10px, 1vw, 14px);
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  text-transform: capitalize;
+  text-align: left;
+}
+
+@media (max-width: 768px) {
+  /* body {
+    grid-template-rows: auto min-content;
+  }
+
+  main {
+    grid: min-content auto auto/100%;
+    height: auto;
+  } */
+
+  .tables {
+    grid-row: 2/3;
+  }
+  .tables .table__wrapper {
+    max-height: none;
+  }
+  .stats {
+    grid-row: 3/4;
+  }
+}
+/* STATS BUTTONS */
+.close-btn {
+  cursor: pointer;
+  height: 40px;
+  width: 40px;
+  position: relative;
+  transition: 250ms ease;
+  border-radius: 50%;
+  background: linear-gradient(158deg, #940000 19.76%, #ff0101 92.48%);
+}
+.close-btn:before,
+.close-btn:after {
+  content: "";
+  height: 2px;
+  background: white;
+  width: 70%;
+  top: 50%;
+  left: 15%;
+  position: absolute;
+  transition: 250ms ease;
+}
+.close-btn:before {
+  transform: rotate(-45deg);
+}
+.close-btn:after {
+  transform: rotate(45deg);
+}
+
+.close-btn:hover:before,
+.close-btn:hover:after,
+.close-btn:focus:before,
+.close-btn:focus:after {
+  width: 50%;
+  left: 25%;
+}
+
+.checkmark-btn {
+  cursor: pointer;
+  height: 40px;
+  width: 40px;
+  position: relative;
+  transition: 250ms ease;
+  border-radius: 50%;
+  background: linear-gradient(315deg, #07d25f 20.24%, #028139 80.97%);
+}
+
+.checkmark-btn:before {
+  content: "";
+  height: 10px; /* Adjust size of the checkmark */
+  width: 20px; /* Adjust size of the checkmark */
+  border: 2px solid white;
+  border-top: none;
+  border-right: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-45deg); /* Centering and rotation */
+  transition: 250ms ease;
+}
+
+.checkmark-btn:hover:before,
+.checkmark-btn:hover:after,
+.checkmark-btn:focus:before,
+.checkmark-btn:focus:after {
+  width: 50%;
+  left: 50%;
+}
+/* .checkmark-btn:hover, .checkmark-btn:focus {
+  background: linear-gradient(158deg, #00ff00 19.76%, #01ff01 92.48%);
+  border-radius: 100%;
+}
+
+.checkmark-btn:hover:before, .checkmark-btn:focus:before {
+  border-color: white;
+} */

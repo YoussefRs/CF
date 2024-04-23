@@ -1,0 +1,62 @@
+.form_container {
+  display: flex;
+  flex-direction: column;
+}
+.form_container .form-rounded {
+  border-radius: 1rem;
+}
+.form_container h1 {
+  color: #1a1b1a;
+  font-family: Montserrat, sans-serif;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  text-transform: capitalize;
+}
+.form_container label {
+  color: #2d3136;
+  font-family: Montserrat, sans-serif;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-transform: capitalize;
+  margin-bottom: 5px;
+}
+.form_container input {
+  border-radius: 60px;
+  border: 1px solid #dedede;
+   background: #fff;
+      box-shadow: -5px -3px 9.4px 0px #dedede inset;
+}
+.form_container textarea {
+  border-radius: 30px;
+  border: 1px solid #dedede;
+   background: #fff;
+      box-shadow: -5px -3px 9.4px 0px #dedede inset;
+}
+.form-btn button {
+  border-radius: 60px;
+  border: 1px solid #0db254;
+  padding: 20px;
+  color: #0db254;
+  font-family: Montserrat, sans-serif;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  text-transform: uppercase;
+}
+.form-btn #special-btn {
+  border-radius: 60px;
+  border: none;
+  background: var(--Linear, linear-gradient(315deg, #07D25F 20.24%, #028139 80.97%));
+  color: #fff;
+  font-family: Montserrat, sans-serif;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  text-transform: uppercase;
+}

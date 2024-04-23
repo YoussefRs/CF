@@ -1,0 +1,142 @@
+.container-fluid h1 {
+  color: #fff;
+  font-family: Montserrat, sans-serif;
+  font-size: clamp(1.5rem, 4vw, 36px);
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  text-transform: capitalize;
+}
+.card-long,
+.card {
+  /* background-color: #393939; */
+  background: rgba(27, 29, 35, 0.69);
+  background: radial-gradient(
+      80vmax 50vmax at 100% 300%,
+      rgba(241, 191, 7, 0.5) 0%,
+      hsla(0, 0%, 22%, 1) 50%,
+      rgba(27, 29, 35, 1) 100%
+    ),
+    radial-gradient(
+        90vmax 50vmax at 50vmax 50vmax,
+        rgba(27, 29, 35, 0.69) 0%,
+        hsla(240, 100%, 60%, 0) 95%
+      )
+      rgba(27, 29, 35, 0.69);
+  border-radius: 40px;
+}
+#card-second {
+  background-color: #393939;
+  /* background-color: radial-gradient(
+      80vmax 50vmax at 100% 300%,
+      rgba(13, 178, 84, 0.8) 0%,
+      hsla(200, 100%, 50%, 0) 50%,
+      rgba(51, 51, 51, 0) 100%
+    ),
+    radial-gradient(
+        90vmax 50vmax at 50vmax 50vmax,
+        hsla(260, 100%, 60%, 0.9) 0%,
+        hsla(240, 100%, 60%, 0) 95%
+      )
+      #393939; */
+}
+
+#card-third {
+  background-color: #393939;
+  /* background: radial-gradient(
+      80vmax 50vmax at 100% 300%,
+      rgba(255, 98, 30, 0.2),
+      hsla(200, 100%, 50%, 0) 50%,
+      rgba(51, 51, 51, 0) 100%
+    ),
+    radial-gradient(
+        90vmax 50vmax at 50vmax 50vmax,
+        hsla(260, 100%, 60%, 0.9) 0%,
+        hsla(240, 100%, 60%, 0) 95%
+      )
+      #393939; */
+}
+
+#card-long {
+  height: 250px;
+}
+
+.card-body {
+  /* height: 150px; */
+  height: 100%;
+}
+._date {
+  color: rgba(255, 255, 255, 0.22);
+  font-family: Montserrat, sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  text-transform: capitalize;
+}
+._number {
+  color: #fff;
+  font-family: Montserrat, sans-serif;
+  font-size: 35px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  text-transform: capitalize;
+}
+._gold_text {
+  color: #f7d86a;
+  font-family: Montserrat, sans-serif;
+  font-size: 21px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  text-transform: capitalize;
+}
+.svg_ctr {
+  border-radius: 25px;
+  background: rgba(255, 255, 255, 0.08);
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+}
+.card-body > h3 {
+  color: #5fbcff;
+  font-size: 21px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-transform: capitalize;
+}
+#dash_table .table__header tr,
+#dash_table .table__body tr {
+  background: none !important;
+}
+.dash_more {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  margin-top: 1rem;
+  padding: 15px 30px;
+  border-bottom-right-radius: 40px;
+  border-top-left-radius: 40px;
+  background: var(
+    --Style,
+    linear-gradient(138deg, #0563a6 4.33%, #6abcf7 109.31%)
+  );
+  color: white;
+}
+.icon_box_ {
+  height: 35px;
+  width: 35px;
+  background-color: red;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.icon_box_span {
+  word-break: break-word;
+}
