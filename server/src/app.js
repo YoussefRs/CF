@@ -10,9 +10,21 @@ const { appartmentRouter } = require("./Routes/apartment.routes");
 const { reservationRouter } = require("./Routes/reservations.routes");
 const { sendHelpRequest } = require("./utils/sendEmail");
 const { paypalRouter } = require("./Routes/paypal.routes");
+const { startScript } = require("../config/db");
 
 
 const app = express();
+
+async function run() {
+  try {
+    await startScript();
+    // You can start your Express app or do other actions here if needed.
+  } catch (error) {
+    console.error('Error during database setup:', error);
+  }
+}
+
+run();
 
 // Middleware
 app.use(cors({ origin: "*" }));

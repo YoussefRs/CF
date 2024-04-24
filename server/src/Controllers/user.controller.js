@@ -1,26 +1,24 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { validationResult } = require("express-validator");
-const { createConnectionWithoutDatabase } = require("../../config/db");
+const { startScript } = require("../../config/db");
 
 async function httpRegisterUser(req, res) {
   try {
-    const db = await createConnectionWithoutDatabase();
+    // Get the existing database connection from startScript
+    const connection = await startScript();
 
     // Validate request body
     if (!validationResult(req).isEmpty()) {
       return res.status(400).json({ error: validationResult(req).array() });
     }
 
-    console.log(req.body);
 
     // Check if user with the same name or email exists
-    const [existingUser] = await db.query(
+    const [existingUser] = await connection.query(
       "SELECT * FROM users WHERE name = ? OR email = ?",
       [req.body.name, req.body.email]
     );
-
-    console.log("Existing user:", existingUser);
 
     if (existingUser.length > 0) {
       return res.status(409).json({ message: "User exists already!" });
@@ -30,7 +28,7 @@ async function httpRegisterUser(req, res) {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
     // Insert new user into the database
-    const [result] = await db.query(
+    const [result] = await connection.query(
       "INSERT INTO users (name, phone, email, password, image, role) VALUES (?, ?, ?, ?, ?, ?)",
       [
         req.body.name,
@@ -52,6 +50,9 @@ async function httpRegisterUser(req, res) {
 
     // Respond with success message and token
     res.status(201).json({ message: "User registered successfully", token });
+
+    // Close the connection
+    await connection.end();
   } catch (err) {
     console.error("Error registering user:", err);
     res.status(500).json({ error: "Internal server error" });
@@ -60,25 +61,30 @@ async function httpRegisterUser(req, res) {
 
 async function httpLoginUser(req, res) {
   try {
-    const db = await createConnectionWithoutDatabase();
-
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+    // Check if email and password are provided in the request body
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return res
+        .status(400)
+        .json({ message: "Email and password are required!" });
     }
 
-    const { email, password } = req.body;
+    // Start script to get database connection
+    const connection = await startScript();
 
-    const [rows, fields] = await db.execute(
+    // Execute the query to fetch user by email
+    const [rows, fields] = await connection.execute(
       "SELECT * FROM users WHERE email = ?",
       [email]
     );
+
+    // Check if user exists
     if (rows.length === 0) {
       return res.status(404).json({ message: "User not found!" });
     }
 
+    // User found, compare passwords
     const user = rows[0];
-
     const isValidPassword = await bcrypt.compare(password, user.password);
     if (!isValidPassword) {
       return res.status(404).json({ message: "Wrong email or password!" });
@@ -93,9 +99,10 @@ async function httpLoginUser(req, res) {
   }
 }
 
+
 async function httpGetAllUsers(req, res) {
   try {
-    const db = await createConnectionWithoutDatabase();
+    const db = await startScript();
 
     // Execute SQL query to retrieve all users
     const [users] = await db.query("SELECT * FROM users");
@@ -113,7 +120,7 @@ async function httpGetAllUsers(req, res) {
 
 async function httpGetUser(req, res) {
   try {
-    const db = await createConnectionWithoutDatabase();
+    const db = await startScript();
 
     // Extract the user ID from the request parameters
     const userId = req.params.param;
@@ -140,7 +147,7 @@ async function httpGetUser(req, res) {
 
 async function httpUpdateOneUser(req, res) {
   try {
-    const db = await createConnectionWithoutDatabase();
+    const db = await startScript();
 
     // Extract user ID from request parameters
     const userId = req.params.param;
@@ -199,7 +206,7 @@ async function httpUpdateOneUser(req, res) {
 
 async function httpDeleteOneUser(req, res) {
   try {
-    const db = await createConnectionWithoutDatabase();
+    const db = await startScript();
 
     // Extract user ID from request parameters
     const userId = req.params.param;
@@ -225,7 +232,7 @@ async function httpDeleteOneUser(req, res) {
 
 async function httpChangePassword(req, res) {
   try {
-    const db = await createConnectionWithoutDatabase();
+    const db = await startScript();
 
     // Extract user ID and new password from request parameters
     const { userId, newPassword } = req.body;
