@@ -224,7 +224,7 @@ export default function Home() {
                     >
                       <path d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5" />
                     </svg>
-                    <p>House</p>
+                    <p>Searching for houses</p>
                   </div>
                   <div className="_box">
                     <svg
@@ -241,7 +241,7 @@ export default function Home() {
                         d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5"
                       />
                     </svg>
-                    <p>House</p>
+                    <p>Create you profile</p>
                   </div>
                   <div className="_box">
                     <svg
@@ -255,7 +255,7 @@ export default function Home() {
                       <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v1H0zm0 3v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7zm3 2h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-1a1 1 0 0 1 1-1" />
                     </svg>
 
-                    <p>House</p>
+                    <p>deal and pay</p>
                   </div>
                 </div>
               </div>

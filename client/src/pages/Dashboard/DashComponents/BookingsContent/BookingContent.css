@@ -41,7 +41,8 @@
 
 .booking_table {
   width: 100%;
-  min-width: 800px;
+  max-width: 600px;
+  overflow: auto;
 }
 .table__wrapper {
   width: 100%;

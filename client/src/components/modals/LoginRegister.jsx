@@ -70,26 +70,14 @@ export default function LoginRegister({ setShow }) {
         img: imgUrl,
       };
 
-      console.log(registrationData);
-
-      // Now you can submit the registrationData to your server
-      // For example:
       const response = await axios.post(
         "http://127.0.0.1:3001/user/register",
         registrationData
       );
-      // console.log(response.data);
     } catch (error) {
       console.error("Registration failed", error);
     }
 
-    // Now you can submit the registrationData to your server
-    // For example:
-    // const response = await axios.post(
-    //   "http://127.0.0.1:9090/user/register",
-    //   registrationData
-    // );
-    // console.log(response.data);
   };
 
   return (

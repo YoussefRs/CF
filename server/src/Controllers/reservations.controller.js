@@ -1,12 +1,12 @@
 const { validationResult } = require("express-validator");
-const { createConnectionWithoutDatabase } = require("../../config/db");
+const { startScript } = require("../../config/db");
 const {
   sendReservationEmail,
   sendDeclineReservationEmail,
 } = require("../utils/sendEmail");
 
 async function createReservation(req, res) {
-  const db = await createConnectionWithoutDatabase();
+  const db = await startScript();
   try {
     // Extract data from the request body
     const { userId, apartmentId, startDate, endDate } = req.body;
@@ -41,7 +41,7 @@ async function createReservation(req, res) {
 }
 
 async function getAllReservations(req, res) {
-  const db = await createConnectionWithoutDatabase();
+  const db = await startScript();
   try {
     // Execute SQL query to retrieve all reservations
     const [reservations] = await db.query("SELECT * FROM Reservations");
@@ -54,7 +54,7 @@ async function getAllReservations(req, res) {
 }
 
 async function getReservation(req, res) {
-  const db = await createConnectionWithoutDatabase();
+  const db = await startScript();
   try {
     const reservationId = req.params.id;
     // Execute SQL query to retrieve the reservation
@@ -75,7 +75,7 @@ async function getReservation(req, res) {
 }
 
 async function approveReservation(req, res) {
-  const db = await createConnectionWithoutDatabase();
+  const db = await startScript();
 
   try {
     const reservationId = req.params.id;
@@ -120,7 +120,7 @@ async function approveReservation(req, res) {
 }
 
 async function declineReservation(req, res) {
-  const db = await createConnectionWithoutDatabase();
+  const db = await startScript();
 
   try {
     const reservationId = req.params.id;

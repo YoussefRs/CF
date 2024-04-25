@@ -1,3 +1,6 @@
+.login_signin_modal {
+  z-index: 9999999999999999999999999999;
+}
 .modal-content {
   border-radius: 50px;
   background: #fff;

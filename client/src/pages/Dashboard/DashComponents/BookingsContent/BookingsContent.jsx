@@ -30,8 +30,8 @@ export default function BookingsContent() {
       </div>
       <div className="row">
         <div className="col-lg-12 mb-4">
-          <div className="row gap-2">
-            <div className="col-lg-8 booking_inputs" id="search">
+          <div className="row">
+            <div className="col-lg-8 col-md-8 mb-2 booking_inputs" id="search">
               <span className="fa-search">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -49,7 +49,7 @@ export default function BookingsContent() {
             {/* <div className="col-lg-4  booking_inputs enchilada">
               <input type="date" className="date enchilada"/>
             </div> */}
-            <div class="booking_inputs col-lg-4">
+            <div class="booking_inputs col-lg-4 col-md-4">
               <input type="date" id="input_date" />
             </div>
           </div>

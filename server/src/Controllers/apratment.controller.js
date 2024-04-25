@@ -1,9 +1,9 @@
 const { validationResult } = require("express-validator");
-const { createConnectionWithoutDatabase } = require("../../config/db");
+const { startScript } = require("../../config/db");
 
 // Controller function to add a new apartment
 async function httpAddApartment(req, res) {
-  const db = await createConnectionWithoutDatabase();
+  const db = await startScript();
   try {
     // Extract data from the request body
     const {
@@ -80,7 +80,7 @@ async function httpAddApartment(req, res) {
 }
 
 async function httpEditApartment(req, res) {
-  const db = await createConnectionWithoutDatabase();
+  const db = await startScript();
   try {
     // Extract data from the request body
     const {
@@ -158,7 +158,7 @@ async function httpEditApartment(req, res) {
 }
 
 async function httpDeleteApartment(req, res) {
-  const db = await createConnectionWithoutDatabase();
+  const db = await startScript();
   try {
     const apartmentId = req.params.id;
 
@@ -191,7 +191,7 @@ async function httpDeleteApartment(req, res) {
 }
 
 async function httpGetAllApartments(req, res) {
-  const db = await createConnectionWithoutDatabase();
+  const db = await startScript();
   try {
     // Execute SQL query to retrieve all apartments along with their special dates
     const query = `
@@ -213,7 +213,7 @@ async function httpGetAllApartments(req, res) {
 }
 
 async function httpGetOneApartment(req, res) {
-  const db = await createConnectionWithoutDatabase();
+  const db = await startScript();
   try {
     const apId = req.params.id;
     // Execute SQL query to retrieve a single apartment along with its special dates
@@ -236,7 +236,7 @@ async function httpGetOneApartment(req, res) {
 }
 
 async function getAvailableDatesForApartment(req, res) {
-  const db = await createConnectionWithoutDatabase();
+  const db = await startScript();
   try {
     const apartmentId = req.params.id;
     // Execute SQL query to retrieve available dates for the specified apartment

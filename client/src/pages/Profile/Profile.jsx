@@ -40,12 +40,12 @@ export default function Profile() {
         <div className="profile-container d-flex align-items-center justify-content-center">
           <div className="container-fluid" style={{ width: 1340 }}>
             <div className="row">
-              <div className="col col-lg-3 mb-4">
+              <div className="col col-xl-4 col-lg-12 profile_ctr mb-4">
                 <div className="panel panel-default px-4">
                   <div className="panel-body py-5 text-center d-flex justify-content-center align-items-center flex-column">
                     <div className="profile-pic">
                       <img
-                        src={user?.img || profilePic}
+                        src={user?.user.image || profilePic}
                         alt="Profile Picture"
                         onError={(e) => {
                           e.target.onerror = null;
@@ -74,12 +74,11 @@ export default function Profile() {
                       change
                     </button>
                     <br />
-                    <h3>Hello, {user?.name} </h3>
-                    <span>Description</span>
+                    <h3>Hello, Mr {user?.user?.name} </h3>
                   </div>
                 </div>
               </div>
-              <div className="col col-lg-9">
+              <div className="col col-xl-8 col-lg-12">
                 <div className="_container ">
                   <div className="container-fluid d-flex align-items-center justify-content-center p-0">
                     <ul className="nav nav-pills nav-justified">
@@ -205,7 +204,7 @@ export default function Profile() {
                       aria-labelledby="ex3-tab-1"
                     >
                       <div className="profile_container">
-                        <div className="col-lg-10 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-12 col-xs-12 edit_information">
+                        <div className="col px-5 edit_information">
                           <form action="" method="POST">
                             <div className="row">
                               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -217,7 +216,7 @@ export default function Profile() {
                                     type="text"
                                     name="text"
                                     className="form-control profile_input"
-                                    value={user?.name}
+                                    value={user?.user?.name}
                                     required
                                     style={{ pointerEvents: "none" }}
                                   />
@@ -234,7 +233,7 @@ export default function Profile() {
                                     type="tel"
                                     name="phone"
                                     className="form-control profile_input"
-                                    value={user?.phone}
+                                    value={user?.user?.phone}
                                     required
                                     style={{ pointerEvents: "none" }}
                                   />
@@ -251,7 +250,7 @@ export default function Profile() {
                                     type="email"
                                     name="email"
                                     className="form-control profile_input"
-                                    value={user?.email}
+                                    value={user?.user?.email}
                                     style={{ pointerEvents: "none" }}
                                     required
                                   />
@@ -488,7 +487,6 @@ export default function Profile() {
                           <div className="table__wrapper scrollable-container">
                             <table className="invoice_table">
                               <tbody
-                                className="table__body"
                                 id="profile_orders_table"
                               >
                                 <tr

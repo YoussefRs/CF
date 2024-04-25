@@ -11,6 +11,7 @@ const ReusableModal = ({ show, onHide, children, size }) => {
       centered
       show={show}
       onHide={onHide}
+      className="MyModal"
     >
       <Modal.Body>
         {children}
