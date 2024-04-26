@@ -2,51 +2,59 @@
   overflow: hidden;
 }
 
-.searchwrapper {
-  width: 55%;
+@media (min-width: 1400px) {
+  .searchwrapper {
+    width: 55%;
+  }
 }
 
-@media (max-width: 1024px) {
+@media (min-width: 992px) and (max-width: 1400px) {
   .searchwrapper {
-    width: 80%;
+    width: 65%;
   }
 }
+
 @media (max-width: 768px) {
   .searchwrapper {
-    width: 90%;
+    width: 100%;
   }
 }
+
 .searchbox {
   background-color: #fff;
   padding: 0px 0px 0px 40px;
   border-radius: 50px;
   position: relative;
 }
+
 .searchbox [class*="col-"] {
   padding: 0px;
 }
+
 .searchbox .col-md-5,
 .searchbox .col-md-3 {
   padding-top: 12px;
   padding-bottom: 12px;
 }
+
 .searchbox .form-control {
   border-color: transparent;
 }
+
 .searchbox select.form-control {
   border-right: solid 1px transparent;
 }
+
 .searchbox .form-control:focus {
   outline: 0;
 }
-.searchbox .btn {
+
+.searchbox .btn,
+.searchwrapper_sm .btn {
   border-radius: 40px;
   border: none;
-  padding: 30px 40px;
-  background: var(
-    --Linear,
-    linear-gradient(315deg, #07d25f 20.24%, #028139 80.97%)
-  );
+  background: var(--Linear,
+      linear-gradient(315deg, #07d25f 20.24%, #028139 80.97%));
   box-shadow: 0px 16px 31.9px 0px rgba(0, 0, 0, 0.25);
 }
 
@@ -61,21 +69,56 @@ footer {
   background-color: #fff;
   padding: 3% 0px;
 }
+
 footer p {
   color: #999;
 }
+
+@media (min-width: 768px) {
+  .searchbox .btn {
+    padding: 30px 40px;
+  }
+}
+
 @media (max-width: 767px) {
   .searchbox .btn {
     width: 100%;
+    padding: 15px 0;
   }
-  .searchbox {
-    padding: 20px 40px;
-  }
+
   .searchbox .form-control {
     border-color: transparent;
     border-bottom: solid 1px rgba(0, 0, 0, 0.1);
   }
+
   .searchbox select.form-control {
     border-bottom: solid 1px transparent;
+  }
+}
+
+@media (min-width: 576px) and (max-width: 767px) {
+  .searchbox {
+    padding: 20px 40px;
+  }
+}
+
+@media (max-width: 575px) {
+  .searchbox {
+    padding: 20px 30px;
+  }
+}
+
+.searchwrapper_sm {
+  background-color: #fff;
+  border-radius: 50px;
+  justify-content: space-between;
+  align-items: center;
+
+  & .label {
+    padding: 0 1rem;
+  }
+
+  & .btn {
+    padding: 1rem 2rem;
   }
 }
