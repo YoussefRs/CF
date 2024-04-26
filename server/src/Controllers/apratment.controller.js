@@ -2,82 +2,190 @@ const { validationResult } = require("express-validator");
 const { startScript } = require("../../config/db");
 
 // Controller function to add a new apartment
+// async function httpAddApartment(req, res) {
+//   const db = await startScript();
+//   try {
+//     // Extract data from the request body
+//     const {
+//       apartmentName,
+//       location,
+//       bedroom,
+//       bathroom,
+//       parking = false,
+//       rent = false,
+//       food = false,
+//       laundry = false,
+//       pictures,
+//       defaultSpecialDate,
+//       specialDates = [],
+//       description,
+//     } = req.body;
+
+//     // Create a database connection
+
+//     // Start a database transaction
+//     await db.beginTransaction();
+
+//     // Insert the apartment details into the Apartments table
+//     const pictureUrls = pictures.join(", ");
+//     const [apartmentResult] = await db.query(
+//       `INSERT INTO Apartments (apartmentName, location, bedroom, bathroom, parking, rent, food, laundry, pictures, defaultSpecialDate, description)
+//        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+//       [
+//         apartmentName,
+//         location,
+//         bedroom,
+//         bathroom,
+//         parking,
+//         rent,
+//         food,
+//         laundry,
+//         pictureUrls,
+//         JSON.stringify(defaultSpecialDate), // Convert defaultSpecialDate to string
+//         description,
+//       ]
+//     );
+
+//     // Get the ID of the newly inserted apartment
+//     const apartmentId = apartmentResult.insertId;
+
+//     // Insert default special date into the SpecialDates table
+//     await db.query(
+//       `INSERT INTO SpecialDates (apartmentId, price, startDate, endDate)
+//            VALUES (?, ?, ?, ?)`,
+//       [
+//         apartmentId,
+//         defaultSpecialDate.price,
+//         defaultSpecialDate.startDate,
+//         defaultSpecialDate.endDate,
+//       ]
+//     );
+
+//     // Insert special dates into the SpecialDates table
+//     for (const specialDate of specialDates) {
+//       await db.query(
+//         `INSERT INTO SpecialDates (apartmentId, price, startDate, endDate)
+//              VALUES (?, ?, ?, ?)`,
+//         [
+//           apartmentId,
+//           specialDate.price,
+//           specialDate.startDate,
+//           specialDate.endDate,
+//         ]
+//       );
+//     }
+
+//     // Commit the transaction
+//     await db.commit();
+
+//     // Close the database connection
+//     await db.end();
+
+//     // Respond with success message
+//     res.status(201).json({ message: "Apartment added successfully" });
+//   } catch (error) {
+//     // Rollback the transaction if an error occurs
+//     await db.rollback();
+
+//     console.error("Error adding apartment:", error);
+//     res.status(500).json({ error: "Internal server error" });
+//   }
+// }
 async function httpAddApartment(req, res) {
   const db = await startScript();
   try {
-    // Extract data from the request body
-    const {
-      apartmentName,
-      location,
-      bedroom,
-      bathroom,
-      parking = false,
-      rent = false,
-      food = false,
-      laundry = false,
-      pictures,
-      description,
-      specialDates = [],
-    } = req.body;
+      // Extract data from the request body
+      const {
+          apartmentName,
+          location,
+          bedroom,
+          bathroom,
+          parking = false,
+          rent = false,
+          food = false,
+          laundry = false,
+          pictures,
+          defaultSpecialDate,
+          specialDates = [],
+          description,
+      } = req.body;
 
-    // Create a database connection
+      // Start a database transaction
+      await db.beginTransaction();
 
-    // Start a database transaction
-    await db.beginTransaction();
-
-    const pictureUrls = pictures.join(", ");
-
-    // Insert the apartment details into the Apartments table
-    const [apartmentResult] = await db.query(
-      `INSERT INTO Apartments (apartmentName, location, bedroom, bathroom, parking, rent, food, laundry, pictures, description)
-   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-      [
-        apartmentName,
-        location,
-        bedroom,
-        bathroom,
-        parking,
-        rent,
-        food,
-        laundry,
-        pictureUrls,
-        description,
-      ]
-    );
-
-    // Get the ID of the newly inserted apartment
-    const apartmentId = apartmentResult.insertId;
-
-    // Insert special dates into the SpecialDates table
-    for (const specialDate of specialDates) {
-      const [specialDateResult] = await db.query(
-        `INSERT INTO SpecialDates (apartmentId, price, startDate, endDate)
-             VALUES (?, ?, ?, ?)`,
-        [
-          apartmentId,
-          specialDate.price,
-          specialDate.startDate,
-          specialDate.endDate,
-        ]
+      // Insert the apartment details into the Apartments table
+      const [apartmentResult] = await db.query(
+          `INSERT INTO Apartment (name, location, bedroom, bathroom, parking, rent, food, laundry, description, default_special_date)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+          [
+              apartmentName,
+              location,
+              bedroom,
+              bathroom,
+              parking,
+              rent,
+              food,
+              laundry,
+              description,
+              JSON.stringify(defaultSpecialDate)
+          ]
       );
-    }
 
-    // Commit the transaction
-    await db.commit();
+      // Get the ID of the newly inserted apartment
+      const apartmentId = apartmentResult.insertId;
 
-    // Close the database connection
-    await db.end();
+      // Insert pictures into the Image table
+      for (const pictureURL of pictures) {
+          await db.query(
+              `INSERT INTO Image (apartment_id, image_url)
+                 VALUES (?, ?)`,
+              [apartmentId, pictureURL]
+          );
+      }
 
-    // Respond with success message
-    res.status(201).json({ message: "Apartment added successfully" });
+      // Insert default special date into the Price table
+      await db.query(
+          `INSERT INTO Price (apartment_id, price, start_date, end_date)
+             VALUES (?, ?, ?, ?)`,
+          [
+              apartmentId,
+              defaultSpecialDate.price,
+              defaultSpecialDate.startDate,
+              defaultSpecialDate.endDate,
+          ]
+      );
+
+      // Insert special dates into the Price table
+      for (const specialDate of specialDates) {
+          await db.query(
+              `INSERT INTO Price (apartment_id, price, start_date, end_date)
+                 VALUES (?, ?, ?, ?)`,
+              [
+                  apartmentId,
+                  specialDate.price,
+                  specialDate.startDate,
+                  specialDate.endDate,
+              ]
+          );
+      }
+
+      // Commit the transaction
+      await db.commit();
+
+      // Respond with success message
+      res.status(201).json({ message: "Apartment added successfully" });
   } catch (error) {
-    // Rollback the transaction if an error occurs
-    await db.rollback();
+      // Rollback the transaction if an error occurs
+      await db.rollback();
 
-    console.error("Error adding apartment:", error);
-    res.status(500).json({ error: "Internal server error" });
+      console.error("Error adding apartment:", error);
+      res.status(500).json({ error: "Internal server error" });
+  } finally {
+      // Close the database connection
+      await db.end();
   }
 }
+
 
 async function httpEditApartment(req, res) {
   const db = await startScript();
@@ -193,22 +301,35 @@ async function httpDeleteApartment(req, res) {
 async function httpGetAllApartments(req, res) {
   const db = await startScript();
   try {
-    // Execute SQL query to retrieve all apartments along with their special dates
-    const query = `
-    SELECT Apartments.*, SpecialDates.*
-    FROM Apartments
-    INNER JOIN SpecialDates ON Apartments.id = SpecialDates.apartmentId;
-    `;
-    const [apartmentsWithSpecialDates] = await db.query(query);
+    // Query all apartments from the Apartments table
+    const [apartments] = await db.query("SELECT * FROM Apartment");
 
+    // Query prices for each apartment
+    for (const apartment of apartments) {
+      const [prices] = await db.query(
+        "SELECT * FROM Price WHERE apartment_id = ?",
+        [apartment.id]
+      );
+      apartment.prices = prices;
+    }
+
+    // Query images for each apartment
+    for (const apartment of apartments) {
+      const [images] = await db.query(
+        "SELECT * FROM Image WHERE apartment_id = ?",
+        [apartment.id]
+      );
+      apartment.images = images;
+    }
+
+    // Respond with the list of apartments
+    res.status(200).json({ apartments });
+  } catch (error) {
+    console.error("Error getting apartments:", error);
+    res.status(500).json({ error: "Internal server error" });
+  } finally {
     // Close the database connection
     await db.end();
-
-    // Respond with the retrieved apartments along with their special dates
-    res.status(200).json(apartmentsWithSpecialDates);
-  } catch (error) {
-    console.error("Error fetching apartments:", error);
-    res.status(500).json({ error: "Internal server error" });
   }
 }
 

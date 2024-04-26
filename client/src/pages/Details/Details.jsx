@@ -43,6 +43,8 @@ export default function Details() {
     setShowLoginReview(false);
   };
 
+  console.log(card)
+
   const handleReviewTextChange = (event) => {
     setReviewText(event.target.value);
   };
@@ -57,7 +59,7 @@ export default function Details() {
     })} ${date.getFullYear()}`;
   };
 
-  const formattedDates = card?.specialDate.map((dateObj) => {
+  const formattedDates = card?.specialDates.map((dateObj) => {
     const startDate = new Date(dateObj.startDate);
     const endDate = new Date(dateObj.endDate);
 

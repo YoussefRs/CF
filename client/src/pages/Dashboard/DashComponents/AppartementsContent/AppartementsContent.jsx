@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { deleteApartmentById } from "../../../../redux/apartmentSlice";
 
+
 export default function AppartementsContent() {
   const dispatch = useDispatch();
   const apartmentList = useSelector((state) => state.apartments.apartments);

@@ -21,15 +21,19 @@ export default function Cards({ card }) {
       setLiked(true);
     }
   };
+
+  
+
   
   return (
     <div className="material-card" href="/some-article">
       <Link to={`/details/${card.id}`} state={{ card }}>
-        <img className="card-picture" src={card?.pictures[0]} alt="Apartment" />
+        {/* <img className="card-picture" src={card?.images[0]?.image_url} alt="Apartment" /> */}
+        {<img className="card-picture" src={card?.pictures[0]} alt="Apartment" />}
       </Link>
       <div className="card-info">
         <div className="cart-title-rating">
-          <h2 className="card-title">{card?.apartmentName} </h2>
+          <h2 className="card-title">{card?.name} </h2>
           <span className="card-rating">
             <svg
               width="21"
@@ -150,7 +154,7 @@ export default function Cards({ card }) {
       <div className="card-price-btn">
         <div className="card-price">
           <p>
-            {card?.defaultDateAndPrice?.price} € <span>/ Month</span>
+            {card?.default_special_date?.price} € <span>/ Month</span>
           </p>
         </div>
         <div className="card-btn">

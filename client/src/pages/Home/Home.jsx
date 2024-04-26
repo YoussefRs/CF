@@ -13,9 +13,10 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import MultiFunc from "../../components/multi/MultiFunc";
+import { apartmentList } from "../../Dummy/AppData";
 
 export default function Home() {
-  const apartmentList = useSelector((state) => state.apartments.apartments);
+  // const apartmentList = useSelector((state) => state.apartments.apartments.apartments);
   const user = useSelector((state) => state.auth.user);
 
   return (
