@@ -145,7 +145,7 @@ export default function Home() {
           </div>
         </div> */}
 
-        <section class="landingpage">
+        <section class="landingpage" id='home'>
           <div class="container d-flex align-items-center">
             <div class="lp-alignment">
               <img

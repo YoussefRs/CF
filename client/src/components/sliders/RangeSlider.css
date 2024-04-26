@@ -1,6 +1,35 @@
 .slider {
   position: relative;
-  width: 200px;
+}
+
+@media (min-width: 768px) {
+  .slider {
+    width: 200px;
+  }
+
+  .thumb {
+    width: 200px;
+  }
+}
+
+@media (min-width: 576px) and (max-width: 767px) {
+  .slider {
+    width: 100%;
+  }
+
+  .thumb {
+    width: 84%;
+  }
+}
+
+@media (max-width: 575px) {
+  .slider {
+    width: 100%;
+  }
+
+  .thumb {
+    width: 88.5%;
+  }
 }
 
 .slider__track,
@@ -22,10 +51,8 @@
 }
 
 .slider__range {
-  background: var(
-    --Linear,
-    linear-gradient(315deg, #07d25f 20.24%, #028139 80.97%)
-  );
+  background: var(--Linear,
+      linear-gradient(315deg, #07d25f 20.24%, #028139 80.97%));
   z-index: 2;
 }
 
@@ -35,7 +62,8 @@
   font-size: 20px;
   font-style: normal;
   font-weight: 700;
-  line-height: 16px; /* 61.538% */
+  line-height: 16px;
+  /* 61.538% */
   letter-spacing: 2.86px;
   text-transform: uppercase;
   margin-top: 13px;
@@ -48,13 +76,13 @@
   font-size: 20px;
   font-style: normal;
   font-weight: 700;
-  line-height: 16px; /* 61.538% */
+  line-height: 16px;
+  /* 61.538% */
   letter-spacing: 2.86px;
   text-transform: uppercase;
 }
 
 .slider__right-value {
-  right: -4px;
   color: #1a1b1a;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   -webkit-text-strokewidth: 1;
@@ -63,9 +91,11 @@
   font-size: 23px;
   font-style: normal;
   font-weight: 700;
-  line-height: 16px; /* 61.538% */
+  line-height: 16px;
+  /* 61.538% */
   letter-spacing: 2.86px;
   text-transform: uppercase;
+  right: 0;
 }
 
 /* Removing the default appearance */
@@ -79,7 +109,6 @@
   pointer-events: none;
   position: absolute;
   height: 0;
-  width: 200px;
   outline: none;
 }
 
@@ -97,10 +126,8 @@
 
 /* For Chrome browsers */
 .thumb::-webkit-slider-thumb {
-  background: var(
-    --Linear,
-    linear-gradient(315deg, #07d25f 20.24%, #028139 80.97%)
-  );
+  background: var(--Linear,
+      linear-gradient(315deg, #07d25f 20.24%, #028139 80.97%));
 
   border: none;
   border-radius: 50%;
@@ -115,10 +142,8 @@
 
 /* For Firefox browsers */
 .thumb::-moz-range-thumb {
-  background: var(
-    --Linear,
-    linear-gradient(315deg, #07d25f 20.24%, #028139 80.97%)
-  );
+  background: var(--Linear,
+      linear-gradient(315deg, #07d25f 20.24%, #028139 80.97%));
 
   border: none;
   border-radius: 50%;
