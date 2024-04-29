@@ -167,7 +167,7 @@ export default function Home() {
         {apartmentList && (
           <div className="_cards_container" id="properties">
             <div className="cards_layer"></div>
-            <div className="card_ctr">
+            <div className="card_ctr row">
               {apartmentList?.map((card, i) => (
                 <Cards card={card} key={i} />
               ))}
@@ -299,7 +299,7 @@ export default function Home() {
               </div>
               <div className="flower_ctr">
                 <div className="_flower_box">
-                  <div className="leaf" id="leaf1">
+                  <div className="leaf leaf_hover" id="leaf1">
                     <svg
                       width="50"
                       height="70"
@@ -324,7 +324,7 @@ export default function Home() {
                       </defs>
                     </svg>
                   </div>
-                  <div className="leaf" id="leaf2">
+                  <div className="leaf leaf_hover" id="leaf2">
                     <svg
                       width="50"
                       height="60"
@@ -362,7 +362,7 @@ export default function Home() {
                     </svg>
                   </div>
                   <div className="leaf" id="leaf3"></div>
-                  <div className="leaf" id="leaf4">
+                  <div className="leaf leaf_hover" id="leaf4">
                     <svg
                       width="50"
                       height="66"

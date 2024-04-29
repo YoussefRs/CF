@@ -590,9 +590,15 @@ export default function Navbar() {
                         onClick={() => {
                           handleItemClick(1);
                           setIsActive(!isActive);
+                          // handleItemClick(0);
+                          if (isHomePage) {
+                            scrollToSection("home");
+                          } else {
+                            navigate("/");
+                          }
                         }}
                         className="d-flex flex-row justify-content-center"
-                        href="/"
+                        // href="/"
                       >
                         {activeIndex === 1 && (
                           <img src={loader} id="selector_" alt="selector" />
@@ -605,9 +611,10 @@ export default function Navbar() {
                         onClick={() => {
                           handleItemClick(2);
                           setIsActive(!isActive);
+                          scrollToSection("properties");
                         }}
                         className="d-flex flex-row justify-content-center"
-                        href="#properties"
+                        // href="#properties"
                       >
                         {activeIndex === 2 && (
                           <img src={loader} id="selector_" alt="selector" />
@@ -618,26 +625,12 @@ export default function Navbar() {
                     <li>
                       <a
                         onClick={() => {
-                          handleItemClick(3);
-                          setIsActive(!isActive);
-                        }}
-                        className="d-flex flex-row justify-content-center"
-                        href="#followus"
-                      >
-                        {activeIndex === 3 && (
-                          <img src={loader} id="selector_" alt="selector" />
-                        )}
-                        follow us
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        onClick={() => {
                           handleItemClick(4);
                           setIsActive(!isActive);
+                          scrollToSection("testimonails");
                         }}
                         className="d-flex flex-row justify-content-center"
-                        href="#testimonails"
+                        // href="#testimonails"
                       >
                         {activeIndex === 4 && (
                           <img src={loader} id="selector_" alt="selector" />
@@ -648,10 +641,27 @@ export default function Navbar() {
                     <li>
                       <a
                         onClick={() => {
+                          handleItemClick(3);
                           setIsActive(!isActive);
+                          scrollToSection("followus");
                         }}
                         className="d-flex flex-row justify-content-center"
-                        href="#contactus"
+                        // href="#followus"
+                      >
+                        {activeIndex === 3 && (
+                          <img src={loader} id="selector_" alt="selector" />
+                        )}
+                        follow us
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        onClick={() => {
+                          setIsActive(!isActive);
+                          scrollToSection("contact_us");
+                        }}
+                        className="d-flex flex-row justify-content-center"
+                        // href="#contactus"
                       >
                         {activeIndex === 5 && (
                           <img src={loader} id="selector_" alt="selector" />

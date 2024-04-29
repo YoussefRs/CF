@@ -297,16 +297,42 @@
 }
 
 .card_ctr {
-  width: 1440px;
+  /* width: 1440px; */
   /* height: 500px; */
+  @media (min-width: 1920px) {
+    width: 65%;
+  }
+  @media (min-width: 1400px) and (max-width: 1919px) {
+    width: 85%;
+  }
+  @media (min-width: 1200px) and (max-width: 1399px) {
+    width: 95%;
+  }
+  @media (min-width: 992px) and (max-width: 1199px) {
+    width: 80%;
+  }
+  @media (min-width: 768px) and (max-width: 991px) {
+    width: 100%;
+  }
+  @media (min-width: 576px) and (max-width: 767px) {
+    width: 72%;
+  }
+  @media (min-width: 425px) and (max-width: 575px) {
+    width: 90%;
+    padding: 0 !important;
+  }
+  @media (max-width: 424px) {
+    width: 95%;
+    padding: 0 !important;
+  }
   display: flex;
   flex-wrap: wrap;
   /* Allow items to wrap to the next line */
-  justify-content: center;
+  justify-content: start;
   align-items: flex-start;
   /* Align items to the top of the container */
   position: relative;
-  gap: 2rem;
+  /* gap: 2rem; */
   padding: 2rem 0;
 }
 
@@ -788,7 +814,7 @@
   border-top-right-radius: 100px;
   border-bottom-left-radius: 100px;
   box-shadow: 24px 14px 46.8px 0px rgba(0, 0, 0, 0.2);
-  z-index: -1;
+  /* z-index: -1; */
 }
 
 #leaf1 svg,
@@ -824,11 +850,10 @@
   box-shadow: 24px 14px 46.8px 0px rgba(0, 0, 0, 0.2);
 }
 
-#leaf3:hover,
-#leaf2:hover,
-#leaf2:hover {
-  transform: scale(0.95) !important;
+.leaf_hover:hover {
+  transform: scale(0.95);
   transition: transform 0.2s ease;
+  cursor: pointer;
 }
 
 .join_ctr {

@@ -1,8 +1,8 @@
 export const apartmentList = [
   {
     id: "244fzGb",
-    apartmentName: "Luxury Apartment",
-    location: "City Center",
+    name: "Luxury Apartment",
+    location: "Düsseldorf, Allemagne",
     bedroom: 3,
     bathroom: 2,
     parking: true,
@@ -15,8 +15,8 @@ export const apartmentList = [
       "https://picsum.photos/200/300",
       "https://picsum.photos/200/300",
     ],
-    defaultSpecialDate: {
-      price: 700,
+    default_special_date: {
+      price: 2000,
       startDate: "2024-05-01",
       endDate: "2024-05-04",
     },
@@ -37,12 +37,12 @@ export const apartmentList = [
         endDate: "2024-07-04",
       },
     ],
-    description: "Spacious luxury apartment with great amenities",
+    description: "Spacious luxury apartment with great amenities, Spacious luxury apartment with great amenities, Spacious luxury apartment with great amenities, Spacious luxury apartment with great amenities, Spacious luxury apartment with great amenities .",
   },
   {
     id: "2fZgg5b",
-    apartmentName: "dummy Apartment",
-    location: "City Center",
+    name: "dummy Apartment",
+    location: "Düsseldorf, Allemagne",
     bedroom: 3,
     bathroom: 2,
     parking: true,
@@ -55,8 +55,8 @@ export const apartmentList = [
       "https://picsum.photos/200/300",
       "https://picsum.photos/200/300",
     ],
-    defaultSpecialDate: {
-      price: 700,
+    default_special_date: {
+      price: 2000,
       startDate: "2024-05-01",
       endDate: "2024-05-3",
     },
@@ -77,12 +77,12 @@ export const apartmentList = [
         endDate: "2024-07-3",
       },
     ],
-    description: "Spacious luxury apartment with great amenities",
+    description: "Spacious luxury apartment with great amenities, Spacious luxury apartment with great amenities, Spacious luxury apartment with great amenities, Spacious luxury apartment with great amenities, Spacious luxury apartment with great amenities .",
   },
   {
     id: "24azfAb",
-    apartmentName: "One Apartment",
-    location: "City Center",
+    name: "One Apartment",
+    location: "Düsseldorf, Allemagne",
     bedroom: 3,
     bathroom: 2,
     parking: true,
@@ -95,8 +95,8 @@ export const apartmentList = [
       "https://picsum.photos/200/300",
       "https://picsum.photos/200/300",
     ],
-    defaultSpecialDate: {
-      price: 700,
+    default_special_date: {
+      price: 2000,
       startDate: "2024-05-01",
       endDate: "2024-05-5",
     },
@@ -117,12 +117,12 @@ export const apartmentList = [
         endDate: "2024-07-23",
       },
     ],
-    description: "Spacious luxury apartment with great amenities",
+    description: "Spacious luxury apartment with great amenities, Spacious luxury apartment with great amenities, Spacious luxury apartment with great amenities, Spacious luxury apartment with great amenities, Spacious luxury apartment with great amenities .",
   },
   {
     id: "26az5zfF",
-    apartmentName: "very Luxury Apartment",
-    location: "City Center",
+    name: "very Luxury Apartment cool awesome",
+    location: "Düsseldorf, Allemagne",
     bedroom: 3,
     bathroom: 2,
     parking: true,
@@ -135,8 +135,8 @@ export const apartmentList = [
       "https://picsum.photos/200/300",
       "https://picsum.photos/200/300",
     ],
-    defaultSpecialDate: {
-      price: 700,
+    default_special_date: {
+      price: 2000,
       startDate: "2024-05-01",
       endDate: "2024-05-04",
     },
@@ -157,12 +157,12 @@ export const apartmentList = [
         endDate: "2024-07-4",
       },
     ],
-    description: "Spacious luxury apartment with great amenities",
+    description: "Spacious luxury apartment with great amenities, Spacious luxury apartment with great amenities, Spacious luxury apartment with great amenities, Spacious luxury apartment with great amenities, Spacious luxury apartment with great amenities .",
   },
   {
     id: "azf85ff",
-    apartmentName: "One Luxury Apartment",
-    location: "City Center",
+    name: "One Luxury Apartment",
+    location: "Düsseldorf, Allemagne",
     bedroom: 3,
     bathroom: 2,
     parking: true,
@@ -180,8 +180,8 @@ export const apartmentList = [
       "https://picsum.photos/200/300",
       "https://picsum.photos/200/300",
     ],
-    defaultSpecialDate: {
-      price: 700,
+    default_special_date: {
+      price: 2000,
       startDate: "2024-05-01",
       endDate: "2024-05-5",
     },
@@ -197,6 +197,6 @@ export const apartmentList = [
         endDate: "2024-07-03",
       },
     ],
-    description: "Spacious luxury apartment with great amenities",
+    description: "Spacious luxury apartment with great amenities, Spacious luxury apartment with great amenities, Spacious luxury apartment with great amenities, Spacious luxury apartment with great amenities, Spacious luxury apartment with great amenities .",
   },
 ];
