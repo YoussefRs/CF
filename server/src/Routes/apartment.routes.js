@@ -21,5 +21,6 @@ appartmentRouter
 appartmentRouter
   .route("/:id/available-dates")
   .get(getAvailableDatesForApartment);
+ 
 
 module.exports = { appartmentRouter };

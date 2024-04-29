@@ -11,22 +11,79 @@ const { reservationRouter } = require("./Routes/reservations.routes");
 const { sendHelpRequest } = require("./utils/sendEmail");
 const { paypalRouter } = require("./Routes/paypal.routes");
 const { startScript } = require("../config/db");
+const { handlePayPalPaymentSuccessWebhook, handleStripeWebhook, handleStripePaymentSuccessWebhook, updateReservationStatus } = require("./Controllers/reservations.controller");
+const { default: Stripe } = require("stripe");
 
 
 const app = express();
+const dotenv = require("dotenv");
 
-async function run() {
-  try {
-    await startScript();
-    // You can start your Express app or do other actions here if needed.
-  } catch (error) {
-    console.error('Error during database setup:', error);
-  }
-}
+//Run env file
+dotenv.config();
+//const stripeClient = new Stripe(process.env.SECRET_KEY); 
+const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
-run();
+// Middleware for parsing raw request body
+app.use(
+  "/webhook",
+  express.raw({ type: "application/json", limit: "10mb", extended: true })
+);
+
+// app.post(
+//   "/webhook",
+//   express.raw({ type: "application/json", limit: "10mb", extended: true }),
+//   async (request, response) => {
+//     const sig = request.headers["stripe-signature"];
+
+//     try {
+//       // Construct the Stripe event from the request
+//       const event = stripeClient.webhooks.constructEvent(
+//         request.body,
+//         sig,
+//         endpointSecret
+//       );
+
+//       // Handle the webhook event
+//       switch (event.type) {
+//         case "payment_intent.succeeded":
+//           // Update reservation status in the database
+//           const reservationId = event.data.object.metadata.reservationId;
+//           await updateReservationStatus(reservationId);
+
+//           // Do not send a response here
+//           break;
+//         // Add more event types as needed
+
+//         default:
+//           console.log(`Unhandled event type: ${event.type}`);
+//       }
+
+//       // Respond with a 200 OK status to acknowledge receipt of the event
+//       response.status(200).send("Webhook received");
+//     } catch (err) {
+//       // Respond with a 400 Bad Request status if there's an error
+//       response.status(400).send(`Webhook Error: ${err.message}`);
+//     }
+//   }
+// );
 
 // Middleware
+
+// Define route for Stripe webhook
+// Endpoint to handle webhook events
+app.post('/webhook', async (req, res) => {
+  const sig = req.headers['stripe-signature'];
+
+  try {
+    const event = Stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
+    // Handle the event here
+    console.log('Received event:', event);
+    res.json({ received: true });
+  } catch (err) {
+    console.error('Webhook error:', err.message);
+    res.status(400).send(`Webhook Error: ${err.message}`);
+  }
+});
 app.use(cors({ origin: "*" }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -42,8 +99,6 @@ app.use(
     },
   })
 );
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -51,9 +106,22 @@ app.use(passport.session());
 app.use("/user", userRouter);
 app.use("/appartments", appartmentRouter);
 app.use("/reservations", reservationRouter);
-
-app.post("/help", sendHelpRequest);
 app.use("/paypal", paypalRouter);
+
+// PayPal Webhook Route
+app.post("/paypalwebhook", (req, res) => {
+  try {
+    const event = req.body;
+    handlePayPalPaymentSuccessWebhook(req, res, event);
+  } catch (error) {
+    console.error("Error handling PayPal webhook:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+
+// Help Request Route
+app.post("/help", sendHelpRequest);
 
 // Error handling middleware
 app.use(notFoundError);

@@ -1,6 +1,0 @@
-*.env
-*.env.example
-*.env.local
-*.env.staging
-!.env.example
-**/node_modules

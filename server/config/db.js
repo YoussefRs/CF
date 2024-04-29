@@ -18,13 +18,12 @@ async function executeSchemaScript(connection) {
   }
 }
 
-async function createConnection() {
+async function createConnectionWithoutDatabase() {
   try {
     const connection = await mysql.createConnection({
       host: "127.0.0.1",
       user: "root",
       password: "youssefdb!",
-      database: "city_flat",
     });
     return connection;
   } catch (err) {
@@ -33,32 +32,40 @@ async function createConnection() {
   }
 }
 
-async function createDatabaseIfNotExists() {
+async function createDatabase() {
   try {
-    const connection = await mysql.createConnection({
-      host: "127.0.0.1",
-      user: "root",
-      password: "youssefdb!",
-    });
+    const connection = await createConnectionWithoutDatabase();
+    // Create the database if it doesn't exist
     await connection.query("CREATE DATABASE IF NOT EXISTS city_flat");
     await connection.end();
   } catch (err) {
     console.error("Error creating database:", err);
-    throw err;
   }
 }
 
 async function startScript() {
   try {
-    await createDatabaseIfNotExists();
-    const connection = await createConnection();
+    // Create the database
+    await createDatabase();
+
+    // Connect to the newly created database
+    const connection = await mysql.createConnection({
+      host: "127.0.0.1",
+      user: "root",
+      password: "youssefdb!",
+      database: "city_flat",
+    });
     console.log("Connected to City Flat");
-    await executeSchemaScript(connection)
+    await executeSchemaScript(connection);
     return connection;
+    
   } catch (err) {
     console.error("Error connecting to City Flat database:", err);
     throw err;
   }
 }
 
-module.exports = { startScript };
+
+module.exports = {
+  startScript
+};

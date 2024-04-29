@@ -32,10 +32,10 @@ async function httpRegisterUser(req, res) {
       "INSERT INTO users (name, phone, email, password, image, role) VALUES (?, ?, ?, ?, ?, ?)",
       [
         req.body.name,
-        req.body.gsm,
+        req.body.phone,
         req.body.email,
         hashedPassword,
-        req.body.img,
+        req.file ? req.file.path : null,
         "user",
       ]
     );
