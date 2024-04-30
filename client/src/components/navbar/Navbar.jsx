@@ -8,7 +8,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 export default function Navbar() {
-  const user = useSelector((state) => state.auth.user);
+  const user = useSelector((state) => state?.auth?.user?.user);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -492,7 +492,7 @@ export default function Navbar() {
                     </div>
                     <div className={`menu ${menuActive ? "active" : ""}`}>
                       <ul>
-                        {user?.role === "ADMIN" && (
+                        {user?.role === "admin" && (
                           <li>
                             <a href="/dashboard">
                               <svg

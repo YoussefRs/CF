@@ -85,7 +85,6 @@
   border: 0 solid #eee;
   padding: 5px;
   /* height: 350px; */
-  width: 100%;
 }
 .add_app_card_content {
   display: flex;
@@ -96,8 +95,7 @@
   border: 1px solid green;
   border-radius: 60px;
   background: rgba(27, 29, 35, 0.09);
-  height: 320px;
-  max-width: 300px;
+  
   cursor: pointer;
   box-shadow: -5px -3px 9.4px 0px #262930 inset;
 }
