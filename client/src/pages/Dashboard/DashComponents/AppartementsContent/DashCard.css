@@ -4,17 +4,25 @@
     object-fit: cover;
 }
 
-.card-specs  {
+.card-specs {
     & span {
         color: #000;
         font-size: 14px;
         font-weight: 400;
         font-family: "TT Commons", sans-serif;
     }
+
     & p {
         color: #000;
         font-weight: 700;
         font-family: "Helvetica Neue", sans-serif;
-        font-size: 23px;
+
+        @media (min-width: 1200px) {
+            font-size: 1.5rem;
+        }
+
+        @media (min-width: 992px) and (max-width: 1199px) {
+            font-size: 1.2rem;
+        }
     }
 }

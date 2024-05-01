@@ -1,9 +1,7 @@
-
 import "./Modal.css";
 import { Modal } from "react-bootstrap";
 
-const ReusableModal = ({ show, onHide, children, size }) => {
-
+const ReusableModal = ({ show, onHide, children, size, customClass }) => {
   return (
     <Modal
       size={size}
@@ -11,11 +9,9 @@ const ReusableModal = ({ show, onHide, children, size }) => {
       centered
       show={show}
       onHide={onHide}
-      className="MyModal"
+      className={`MyModal ${customClass ? customClass : ""}`}
     >
-      <Modal.Body>
-        {children}
-      </Modal.Body>
+      <Modal.Body>{children}</Modal.Body>
     </Modal>
   );
 };

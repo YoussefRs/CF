@@ -82,9 +82,10 @@
 .add_app_card {
   display: flex;
   flex-direction: column;
-  border: 0 solid #eee;
-  padding: 5px;
-  /* height: 350px; */
+  /* border: 0 solid #eee; */
+  /* padding: 5px; */
+  height: 100%;
+  width: 100%;
 }
 .add_app_card_content {
   display: flex;
@@ -93,7 +94,7 @@
   margin-top: 0;
   padding: 1.5em;
   border: 1px solid green;
-  border-radius: 60px;
+  border-radius: 56px;
   background: rgba(27, 29, 35, 0.09);
   
   cursor: pointer;

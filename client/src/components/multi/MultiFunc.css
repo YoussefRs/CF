@@ -3,19 +3,19 @@
 }
 
 @media (min-width: 1400px) {
-  .searchwrapper {
+  .searchwrapper:not(.searchwrapper_modal) {
     width: 55%;
   }
 }
 
 @media (min-width: 992px) and (max-width: 1400px) {
-  .searchwrapper {
+  .searchwrapper:not(.searchwrapper_modal) {
     width: 65%;
   }
 }
 
 @media (max-width: 768px) {
-  .searchwrapper {
+  .searchwrapper:not(.searchwrapper_modal) {
     width: 100%;
   }
 }
@@ -120,5 +120,62 @@ footer p {
 
   & .btn {
     padding: 1rem 2rem;
+  }
+}
+
+.searchwrapper_modal {
+  & .searchbox {
+    @media (min-width: 400px) {
+      padding: 2rem;
+    }
+
+    @media (max-width: 399px) {
+      padding: 2rem 1rem;
+    }
+  }
+
+
+  & .slider {
+    @media (min-width: 576px) and (max-width: 767px) {
+      width: 100%;
+    }
+
+    @media (max-width: 575px) {
+      width: 100%;
+    }
+  }
+
+  & .thumb {
+    @media (min-width: 576px) and (max-width: 767px) {
+      width: 85%;
+    }
+
+    @media (min-width: 545px) and (max-width: 575px) {
+      width: 86%;
+    }
+    @media (min-width: 500px) and (max-width: 544px) {
+      width: 84.5%;
+    }
+    @media (min-width: 450px) and (max-width: 499px) {
+      width: 82.5%;
+    }
+    @media (min-width: 400px) and (max-width: 449px) {
+      width: 80%;
+    }
+    @media (max-width: 399px) {
+      width: 86.5%;
+    }
+  }
+
+  & #counter {
+    border-radius: 0;
+    box-shadow: none;
+  }
+}
+
+
+.search_modal {
+  & .modal-body {
+    padding: 0;
   }
 }

@@ -3,7 +3,7 @@ import "./DashCard.css";
 
 function DashCard({ card }) {
   return (
-    <div className="col-xl-4 col-lg-5 col-md-6 col-12 px-sm-2 py-5 px-0 ">
+    <div className="col-xxl-4 col-lg-6 col-12 px-sm-2 py-5 px-0 ">
       <div className="material-card" href="/some-article">
         {/* <Link to={`/details/${card.id}`} state={{ card }}> */}
         {/* <img className="card-picture" src={card?.images[0]?.image_url} alt="Apartment" /> */}
