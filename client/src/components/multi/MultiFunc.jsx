@@ -38,11 +38,11 @@ export default function MultiFunc() {
     //   </div>
     // </section>
     <section id="hero" className="mt-md-0 mt-5">
-      <div class="container justify-content-center d-none d-md-flex">
+      <div class="container justify-content-center d-flex px-0">
         <div class="searchwrapper">
           <div class="searchbox">
             <div class="row">
-              <div class="col-md-10 d-flex align-items-center">
+              <div class="col-sm-10 col-12 my-5 my-sm-0 d-flex align-items-center">
                 <RangeSlider
                   min={0}
                   max={1000}
@@ -51,24 +51,14 @@ export default function MultiFunc() {
                   }
                 />
               </div>
-             {/*  <div class="col-md-5" id="counter">
-                <div className="_counter">
-                  <span>Rooms</span>
-                  <div className="_counter_btns">
-                    <button>+</button>
-                    <span>0</span>
-                    <button>-</button>
-                  </div>
-                </div>
-              </div> */}
-              <div class="col-md-1">
+              <div class="col-sm-1 col-12 mb-2 mt-3 my-sm-0">
                 <input type="button" class="btn btn-primary" value="Search" />
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div
+      {/* <div
         className="searchwrapper_sm d-flex d-md-none"
         onClick={() => {
           setShowSmFilter(true);
@@ -96,7 +86,7 @@ export default function MultiFunc() {
             </svg>
           </button>
         </div>
-      </div>
+      </div> */}
       <ReusableModal
         show={showSmFilter}
         onHide={() => {
@@ -116,7 +106,7 @@ export default function MultiFunc() {
                     }
                   />
                 </div>
-                <div class="col-md-5" id="counter">
+                {/* <div class="col-md-5" id="counter">
                   <div className="_counter">
                     <span>Rooms</span>
                     <div className="_counter_btns">
@@ -125,7 +115,7 @@ export default function MultiFunc() {
                       <button>-</button>
                     </div>
                   </div>
-                </div>
+                </div> */}
                 <div class="col-md-1">
                   <input type="button" class="btn btn-primary" value="Search" />
                 </div>
