@@ -146,12 +146,12 @@ export default function Home() {
           </div>
         </div> */}
 
-        <section class="landingpage" id='home'>
+        <section class="landingpage" id="home">
           <div class="container d-flex align-items-center">
             <div class="lp-alignment">
               <img
                 src={Logo}
-                style={{maxWidth: 250}}
+                style={{ maxWidth: 250 }}
                 srcSet={`${Logo} 1x, ${Logo} 2x, ${Logo} 3x`}
                 alt="Logo"
               />

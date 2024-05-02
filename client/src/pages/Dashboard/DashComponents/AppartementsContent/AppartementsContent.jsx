@@ -64,7 +64,7 @@ export default function AppartementsContent() {
       </div>
       <ul className="app_cards scrollable-container">
         <div className="row w-100 mx-auto">
-          <li className="app_cards_item col py-5">
+          <li className="app_cards_item col py-5 px-2">
             <div className="add_app_card">
               <div
                 className="add_app_card_content d-flex align-items-center justify-content-center flex-column gap-2"
