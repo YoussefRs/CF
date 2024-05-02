@@ -316,34 +316,43 @@
 }
 
 .card_ctr {
+
   /* width: 1440px; */
   /* height: 500px; */
   @media (min-width: 1920px) {
     width: 65%;
   }
+
   @media (min-width: 1400px) and (max-width: 1919px) {
     width: 85%;
   }
+
   @media (min-width: 1200px) and (max-width: 1399px) {
     width: 95%;
   }
+
   @media (min-width: 992px) and (max-width: 1199px) {
     width: 80%;
   }
+
   @media (min-width: 768px) and (max-width: 991px) {
     width: 100%;
   }
+
   @media (min-width: 576px) and (max-width: 767px) {
     width: 72%;
   }
+
   @media (min-width: 425px) and (max-width: 575px) {
     width: 90%;
     padding: 0 !important;
   }
+
   @media (max-width: 424px) {
     width: 95%;
     padding: 0 !important;
   }
+
   display: flex;
   flex-wrap: wrap;
   /* Allow items to wrap to the next line */
@@ -614,8 +623,26 @@
   border-radius: 40px;
   padding: 20px;
 
-  & svg {
+  & .icon {
     width: clamp(40px, 1vw, 78px);
+    height: clamp(40px, 1vw, 78px);
+    position: relative;
+
+    & svg {
+      position: absolute;
+
+      left: -25%;
+
+      width: 150%;
+      height: 150%;
+
+      /* width: clamp(40px, 1vw, 78px);
+      height: clamp(40px, 1vw, 78px); */
+      /* filter: drop-shadow(-12px 25px 15.4px rgba(0, 0, 0, 0.10)) !important; */
+      /* box-shadow: -12px 25px 15px 0px rgba(0, 0, 0, 0.1) !important;
+    -webkit-box-shadow: -12px 25px 15px 0px rgba(0, 0, 0, 0.1) !important;
+    -moz-box-shadow: -12px 25px 15px 0px rgba(0, 0, 0, 0.1) !important; */
+    }
   }
 }
 
