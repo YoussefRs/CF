@@ -42,7 +42,7 @@ export default function MultiFunc() {
         <div class="searchwrapper">
           <div class="searchbox">
             <div class="row">
-              <div class="col-md-5 d-flex align-items-center">
+              <div class="col-md-10 d-flex align-items-center">
                 <RangeSlider
                   min={0}
                   max={1000}
@@ -51,7 +51,7 @@ export default function MultiFunc() {
                   }
                 />
               </div>
-              <div class="col-md-5" id="counter">
+             {/*  <div class="col-md-5" id="counter">
                 <div className="_counter">
                   <span>Rooms</span>
                   <div className="_counter_btns">
@@ -60,7 +60,7 @@ export default function MultiFunc() {
                     <button>-</button>
                   </div>
                 </div>
-              </div>
+              </div> */}
               <div class="col-md-1">
                 <input type="button" class="btn btn-primary" value="Search" />
               </div>
