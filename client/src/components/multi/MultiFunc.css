@@ -1,5 +1,5 @@
 #hero {
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 @media (min-width: 1400px) {
@@ -22,9 +22,21 @@
 
 .searchbox {
   background-color: #fff;
-  padding: 0px 0px 0px 40px;
+
+  @media (min-width: 576px) {
+    padding: 0px 0px 0px 40px;
+
+  }
+
+  &>div {
+    width: 100%;
+    margin: 0 auto;
+  }
+
   border-radius: 50px;
   position: relative;
+
+
 }
 
 .searchbox [class*="col-"] {
@@ -74,17 +86,24 @@ footer p {
   color: #999;
 }
 
-@media (min-width: 768px) {
-  .searchbox .btn {
+.searchbox .btn {
+
+  @media (min-width: 576px) {
     padding: 30px 40px;
+  }
+
+  @media (max-width: 575px) {
+    padding: 15px 40px;
+    width: 100%;
   }
 }
 
+
 @media (max-width: 767px) {
-  .searchbox .btn {
+  /* .searchbox .btn {
     width: 100%;
     padding: 15px 0;
-  }
+  } */
 
   .searchbox .form-control {
     border-color: transparent;
@@ -98,13 +117,13 @@ footer p {
 
 @media (min-width: 576px) and (max-width: 767px) {
   .searchbox {
-    padding: 20px 40px;
+    padding: 0 40px;
   }
 }
 
 @media (max-width: 575px) {
   .searchbox {
-    padding: 20px 30px;
+    padding: 15px;
   }
 }
 
@@ -153,15 +172,19 @@ footer p {
     @media (min-width: 545px) and (max-width: 575px) {
       width: 86%;
     }
+
     @media (min-width: 500px) and (max-width: 544px) {
       width: 84.5%;
     }
+
     @media (min-width: 450px) and (max-width: 499px) {
       width: 82.5%;
     }
+
     @media (min-width: 400px) and (max-width: 449px) {
       width: 80%;
     }
+
     @media (max-width: 399px) {
       width: 86.5%;
     }
