@@ -1,11 +1,14 @@
 ._dash_container {
-  display: flex;
+  @media (min-width: 576px) {
+    display: flex;
+  }
+
   height: 100vh;
   width: 100vw;
   flex-wrap: wrap;
   overflow: hidden;
   background: var(--Linear,
-      linear-gradient(13deg, #384146 1.49%, #21242b 74.12%, #21242b 94.98%));
+    linear-gradient(13deg, #384146 1.49%, #21242b 74.12%, #21242b 94.98%));
 }
 
 .main {
@@ -251,7 +254,7 @@
     }
 
     @media (max-width: 991px) {
-      padding: 10px 20px;
+      padding: 10px 1px;
     }
 
     & .app_cards {
@@ -315,7 +318,61 @@
       padding: 10px 0;
     }
 
-    @media (min-width: 768px) and (max-width: 991px) {
+    & .app_cards {
+      @media (min-width: 950px) and (max-width: 991px) {
+        padding: 10px 170px;
+      }
+
+      @media (min-width: 900px) and (max-width: 949px) {
+        padding: 10px 150px;
+      }
+
+      @media (min-width: 850px) and (max-width: 899px) {
+        padding: 10px 120px;
+      }
+
+      @media (min-width: 800px) and (max-width: 849px) {
+        padding: 10px 100px;
+      }
+
+      @media (min-width: 750px) and (max-width: 799px) {
+        padding: 10px 80px;
+      }
+
+      @media (min-width: 700px) and (max-width: 749px) {
+        padding: 10px 60px;
+      }
+
+      @media (min-width: 650px) and (max-width: 699px) {
+        padding: 10px 40px;
+      }
+
+      @media (min-width: 600px) and (max-width: 649px) {
+        padding: 10px 20px;
+      }
+
+      @media (min-width: 576px) and (max-width: 599px) {
+        padding: 10px;
+      }
+
+      @media (min-width: 550px) and (max-width: 575px) {
+        padding: 10px 50px;
+      }
+
+      @media (min-width: 500px) and (max-width: 549px) {
+        padding: 10px 40px;
+      }
+
+      @media (min-width: 450px) and (max-width: 499px) {
+        padding: 10px 20px;
+      }
+
+      @media (max-width: 449px) {
+        padding: 10px;
+      }
+    }
+
+    /* @media (min-width: 768px) and (max-width: 991px) {
       padding: 10px 50px;
     }
 
@@ -333,7 +390,7 @@
 
     @media (max-width: 449px) {
       padding: 10px;
-    }
+    } */
   }
 
   box-sizing: border-box;
@@ -471,7 +528,7 @@
 
 @media screen and (max-width: 991px) {
   .page-content {
-    padding: 0px 20px;
+    /* padding: 0px 20px; */
     width: 0vw;
   }
 }
