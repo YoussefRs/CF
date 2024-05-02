@@ -23,16 +23,18 @@ async function createReservation(req, res) {
   const db = await startScript();
   try {
     // Extract data from the request body
-    const { userId, apartmentId, startDate, endDate, price } = req.body;
+    const { userId, apartmentId, userEmail, startDate, endDate, price, servicesFee, totalPrice } = req.body;
+
+    console.log(req.body)
 
     // Start a database transaction
     await db.beginTransaction();
 
     // Insert the reservation details into the Reservations table with status "Pending"
     const [reservationResult] = await db.query(
-      `INSERT INTO Reservations (userId, apartmentId, startDate, endDate, price)
-             VALUES (?, ?, ?, ?, ?)`,
-      [userId, apartmentId, startDate, endDate, price]
+      `INSERT INTO Reservations (userId, apartmentId, userEmail, startDate, endDate, price, servicesFee, totalPrice)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+      [userId, apartmentId, userEmail, startDate, endDate, price, servicesFee, totalPrice]
     );
 
     // Commit the transaction
@@ -54,11 +56,12 @@ async function createReservation(req, res) {
   }
 }
 
+
 async function getAllReservations(req, res) {
-  const db = await createConnectionWithoutDatabase();
+  const db = await startScript();
   try {
     // Execute SQL query to retrieve all reservations
-    const [reservations] = await db.query("SELECT * FROM Reservations");
+    const [reservations] = await db.query("SELECT * FROM reservations");
     // Respond with the retrieved reservations
     res.status(200).json(reservations);
   } catch (error) {
@@ -68,7 +71,7 @@ async function getAllReservations(req, res) {
 }
 
 async function getReservation(req, res) {
-  const db = await createConnectionWithoutDatabase();
+  const db = await startScript();
   try {
     const reservationId = req.params.id;
     // Execute SQL query to retrieve the reservation
@@ -134,7 +137,7 @@ async function approveReservation(req, res) {
 }
 
 async function declineReservation(req, res) {
-  const db = await createConnectionWithoutDatabase();
+  const db = await startScript();
 
   try {
     const reservationId = req.params.id;

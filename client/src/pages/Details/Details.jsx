@@ -18,7 +18,7 @@ import LoginRegister from "../../components/modals/LoginRegister";
 import { createNewBooking } from "../../redux/BookingSlice";
 
 export default function Details() {
-  const user = useSelector((state) => state.auth.user);
+  const user = useSelector((state) => state.auth.user.user);
   const dispatch = useDispatch();
   const location = useLocation();
   const {
@@ -152,9 +152,11 @@ export default function Details() {
 
    let bookingDataList = {
       ...bookingData,
-      id: id,
+      userId: user.id,
+      apartmentId: card.id,
+      userEmail: user?.email,
       servicesFee: ServicesFees,
-      email: user?.email,
+      price : card.default_special_date?.price,
       totalPrice: totalPrice,
     };
 
@@ -171,6 +173,7 @@ export default function Details() {
     closeModal();
   };
   console.log(bookingData);
+  console.log(card)
   return (
     <>
       <Navbar />
@@ -223,11 +226,11 @@ export default function Details() {
                 <>
                   <div className="main-photo">
                     <a
-                      href={card.images[0]}
+                      href={card.images[0]?.image_url}
                       className="glightbox"
                       data-glightbox="type: image"
                     >
-                      <img src={card.images[0]} alt="image" />
+                      <img src={card.images[0].image_url} alt="image" />
                     </a>
                   </div>
                   <div>
@@ -239,7 +242,7 @@ export default function Details() {
                             className="glightbox"
                             data-glightbox="type: image"
                           >
-                            <img src={appPic} alt="image" />
+                            <img src={appPic?.image_url} alt="image" />
                           </a>
                         </div>
                       ))}

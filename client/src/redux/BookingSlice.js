@@ -51,7 +51,7 @@ export const createNewBooking = (bookingData) => async (dispatch) => {
   try {
     dispatch(createBooking());
     const response = await axios.post(
-      `${BASE_URL}/user/reservations/createOrder`,
+      `${BASE_URL}/reservations/add`,
       bookingData,
       {
         headers: {
@@ -70,7 +70,7 @@ export const createNewBooking = (bookingData) => async (dispatch) => {
 export const getAllBookings = () => async (dispatch) => {
   try {
     dispatch(fetchBookings());
-    const response = await axios.get(`${BASE_URL}/user/orders/Getall`, {
+    const response = await axios.get(`${BASE_URL}/reservations/`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

@@ -10,7 +10,7 @@ export default function BookingsContent() {
   const dispatch = useDispatch();
   const bookings = useSelector((state) => state.bookings.bookings);
   const filteredBooking = bookings?.filter(
-    (booking) => booking.state == "PENDING"
+    (booking) => booking.status == "Pending"
   );
   useEffect(() => {
     dispatch(getAllBookings());
@@ -138,7 +138,7 @@ export default function BookingsContent() {
                       </svg>
                     </div>
                     <span className="icon_box_span">
-                      {booking?.appartment?.apartmentName}
+                      {booking?.appartment?.name}
                     </span>
                   </td>
                   {/* <td className="row d-flex gap-2">

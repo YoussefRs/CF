@@ -21,6 +21,8 @@ async function httpAddApartment(req, res) {
           description,
       } = req.body;
 
+      console.log(req.body)
+
       // Start a database transaction
       await db.beginTransaction();
 
