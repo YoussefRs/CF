@@ -437,7 +437,7 @@ export default function Profile() {
                                 {/* <div className="app_card_heading d-flex justify-content-between">
                                   <p className="d-flex align-items-center gap-1">
                                     {
-                                      rental?.appartment?.defaultDateAndPrice
+                                      rental?.appartment?.defaultSpecialDate
                                         ?.price
                                     }{" "}
                                     € <span>/ month</span>
@@ -451,7 +451,7 @@ export default function Profile() {
                                 <div className="card-price-btn mt-3">
                                   <div className="card-price">
                                     <p>
-                                      {rental?.appartment?.defaultDateAndPrice
+                                      {rental?.appartment?.defaultSpecialDate
                                         ?.price} €{" "}
                                       <span>/ Month</span>
                                     </p>

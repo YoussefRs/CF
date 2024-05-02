@@ -11,7 +11,7 @@ function DashCard({ card }) {
           <img
             id="dash_card_img"
             className="card-picture"
-            src={card?.pictures[0]}
+            src={card?.images[0]?.image_url}
             alt="Apartment"
           />
         }

@@ -8,23 +8,24 @@ import { getAllApartments } from "../redux/apartmentSlice";
 const BASE_URL = import.meta.env.VITE_API_URL;
 
 const initialFormData = {
-  apartmentName: "",
-  defaultDateAndPrice: {
-    price: 0,
+
+  apartmentName : "",
+  location : "",
+  bedroom : 0,
+  bathroom : 0,
+  parking :false,
+  rent : false,
+  food : false,
+  laundry : false,
+  pictures : [],
+  defaultSpecialDate : {
+    price:0,
     startDate: "",
-    endDate: "",
+    endDate: ""
   },
-  specialDate: [],
-  location: "",
-  more: [],
-  bedroom: 0,
-  bathroom: 0,
-  parking: false,
-  food: false,
-  laundry: false,
-  rent: false,
-  pictures: [],
-  description: "",
+  specialDates : [],
+  description : "",
+  more: []
 };
 
 const useAppartementsForm = () => {
@@ -74,11 +75,11 @@ const useAppartementsForm = () => {
 
   const handleSpecialDateInputChange = (index, event) => {
     const { name, value } = event.target;
-    const newSpecialDate = [...formData.specialDate];
+    const newSpecialDate = [...formData.specialDates];
     newSpecialDate[index] = { ...newSpecialDate[index], [name]: value };
     setFormData((prevFormData) => ({
       ...prevFormData,
-      specialDate: newSpecialDate,
+      specialDates: newSpecialDate,
     }));
   };
 
@@ -136,8 +137,24 @@ const useAppartementsForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await axios.post(`${BASE_URL}/appartments/addapartment`, formData);
-      dispatch(getAllApartments());
+      await axios.post(`${BASE_URL}/appartments/addapartment`, {
+        apartmentName: formData.apartmentName,
+        location: formData.location,
+        bedroom: formData.bedroom,
+        bathroom: formData.bathroom,
+        parking: formData.parking,
+        rent: formData.rent,
+        food: formData.food,
+        laundry: formData.laundry,
+        pictures: formData.pictures,
+        defaultSpecialDate: {
+          price: formData.defaultSpecialDate.price,
+          startDate: formData.defaultSpecialDate.startDate,
+          endDate: formData.defaultSpecialDate.endDate,
+        },
+        specialDates: formData.specialDates,
+        description: formData.description,
+      });
       setFormData(initialFormData);
       closeModal();
     } catch (error) {

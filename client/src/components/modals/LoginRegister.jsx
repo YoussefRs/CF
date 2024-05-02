@@ -28,7 +28,7 @@ export default function LoginRegister({ setShow }) {
   };
   const handleSubmit = (values) => {
     dispatch(loginUser(values));
-    if (user?.role === "ADMIN") {
+    if (user?.role === "admin") {
       navigate("/dashboard");
     } else {
       navigate("/");

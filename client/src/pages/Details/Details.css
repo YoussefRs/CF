@@ -221,6 +221,7 @@
       linear-gradient(315deg, #07d25f 20.24%, #028139 80.97%));
   padding: 15px;
   margin-bottom: 1rem;
+  text-align: center;
 }
 
 #_right_box_button button {

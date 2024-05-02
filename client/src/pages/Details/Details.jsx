@@ -59,7 +59,7 @@ export default function Details() {
     })} ${date.getFullYear()}`;
   };
 
-  const formattedDates = card?.specialDates.map((dateObj) => {
+  const formattedDates = card?.specialDates?.map((dateObj) => {
     const startDate = new Date(dateObj.startDate);
     const endDate = new Date(dateObj.endDate);
 
@@ -212,27 +212,27 @@ export default function Details() {
             <div id="gallery" className="photos-grid-container gallery">
               {/* <div className="main-photo">
                 <a
-                  href={card?.pictures[0]}
+                  href={card?.images[0]}
                   className="glightbox"
                   data-glightbox="type: image"
                 >
-                  <img src={card?.pictures[0]} alt="image" />
+                  <img src={card?.images[0]} alt="image" />
                 </a>
               </div> */}
-              {card?.pictures?.length > 1 ? (
+              {card?.images?.length > 1 ? (
                 <>
                   <div className="main-photo">
                     <a
-                      href={card.pictures[0]}
+                      href={card.images[0]}
                       className="glightbox"
                       data-glightbox="type: image"
                     >
-                      <img src={card.pictures[0]} alt="image" />
+                      <img src={card.images[0]} alt="image" />
                     </a>
                   </div>
                   <div>
                     <div className="sub">
-                      {card?.pictures?.slice(1).map((appPic, i) => (
+                      {card?.images?.slice(1).map((appPic, i) => (
                         <div className="img-box" key={i}>
                           <a
                             href={appPic}
@@ -280,11 +280,11 @@ export default function Details() {
               ) : (
                 <div className="main-photo">
                   <a
-                    href={card.pictures[0]}
+                    href={card?.images[0].image_url}
                     className="glightbox"
                     data-glightbox="type: image"
                   >
-                    <img src={card.pictures[0]} alt="image" />
+                    <img src={card.images[0]} alt="image" />
                   </a>
                 </div>
               )}
@@ -555,7 +555,7 @@ export default function Details() {
               >
                 <span className="_title p-0">choose your services</span>
                 <div className="btn-group d-flex align-items-center col-xs-12">
-                  {card?.parking && (
+                  {card?.parking === 1 && (
                     <div className="select">
                       <input
                         type="checkbox"
@@ -597,7 +597,7 @@ export default function Details() {
                       </label>
                     </div>
                   )}
-                  {card?.food && (
+                  {card?.food === 1 && (
                     <div className="select">
                       <input
                         type="checkbox"
@@ -660,7 +660,7 @@ export default function Details() {
                       </label>
                     </div>
                   )}
-                  {card?.laundry && (
+                  {card?.laundry === 1 && (
                     <div className="select">
                       <input
                         type="checkbox"
@@ -714,7 +714,7 @@ export default function Details() {
                       </label>
                     </div>
                   )}
-                  {card?.rent && (
+                  {card?.rent === 1 && (
                     <div className="select">
                       <input
                         type="checkbox"
@@ -1233,9 +1233,9 @@ export default function Details() {
                     <p className="_medium_title">{totalPrice} €</p>
                   </div>
                   <div className="square" id="_right_box_button">
-                    <Link to={`/checkout/${bookingData.id}`}>
+                    {/* <Link to={`/checkout/${bookingData.id}`}> */}
                       <button onClick={submitBookingData}>rent now</button>
-                      </Link>
+                      {/* </Link> */}
                   </div>
                 </div>
               </div>

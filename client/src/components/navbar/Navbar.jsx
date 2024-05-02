@@ -863,7 +863,7 @@ export default function Navbar() {
                   </div>
                   <div className={`menu ${menuActive ? "active" : ""}`}>
                     <ul>
-                      {user && user.role === "ADMIN" && (
+                      {user && user.role === "admin" && (
                         <li>
                           <a href="/dashboard">
                             <svg

@@ -6,13 +6,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { deleteApartmentById } from "../../../../redux/apartmentSlice";
 import Cards from "../../../../components/cards/Cards";
 import DashCard from "./DashCard";
-import { apartmentList } from "../../../../Dummy/AppData";
+// import { apartmentList } from "../../../../Dummy/AppData";
 
 export default function AppartementsContent() {
   const dispatch = useDispatch();
-  // const apartmentList = useSelector(
-  //   (state) => state.apartments.apartments.apartments
-  // );
+  const apartmentList = useSelector(
+    (state) => state.apartments.apartments.apartments
+  );
   const {
     oneAppartementData,
     formData,
@@ -54,6 +54,8 @@ export default function AppartementsContent() {
     day = day < 10 ? `0${day}` : day;
     return `${year}-${month}-${day}`;
   };
+
+  console.log(formData)
 
   return (
     <>
@@ -251,7 +253,7 @@ export default function AppartementsContent() {
       <Modal title="My Modal" show={showModal} onHide={closeModal} size="lg">
         <div className="add_form">
           <h1>add new apparatement</h1>
-          <form className="form_container">
+          <form className="form_container"  onSubmit={handleSubmit}>
             <label for="apartmentName">apartment Name :</label>
             <input
               type="text"
@@ -303,41 +305,41 @@ export default function AppartementsContent() {
               <div>
                 <div className="row">
                   <div className="col-4">
-                    <label for="defaultDateAndPrice.price">price:</label>
+                    <label for="defaultSpecialDate.price">price:</label>
                     <input
                       type="number"
                       id="price"
-                      name="defaultDateAndPrice.price"
-                      value={formData.defaultDateAndPrice.price}
+                      name="defaultSpecialDate.price"
+                      value={formData.defaultSpecialDate.price}
                       onChange={handleInputChange}
                       placeholder="Price"
-                      required
+                      // required
                     />
                   </div>
                   <div className="col-4" style={{ paddingRight: 0 }}>
-                    <label for="defaultDateAndPrice.startDate">
+                    <label for="defaultSpecialDate.startDate">
                       start date:
                     </label>
                     <input
                       type="date"
                       id="startDate"
-                      name="defaultDateAndPrice.startDate"
-                      value={formData.defaultDateAndPrice.startDate}
+                      name="defaultSpecialDate.startDate"
+                      value={formData.defaultSpecialDate.startDate}
                       onChange={handleInputChange}
                       placeholder="Start date"
-                      required
+                      /* required */
                     />
                   </div>
                   <div className="col-4" style={{ paddingRight: 0 }}>
-                    <label for="defaultDateAndPrice.endDate">end date:</label>
+                    <label for="defaultSpecialDate.endDate">end date:</label>
                     <input
                       type="date"
                       id="endDate"
-                      name="defaultDateAndPrice.endDate"
-                      value={formData.defaultDateAndPrice.endDate}
+                      name="defaultSpecialDate.endDate"
+                      value={formData.defaultSpecialDate.endDate}
                       onChange={handleInputChange}
                       placeholder="End date"
-                      required
+                      // required
                     />
                   </div>
                 </div>
@@ -349,7 +351,7 @@ export default function AppartementsContent() {
                         type="number"
                         id={`price-${index}`}
                         name="price"
-                        value={formData.specialDate.price}
+                        value={formData.specialDates.price}
                         onChange={(e) => handleSpecialDateInputChange(index, e)}
                         placeholder="Price"
                       />
@@ -360,7 +362,7 @@ export default function AppartementsContent() {
                         type="date"
                         id={`startDate-${index}`}
                         name="startDate"
-                        value={formData.specialDate.startDate}
+                        value={formData.specialDates.startDate}
                         onChange={(e) => handleSpecialDateInputChange(index, e)}
                         placeholder="Start date"
                       />
@@ -371,7 +373,7 @@ export default function AppartementsContent() {
                         type="date"
                         id={`endDate-${index}`}
                         name="endDate"
-                        value={formData.specialDate.endDate}
+                        value={formData.specialDates.endDate}
                         onChange={(e) => handleSpecialDateInputChange(index, e)}
                         placeholder="End date"
                       />
@@ -410,7 +412,7 @@ export default function AppartementsContent() {
               value={formData.location}
               onChange={handleInputChange}
               placeholder="Enter location"
-              required
+              // required
             />
 
             <div className="row">
@@ -766,7 +768,7 @@ export default function AppartementsContent() {
               >
                 Cancel
               </button>
-              <button type="submit" onclick="solve()" onSubmit={handleSubmit}>
+              <button type="submit">
                 Submit
               </button>
             </div>
@@ -795,52 +797,52 @@ export default function AppartementsContent() {
               value={editApartment?.apartmentName}
               onChange={handleEditInputChange}
               placeholder="Enter Apartment Name"
-              required
+              // required
             />
 
             <div className="row">
               <div>
                 <div className="row">
                   <div className="col-3" style={{ paddingRight: 0 }}>
-                    <label for="defaultDateAndPrice.price">price:</label>
+                    <label for="defaultSpecialDate.price">price:</label>
                     <input
                       type="number"
                       id="price"
-                      name="defaultDateAndPrice.price"
-                      value={editApartment?.defaultDateAndPrice.price}
+                      name="defaultSpecialDate.price"
+                      value={editApartment?.defaultSpecialDate.price}
                       onChange={handleEditInputChange}
                       placeholder="Price"
-                      required
+                      // required
                     />
                   </div>
                   <div className="col-4" style={{ paddingRight: 0 }}>
-                    <label for="defaultDateAndPrice.startDate">
+                    <label for="defaultSpecialDate.startDate">
                       start date:
                     </label>
                     <input
                       type="date"
                       id="startDate"
-                      name="defaultDateAndPrice.startDate"
+                      name="defaultSpecialDate.startDate"
                       value={convertDateString(
-                        editApartment?.defaultDateAndPrice.startDate
+                        editApartment?.defaultSpecialDate.startDate
                       )}
                       onChange={handleEditInputChange}
                       placeholder="Start date"
-                      required
+                      // required
                     />
                   </div>
                   <div className="col-4" style={{ paddingRight: 0 }}>
-                    <label for="defaultDateAndPrice.endDate">end date:</label>
+                    <label for="defaultSpecialDate.endDate">end date:</label>
                     <input
                       type="date"
                       id="endDate"
-                      name="defaultDateAndPrice.endDate"
+                      name="defaultSpecialDate.endDate"
                       value={convertDateString(
-                        editApartment?.defaultDateAndPrice.endDate
+                        editApartment?.defaultSpecialDate.endDate
                       )}
                       onChange={handleEditInputChange}
                       placeholder="End date"
-                      required
+                      // required
                     />
                   </div>
                 </div>
@@ -902,7 +904,7 @@ export default function AppartementsContent() {
               value={editApartment?.location}
               onChange={handleEditInputChange}
               placeholder="Enter location"
-              required
+              // required
             />
 
             <div className="row">
