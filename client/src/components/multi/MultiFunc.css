@@ -1,6 +1,4 @@
-#hero {
-  /* overflow: hidden; */
-}
+
 
 @media (min-width: 1400px) {
   .searchwrapper:not(.searchwrapper_modal) {
