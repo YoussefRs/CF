@@ -258,7 +258,7 @@ export default function Profile() {
                               </div>
                             </div>
                             <div className="row mt-5">
-                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 submit d-flex justify-content-center gap-2">
+                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 submit d-flex justify-content-sm-center justify-content-between  gap-2">
                                 <div className="customer-form-btn d-flex form-group col-5 col-md-2">
                                   <button className="col">cancel</button>
                                 </div>
