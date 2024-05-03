@@ -28,12 +28,14 @@ function verifyToken(req, res, next) {
 
 function verifyAdmin(req, res, next) {
   // Extract the JWT token from the Authorization header
-  const token = req.headers.authorization;
+  const authHeader = req.headers.authorization;
 
-  if (!token) {
+  if (!authHeader) {
     // Token is missing, return unauthorized status
     return res.status(401).json({ message: "Unauthorized: Token missing" });
   }
+
+  const token = authHeader.split(" ")[1]; // Split the header to get token part
 
   try {
     // Verify the token using your secret key
@@ -57,5 +59,6 @@ function verifyAdmin(req, res, next) {
     return res.status(401).json({ message: "Unauthorized: Invalid token" });
   }
 }
+
 
 module.exports = { verifyToken, verifyAdmin };

@@ -91,7 +91,7 @@ async function httpLoginUser(req, res) {
     }
 
     // If the password is valid, return the user object with a token
-    const token = generateToken(user);
+    const token = generateToken(user, user.role);
     res.status(200).json({ token, user });
   } catch (error) {
     console.error("Error in httpLoginUser:", error);
@@ -263,14 +263,14 @@ async function httpChangePassword(req, res) {
   }
 }
 
-function generateToken(userId) {
+function generateToken(userId, role) {
   // Define your secret key for signing the token
   const secretKey = process.env.JWT_SECRET; // Change this to your actual secret key
 
   // Define payload for the token (you can add more data if needed)
   const payload = {
     userId: userId,
-    role:role,
+    role: role,
   };
 
   // Define options for the token
