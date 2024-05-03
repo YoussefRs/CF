@@ -343,7 +343,9 @@ export default function Navbar() {
                     </button>
                     <button
                       className="btn register"
-                      onClick={() => setShow(true)}
+                      onClick={() => {
+                        setShow(true)
+                      }}
                     >
                       sign up
                     </button>

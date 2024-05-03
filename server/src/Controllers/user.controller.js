@@ -16,7 +16,7 @@ async function httpRegisterUser(req, res) {
 
     // Check if user with the same name or email exists
     const [existingUser] = await connection.query(
-      "SELECT * FROM users WHERE name = ? OR email = ?",
+      "SELECT * FROM users WHERE username = ? OR email = ?",
       [req.body.name, req.body.email]
     );
 
@@ -29,24 +29,23 @@ async function httpRegisterUser(req, res) {
 
     // Insert new user into the database
     const [result] = await connection.query(
-      "INSERT INTO users (name, phone, email, password, image, role) VALUES (?, ?, ?, ?, ?, ?)",
+      "INSERT INTO users (username, phone, email, password, image, role) VALUES (?, ?, ?, ?, ?, ?)",
       [
-        req.body.name,
-        req.body.phone,
+        req.body.username,
+        req.body.gsm,
         req.body.email,
         hashedPassword,
         req.body.img,
         "user",
       ]
     );
-
     const newUserId = result.insertId;
 
     // Send verification email and update verification code
     // sendVerificationEmail(newUserId);
 
     // Generate and attach token to user
-    const token = generateToken(newUserId);
+    const token = generateToken(newUserId, "user");
 
     // Respond with success message and token
     res.status(201).json({ message: "User registered successfully", token });
@@ -263,7 +262,7 @@ async function httpChangePassword(req, res) {
   }
 }
 
-function generateToken(userId) {
+function generateToken(userId, role) {
   // Define your secret key for signing the token
   const secretKey = process.env.JWT_SECRET; // Change this to your actual secret key
 
