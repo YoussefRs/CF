@@ -12,14 +12,14 @@ import Footer from "../../components/footer/Footer";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { apartmentList } from "../../Dummy/AppData";
+// import { apartmentList } from "../../Dummy/AppData";
 
 // import joinLogo from '../../assets/homepage_mats/'
 
 import MultiFunc from "../../components/multi/MultiFunc";
 
 export default function Home() {
-  // const apartmentList = useSelector((state) => state.apartments.apartments.apartments);
+  const apartmentList = useSelector((state) => state.apartments.apartments.apartments);
   const user = useSelector((state) => state.auth.user);
 
   return (
