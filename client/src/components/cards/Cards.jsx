@@ -26,7 +26,7 @@ export default function Cards({ card }) {
 
   
   return (
-    <div className="col-xl-4 col-lg-4 col-md-6 col-12 px-sm-4 py-5 px-0 ">
+    <div className="col-xl-4 col-md-6 col-12 px-sm-4 py-4 px-0 ">
       <div className="material-card" href="/some-article">
         <Link to={`/details/${card.id}`} state={{ card }}>
           {<img className="card-picture" src={card?.images[0]?.image_url} alt="Apartment" />}

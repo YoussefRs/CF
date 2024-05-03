@@ -94,6 +94,10 @@
   font-weight: 700;
   line-height: 16px; /* 123.077% */
   text-transform: capitalize;
+
+  & p {
+    margin-top: 1rem;
+  }
 }
 @media (max-width: 480px) {
     ._footer {

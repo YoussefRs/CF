@@ -14,7 +14,7 @@ export default function TestimonialsSlider() {
       name: "EMILIANO AQUILANI",
       content:
         "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi obcaecati cumque voluptates perspiciatis, totam quae? Illo, facilis cumque deserunt velit placeat ipsa eos numquam modi adipisci est dolore illum voluptatibus?",
-      image: ep,
+      image: ep3,
     },
     {
       name: "ANNA ITURBE",

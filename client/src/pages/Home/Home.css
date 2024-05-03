@@ -29,9 +29,14 @@
   font-weight: 800;
   letter-spacing: 9.6px;
   text-transform: capitalize;
-  font-size: clamp(1.5rem, 7vw, 5.625rem);
+
+  @media (min-width: 768px) {
+    font-size: clamp(1.5rem, 7vw, 5.625rem);
+  }
+
   margin-bottom: 0;
 }
+
 ._title_small_ {
   color: #fff;
   text-shadow: -15px 58px 16.8px rgba(0, 0, 0, 0.54);
@@ -39,9 +44,14 @@
   font-style: normal;
   font-weight: 800;
   letter-spacing: 9.6px;
-  font-size: clamp(1.5rem, 7vw, 2rem);
+
+  @media (min-width: 768px) {
+    font-size: clamp(1.5rem, 7vw, 2rem);
+  }
+
   line-height: 20px;
 }
+
 .special_span {
   color: #dec25f;
   text-shadow: -15px 58px 16.8px rgba(0, 0, 0, 0.54);
@@ -70,6 +80,63 @@
   }
 }
 
+.lp-alignment {
+  & img {
+    @media (min-width: 768px) {
+      max-width: 250px;
+      margin-left: -5px;
+    }
+
+    @media (max-width: 767px) {
+      width: 50%;
+    }
+  }
+
+  & h1,
+  & span {
+    @media (max-width: 767px) {
+      line-height: 1.3;
+    }
+
+    @media (min-width: 768px) {
+      line-height: 1.2;
+    }
+  }
+
+
+  @media (min-width: 576px) and (max-width: 768px) {
+    & h1 {
+      font-size: 3rem;
+    }
+
+    & span {
+      font-size: 1.5rem;
+    }
+  }
+
+
+  @media (min-width: 425px) and (max-width: 575px) {
+    & h1 {
+      font-size: 2.7rem;
+    }
+
+    & span {
+      font-size: 1.3rem;
+    }
+  }
+
+  @media (max-width: 424px) {
+    & h1 {
+      font-size: 2rem;
+    }
+
+    & span {
+      font-size: 1rem;
+    }
+  }
+
+}
+
 .layer {
   /* background: linear-gradient(
       360deg,
@@ -91,12 +158,10 @@
 }
 
 .cards_layer {
-  background-image: linear-gradient(
-    180deg,
-    #0d0d0d 100%,
-    rgba(13, 13, 13, 0.72) 30%,
-    rgba(255, 255, 255, 0.6) 100%
-  );
+  background-image: linear-gradient(180deg,
+      #0d0d0d 100%,
+      rgba(13, 13, 13, 0.72) 30%,
+      rgba(255, 255, 255, 0.6) 100%);
   position: absolute;
   top: 0;
   left: 0;
@@ -282,10 +347,8 @@
   height: 92px;
   border-radius: 50px;
   box-shadow: 0px 16px 31.9px 0px rgba(17, 115, 206, 0.15);
-  background: var(
-    --Linear,
-    linear-gradient(315deg, #07d25f 20.24%, #028139 80.97%)
-  );
+  background: var(--Linear,
+      linear-gradient(315deg, #07d25f 20.24%, #028139 80.97%));
   z-index: 3;
   padding: 10px;
   /* position: absolute; */
@@ -322,6 +385,7 @@
 }
 
 .card_ctr {
+
   /* width: 1440px; */
   /* height: 500px; */
   @media (min-width: 1920px) {
@@ -340,8 +404,12 @@
     width: 80%;
   }
 
-  @media (min-width: 768px) and (max-width: 991px) {
-    width: 100%;
+  @media (min-width: 850px) and (max-width: 991px) {
+    width: 90%;
+  }
+
+  @media (min-width: 768px) and (max-width: 849px) {
+    width: 95%;
   }
 
   @media (min-width: 576px) and (max-width: 767px) {
@@ -349,7 +417,7 @@
   }
 
   @media (min-width: 425px) and (max-width: 575px) {
-    width: 90%;
+    width: 75%;
     padding: 0 !important;
   }
 
@@ -388,7 +456,7 @@
   position: relative;
   align-items: center;
   justify-content: center;
-  padding: 1% 5%;
+  padding: 3% 5%;
 }
 
 .search_ctr {
@@ -433,8 +501,7 @@
   border-bottom-right-radius: 80px;
   z-index: 3;
   background: linear-gradient(360deg, #028139 0%, rgba(16, 24, 42, 0) 30%),
-    url("../../assets/homepage_mats/stylish-scandinavian-living-room-with-design-mint-sofa-furnitures-mock-up-poster-map-plants-eleg.png")
-      50%;
+  url("../../assets/homepage_mats/stylish-scandinavian-living-room-with-design-mint-sofa-furnitures-mock-up-poster-map-plants-eleg.png") 50%;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -532,11 +599,15 @@
   /* background-attachment: fixed; */
   background-repeat: no-repeat;
   background-size: contain;
+  width: 98%;
 }
 
 .search_title h1 {
   color: #fff;
   font-family: "Helvetica Neue", sans-serif;
+
+  text-wrap: nowrap;
+  text-overflow: ellipsis;
 
   @media (min-width: 1200px) {
     font-size: clamp(1.5rem, 4vw, 5.625rem);
@@ -561,7 +632,7 @@
   text-transform: capitalize;
 }
 
-.search_title > h1 > span {
+.search_title>h1>span {
   color: #dec25f;
   font-family: "Helvetica Neue", sans-serif;
   /* font-size: clamp(1.5rem, 4vw, 5.625rem); */
@@ -598,7 +669,7 @@
 
   font-style: normal;
   font-weight: 700;
-  line-height: 40.524px;
+  line-height: 30.524px;
   /* 162.095% */
   text-transform: capitalize;
   text-align: left;
@@ -614,20 +685,21 @@
 
 ._box {
   @media (min-width: 1400px) {
-    width: 25%;
+    width: 30%;
   }
 
   @media (max-width: 1400px) {
     width: calc(100% / 3);
   }
 
-  height: 150px;
+  /* height: 150px; */
   display: flex;
   flex-direction: column;
   justify-content: center;
   background: white;
   border-radius: 40px;
-  padding: 20px;
+  /* padding: 20px; */
+  padding: 30px 20px 40px;
 
   & .icon {
     width: clamp(40px, 1vw, 78px);
@@ -637,7 +709,7 @@
     & svg {
       position: absolute;
 
-      left: -25%;
+      left: -43%;
 
       width: 150%;
       height: 150%;
@@ -765,12 +837,29 @@
   color: #1a1b1a;
   text-align: center;
   font-family: "Helvetica Neue", sans-serif;
-  font-size: clamp(1.5rem, 4vw, 5.625rem);
+
+  /* font-size: clamp(1.5rem, 4vw, 5.625rem); */
+  @media (min-width: 1200px) {
+    font-size: clamp(1.5rem, 4vw, 5.625rem);
+  }
+
+  @media (min-width: 768px) and (max-width: 1200px) {
+    font-size: clamp(1rem, 3.5vw, 4.5rem);
+  }
+
+  @media (min-width: 576px) and (max-width: 768px) {
+    font-size: clamp(1.3rem, 4.2vw, 5.2rem);
+  }
+
+  @media (max-width: 576px) {
+    font-size: clamp(1rem, 5vw, 5rem);
+  }
+
   font-style: normal;
   font-weight: 700;
   line-height: 121.147px;
   /* 137.194% */
-  text-transform: uppercase;
+  text-transform: capitalize;
 }
 
 .testo_ctr {
@@ -783,7 +872,7 @@
   align-items: center;
   padding: 20px;
   background: url("../../assets/homepage_mats/testi_bg.png");
-  background-position: right;
+  background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   mix-blend-mode: soft-light;
@@ -814,7 +903,7 @@
   width: 100%;
   display: flex;
   position: relative;
-  padding: 1% 2%;
+  padding: 5% 2%;
   flex-direction: column;
   align-items: center;
 }
@@ -842,14 +931,14 @@
 }
 
 ._flower_box {
-  width: 100%;
-  height: 100%;
+  /* width: 100%;
+  height: 100%; */
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
-  width: 250px;
+  width: 300px;
   /* Adjust width as needed */
-  height: 250px;
+  height: 300px;
   /* Adjust height as needed */
   gap: 0.4rem;
 }
@@ -890,10 +979,8 @@
   height: 80px;
   width: 80px;
   justify-self: self-end;
-  background: var(
-    --Linear,
-    linear-gradient(315deg, #07d25f 20.24%, #028139 80.97%)
-  );
+  background: var(--Linear,
+      linear-gradient(315deg, #07d25f 20.24%, #028139 80.97%));
   box-shadow: 24px 14px 46.8px 0px rgba(0, 0, 0, 0.2);
 }
 
@@ -914,7 +1001,7 @@
 .join_ctr {
   width: 30%;
   height: 100%;
-  padding: 10px;
+  padding: 0 10px 10px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -927,6 +1014,14 @@
   display: flex;
   justify-content: center;
   text-align: center;
+
+  & svg {
+    position: absolute;
+    height: 100%;
+    aspect-ratio: 1/2;
+    z-index: -1;
+    left: 10%;
+  }
 }
 
 .join_title span {
@@ -939,8 +1034,8 @@
   line-height: 121.147px;
   /* 137.194% */
   text-transform: capitalize;
-  background-image: url('data:image/svg+xml,<svg width="45" height="112" viewBox="0 0 88 112" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M67.624 85.5413C71.4456 80.6578 74.7642 75.4046 77.502 70.9062C77.9531 70.1665 78.4146 69.4219 78.8554 68.7025C81.8629 63.8292 84.7096 59.2295 86.3171 53.7634C88.106 47.6997 88.4741 41.2458 87.3956 35.1061C83.9733 15.6686 66.3536 0.582568 46.4109 0.0151974C45.9961 0.00506581 45.5761 0 45.1612 0C26.4112 0 8.01886 11.8895 2.02465 28.0697C-0.0028103 33.5407 -0.521341 39.7312 0.531277 45.9672C2.30984 56.5243 8.1848 66.6965 13.702 75.2577C19.0065 83.4896 25.5452 91.7976 33.6861 100.668L33.9299 100.936C42.0501 109.837 44.1968 111.635 44.7412 112C50.4036 106.382 55.5007 100.212 60.432 94.2443C62.112 92.2079 63.8491 90.1056 65.5914 88.0489C66.2654 87.2535 66.9447 86.4126 67.624 85.5463V85.5413ZM21.4125 62.0258C15.3768 56.1292 12.053 48.2924 12.053 39.9541C12.053 31.6157 15.3768 23.7789 21.4125 17.8823C27.4482 11.9857 35.4699 8.73852 44.0049 8.73852C51.9333 8.73852 59.4157 11.5399 65.2751 16.6615V16.6513H44.3316V71.1544C44.2227 71.1544 44.1138 71.1544 44.0049 71.1544C35.4699 71.1544 27.4482 67.9072 21.4125 62.0106V62.0258ZM41.21 95.6932L43.0353 90.6932L43.5538 89.2697C42.5323 88.8037 41.8219 87.7905 41.8219 86.6152C41.8219 84.9942 43.1649 83.6821 44.8242 83.6821C46.4835 83.6821 47.8265 84.9942 47.8265 86.6152C47.8265 87.7652 47.1472 88.7581 46.1568 89.2393L46.6857 90.6932L48.511 95.6932M45.3583 71.1392V36.4738H60.1935V35.5721H45.3583V17.5733H65.2699V63.2466C59.7475 68.0744 52.7785 70.8403 45.3583 71.1442V71.1392Z" fill="%23DEC25F" fill-opacity="0.5"/></svg>');
-  background-position: left;
+  /* background-image: url('data:image/svg+xml,<svg width="45" height="112" viewBox="0 0 88 112" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M67.624 85.5413C71.4456 80.6578 74.7642 75.4046 77.502 70.9062C77.9531 70.1665 78.4146 69.4219 78.8554 68.7025C81.8629 63.8292 84.7096 59.2295 86.3171 53.7634C88.106 47.6997 88.4741 41.2458 87.3956 35.1061C83.9733 15.6686 66.3536 0.582568 46.4109 0.0151974C45.9961 0.00506581 45.5761 0 45.1612 0C26.4112 0 8.01886 11.8895 2.02465 28.0697C-0.0028103 33.5407 -0.521341 39.7312 0.531277 45.9672C2.30984 56.5243 8.1848 66.6965 13.702 75.2577C19.0065 83.4896 25.5452 91.7976 33.6861 100.668L33.9299 100.936C42.0501 109.837 44.1968 111.635 44.7412 112C50.4036 106.382 55.5007 100.212 60.432 94.2443C62.112 92.2079 63.8491 90.1056 65.5914 88.0489C66.2654 87.2535 66.9447 86.4126 67.624 85.5463V85.5413ZM21.4125 62.0258C15.3768 56.1292 12.053 48.2924 12.053 39.9541C12.053 31.6157 15.3768 23.7789 21.4125 17.8823C27.4482 11.9857 35.4699 8.73852 44.0049 8.73852C51.9333 8.73852 59.4157 11.5399 65.2751 16.6615V16.6513H44.3316V71.1544C44.2227 71.1544 44.1138 71.1544 44.0049 71.1544C35.4699 71.1544 27.4482 67.9072 21.4125 62.0106V62.0258ZM41.21 95.6932L43.0353 90.6932L43.5538 89.2697C42.5323 88.8037 41.8219 87.7905 41.8219 86.6152C41.8219 84.9942 43.1649 83.6821 44.8242 83.6821C46.4835 83.6821 47.8265 84.9942 47.8265 86.6152C47.8265 87.7652 47.1472 88.7581 46.1568 89.2393L46.6857 90.6932L48.511 95.6932M45.3583 71.1392V36.4738H60.1935V35.5721H45.3583V17.5733H65.2699V63.2466C59.7475 68.0744 52.7785 70.8403 45.3583 71.1442V71.1392Z" fill="%23DEC25F" fill-opacity="0.5"/></svg>'); */
+  /* background-position: top left -50px; */
   background-repeat: no-repeat;
   background-size: contain;
   /* Adjust the opacity here */
@@ -995,10 +1090,8 @@
   /* top: 0%; */
   /* z-index: 99999999; */
   border-radius: 0px 100px;
-  background: var(
-    --Linear,
-    linear-gradient(315deg, #07d25f 20.24%, #028139 80.97%)
-  );
+  background: var(--Linear,
+      linear-gradient(315deg, #07d25f 20.24%, #028139 80.97%));
   box-shadow: 35px 63px 46.8px 0px rgba(0, 0, 0, 0.8);
   display: flex;
   align-items: center;
@@ -1022,6 +1115,7 @@
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
+  padding: 15px 0;
 }
 
 ._contact_box button {
@@ -1180,7 +1274,7 @@
     gap: 1rem;
   }
 
-  ._home_text > span > svg {
+  ._home_text>span>svg {
     width: 300px;
   }
 
@@ -1253,6 +1347,8 @@
     background-size: cover;
     mix-blend-mode: soft-light;
   }
+
+
 
   ._floating_img {
     /* left: 50%; */
