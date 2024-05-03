@@ -4,31 +4,31 @@
 
 @media (min-width: 1200px) {
   .slider {
-    width: 450px;
+    width: 90%;
   }
 
   .thumb {
-    width: 450px;
+    width: 55%;
   }
 }
 
 @media (min-width: 768px) and (max-width: 1199px) {
   .slider {
-    width: 275px;
+    width: 90%;
   }
 
   .thumb {
-    width: 275px;
+    width: 55%;
   }
 }
 
 @media (min-width: 576px) and (max-width: 767px) {
   .slider {
-    width: 300px;
+    width: 90%;
   }
 
   .thumb {
-    width: 300px;
+    width: 54%;
   }
 }
 
