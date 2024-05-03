@@ -100,11 +100,10 @@ async function httpAddApartment(req, res) {
 }
 
 async function httpEditApartment(req, res) {
-  const db = await createConnectionWithoutDatabase();
+  const db = await startScript();
   try {
     // Extract data from the request body
     const {
-      id,
       apartmentName,
       location,
       bedroom,
@@ -113,8 +112,8 @@ async function httpEditApartment(req, res) {
       rent = false,
       food = false,
       laundry = false,
-      pictures,
       description,
+      pictures,
       specialDates = [],
     } = req.body;
 
@@ -124,47 +123,85 @@ async function httpEditApartment(req, res) {
     await db.beginTransaction();
 
     // Update the apartment details in the Apartments table
-    const [apartmentResult] = await db.query(
-      `UPDATE Apartments 
-           SET apartmentName = ?, location = ?, bedroom = ?, bathroom = ?, parking = ?, rent = ?, food = ?, laundry = ?, pictures = ?, description = ?
-           WHERE id = ?`,
-      [
-        apartmentName,
-        location,
-        bedroom,
-        bathroom,
-        parking,
-        rent,
-        food,
-        laundry,
-        // Concatenate picture URLs into a single string separated by a comma
-        pictures.join(", "), // Assuming pictures is an array of URLs
-        description,
-        apId,
-      ]
-    );
+    let query = `UPDATE Apartment SET `;
+    const values = [];
 
-    // Delete existing special dates for the apartment
-    await db.query(
-      `DELETE FROM SpecialDates 
-           WHERE apartmentId = ?`,
-      [apId]
-    );
+    if (apartmentName) {
+      query += `name = ?, `;
+      values.push(apartmentName);
+    }
+    if (location !== undefined) {
+      query += `location = ?, `;
+      values.push(location);
+    }
+    if (bedroom !== undefined) {
+      query += `bedroom = ?, `;
+      values.push(bedroom);
+    }
+    if (bathroom !== undefined) {
+      query += `bathroom = ?, `;
+      values.push(bathroom);
+    }
+    if (parking !== undefined) {
+      query += `parking = ?, `;
+      values.push(parking);
+    }
+    if (rent !== undefined) {
+      query += `rent = ?, `;
+      values.push(rent);
+    }
+    if (food !== undefined) {
+      query += `food = ?, `;
+      values.push(food);
+    }
+    if (laundry !== undefined) {
+      query += `laundry = ?, `;
+      values.push(laundry);
+    }
+    if (description !== undefined) {
+      query += `description = ?, `;
+      values.push(description);
+    }
 
-    // Insert new special dates into the SpecialDates table
-    for (const specialDate of specialDates) {
-      const [specialDateResult] = await db.query(
-        `INSERT INTO SpecialDates (apartmentId, price, startDate, endDate)
-             VALUES (?, ?, ?, ?)`,
-        [apId, specialDate.price, specialDate.startDate, specialDate.endDate]
-      );
+    // Remove the trailing comma and space from the query
+    query = query.slice(0, -2);
+
+    query += ` WHERE id = ?`;
+    values.push(apId);
+
+    // Execute the update query
+    await db.query(query, values);
+
+    // Handle pictures
+    if (pictures && pictures.length > 0) {
+      // Delete existing images for the apartment
+      await db.query(`DELETE FROM Image WHERE apartment_id = ?`, [apId]);
+
+      // Insert new images into the Image table
+      for (const pictureURL of pictures) {
+        await db.query(
+          `INSERT INTO Image (apartment_id, image_url) VALUES (?, ?)`,
+          [apId, pictureURL]
+        );
+      }
+    }
+
+    // Handle special dates
+    if (specialDates && specialDates.length > 0) {
+      // Delete existing special dates for the apartment
+      await db.query(`DELETE FROM SpecialDates WHERE apartmentId = ?`, [apId]);
+
+      // Insert new special dates into the SpecialDates table
+      for (const specialDate of specialDates) {
+        await db.query(
+          `INSERT INTO SpecialDates (apartmentId, price, startDate, endDate) VALUES (?, ?, ?, ?)`,
+          [apId, specialDate.price, specialDate.startDate, specialDate.endDate]
+        );
+      }
     }
 
     // Commit the transaction
     await db.commit();
-
-    // Close the database connection
-    await db.end();
 
     // Respond with success message
     res.status(200).json({ message: "Apartment updated successfully" });
@@ -174,6 +211,9 @@ async function httpEditApartment(req, res) {
 
     console.error("Error editing apartment:", error);
     res.status(500).json({ error: "Internal server error" });
+  } finally {
+    // Close the database connection
+    await db.end();
   }
 }
 
