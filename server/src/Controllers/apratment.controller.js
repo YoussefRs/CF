@@ -189,7 +189,7 @@ async function httpEditApartment(req, res) {
     // Handle special dates
     if (specialDates && specialDates.length > 0) {
       // Delete existing special dates for the apartment
-      await db.query(`DELETE FROM SpecialDates WHERE apartmentId = ?`, [apId]);
+      await db.query(`DELETE FROM Price WHERE apartmentId = ?`, [apId]);
 
       // Insert new special dates into the SpecialDates table
       for (const specialDate of specialDates) {
@@ -218,20 +218,26 @@ async function httpEditApartment(req, res) {
 }
 
 async function httpDeleteApartment(req, res) {
-  const db = await createConnectionWithoutDatabase();
+  const db = await startScript();
   try {
     const apartmentId = req.params.id;
 
     // Start a database transaction
     await db.beginTransaction();
 
-    // Delete the apartment from the Apartments table
-    await db.query(`DELETE FROM Apartments WHERE id = ?`, [apartmentId]);
-
-    // Delete associated special dates from the SpecialDates table
-    await db.query(`DELETE FROM SpecialDates WHERE apartmentId = ?`, [
+    // Delete associated reservations from the Reservations table
+    await db.query(`DELETE FROM Reservations WHERE apartmentId = ?`, [
       apartmentId,
     ]);
+
+    // Delete associated images from the Images table
+    await db.query(`DELETE FROM Image WHERE apartment_id = ?`, [apartmentId]);
+
+    // Delete associated prices from the Price table
+    await db.query(`DELETE FROM Price WHERE apartment_id = ?`, [apartmentId]);
+
+    // Delete the apartment from the Apartments table
+    await db.query(`DELETE FROM Apartment WHERE id = ?`, [apartmentId]);
 
     // Commit the transaction
     await db.commit();
@@ -249,6 +255,9 @@ async function httpDeleteApartment(req, res) {
     res.status(500).json({ error: "Internal server error" });
   }
 }
+
+
+
 
 async function httpGetAllApartments(req, res) {
   const db = await startScript();
