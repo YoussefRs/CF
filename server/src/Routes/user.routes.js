@@ -9,7 +9,7 @@ const {
   httpDeleteOneUser,
   httpChangePassword,
 } = require("../Controllers/user.controller");
-const { verifyToken } = require("../Middlewares/authorization_handler");
+const { verifyToken, verifyAdmin } = require("../Middlewares/authorization_handler");
 
 /** Defining the router */
 const userRouter = express.Router();
@@ -18,11 +18,11 @@ const userRouter = express.Router();
 
 userRouter.route("/register").post(httpRegisterUser);
 userRouter.route("/login").post(httpLoginUser);
-userRouter.route("/").get(httpGetAllUsers);
+userRouter.route("/").get(verifyAdmin, httpGetAllUsers);
 userRouter
   .route("/:param")
   .get(httpGetUser)
   .put(httpUpdateOneUser)
-  .delete(httpDeleteOneUser);
+  .delete(verifyAdmin, httpDeleteOneUser);
 userRouter.route("/password/:param").put(httpChangePassword);
 module.exports = { userRouter };

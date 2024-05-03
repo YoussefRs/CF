@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 function verifyToken(req, res, next) {
   // Extract the JWT token from the Authorization header
   const token = req.headers.authorization;
-  console.log(token)
+  console.log("Received token:", token);
 
   if (!token) {
     // Token is missing, return unauthorized status
@@ -13,7 +13,11 @@ function verifyToken(req, res, next) {
 
   try {
     // Verify the token using your secret key
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(
+      token.replace("Bearer ", ""),
+      process.env.JWT_SECRET
+    );
+    console.log("Decoded token:", decoded);
 
     // Extract the user ID from the decoded token payload
     req.userId = decoded.userId;
@@ -21,19 +25,23 @@ function verifyToken(req, res, next) {
     // Call the next middleware or route handler
     next();
   } catch (error) {
+    console.error("Token verification error:", error); // Log the error
     // Token is invalid, return unauthorized status
     return res.status(401).json({ message: "Unauthorized: Invalid token" });
   }
 }
 
+
 function verifyAdmin(req, res, next) {
   // Extract the JWT token from the Authorization header
-  const token = req.headers.authorization;
+  const authHeader = req.headers.authorization;
 
-  if (!token) {
+  if (!authHeader) {
     // Token is missing, return unauthorized status
     return res.status(401).json({ message: "Unauthorized: Token missing" });
   }
+
+  const token = authHeader.split(" ")[1]; // Split the header to get token part
 
   try {
     // Verify the token using your secret key
@@ -57,5 +65,6 @@ function verifyAdmin(req, res, next) {
     return res.status(401).json({ message: "Unauthorized: Invalid token" });
   }
 }
+
 
 module.exports = { verifyToken, verifyAdmin };

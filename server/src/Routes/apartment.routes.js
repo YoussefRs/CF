@@ -1,5 +1,4 @@
 const express = require("express");
-const passport = require("passport");
 const {
   httpAddApartment,
   httpEditApartment,
@@ -17,8 +16,8 @@ appartmentRouter.route("/getAllAppart").get(httpGetAllApartments);
 appartmentRouter
   .route("/:id")
   .get(httpGetOneApartment)
-  .put(httpEditApartment)
-  .delete(httpDeleteApartment);
+  .put(verifyAdmin, httpEditApartment)
+  .delete(verifyAdmin, httpDeleteApartment);
 appartmentRouter
   .route("/:id/available-dates")
   .get(getAvailableDatesForApartment);
