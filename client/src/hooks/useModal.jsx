@@ -8,7 +8,16 @@ export const useModal = () => {
   const [showModal2, setShowModal2] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const [editApartment, setEditApartment] = useState(null);
-  const [deleteAppModal, setDeleteAppModal] = useState(false)
+  const [deleteAppModal, setDeleteAppModal] = useState(false);
+  const [loginModal, setLoginModal] = useState(false);
+
+  const openLoginModal = () => {
+    setLoginModal(true);
+  }
+
+  const closeLoginModal = () => {
+    setLoginModal(false)
+  }
 
   const openEditModal = (apartment) => {
     setEditModal(true);
@@ -45,6 +54,10 @@ export const useModal = () => {
   }
   
   return {
+    loginModal,
+    openLoginModal,
+    closeLoginModal,
+    setLoginModal,
     oneAppartementData,
     showModal,
     openModal,

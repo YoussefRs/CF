@@ -6,9 +6,14 @@ import LoginRegister from "../modals/LoginRegister";
 import loader from "../../assets/homepage_mats/logo.png";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { useModal } from "../../hooks/useModal";
 
-export default function Navbar() {
+
+
+
+export default function Navbar({setShow, show}) {
   const user = useSelector((state) => state?.auth?.user?.user);
+  const {loginModal, openLoginModal, closeLoginModal} = useModal();
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -19,11 +24,10 @@ export default function Navbar() {
   const [menuActive, setMenuActive] = useState(false);
   const [isActive, setIsActive] = useState(false);
 
-  const [show, setShow] = useState(false);
   const admin = JSON.parse(localStorage.getItem("user"));
 
   const onHide = () => {
-    setShow(false);
+    closeLoginModal();
   };
 
   const handleItemClick = (index) => {
@@ -36,7 +40,7 @@ export default function Navbar() {
 
   const toggleMenu = () => {
     setIsActive(!isActive);
-    setShow(false);
+    closeLoginModal();
     setActiveIndex(0);
   };
   const toggleLogin = () => {
@@ -338,14 +342,12 @@ export default function Navbar() {
               <div>
                 {!user ? (
                   <>
-                    <button className="btn login" onClick={() => setShow(true)}>
+                    <button className="btn login" onClick={() => openLoginModal()}>
                       Log In
                     </button>
                     <button
                       className="btn register"
-                      onClick={() => {
-                        setShow(true)
-                      }}
+                      onClick={() => openLoginModal()}
                     >
                       sign up
                     </button>
@@ -938,7 +940,7 @@ export default function Navbar() {
         aria-labelledby="contained-modal-title-vcenter"
         centered
         className="login_signin_modal"
-        show={show}
+        show={loginModal}
         onHide={onHide}
       >
         <Modal.Body className="d-flex justify-content-center flex-column items-center">
