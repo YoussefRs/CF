@@ -16,7 +16,7 @@ async function httpRegisterUser(req, res) {
 
     // Check if user with the same name or email exists
     const [existingUser] = await connection.query(
-      "SELECT * FROM users WHERE name = ? OR email = ?",
+      "SELECT * FROM users WHERE username = ? OR email = ?",
       [req.body.name, req.body.email]
     );
 
@@ -29,7 +29,7 @@ async function httpRegisterUser(req, res) {
 
     // Insert new user into the database
     const [result] = await connection.query(
-      "INSERT INTO users (name, phone, email, password, image, role) VALUES (?, ?, ?, ?, ?, ?)",
+      "INSERT INTO users (username, phone, email, password, image, role) VALUES (?, ?, ?, ?, ?, ?)",
       [
         req.body.name,
         req.body.phone,

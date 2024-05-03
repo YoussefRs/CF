@@ -101,8 +101,8 @@ export const getUserBookings = () => async (dispatch) => {
 
 export const adminAcceptOrder = (orderId) => async (dispatch) => {
   try {
-    const response = await axios.post(
-      `${BASE_URL}/user/order/accept/${orderId}`,
+    const response = await axios.put(
+      `${BASE_URL}/reservations/${orderId}/approve`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -114,6 +114,23 @@ export const adminAcceptOrder = (orderId) => async (dispatch) => {
     console.log(error);
   }
 };
+
+export const adminRejectOrder = (orderId) => async (dispatch) => {
+  try {
+    const response = await axios.put(
+      `${BASE_URL}/reservations/${orderId}/decline`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    console.log(response);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 
 export const getOneBooking = (id) => async (dispatch) => {
   try {

@@ -27,13 +27,13 @@ export default function Checkout() {
       </header>
 
       <main>
-        <section class="checkout-form">
+        <section className="checkout-form">
           <form action="#!" method="get">
             <h6>Contact information</h6>
-            <div class="form-control">
+            <div className="form-control">
               <label for="checkout-email">E-mail</label>
               <div>
-                <span class="fa fa-envelope">
+                <span className="fa fa-envelope">
                   <svg
                     width="16"
                     height="16"
@@ -80,10 +80,10 @@ export default function Checkout() {
                 />
               </div>
             </div>
-            <div class="form-control">
+            <div className="form-control">
               <label for="checkout-phone">Phone</label>
               <div>
-                <span class="fa fa-phone"></span>
+                <span className="fa fa-phone"></span>
                 <input
                   type="tel"
                   name="checkout-phone"
@@ -189,10 +189,10 @@ export default function Checkout() {
                 overflow: "hidden",
               }}
             >
-              <div class="form-control">
+              <div className="form-control">
                 <label for="checkout-address">Card Number</label>
                 <div>
-                  <span class="fa fa-home"></span>
+                  <span className="fa fa-home"></span>
                   <input
                     type="text"
                     name="checkout-address"
@@ -202,11 +202,11 @@ export default function Checkout() {
                 </div>
               </div>
 
-              <div class="form-group">
-                <div class="form-control">
+              <div className="form-group">
+                <div className="form-control">
                   <label for="checkout-country">Expiry Date</label>
                   <div>
-                    <span class="fa fa-globe"></span>
+                    <span className="fa fa-globe"></span>
                     <input
                       type="date"
                       name="expiryDate"
@@ -215,10 +215,10 @@ export default function Checkout() {
                     />
                   </div>
                 </div>
-                <div class="form-control">
+                <div className="form-control">
                   <label for="checkout-postal">CVV</label>
                   <div>
-                    <span class="fa fa-archive"></span>
+                    <span className="fa fa-archive"></span>
                     <input
                       type="numeric"
                       name="checkout-postal"
@@ -229,27 +229,27 @@ export default function Checkout() {
                 </div>
               </div>
             </div>
-            <div class="form-control-btn">
+            <div className="form-control-btn">
               <button>Continue</button>
             </div>
           </form>
         </section>
 
-        <section class="checkout-details">
-          <div class="checkout-details-inner">
-            <div class="checkout-lists">
-              <div class="_card">
-                <div class="card-image">
+        <section className="checkout-details">
+          <div className="checkout-details-inner">
+            <div className="checkout-lists">
+              <div className="_card">
+                <div className="card-image">
                   <img
                     src={bookingData?.appartment?.pictures[0]}
                     alt="apartment picture"
                   />
                 </div>
-                <div class="card-details">
-                  <div class="card-name">
+                <div className="card-details">
+                  <div className="card-name">
                     {bookingData?.appartment?.apartmentName}{" "}
                   </div>
-                  <div class="_card-price row">
+                  <div className="_card-price row">
                     <span className="col-1">
                       <svg
                         width="15"
@@ -307,13 +307,13 @@ export default function Checkout() {
                       {bookingData.startDate} To {bookingData.endDate}{" "}
                     </span>
                   </div>
-                  <div class="_card-price row">
+                  <div className="_card-price row">
                     <span className="col-1"></span>
                     <span className="col">
                       Nights: {bookingData?.nightsCount}{" "}
                     </span>
                   </div>
-                  <div class="_card-price row">
+                  <div className="_card-price row">
                     <span className="col-1"></span>
                     <span className="col">
                       {bookingData?.services?.includes("Food") && (
@@ -367,7 +367,7 @@ export default function Checkout() {
                     </span>
                   </div>
                   
-                  <div class="_card-price row">
+                  <div className="_card-price row">
                     <span className="col-1"></span>
                     <span className="col">
                       {bookingData?.services?.includes("Parking") && (
@@ -392,14 +392,14 @@ export default function Checkout() {
                 </div>
               </div>
             </div>
-            <div class="checkout-shipping">
+            <div className="checkout-shipping">
               <h6>Night Fees</h6>
               <div className="d-flex flex-column">
                 <p>{bookingData?.nightsCount * 200} € </p>
                 <p>{bookingData?.nightsCount} * 200€</p>
               </div>
             </div>
-            <div class="checkout-shipping">
+            <div className="checkout-shipping">
               <h6>Services Fees</h6>
               <div className="d-flex flex-column">
                 <p>test</p>
@@ -522,7 +522,7 @@ export default function Checkout() {
                 </p>
               </div>
             </div>
-            <div class="checkout-total">
+            <div className="checkout-total">
               <h6>Total</h6>
               <p>{bookingData?.totalPrice} € </p>
             </div>

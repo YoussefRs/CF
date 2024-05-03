@@ -8,7 +8,7 @@
 
 @media (min-width: 992px) and (max-width: 1400px) {
   .searchwrapper:not(.searchwrapper_modal) {
-    width: 65%;
+    width: 95%;
   }
 }
 
@@ -20,6 +20,7 @@
 
 .searchbox {
   background-color: #fff;
+  margin-top: 3rem;
 
   @media (min-width: 576px) {
     padding: 0px 0px 0px 40px;

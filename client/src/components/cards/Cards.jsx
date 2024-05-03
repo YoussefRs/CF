@@ -83,7 +83,7 @@ export default function Cards({ card }) {
             <>
               <input
                 type="checkbox"
-                class="checkbox"
+                className="checkbox"
                 id={`checkbox-${card.id}`}
               />
               {/* <label htmlFor={`checkbox-${card.id}`} onClick={handleClick}>

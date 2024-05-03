@@ -3,6 +3,7 @@ import "./BookingContent.css";
 import { useDispatch, useSelector } from "react-redux";
 import {
   adminAcceptOrder,
+  adminRejectOrder,
   getAllBookings,
 } from "../../../../redux/BookingSlice";
 
@@ -14,12 +15,24 @@ export default function BookingsContent() {
   );
   useEffect(() => {
     dispatch(getAllBookings());
-  }, []);
+  }, [dispatch]);
 
   const AcceptOrder = async (orderId) => {
     console.log(orderId);
     dispatch(adminAcceptOrder(orderId));
   };
+  const DeclineOrder = async (orderId) => {
+    console.log(orderId);
+    dispatch(adminRejectOrder(orderId));
+  };
+
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    const day = date.getDate().toString().padStart(2, '0'); // Get day and pad with leading zero if necessary
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Get month (+1 because months are zero-based) and pad with leading zero if necessary
+    const year = date.getFullYear(); // Get full year
+    return `${day}.${month}.${year}`;
+  }
 
   return (
     <>
@@ -38,7 +51,7 @@ export default function BookingsContent() {
                   width="16"
                   height="16"
                   fill="#fff"
-                  class="bi fa-search"
+                  className="bi fa-search"
                   viewBox="0 0 16 16"
                 >
                   <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
@@ -49,7 +62,7 @@ export default function BookingsContent() {
             {/* <div className="col-lg-4  booking_inputs enchilada">
               <input type="date" className="date enchilada"/>
             </div> */}
-            <div class="booking_inputs col-lg-4 col-md-4">
+            <div className="booking_inputs col-lg-4 col-md-4">
               <input type="date" id="input_date" />
             </div>
           </div>
@@ -61,6 +74,7 @@ export default function BookingsContent() {
             <thead className="table__header">
               <tr>
                 <td>apartements</td>
+                <td>username</td>
                 <td>check in</td>
                 <td>check out</td>
                 <td>total price</td>
@@ -68,61 +82,7 @@ export default function BookingsContent() {
               </tr>
             </thead>
             <tbody className="table__body">
-              {/* <tr>
-                <td>
-                  <svg
-                    width="40"
-                    height="40"
-                    viewBox="0 0 40 40"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    style={{ paddingRight: 10 }}
-                  >
-                    <rect
-                      width="40"
-                      height="40"
-                      rx="12.1951"
-                      fill="white"
-                      fillOpacity="0.08"
-                    />
-                    <g clipPath="url(#clip0_0_1)">
-                      <path
-                        d="M10.6665 10.6667V12.5334H11.5998V29.3334H18.1331V25.6H21.8665V29.3334H28.3998V12.5334H29.3331V10.6667H10.6665ZM16.2665 23.7334H14.3998V21.8667H16.2665V23.7334ZM16.2665 20H14.3998V18.1333H16.2665V20ZM16.2665 16.2667H14.3998V14.4H16.2665V16.2667ZM20.9332 23.7334H19.0665V21.8667H20.9332V23.7334ZM20.9332 20H19.0665V18.1333H20.9332V20ZM20.9332 16.2667H19.0665V14.4H20.9332V16.2667ZM25.5998 23.7334H23.7331V21.8667H25.5998V23.7334ZM25.5998 20H23.7331V18.1333H25.5998V20ZM25.5998 16.2667H23.7331V14.4H25.5998V16.2667Z"
-                        fill="url(#paint0_linear_0_1)"
-                      />
-                    </g>
-                    <defs>
-                      <linearGradient
-                        id="paint0_linear_0_1"
-                        x1="13.3332"
-                        y1="9.7778"
-                        x2="31.9998"
-                        y2="30.2222"
-                        gradientUnits="userSpaceOnUse"
-                      >
-                        <stop stopColor="#0563A6" />
-                        <stop offset="1" stopColor="#6ABCF7" />
-                      </linearGradient>
-                      <clipPath id="clip0_0_1">
-                        <rect
-                          width="18.6667"
-                          height="18.6667"
-                          fill="white"
-                          transform="translate(10.6665 10.6667)"
-                        />
-                      </clipPath>
-                    </defs>
-                  </svg>
-                  0045
-                </td>
-                <td>Doggo Dogg</td>
-                <td>Shiba Inu</td>
-                <td>20 June 2019</td>
-                <td className="d-flex gap-2">
-                  <div className="close-btn"></div>
-                  <div className="checkmark-btn"></div>
-                </td>
-              </tr> */}
+          
               {filteredBooking?.map((booking, i) => (
                 <tr key={i}>
                   <td className="py-1 px-3 d-flex align-items-center gap-2">
@@ -138,7 +98,12 @@ export default function BookingsContent() {
                       </svg>
                     </div>
                     <span className="icon_box_span">
-                      {booking?.appartment?.name}
+                      {booking?.name}
+                    </span>
+                  </td>
+                  <td className="py-1 px-3">
+                    <span className="icon_box_span">
+                      {booking?.username}
                     </span>
                   </td>
                   {/* <td className="row d-flex gap-2">
@@ -157,11 +122,11 @@ export default function BookingsContent() {
                       <span>{booking?.appartment?.apartmentName}</span>
                     </div>
                   </td> */}
-                  <td>{booking?.startDate}</td>
-                  <td>{booking?.endDate}</td>
+                  <td>{formatDate(booking?.startDate)}</td>
+                  <td>{formatDate(booking?.endDate)}</td>
                   <td>{booking?.totalPrice} €</td>
                   <td className="d-flex gap-2">
-                    <div className="close-btn"></div>
+                    <div className="close-btn" onClick={() =>DeclineOrder(booking.id)}></div>
                     <div
                       className="checkmark-btn"
                       onClick={() => AcceptOrder(booking.id)}

@@ -146,17 +146,17 @@ export default function Home() {
           </div>
         </div> */}
 
-        <section class="landingpage" id="home">
-          <div class="container d-flex align-items-center">
-            <div class="lp-alignment">
+        <section className="landingpage" id="home">
+          <div className="container d-flex align-items-center justify-content-center">
+            <div className="lp-alignment">
               <img
                 src={Logo}
                 style={{ maxWidth: 250 }}
                 srcSet={`${Logo} 1x, ${Logo} 2x, ${Logo} 3x`}
                 alt="Logo"
               />
-              <h1 class="_title_">Town Lofts</h1>
-              <span class="_title_small_">
+              <h1 className="_title_">Town Lofts</h1>
+              <span className="_title_small_">
                 am <span className="special_span">borussia park</span>
               </span>
               <div className="">

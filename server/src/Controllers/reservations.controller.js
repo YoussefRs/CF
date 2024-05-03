@@ -60,9 +60,21 @@ async function createReservation(req, res) {
 async function getAllReservations(req, res) {
   const db = await startScript();
   try {
-    // Execute SQL query to retrieve all reservations
-    const [reservations] = await db.query("SELECT * FROM reservations");
-    // Respond with the retrieved reservations
+    // Execute SQL query to retrieve all reservations with apartment and user details
+    const [reservations] = await db.query(`
+      SELECT 
+        r.*, 
+        a.*, 
+        u.*
+      FROM 
+        reservations r
+      INNER JOIN 
+        apartment a ON r.apartmentId = a.id
+      INNER JOIN 
+        users u ON r.userId = u.id
+    `);
+
+    // Respond with the retrieved reservations along with apartment and user details
     res.status(200).json(reservations);
   } catch (error) {
     console.error("Error fetching reservations:", error);
@@ -96,6 +108,7 @@ async function approveReservation(req, res) {
 
   try {
     const reservationId = req.params.id;
+    console.log(reservationId)
     // Execute SQL query to update the reservation status to approved
     await db.query('UPDATE Reservations SET status = "approved" WHERE id = ?', [
       reservationId,
@@ -103,9 +116,9 @@ async function approveReservation(req, res) {
 
     const [reservation] = await db.query(
       `
-        SELECT Reservations.*, Apartments.* 
+        SELECT Reservations.*, Apartment.* 
         FROM Reservations 
-        INNER JOIN Apartments ON Reservations.apartmentId = Apartments.id 
+        INNER JOIN Apartment ON Reservations.apartmentId = Apartment.id 
         WHERE Reservations.id = ?`,
       [reservationId]
     );
@@ -148,9 +161,9 @@ async function declineReservation(req, res) {
 
     const [reservation] = await db.query(
       `
-    SELECT Reservations.*, Apartments.* 
+    SELECT Reservations.*, Apartment.* 
     FROM Reservations 
-    INNER JOIN Apartments ON Reservations.apartmentId = Apartments.id 
+    INNER JOIN Apartment ON Reservations.apartmentId = Apartment.id 
     WHERE Reservations.id = ?`,
       [reservationId]
     );
