@@ -42,15 +42,15 @@ CREATE TABLE IF NOT EXISTS Image (
 CREATE TABLE IF NOT EXISTS Reservations (
     id INT AUTO_INCREMENT PRIMARY KEY,
     userId INT NOT NULL,
-    apartmentId INT NOT NULL,
     userEmail VARCHAR(255) NOT NULL,
+    apartmentId INT NOT NULL,
     startDate DATE NOT NULL,
     endDate DATE NOT NULL,
-    price DECIMAL(10, 2) NOT NULL,
-    servicesFee DECIMAL(10, 2) NOT NULL,
-    totalPrice DECIMAL(10, 2) NOT NULL,
-    status VARCHAR(50) DEFAULT 'Pending',
+    status ENUM('Pending', 'Approved', 'Declined') DEFAULT 'Pending',
+    isPaid TINYINT(1) NOT NULL DEFAULT 0,
+    price DECIMAL(10, 2) NOT NULL DEFAULT '0.00', -- Price in decimal format with 2 decimal places
+    FOREIGN KEY (userId) REFERENCES Users(id) ON DELETE CASCADE,
+    FOREIGN KEY (apartmentId) REFERENCES Apartment(id) ON DELETE CASCADE,
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (userId) REFERENCES users(id),
-    FOREIGN KEY (apartmentId) REFERENCES Apartment(id)
+    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );

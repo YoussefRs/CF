@@ -18,7 +18,7 @@ import LoginRegister from "../../components/modals/LoginRegister";
 import { createNewBooking } from "../../redux/BookingSlice";
 
 export default function Details() {
-  const user = useSelector((state) => state.auth.user.user);
+  const user = useSelector((state) => state.auth.user?.user);
   const dispatch = useDispatch();
   const location = useLocation();
   const {

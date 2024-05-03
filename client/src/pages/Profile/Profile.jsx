@@ -74,7 +74,7 @@ export default function Profile() {
                       change
                     </button>
                     <br />
-                    <h3>Hello, Mr {user?.user?.name} </h3>
+                    <h3>Hello, {user?.user?.username} </h3>
                   </div>
                 </div>
               </div>
@@ -216,7 +216,7 @@ export default function Profile() {
                                     type="text"
                                     name="text"
                                     className="form-control profile_input"
-                                    value={user?.user?.name}
+                                    value={user?.user?.username}
                                     required
                                     style={{ pointerEvents: "none" }}
                                   />
