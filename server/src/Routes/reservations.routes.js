@@ -11,15 +11,15 @@ const {
   confirmPayment,
 
 } = require("../Controllers/reservations.controller");
-const { startScript } = require("../../config/db");
+const { verifyAdmin, verifyToken } = require("../Middlewares/authorization_handler");
 
 const reservationRouter = express.Router();
 
 reservationRouter.route("/").get(getAllReservations);
-reservationRouter.route("/add").post(createReservation);
+reservationRouter.route("/add").post(verifyToken ,createReservation);
 reservationRouter.route("/:id").get(getReservation);
-reservationRouter.route("/:id/approve").put(approveReservation);
-reservationRouter.route("/:id/decline").put(declineReservation);
+reservationRouter.route("/:id/approve").put(verifyAdmin, approveReservation);
+reservationRouter.route("/:id/decline").put(verifyAdmin, declineReservation);
 reservationRouter.post(
   "/generate-paypal-checkout/:reservationId",
   generatePayPalCheckoutUrl
