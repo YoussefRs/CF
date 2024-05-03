@@ -35,7 +35,7 @@ async function httpRegisterUser(req, res) {
         req.body.phone,
         req.body.email,
         hashedPassword,
-        req.file ? req.file.path : null,
+        req.body.img,
         "user",
       ]
     );

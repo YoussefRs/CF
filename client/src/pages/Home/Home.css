@@ -4,6 +4,7 @@
   position: relative;
   overflow-x: hidden;
   z-index: 0;
+  background-color: #0D0D0D;
 }
 
 /* landing page */
@@ -18,7 +19,7 @@
   display: flex;
   justify-content: center;
   padding-top: 103px;
-  padding-bottom: 1rem;
+  /* padding-bottom: 1rem; */
 }
 
 ._title_ {
@@ -91,10 +92,12 @@
 }
 
 .cards_layer {
-  background-image: linear-gradient(180deg,
-      #0d0d0d 100%,
-      rgba(13, 13, 13, 0.72) 30%,
-      rgba(255, 255, 255, 0.6) 100%);
+  background-image: linear-gradient(
+    180deg,
+    #0d0d0d 100%,
+    rgba(13, 13, 13, 0.72) 30%,
+    rgba(255, 255, 255, 0.6) 100%
+  );
   position: absolute;
   top: 0;
   left: 0;
@@ -280,8 +283,10 @@
   height: 92px;
   border-radius: 50px;
   box-shadow: 0px 16px 31.9px 0px rgba(17, 115, 206, 0.15);
-  background: var(--Linear,
-      linear-gradient(315deg, #07d25f 20.24%, #028139 80.97%));
+  background: var(
+    --Linear,
+    linear-gradient(315deg, #07d25f 20.24%, #028139 80.97%)
+  );
   z-index: 3;
   padding: 10px;
   /* position: absolute; */
@@ -318,7 +323,6 @@
 }
 
 .card_ctr {
-
   /* width: 1440px; */
   /* height: 500px; */
   @media (min-width: 1920px) {
@@ -430,7 +434,8 @@
   border-bottom-right-radius: 80px;
   z-index: 3;
   background: linear-gradient(360deg, #028139 0%, rgba(16, 24, 42, 0) 30%),
-  url("../../assets/homepage_mats/stylish-scandinavian-living-room-with-design-mint-sofa-furnitures-mock-up-poster-map-plants-eleg.png") 50%;
+    url("../../assets/homepage_mats/stylish-scandinavian-living-room-with-design-mint-sofa-furnitures-mock-up-poster-map-plants-eleg.png")
+      50%;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -557,7 +562,7 @@
   text-transform: capitalize;
 }
 
-.search_title>h1>span {
+.search_title > h1 > span {
   color: #dec25f;
   font-family: "Helvetica Neue", sans-serif;
   /* font-size: clamp(1.5rem, 4vw, 5.625rem); */
@@ -581,15 +586,15 @@
   }
 
   @media (min-width: 768px) and (max-width: 1200px) {
-    font-size: clamp(10px, .8vw, 1.5rem);
+    font-size: clamp(10px, 0.8vw, 1.5rem);
   }
 
   @media (min-width: 576px) and (max-width: 768px) {
-    font-size: clamp(12px, .9vw, 1.5rem);
+    font-size: clamp(12px, 0.9vw, 1.5rem);
   }
 
   @media (max-width: 576px) {
-    font-size: clamp(10px, .9vw, 1.5rem);
+    font-size: clamp(10px, 0.9vw, 1.5rem);
   }
 
   font-style: normal;
@@ -651,7 +656,7 @@
 ._box p {
   color: #252f44;
   font-family: "Helvetica Neue", sans-serif;
-  font-size: clamp(10px, 0.9vw, 15px);
+  font-size: clamp(10px, 0.9vw, 25px);
   font-style: normal;
   font-weight: 700;
   line-height: 25px;
@@ -666,7 +671,7 @@
     height: 60%;
   }
 
-  @media (min-width:480px) and (max-width: 768px) {
+  @media (min-width: 480px) and (max-width: 768px) {
     @media (min-height: 1050px) {
       margin-top: 8rem;
     }
@@ -710,7 +715,7 @@
     height: 60%;
   }
 
-  @media (max-width:480px) {
+  @media (max-width: 480px) {
     margin-top: 8rem;
     height: 65%;
 
@@ -778,8 +783,8 @@
   position: relative;
   align-items: center;
   padding: 20px;
-  background: url("../../assets/homepage_mats/map-3.png"), #028139;
-  background-position: left;
+  background: url("../../assets/homepage_mats/testi_bg.png");
+  background-position: right;
   background-repeat: no-repeat;
   background-size: cover;
   mix-blend-mode: soft-light;
@@ -886,8 +891,10 @@
   height: 80px;
   width: 80px;
   justify-self: self-end;
-  background: var(--Linear,
-      linear-gradient(315deg, #07d25f 20.24%, #028139 80.97%));
+  background: var(
+    --Linear,
+    linear-gradient(315deg, #07d25f 20.24%, #028139 80.97%)
+  );
   box-shadow: 24px 14px 46.8px 0px rgba(0, 0, 0, 0.2);
 }
 
@@ -989,8 +996,10 @@
   /* top: 0%; */
   /* z-index: 99999999; */
   border-radius: 0px 100px;
-  background: var(--Linear,
-      linear-gradient(315deg, #07d25f 20.24%, #028139 80.97%));
+  background: var(
+    --Linear,
+    linear-gradient(315deg, #07d25f 20.24%, #028139 80.97%)
+  );
   box-shadow: 35px 63px 46.8px 0px rgba(0, 0, 0, 0.8);
   display: flex;
   align-items: center;
@@ -1172,7 +1181,7 @@
     gap: 1rem;
   }
 
-  ._home_text>span>svg {
+  ._home_text > span > svg {
     width: 300px;
   }
 

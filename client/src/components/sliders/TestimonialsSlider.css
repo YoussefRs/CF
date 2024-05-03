@@ -27,7 +27,7 @@
 
 .swiper-slide {
   position: relative;
-  opacity: 0.5;
+  /* opacity: 0.5; */
   transform: scale(0.84);
   transition: all 0.3s ease-in-out;
   border-radius: 0.4285rem;

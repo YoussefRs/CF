@@ -178,7 +178,7 @@ async function httpEditApartment(req, res) {
 }
 
 async function httpDeleteApartment(req, res) {
-  const db = await createConnectionWithoutDatabase();
+  const db = await startScript();
   try {
     const apartmentId = req.params.id;
 
