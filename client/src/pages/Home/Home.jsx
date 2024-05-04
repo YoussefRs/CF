@@ -19,7 +19,9 @@ import { useSelector } from "react-redux";
 import MultiFunc from "../../components/multi/MultiFunc";
 
 export default function Home() {
-  const apartmentList = useSelector((state) => state.apartments.apartments.apartments);
+  const apartmentList = useSelector(
+    (state) => state.apartments.apartments.apartments
+  );
   const user = useSelector((state) => state.auth.user);
 
   return (
@@ -96,7 +98,7 @@ export default function Home() {
                   </p>
                 </div>
                 <div className="search_boxes">
-                  <div className="_box">
+                  <div className="_box" title="Searching for houses">
                     {/* <svg
                       viewBox="0 0 47 51"
                       fill="transparent"
@@ -189,7 +191,7 @@ export default function Home() {
 
                     <p>Searching for houses</p>
                   </div>
-                  <div className="_box">
+                  <div className="_box" title="Create you profile">
                     {/* <svg
                       viewBox="0 0 50 46"
                       fill="none"
@@ -351,7 +353,7 @@ export default function Home() {
                     </div>
                     <p>Create you profile</p>
                   </div>
-                  <div className="_box">
+                  <div className="_box" title="Deal and pay">
                     {/* <svg
                       viewBox="0 0 54 41"
                       fill="none"

@@ -160,6 +160,17 @@
   }
 }
 
+.small-screens-brand {
+  /* width: max-content; */
+  & img:first-of-type {
+    aspect-ratio: 4/1;
+  }
+  & img:last-of-type {
+    /* aspect-ratio: 6/3; */
+    height: 50px;
+  }
+}
+
 /* MODAL CSS*/
 .login_signin_modal .modal-body,
 .login_signin_modal .modal-content {
