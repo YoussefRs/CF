@@ -388,8 +388,8 @@
 
   /* width: 1440px; */
   /* height: 500px; */
-  @media (min-width: 1920px) {
-    width: 65%;
+  /* @media (min-width: 1920px) {
+    width: 75%;
   }
 
   @media (min-width: 1400px) and (max-width: 1919px) {
@@ -424,7 +424,9 @@
   @media (max-width: 424px) {
     width: 95%;
     padding: 0 !important;
-  }
+  } */
+
+  width: 100%;
 
   display: flex;
   flex-wrap: wrap;
@@ -1326,9 +1328,9 @@
     text-transform: lowercase;
   }
 
-  .card_ctr {
+  /* .card_ctr {
     padding: 0 5vw;
-  }
+  } */
 
   .floating_boxes {
     height: 60%;
