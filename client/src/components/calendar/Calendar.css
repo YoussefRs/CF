@@ -3,9 +3,11 @@
   border-radius: 30px;
   border: 1px solid #dedede;
 }
+
 ._details_calendar .rmdp-top-class {
   justify-content: center;
 }
+
 ._details_calendar .rmdp-arrow-container {
   width: 30px;
   height: 30px;
@@ -24,6 +26,7 @@
   padding: 2px;
   width: 3px;
 }
+
 ._details_calendar .rmdp-header-values {
   color: #2d3136;
   text-align: center;
@@ -31,9 +34,11 @@
   font-size: 18;
   font-style: normal;
   font-weight: 700;
-  line-height: 40.419px; /* 150.75% */
+  line-height: 40.419px;
+  /* 150.75% */
   text-transform: capitalize;
 }
+
 ._details_calendar .rmdp-week-day {
   color: #9f9f9f;
   text-align: center;
@@ -41,9 +46,11 @@
   font-size: 12px;
   font-style: normal;
   font-weight: 500;
-  line-height: 40.419px; /* 247.661% */
+  line-height: 40.419px;
+  /* 247.661% */
   text-transform: capitalize;
 }
+
 ._details_calendar .sd {
   color: #2d3136;
   text-align: center;
@@ -51,42 +58,48 @@
   font-size: 12px;
   font-style: normal;
   font-weight: 600;
-  line-height: 40.419px; /* 192.626% */
+  line-height: 40.419px;
+  /* 192.626% */
   text-transform: capitalize;
 }
+
 ._details_calendar .rmdp-day.rmdp-selected span:not(.highlight) {
   border-radius: 69.944px;
-  background: var(
-    --Linear,
-    linear-gradient(315deg, #07d25f 20.24%, #028139 80.97%)
-  );
+  background: var(--Linear,
+      linear-gradient(315deg, #07d25f 20.24%, #028139 80.97%));
 }
+
 ._details_calendar .rmdp-day.rmdp-today span {
-     border-radius: 69.944px;
+  border-radius: 69.944px;
   border: 1px dashed #028139;
   background-color: transparent;
   color: black;
 }
+
 ._details_calendar .sd:hover {
-    background: var(
-    --Linear,
-    linear-gradient(315deg, #07d25f 20.24%, #028139 80.97%)
-  ) !important;
+  background: var(--Linear,
+      linear-gradient(315deg, #07d25f 20.24%, #028139 80.97%)) !important;
 }
+
 ._details_calendar .rmdp-range {
-   background: var(
-    --Linear,
-    linear-gradient(315deg, #07d25f 20.24%, #028139 80.97%)
-  ) !important;
+  background: var(--Linear,
+      linear-gradient(315deg, #07d25f 20.24%, #028139 80.97%)) !important;
+
+  & .sd {
+    color: #fff !important;
+  }
 }
+
 ._details_calendar.rmdp-shadow {
   box-shadow: none !important;
 }
+
 @media (max-width: 768px) {
   ._calendar_ctr {
     display: flex;
     justify-content: center;
   }
+
   ._details_calendar.rmdp-wrapper {
     width: 70% !important;
   }
