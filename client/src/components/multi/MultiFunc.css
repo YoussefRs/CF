@@ -210,23 +210,23 @@ footer p {
     }
 
     @media (min-width: 545px) and (max-width: 575px) {
-      width: 86%;
+      width: 88.5%;
     }
 
     @media (min-width: 500px) and (max-width: 544px) {
-      width: 84.5%;
+      width: 87.5%;
     }
 
-    @media (min-width: 450px) and (max-width: 499px) {
-      width: 82.5%;
+    @media (min-width: 481px) and (max-width: 499px) {
+      width: 85.5%;
     }
 
-    @media (min-width: 400px) and (max-width: 449px) {
-      width: 80%;
+    @media (min-width: 400px) and (max-width: 480px) {
+      width: 88.5%;
     }
 
     @media (max-width: 399px) {
-      width: 86.5%;
+      width: 85.5%;
     }
   }
 
