@@ -10,13 +10,16 @@ import InvoiceContent from "./DashComponents/InvoiceContent/InvoiceContent";
 import HelpContent from "./DashComponents/HelpContent/HelpContent";
 import { useModal } from "../../hooks/useModal";
 import { useNavigate, Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function Dashboard() {
+  const user = useSelector((state) => state?.auth?.user?.user);
   const navigate = useNavigate();
   const [isNavClosed, setIsNavClosed] = useState(true);
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const { showModal, openModal, closeModal } = useModal();
+  const [menuActive, setMenuActive] = useState(false);
 
   const handleClick = (index) => {
     setActiveIndex(index);
@@ -37,6 +40,12 @@ function Dashboard() {
     openModal();
   };
 
+  const toggleDropMenu = () => {
+    setMenuActive(!menuActive);
+  };
+  const logout = () => {
+    localStorage.removeItem("user");
+  };
   // useEffect(() => {
   //   const handleResize = () => {
   //     if (window.innerWidth > 991) {
@@ -443,6 +452,9 @@ function Dashboard() {
                   </defs>
                 </svg>
               </div>
+              <>
+               
+              </>
             </div>
           </div>
         </div>

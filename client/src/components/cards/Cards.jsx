@@ -95,7 +95,7 @@ export default function Cards({ card }) {
                   <g
                     id="Group"
                     fill="none"
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                     transform="translate(467 392)"
                   >
                     <path

@@ -17,7 +17,7 @@ export function handleSignUpClick() {
   container.classList.add("right-panel-active");
 }
 
-export default function LoginRegister({ setShow }) {
+export default function LoginRegister({ closeLoginModal }) {
   const navigate = useNavigate();
   const { user, isLoading, isAuthenticated } = useSelector(
     (state) => state.auth
@@ -47,7 +47,7 @@ export default function LoginRegister({ setShow }) {
         // Show loading for two seconds before hiding the form
         setTimeout(() => {
           setIsLoading(false);
-          setShow(false);
+          closeLoginModal();
         }, 2000); // 2000 milliseconds = 2 seconds
       });
   };
@@ -77,7 +77,7 @@ export default function LoginRegister({ setShow }) {
     } finally {
       setTimeout(() => {
         setIsLoading(false);
-        setShow(false);
+        closeLoginModal();
       }, 2000);
     }
   };

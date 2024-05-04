@@ -88,55 +88,78 @@ const useAppartementsForm = () => {
     setFormData({ ...formData, [type]: updatedValue });
   };
 
-  const handleImageChange = async (event) => {
-    const selectedImages = event.target.files;
-    const uploadedImages = [];
+  // const handleImageChange = async (event, setSubmitEnabled) => {
+  //   const selectedImages = event.target.files;
+  //   const uploadedImages = [];
 
-    for (let i = 0; i < selectedImages.length; i++) {
-      const file = selectedImages[i];
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("upload_preset", "cityflat");
+  //   for (let i = 0; i < selectedImages.length; i++) {
+  //     const file = selectedImages[i];
+  //     const formData = new FormData();
+  //     formData.append("file", file);
+  //     formData.append("upload_preset", "cityflat");
 
-      try {
-        const response = await axios.post(
-          "https://api.cloudinary.com/v1_1/dlspkc0so/image/upload",
-          formData
-        );
+  //     try {
+  //       const response = await axios.post(
+  //         "https://api.cloudinary.com/v1_1/dlspkc0so/image/upload",
+  //         formData
+  //       );
 
-        if (!response) {
-          throw new Error(`Failed to upload image: ${response.statusText}`);
-        }
+  //       if (!response) {
+  //         throw new Error(`Failed to upload image: ${response.statusText}`);
+  //       }
 
-        uploadedImages.push(response.data.secure_url);
-      } catch (error) {
-        console.error("Error uploading image:", error);
-      }
-    }
+  //       uploadedImages.push(response.data.secure_url);
+  //       // setSubmitEnabled(true);
+  //     } catch (error) {
+  //       console.error("Error uploading image:", error);
+  //     }
+  //   }
 
-    const newPictures = uploadedImages.slice(0, 4);
-    const moreImages = uploadedImages.slice(4);
+  //   const newPictures = uploadedImages.slice(0, 4);
+  //   const moreImages = uploadedImages.slice(4);
 
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      pictures: [...prevFormData.pictures, ...newPictures],
-      more: [...prevFormData.more, ...moreImages],
-    }));
-  };
+  //   setFormData((prevFormData) => ({
+  //     ...prevFormData,
+  //     pictures: [...prevFormData.pictures, ...newPictures],
+  //     more: [...prevFormData.more, ...moreImages],
+  //   }));
+  // };
 
-  const handleRemoveImage = (id) => {
-    const updatedPictures = formData.pictures.filter(
-      (image) => image.id !== id
-    );
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      pictures: updatedPictures,
-    }));
-  };
+  // const handleRemoveImage = (id) => {
+  //   const updatedPictures = formData.pictures.filter(
+  //     (image) => image.id !== id
+  //   );
+  //   setFormData((prevFormData) => ({
+  //     ...prevFormData,
+  //     pictures: updatedPictures,
+  //   }));
+  // };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
     try {
+      // Upload images to Cloudinary
+      const uploadedImages = await Promise.all(
+        formData.pictures.map(async (image) => {
+          const formData = new FormData();
+          formData.append("file", image);
+          formData.append("upload_preset", "cityflat");
+
+          const response = await axios.post(
+            "https://api.cloudinary.com/v1_1/dlspkc0so/image/upload",
+            formData
+          );
+
+          if (!response.data.secure_url) {
+            throw new Error("Failed to upload image");
+          }
+
+          return response.data.secure_url;
+        })
+      );
+
+      // Submit form data with uploaded image URLs
       await axios.post(`${BASE_URL}/appartments/addapartment`, {
         apartmentName: formData.apartmentName,
         location: formData.location,
@@ -146,7 +169,7 @@ const useAppartementsForm = () => {
         rent: formData.rent,
         food: formData.food,
         laundry: formData.laundry,
-        pictures: formData.pictures,
+        pictures: uploadedImages, // Use uploaded image URLs
         defaultSpecialDate: {
           price: formData.defaultSpecialDate.price,
           startDate: formData.defaultSpecialDate.startDate,
@@ -155,10 +178,11 @@ const useAppartementsForm = () => {
         specialDates: formData.specialDates,
         description: formData.description,
       });
+
       setFormData(initialFormData);
       closeModal();
     } catch (error) {
-      console.log(error);
+      console.error("Error uploading images or submitting form:", error);
     }
   };
 
@@ -266,17 +290,71 @@ const useAppartementsForm = () => {
     }));
   };
 
-   const handleEditSubmit = async (e, id) => {
-     e.preventDefault();
-     try {
-       await axios.put(`${BASE_URL}/appartments/edit/${id}`, editApartment);
-       dispatch(getAllApartments());
-       closeEditModal();
-     } catch (error) {
-       console.log(error);
-       }
-     console.log(editApartment)
-   };
+const handleEditSubmit = async (e, id) => {
+  e.preventDefault();
+
+  try {
+    // Upload new images to Cloudinary
+    const uploadedImages = await Promise.all(
+      editApartment.images.map(async (image) => {
+        const formData = new FormData();
+        formData.append("file", image.file);
+        formData.append("upload_preset", "cityflat");
+
+        const response = await axios.post(
+          "https://api.cloudinary.com/v1_1/dlspkc0so/image/upload",
+          formData
+        );
+
+        if (!response.data.secure_url) {
+          throw new Error("Failed to upload image");
+        }
+
+        return response.data.secure_url;
+      })
+    );
+
+    // Update the editApartment state with the uploaded image URLs
+    const updatedImages = editApartment.images.map((image, index) => ({
+      ...image,
+      image_url: uploadedImages[index],
+    }));
+
+    setEditApartment((prevEditApartment) => ({
+      ...prevEditApartment,
+      images: updatedImages,
+    }));
+
+    // Submit form data with uploaded image URLs
+    await axios.put(`${BASE_URL}/appartments/${id}`, {
+      name: editApartment.name,
+      location: editApartment.location,
+      bedroom: editApartment.bedroom,
+      bathroom: editApartment.bathroom,
+      parking: editApartment.parking,
+      rent: editApartment.rent,
+      food: editApartment.food,
+      laundry: editApartment.laundry,
+      pictures: uploadedImages, // Use uploaded image URLs
+      default_special_date: {
+        price: editApartment.default_special_date.price,
+        startDate: editApartment.default_special_date.startDate,
+        endDate: editApartment.default_special_date.endDate,
+      },
+      specialDates: editApartment.specialDates,
+      description: editApartment.description,
+    });
+
+    dispatch(getAllApartments());
+    closeEditModal();
+  } catch (error) {
+    console.error("Error uploading images or submitting form:", error);
+  }
+};
+
+
+
+
 
   return {
     handleEditSubmit,
@@ -298,11 +376,10 @@ const useAppartementsForm = () => {
     editModal,
     handleSpecialDateInputChange,
     handleCounterChange,
-    handleImageChange,
     handleEditAddRow,
-    handleRemoveImage,
     handleSubmit,
     editApartment,
+    setEditApartment,
     handleEditInputChange,
     handleEditSpecialDateInputChange,
     deleteAppModal,

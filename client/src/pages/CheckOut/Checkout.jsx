@@ -31,7 +31,7 @@ export default function Checkout() {
           <form action="#!" method="get">
             <h6>Contact information</h6>
             <div className="form-control">
-              <label for="checkout-email">E-mail</label>
+              <label htmlFor="checkout-email">E-mail</label>
               <div>
                 <span className="fa fa-envelope">
                   <svg
@@ -41,7 +41,7 @@ export default function Checkout() {
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
                   >
-                    <g clip-path="url(#clip0_631_469)">
+                    <g clipPath="url(#clip0_631_469)">
                       <path
                         d="M8.00042 7.82505C6.2215 7.82505 4.77926 6.07337 4.77926 3.91255C4.77926 1.75168 5.25277 0 8.00042 0C10.7481 0 11.2217 1.75168 11.2217 3.91255C11.2217 6.07337 9.77944 7.82505 8.00042 7.82505Z"
                         fill="#BCBCBC"
@@ -81,7 +81,7 @@ export default function Checkout() {
               </div>
             </div>
             <div className="form-control">
-              <label for="checkout-phone">Phone</label>
+              <label htmlFor="checkout-phone">Phone</label>
               <div>
                 <span className="fa fa-phone"></span>
                 <input
@@ -190,7 +190,7 @@ export default function Checkout() {
               }}
             >
               <div className="form-control">
-                <label for="checkout-address">Card Number</label>
+                <label htmlFor="checkout-address">Card Number</label>
                 <div>
                   <span className="fa fa-home"></span>
                   <input
@@ -204,7 +204,7 @@ export default function Checkout() {
 
               <div className="form-group">
                 <div className="form-control">
-                  <label for="checkout-country">Expiry Date</label>
+                  <label htmlFor="checkout-country">Expiry Date</label>
                   <div>
                     <span className="fa fa-globe"></span>
                     <input
@@ -216,7 +216,7 @@ export default function Checkout() {
                   </div>
                 </div>
                 <div className="form-control">
-                  <label for="checkout-postal">CVV</label>
+                  <label htmlFor="checkout-postal">CVV</label>
                   <div>
                     <span className="fa fa-archive"></span>
                     <input
@@ -258,7 +258,7 @@ export default function Checkout() {
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
                       >
-                        <g clip-path="url(#clip0_633_511)">
+                        <g clipPath="url(#clip0_633_511)">
                           <path
                             d="M5.04153 8.55368C5.04153 8.77802 4.85798 8.96153 4.63368 8.96153H2.59438C2.37008 8.96153 2.18652 8.77798 2.18652 8.55368V7.19057C2.18652 6.96623 2.37008 6.78271 2.59438 6.78271H4.63368C4.85802 6.78271 5.04153 6.96627 5.04153 7.19057V8.55368Z"
                             fill="#BCBCBC"
@@ -366,7 +366,7 @@ export default function Checkout() {
                       )}
                     </span>
                   </div>
-                  
+
                   <div className="_card-price row">
                     <span className="col-1"></span>
                     <span className="col">

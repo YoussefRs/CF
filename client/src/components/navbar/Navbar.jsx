@@ -944,7 +944,7 @@ export default function Navbar({setShow, show}) {
         onHide={onHide}
       >
         <Modal.Body className="d-flex justify-content-center flex-column items-center">
-          <LoginRegister setShow={setShow} />
+          <LoginRegister closeLoginModal={closeLoginModal} />
         </Modal.Body>
       </Modal>
     </>

@@ -503,7 +503,7 @@ export default function Home() {
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
                     >
-                      <g clip-path="url(#clip0_1_243)">
+                      <g clipPath="url(#clip0_1_243)">
                         <path
                           d="M70 35C70 52.4699 57.2004 66.9498 40.4688 69.5748V45.1172H48.624L50.1758 35H40.4688V28.4348C40.4688 25.6662 41.825 22.9688 46.1727 22.9688H50.5859V14.3555C50.5859 14.3555 46.5801 13.6719 42.7506 13.6719C34.7566 13.6719 29.5312 18.5172 29.5312 27.2891V35H20.6445V45.1172H29.5312V69.5748C12.7996 66.9498 0 52.4699 0 35C0 15.6707 15.6707 0 35 0C54.3293 0 70 15.6707 70 35Z"
                           fill="#1877F2"
@@ -528,7 +528,7 @@ export default function Home() {
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
                     >
-                      <g clip-path="url(#clip0_1_331)">
+                      <g clipPath="url(#clip0_1_331)">
                         <path
                           d="M3.75001 4.08249C-0.96499 8.97999 9.86457e-06 14.1825 9.86457e-06 29.9875C9.86457e-06 43.1125 -2.28999 56.27 9.69501 59.3675C13.4375 60.33 46.5975 60.33 50.335 59.3625C55.325 58.075 59.385 54.0275 59.94 46.97C60.0175 45.985 60.0175 14.0075 59.9375 13.0025C59.3475 5.48499 54.72 1.15249 48.6225 0.274994C47.225 0.0724939 46.945 0.0124939 39.775 -6.07967e-06C14.3425 0.0124939 8.76751 -1.12001 3.75001 4.08249Z"
                           fill="url(#paint0_linear_1_331)"
@@ -547,9 +547,9 @@ export default function Home() {
                           y2="7.90493"
                           gradientUnits="userSpaceOnUse"
                         >
-                          <stop stop-color="#FFDD55" />
-                          <stop offset="0.5" stop-color="#FF543E" />
-                          <stop offset="1" stop-color="#C837AB" />
+                          <stop stopColor="#FFDD55" />
+                          <stop offset="0.5" stopColor="#FF543E" />
+                          <stop offset="1" stopColor="#C837AB" />
                         </linearGradient>
                         <clipPath id="clip0_1_331">
                           <rect width="60" height="60" fill="white" />
@@ -566,7 +566,7 @@ export default function Home() {
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
                     >
-                      <g clip-path="url(#clip0_1_334)">
+                      <g clipPath="url(#clip0_1_334)">
                         <path
                           d="M33 66C51.2254 66 66 51.2254 66 33C66 14.7746 51.2254 0 33 0C14.7746 0 0 14.7746 0 33C0 51.2254 14.7746 66 33 66Z"
                           fill="#FF0000"

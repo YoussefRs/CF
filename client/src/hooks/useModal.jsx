@@ -22,7 +22,6 @@ export const useModal = () => {
   const openEditModal = (apartment) => {
     setEditModal(true);
     setEditApartment(apartment); 
-    console.log(apartment)
   };
 
   const closeEditModal = () => {
