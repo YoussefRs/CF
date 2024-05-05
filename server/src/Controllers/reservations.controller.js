@@ -485,6 +485,50 @@ async function updateReservationStatus(reservationId) {
   // Update reservation status in your database
 }
 
+
+async function getAllApprovedAndPaidReservations(req, res) {
+  try {
+    // Extract user ID from request
+    const userId = req.userId;
+
+    // Query to fetch all approved and paid reservations
+    const query = `
+      SELECT * 
+      FROM Reservations 
+      WHERE status = 'approved' AND payment_status = 'paid'
+    `;
+
+    const [results] = await db.query(query);
+
+    res.status(200).json(results);
+  } catch (error) {
+    console.error("Error fetching reservations:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+}
+
+async function getAllApprovedAndPaidReservationsForUser(req, res) {
+  try {
+    // Extract user ID from request
+    const userId = req.userId;
+
+    // Query to fetch all approved and paid reservations for the logged-in user
+    const query = `
+      SELECT * 
+      FROM Reservations 
+      WHERE userId = ? AND status = 'approved' AND payment_status = 'paid'
+    `;
+
+    const [results] = await db.query(query, [userId]);
+
+    res.status(200).json(results);
+  } catch (error) {
+    console.error("Error fetching user reservations:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+}
+
+
 module.exports = {
   createReservation,
   getAllReservations,
@@ -496,4 +540,6 @@ module.exports = {
   createPaymentIntent,
   confirmPayment,
   handleStripeWebhook,
+  getAllApprovedAndPaidReservationsForUser,
+  getAllApprovedAndPaidReservations,
 };
