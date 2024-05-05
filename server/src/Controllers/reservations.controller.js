@@ -23,22 +23,24 @@ async function createReservation(req, res) {
   const db = await startScript();
   try {
     // Extract data from the request body
-    const {
-      userId,
-      userEmail,
-      apartmentId,
-      startDate,
-      endDate,
-      price,
-      servicesFee,
-      totalPrice,
-    } = req.body;
+    const { userId, apartmentId, userEmail, startDate, endDate, price } =
+      req.body;
 
     // Check if start date is before end date
     if (new Date(startDate) >= new Date(endDate)) {
       return res
         .status(400)
         .json({ error: "Start date must be before end date" });
+    }
+
+    // Check if the apartment with the given ID exists
+    const [apartmentResult] = await db.query(
+      `SELECT id FROM Apartment WHERE id = ?`,
+      [apartmentId]
+    );
+
+    if (apartmentResult.length === 0) {
+      return res.status(404).json({ error: "Apartment not found" });
     }
 
     // Check if reservation period falls within apartment availability
@@ -58,18 +60,9 @@ async function createReservation(req, res) {
 
     // Insert the reservation details into the Reservations table with status "Pending"
     const [reservationResult] = await db.query(
-      `INSERT INTO Reservations (userId, apartmentId, userEmail, startDate, endDate, price, servicesFee, totalPrice)
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-      [
-        userId,
-        apartmentId,
-        userEmail,
-        startDate,
-        endDate,
-        price,
-        servicesFee,
-        totalPrice,
-      ]
+      `INSERT INTO Reservations (userId, apartmentId, userEmail, startDate, endDate, price)
+             VALUES (?, ?, ?, ?, ?, ?)`,
+      [userId, apartmentId, userEmail, startDate, endDate, price]
     );
 
     // Commit the transaction
@@ -90,8 +83,6 @@ async function createReservation(req, res) {
     res.status(500).json({ error: "Internal server error" });
   }
 }
-
-
 
 async function getAllReservations(req, res) {
   const db = await startScript();
@@ -144,7 +135,7 @@ async function approveReservation(req, res) {
 
   try {
     const reservationId = req.params.id;
-    console.log(reservationId)
+    console.log(reservationId);
     // Execute SQL query to update the reservation status to approved
     await db.query('UPDATE Reservations SET status = "approved" WHERE id = ?', [
       reservationId,
@@ -377,7 +368,7 @@ async function getReservationById(reservationId) {
   }
 }
 
-// Stripe 
+// Stripe
 // Endpoint to create a payment intent
 async function createPaymentIntent(req, res) {
   try {
@@ -422,15 +413,11 @@ async function confirmPayment(req, res) {
     }
 
     // Confirm the payment with Stripe using the clientSecret
-        const { paymentIntentId, paymentMethod } = req.body;
-        const paymentIntent = await stripe.paymentIntents.confirm(
-          paymentIntentId,
-          {
-            payment_method: paymentMethod,
-            return_url: "https://yourdomain.com/payment/success",
-          }
-        );
-  
+    const { paymentIntentId, paymentMethod } = req.body;
+    const paymentIntent = await stripe.paymentIntents.confirm(paymentIntentId, {
+      payment_method: paymentMethod,
+      return_url: "https://yourdomain.com/payment/success",
+    });
 
     // Check if payment was successful
     if (paymentIntent.status === "succeeded") {
@@ -453,7 +440,6 @@ async function confirmPayment(req, res) {
   }
 }
 
-
 // Webhook handler to listen for payment_intent.succeeded event
 async function handleStripeWebhook(req, res) {
   let event;
@@ -463,11 +449,11 @@ async function handleStripeWebhook(req, res) {
     // Verify the event to ensure it came from Stripe
     const verifiedEvent = await stripe.webhooks.constructEvent(
       req.rawBody,
-      req.headers['stripe-signature'],
-      'your_webhook_secret'
+      req.headers["stripe-signature"],
+      "your_webhook_secret"
     );
 
-    if (verifiedEvent.type === 'payment_intent.succeeded') {
+    if (verifiedEvent.type === "payment_intent.succeeded") {
       const paymentIntent = verifiedEvent.data.object;
       // Update reservation status to mark it as paid in your database
       await updateReservationStatus(paymentIntent.metadata.reservationId);
@@ -484,7 +470,6 @@ async function handleStripeWebhook(req, res) {
 async function updateReservationStatus(reservationId) {
   // Update reservation status in your database
 }
-
 
 async function getAllApprovedAndPaidReservations(req, res) {
   try {
@@ -527,7 +512,6 @@ async function getAllApprovedAndPaidReservationsForUser(req, res) {
     res.status(500).json({ error: "Internal server error" });
   }
 }
-
 
 module.exports = {
   createReservation,
