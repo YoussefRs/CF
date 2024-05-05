@@ -475,6 +475,7 @@ async function confirmPayment(req, res) {
 }
 
 // Webhook handler to listen for payment_intent.succeeded event
+// Webhook handler to listen for payment_intent.succeeded event
 async function handleStripeWebhook(req, res) {
   let event;
 
@@ -489,16 +490,39 @@ async function handleStripeWebhook(req, res) {
 
     if (verifiedEvent.type === "payment_intent.succeeded") {
       const paymentIntent = verifiedEvent.data.object;
-      // Update reservation status to mark it as paid in your database
-      await updateReservationStatus(paymentIntent.metadata.reservationId);
-    }
+      const reservationId = paymentIntent.metadata.reservationId;
 
-    res.status(200).end();
+      // Retrieve reservation details from the database
+      const db = await startScript();
+      const [reservation] = await db.query(
+        `SELECT * FROM Reservations WHERE id = ? AND isPaid = 0 AND isProcessed = 0`,
+        [reservationId]
+      );
+
+      if (!reservation) {
+        console.log("Reservation is already paid and processed or not found");
+        return res.status(200).end();
+      }
+
+      // Update reservation status to mark it as paid and processed
+      await db.query(
+        `UPDATE Reservations SET isPaid = 1, isProcessed = 1 WHERE id = ?`,
+        [reservationId]
+      );
+
+      // Optionally, you can send an email notification here
+      console.log("Payment successful and reservation processed");
+
+      res.status(200).end();
+    } else {
+      res.status(200).end();
+    }
   } catch (error) {
     console.error("Error handling Stripe webhook event:", error);
     res.status(400).send(`Webhook Error: ${error.message}`);
   }
 }
+
 
 async function getAllApprovedAndPaidReservations(req, res) {
   try {
