@@ -148,27 +148,15 @@ async function httpEditApartment(req, res) {
       ]
     );
 
-    // Retrieve existing images for the apartment
-    const existingImages = await db.query(
-      `SELECT image_url FROM Image WHERE apartment_id = ?`,
-      [id]
-    );
+    // Filter out null or undefined image URLs
+    const validPictures = pictures.filter((url) => url);
 
-    // Combine existing images with newly uploaded images
-    const allImages = [
-      ...existingImages.map(({ image_url }) => image_url),
-      ...pictures,
-    ];
-
-    // Delete existing images for the apartment
-    await db.query(`DELETE FROM Image WHERE apartment_id = ?`, [id]);
-
-    // Insert all images (existing + newly uploaded) into the Image table
-    for (const pictureURL of allImages) {
+    // Insert valid image URLs into the Image table
+    for (const pictureURL of validPictures) {
       await db.query(
         `INSERT INTO Image (apartment_id, image_url)
            VALUES (?, ?)`,
-        [id, pictures]
+        [id, pictureURL]
       );
     }
 
@@ -212,6 +200,8 @@ async function httpEditApartment(req, res) {
     await db.end();
   }
 }
+
+
 
 async function httpDeleteApartment(req, res) {
   const db = await startScript();
