@@ -261,7 +261,7 @@ export default function LoginRegister({ closeLoginModal }) {
                       {/* <ErrorMessage name="password" component="div" /> */}
                     </div>
 
-                    <a href="#" className="mb-4">
+                    <a href="#" className="mb-4 rs_pw_link">
                       Forgot your password?
                     </a>
                     <button type="submit" className="mb-4">

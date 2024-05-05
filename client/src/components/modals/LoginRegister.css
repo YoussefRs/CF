@@ -32,7 +32,7 @@
 }
 
 .modal_container a {
-  width: 100%;
+  /* width: 100%; */
   text-align: right;
   color: #1be673 !important;
   font-family: "TT Commons", sans-serif;
@@ -147,6 +147,24 @@
   opacity: 0;
   z-index: 1;
   border-radius: 40px;
+}
+
+.rs_pw_link {
+  @media (min-width: 1400px) {
+      width: 70%;
+    }
+  
+    @media (min-width: 1200px) and (max-width: 1399px) {
+      width: 75%;
+    }
+  
+    @media (min-width: 992px) and (max-width: 1199px) {
+      width: 80%;
+    }
+  
+    @media (max-width: 991px) {
+      width: 95%;
+    }
 }
 
 .input_custom {
