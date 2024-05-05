@@ -23,22 +23,24 @@ async function createReservation(req, res) {
   const db = await startScript();
   try {
     // Extract data from the request body
-    const {
-      userId,
-      apartmentId,
-      userEmail,
-      startDate,
-      endDate,
-      price,
-      servicesFee,
-      totalPrice,
-    } = req.body;
+    const { userId, apartmentId, userEmail, startDate, endDate, price } =
+      req.body;
 
     // Check if start date is before end date
     if (new Date(startDate) >= new Date(endDate)) {
       return res
         .status(400)
         .json({ error: "Start date must be before end date" });
+    }
+
+    // Check if the apartment with the given ID exists
+    const [apartmentResult] = await db.query(
+      `SELECT id FROM Apartment WHERE id = ?`,
+      [apartmentId]
+    );
+
+    if (apartmentResult.length === 0) {
+      return res.status(404).json({ error: "Apartment not found" });
     }
 
     // Check if reservation period falls within apartment availability
@@ -58,18 +60,9 @@ async function createReservation(req, res) {
 
     // Insert the reservation details into the Reservations table with status "Pending"
     const [reservationResult] = await db.query(
-      `INSERT INTO Reservations (userId, apartmentId, userEmail, startDate, endDate, price, servicesFee, totalPrice)
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-      [
-        userId,
-        apartmentId,
-        userEmail,
-        startDate,
-        endDate,
-        price,
-        servicesFee,
-        totalPrice,
-      ]
+      `INSERT INTO Reservations (userId, apartmentId, userEmail, startDate, endDate, price)
+             VALUES (?, ?, ?, ?, ?, ?)`,
+      [userId, apartmentId, userEmail, startDate, endDate, price]
     );
 
     // Commit the transaction
@@ -90,7 +83,6 @@ async function createReservation(req, res) {
     res.status(500).json({ error: "Internal server error" });
   }
 }
-
 
 
 async function getAllReservations(req, res) {
