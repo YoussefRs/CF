@@ -102,9 +102,11 @@ async function httpAddApartment(req, res) {
 async function httpEditApartment(req, res) {
   const db = await startScript();
   try {
+    const { id } = req.params; // Get the id of the apartment to be edited from the request params
+
     // Extract data from the request body
     const {
-      apartmentName,
+      name,
       location,
       bedroom,
       bathroom,
@@ -112,92 +114,83 @@ async function httpEditApartment(req, res) {
       rent = false,
       food = false,
       laundry = false,
-      description,
       pictures,
+      default_special_date,
       specialDates = [],
+      description,
     } = req.body;
 
-    const apId = req.params.id;
+    console.log(req.body)
 
     // Start a database transaction
     await db.beginTransaction();
 
     // Update the apartment details in the Apartments table
-    let query = `UPDATE Apartment SET `;
-    const values = [];
+    await db.query(
+      `UPDATE Apartment 
+       SET name = ?, location = ?, bedroom = ?, bathroom = ?, parking = ?, rent = ?, food = ?, laundry = ?, description = ?, default_special_date = ?
+       WHERE id = ?`,
+      [
+        name,
+        location,
+        bedroom,
+        bathroom,
+        parking,
+        rent,
+        food,
+        laundry,
+        description,
+        JSON.stringify(default_special_date),
+        id,
+      ]
+    );
 
-    if (apartmentName) {
-      query += `name = ?, `;
-      values.push(apartmentName);
-    }
-    if (location !== undefined) {
-      query += `location = ?, `;
-      values.push(location);
-    }
-    if (bedroom !== undefined) {
-      query += `bedroom = ?, `;
-      values.push(bedroom);
-    }
-    if (bathroom !== undefined) {
-      query += `bathroom = ?, `;
-      values.push(bathroom);
-    }
-    if (parking !== undefined) {
-      query += `parking = ?, `;
-      values.push(parking);
-    }
-    if (rent !== undefined) {
-      query += `rent = ?, `;
-      values.push(rent);
-    }
-    if (food !== undefined) {
-      query += `food = ?, `;
-      values.push(food);
-    }
-    if (laundry !== undefined) {
-      query += `laundry = ?, `;
-      values.push(laundry);
-    }
-    if (description !== undefined) {
-      query += `description = ?, `;
-      values.push(description);
-    }
+    // Retrieve existing images for the apartment
+    const existingImages = await db.query(
+      `SELECT image_url FROM Image WHERE apartment_id = ?`,
+      [id]
+    );
 
-    // Remove the trailing comma and space from the query
-    query = query.slice(0, -2);
+    // Combine existing images with newly uploaded images
+    const allImages = [
+      ...existingImages.map(({ image_url }) => image_url),
+      ...pictures,
+    ];
 
-    query += ` WHERE id = ?`;
-    values.push(apId);
+    // Delete existing images for the apartment
+    await db.query(`DELETE FROM Image WHERE apartment_id = ?`, [id]);
 
-    // Execute the update query
-    await db.query(query, values);
-
-    // Handle pictures
-    if (pictures && pictures.length > 0) {
-      // Delete existing images for the apartment
-      await db.query(`DELETE FROM Image WHERE apartment_id = ?`, [apId]);
-
-      // Insert new images into the Image table
-      for (const pictureURL of pictures) {
-        await db.query(
-          `INSERT INTO Image (apartment_id, image_url) VALUES (?, ?)`,
-          [apId, pictureURL]
-        );
-      }
+    // Insert all images (existing + newly uploaded) into the Image table
+    for (const pictureURL of allImages) {
+      await db.query(
+        `INSERT INTO Image (apartment_id, image_url)
+           VALUES (?, ?)`,
+        [id, pictures]
+      );
     }
 
-    // Handle special dates
-    if (specialDates && specialDates.length > 0) {
-      // Delete existing special dates for the apartment
-      await db.query(`DELETE FROM Price WHERE apartmentId = ?`, [apId]);
+    // Delete existing special dates for the apartment
+    await db.query(`DELETE FROM Price WHERE apartment_id = ?`, [id]);
 
-      // Insert new special dates into the SpecialDates table
-      for (const specialDate of specialDates) {
-        await db.query(
-          `INSERT INTO SpecialDates (apartmentId, price, startDate, endDate) VALUES (?, ?, ?, ?)`,
-          [apId, specialDate.price, specialDate.startDate, specialDate.endDate]
-        );
-      }
+    // Insert default special date into the Price table
+    await db.query(
+      `INSERT INTO Price (apartment_id, price, start_date, end_date)
+         VALUES (?, ?, ?, ?)`,
+      [
+        id,
+        default_special_date.price,
+        default_special_date.startDate,
+        default_special_date.endDate,
+      ]
+    );
+
+    // Insert special dates into the Price table
+    for (const specialDate of specialDates) {
+      await db.query(
+        `INSERT INTO Price (apartment_id, price, start_date, end_date)
+           VALUES (?, ?, ?, ?)`,
+        [id, specialDate.price, specialDate.startDate, specialDate.endDate]
+      );
     }
 
     // Commit the transaction
@@ -216,6 +209,8 @@ async function httpEditApartment(req, res) {
     await db.end();
   }
 }
+
+
 
 async function httpDeleteApartment(req, res) {
   const db = await startScript();

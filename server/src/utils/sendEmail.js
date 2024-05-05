@@ -109,7 +109,7 @@ function sendHelpRequest(req, res) {
     if (err) {
       console.log(err);
     } else {
-      res.status(200).send({ message: "YOHOOO" });
+      res.status(200).send({ message: "Your Request Has Been Submited Successfuly." });
     }
     console.log(`Email sent to successfully`);
   });

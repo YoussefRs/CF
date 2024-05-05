@@ -208,7 +208,8 @@ async function httpDeleteOneUser(req, res) {
     const db = await startScript();
 
     // Extract user ID from request parameters
-    const userId = req.params.param;
+    const userId = req.params.id;
+    console.log(userId)
 
     // Execute SQL query to delete the user
     const result = await db.query("DELETE FROM users WHERE id = ?", [userId]);

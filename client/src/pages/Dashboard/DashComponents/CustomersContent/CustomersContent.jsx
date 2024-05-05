@@ -4,15 +4,33 @@ import Modal from "../../../../components/modals/Modal";
 import { useModal } from "../../../../hooks/useModal";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllUsers } from "../../../../redux/usersSlice";
+import axios from "axios";
 
 export default function CustomersContent() {
+  const BASE_URL = import.meta.env.VITE_API_URL;
   const { showModal, openModal, closeModal } = useModal();
   const dispatch = useDispatch();
   const allUsers = useSelector((state) => state.users.users);
+  const [deleteUser, setDeleteUser] = useState(null);
 
   useEffect(() => {
     dispatch(getAllUsers());
-  }, []);
+  }, [dispatch]);
+
+  const handleDelete = async (id) => {
+    try {
+      const response = await axios.delete(`${BASE_URL}/user/${id}`);
+      dispatch(getAllUsers())
+      closeModal();
+    } catch (error) {
+      console.error("Error deleting resource:", error);
+    }
+  };
+
+  const openDeleteModal = (id) => {
+    openModal();
+    setDeleteUser(id);
+  };
   return (
     <>
       <div className="container-fluid py-4">
@@ -98,7 +116,7 @@ export default function CustomersContent() {
                       <div
                         className="close-btn"
                         onClick={() => {
-                          openModal();
+                          openDeleteModal(user.id);
                         }}
                       ></div>
 
@@ -145,7 +163,11 @@ export default function CustomersContent() {
                             >
                               No
                             </button>
-                            <button className="col" id="special-btn">
+                            <button
+                              className="col"
+                              id="special-btn"
+                              onClick={() => handleDelete(deleteUser)}
+                            >
                               yes
                             </button>
                           </div>

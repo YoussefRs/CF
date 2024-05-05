@@ -17,8 +17,8 @@ appartmentRouter.route("/getAllAppart").get(httpGetAllApartments);
 appartmentRouter
   .route("/:id")
   .get(httpGetOneApartment)
-  .put(verifyAdmin, httpEditApartment)
-  .delete(verifyAdmin, httpDeleteApartment);
+  .put( httpEditApartment)
+  .delete( httpDeleteApartment);
 appartmentRouter
   .route("/:id/available-dates")
   .get(getAvailableDatesForApartment);

@@ -18,11 +18,11 @@ const userRouter = express.Router();
 
 userRouter.route("/register").post(httpRegisterUser);
 userRouter.route("/login").post(httpLoginUser);
-userRouter.route("/").get(verifyAdmin, httpGetAllUsers);
+userRouter.route("/").get(httpGetAllUsers);
 userRouter
-  .route("/:param")
+  .route("/:id")
   .get(httpGetUser)
   .put(httpUpdateOneUser)
-  .delete(verifyAdmin, httpDeleteOneUser);
+  .delete(httpDeleteOneUser);
 userRouter.route("/password/:param").put(httpChangePassword);
 module.exports = { userRouter };
