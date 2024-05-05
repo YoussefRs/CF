@@ -20,6 +20,10 @@ const {
 const reservationRouter = express.Router();
 
 reservationRouter.route("/").get(getAllReservations);
+reservationRouter.route("/invoices").get(getAllApprovedAndPaidReservations);
+reservationRouter
+  .route("/my-invoices")
+  .get(verifyToken, getAllApprovedAndPaidReservationsForUser);
 reservationRouter.route("/add").post(verifyToken, createReservation);
 reservationRouter.route("/:id").get(getReservation);
 reservationRouter.route("/:id/approve").put(verifyAdmin, approveReservation);
@@ -28,12 +32,8 @@ reservationRouter.post(
   "/generate-paypal-checkout/:reservationId",
   generatePayPalCheckoutUrl
 );
-reservationRouter
-  .route("/invoices")
-  .get(getAllApprovedAndPaidReservations);
-reservationRouter
-  .route("/my-invoices")
-  .get(verifyToken, getAllApprovedAndPaidReservationsForUser);
+
+
 // Route to create a payment intent
 reservationRouter.post("/payment-intent/:reservationId", async (req, res) => {
   try {

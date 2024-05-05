@@ -473,14 +473,13 @@ async function updateReservationStatus(reservationId) {
 
 async function getAllApprovedAndPaidReservations(req, res) {
   try {
-    // Extract user ID from request
-    const userId = req.userId;
-
+    // Retrieve reservation details from the database
+    const db = await startScript();
     // Query to fetch all approved and paid reservations
     const query = `
       SELECT * 
       FROM Reservations 
-      WHERE status = 'approved' AND payment_status = 'paid'
+      WHERE status = 'Approved' AND isPaid = 1
     `;
 
     const [results] = await db.query(query);
@@ -492,6 +491,7 @@ async function getAllApprovedAndPaidReservations(req, res) {
   }
 }
 
+
 async function getAllApprovedAndPaidReservationsForUser(req, res) {
   try {
     // Extract user ID from request
@@ -501,7 +501,7 @@ async function getAllApprovedAndPaidReservationsForUser(req, res) {
     const query = `
       SELECT * 
       FROM Reservations 
-      WHERE userId = ? AND status = 'approved' AND payment_status = 'paid'
+      WHERE userId = ? AND status = 'Approved' AND isPaid = 1
     `;
 
     const [results] = await db.query(query, [userId]);
