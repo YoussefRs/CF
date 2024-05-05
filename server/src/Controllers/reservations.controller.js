@@ -380,14 +380,6 @@ const handlePayPalPaymentSuccessWebhook = async (req, res, event) => {
   }
 };
 
-
-
-
-// Update reservation status function
-async function updateReservationStatus(reservationId) {
-  // Update reservation status in your database
-}
-
 async function getReservationById(reservationId) {
   try {
     const db = await startScript();
@@ -456,9 +448,10 @@ async function confirmPayment(req, res) {
     // Check if payment was successful
     if (paymentIntent.status === "succeeded") {
       // Update reservation status to mark it as paid
-      await db.query(`UPDATE Reservations SET isPaid = 1 WHERE id = ?`, [
-        reservationId,
-      ]);
+      await db.query(
+        `UPDATE Reservations SET isPaid = 1, isProcessed = 1 WHERE id = ?`,
+        [reservationId]
+      );
 
       // Respond with success message
       return res
@@ -474,7 +467,6 @@ async function confirmPayment(req, res) {
   }
 }
 
-// Webhook handler to listen for payment_intent.succeeded event
 // Webhook handler to listen for payment_intent.succeeded event
 async function handleStripeWebhook(req, res) {
   let event;
@@ -522,6 +514,7 @@ async function handleStripeWebhook(req, res) {
     res.status(400).send(`Webhook Error: ${error.message}`);
   }
 }
+
 
 
 async function getAllApprovedAndPaidReservations(req, res) {
