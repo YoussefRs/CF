@@ -106,12 +106,13 @@ export default function LoginRegister({ closeLoginModal }) {
                 ) : (
                   <>
                     <h1>Sign Up</h1>
-                    <div className="input_custom w-100 relative d-flex align-items-center">
+                    <div className="input_custom relative d-flex align-items-center">
                       <Field
                         type="text"
                         name="username"
                         placeholder="Full Name"
                         required
+                        autoComplete="off"
                       />
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -125,12 +126,13 @@ export default function LoginRegister({ closeLoginModal }) {
                       </svg>
                       {/* <ErrorMessage name="username" component="div" /> */}
                     </div>
-                    <div className="input_custom w-100 relative d-flex align-items-center">
+                    <div className="input_custom relative d-flex align-items-center">
                       <Field
                         type="number"
                         name="gsm"
                         placeholder="Gsm"
                         required
+                        autoComplete="off"
                       />
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -146,12 +148,13 @@ export default function LoginRegister({ closeLoginModal }) {
                       {/* <ErrorMessage name="gsm" component="div" /> */}
                     </div>
 
-                    <div className="input_custom w-100 relative d-flex align-items-center">
+                    <div className="input_custom relative d-flex align-items-center">
                       <Field
                         type="email"
                         name="email"
                         placeholder="Email"
                         required
+                        autoComplete="off"
                       />
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -167,12 +170,13 @@ export default function LoginRegister({ closeLoginModal }) {
                       {/* <ErrorMessage name="email" component="div" /> */}
                     </div>
 
-                    <div className="input_custom w-100 relative d-flex align-items-center">
+                    <div className="input_custom relative d-flex align-items-center">
                       <Field
                         type="password"
                         name="password"
                         placeholder="Password"
                         required
+                        autoComplete="new-password"
                       />
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -187,7 +191,9 @@ export default function LoginRegister({ closeLoginModal }) {
                       {/* <ErrorMessage name="password" component="div" /> */}
                     </div>
 
-                    <button type="submit">Sign Up</button>
+                    <button type="submit" className="mb-3">
+                      Sign Up
+                    </button>
 
                     <span>
                       Already have an account ?{" "}
@@ -212,12 +218,13 @@ export default function LoginRegister({ closeLoginModal }) {
                 ) : (
                   <>
                     <h1>Sign In</h1>
-                    <div className="input_custom w-100 relative d-flex align-items-center">
+                    <div className="input_custom relative d-flex align-items-center">
                       <Field
                         type="email"
                         name="email"
                         placeholder="Email"
                         required
+                        autoComplete="off"
                       />
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -232,12 +239,13 @@ export default function LoginRegister({ closeLoginModal }) {
                       </svg>
                       {/* <ErrorMessage name="email" component="div" /> */}
                     </div>
-                    <div className="input_custom w-100 relative d-flex align-items-center">
+                    <div className="input_custom relative d-flex align-items-center">
                       <Field
                         type="password"
                         name="password"
                         placeholder="Password"
                         required
+                        autoComplete="new-password"
                       />
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -253,8 +261,12 @@ export default function LoginRegister({ closeLoginModal }) {
                       {/* <ErrorMessage name="password" component="div" /> */}
                     </div>
 
-                    <a href="#">Forgot your password?</a>
-                    <button type="submit">Sign In</button>
+                    <a href="#" className="mb-4">
+                      Forgot your password?
+                    </a>
+                    <button type="submit" className="mb-4">
+                      Sign In
+                    </button>
                     <span>
                       You don't have an account ?{" "}
                       <a id="SignUp" onClick={handleSignUpClick}>

@@ -72,6 +72,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+
   &:hover {
     cursor: pointer;
   }
@@ -161,10 +162,12 @@
 }
 
 .small-screens-brand {
+
   /* width: max-content; */
   & img:first-of-type {
     aspect-ratio: 4/1;
   }
+
   & img:last-of-type {
     /* aspect-ratio: 6/3; */
     height: 50px;
@@ -178,14 +181,44 @@
   border-radius: 40px !important;
 }
 
-@media (min-width: 992px) {
+.login_signin_modal_backdrop {
+  background-color: rgba(17, 18, 18, 0.90) !important;
+  background: linear-gradient(0deg, rgba(17, 18, 18, 0.90) 5.4%, rgba(17, 18, 18, 0.00) 100%);
+  opacity: 1 !important;
+  /* filter: blur(5px) !important; */
+}
 
-  .login_signin_modal .modal-lg,
-  .login_signin_modal .modal-xl {
-    --bs-modal-width: 800px;
-    width: 700px;
+.login_signin_modal {
+  /* --bs-modal-width: 800px; */
+  /* width: 700px; */
+  width: 100%;
+
+  & .modal-dialog {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  & .modal-content {
+    margin: 0 auto;
+
+    @media (min-width: 1920px) {
+      width: 60%;
+    }
+    @media (min-width: 1650px) and (max-width: 1919px) {
+      width: 65%;
+    }
+    @media (min-width: 1400px) and (max-width: 1649px) {
+      width: 70%;
+    }
+    @media (min-width: 1200px) and (max-width: 1399px) {
+      width: 75%;
+    }
+    @media (min-width: 992px) and (max-width: 1199px) {
+      width: 80%;
+    }
   }
 }
+
 
 @media (max-width: 992px) {
   .__nav_sidemenu nav ul {

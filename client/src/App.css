@@ -99,7 +99,14 @@ body {
 ._very_small_title {
   color: #2d3136;
   font-family: "TT Commons", sans-serif;
-  font-size: .86rem;
+
+  @media (max-width: 1399px) {
+    font-size: .86rem;
+  }
+  @media (min-width: 1400px) {
+    font-size: .9rem;
+  }
+
   font-style: normal;
   font-weight: 400;
   line-height: normal;

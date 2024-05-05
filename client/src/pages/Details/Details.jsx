@@ -289,7 +289,7 @@ export default function Details() {
           <div className="_inner_container">
             <div className="left_side">
               <div className="left_sqaure" id="special_sqaure">
-                <div className="d-flex align-items-center">
+                <div className="d-flex align-items-center justify-content-between">
                   <span className="_medium_title">
                     <svg
                       width="18"
@@ -317,8 +317,7 @@ export default function Details() {
                     </svg>
                     {card.location}
                   </span>
-                </div>
-                <div className="d-flex align-items-center justify-content-end">
+                  <div className="d-flex align-items-center justify-content-end">
                   <span
                     style={{ display: "flex", alignItems: "center" }}
                     className="_medium_title rating__"
@@ -338,13 +337,15 @@ export default function Details() {
                     4.7
                   </span>
                 </div>
+                </div>
+                
               </div>
               <div className="left_sqaure">
                 <div
-                  className="d-flex align-items-center justify-content-between "
+                  className="d-flex align-items-center"
                   id="sqaure-items"
                 >
-                  <div className="d-flex ">
+                  <div className="d-flex me-4">
                     <aside>
                       <svg
                         width="50"
@@ -443,47 +444,49 @@ export default function Details() {
                 <span className="_details_title p-0">description</span>
                 <span className="_description">{card.description}</span>
               </div>
-              <div className="d-flex flex-column mt-2">
-                <span className="_details_title p-0">calendar</span>
-                <div className="left_sqaure">
-                  <div className="d-flex align-items-center justify-content-between gap-2">
-                    <button
-                      onClick={toggleCalendar}
-                      className={showCalendar ? "active" : ""}
-                    >
-                      Day
-                    </button>
-                    <button onClick={() => openModal2()}>Month</button>
+              <div className="calendar_box">
+                <div className="d-flex flex-column mt-2">
+                  <span className="_details_title p-0 mb-2">calendar</span>
+                  <div className="left_sqaure">
+                    <div className="d-flex align-items-center justify-content-between gap-2">
+                      <button
+                        onClick={toggleCalendar}
+                        className={showCalendar ? "active" : ""}
+                      >
+                        Day
+                      </button>
+                      <button onClick={() => openModal2()}>Month</button>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div
-                className={`left_sqaure ${showCalendar ? "show" : "hide"}`}
-                style={{
-                  transition: "height 0.5s ease",
-                  height: showCalendar ? "350px" : "0",
-                  overflow: "hidden",
-                }}
-              >
-                <CalendarComp
-                  setBookingData={setBookingData}
-                  bookingData={bookingData}
-                  formattedDates={formattedDates}
-                />
+                <div
+                  className={`left_sqaure ${showCalendar ? "show" : "hide"}`}
+                  style={{
+                    transition: "height 0.5s ease",
+                    height: showCalendar ? "350px" : "0",
+                    overflow: "hidden",
+                  }}
+                >
+                  <CalendarComp
+                    setBookingData={setBookingData}
+                    bookingData={bookingData}
+                    formattedDates={formattedDates}
+                  />
+                </div>
               </div>
               {formattedDates && (
                 <div className="d-flex flex-column mt-2">
                   <span className="_medium_title p-0">Special dates</span>
-                  <div className="small_sqaure">
+                  <div className="small_sqaure mt-2">
                     <div className="d-flex flex-column">
                       {formattedDates?.map((datesArray, i) => (
                         <Fragment key={i}>
                           {datesArray.map((date, i) => (
                             <div
-                              className="d-flex align-items-center justify-content-between gap-2"
+                              className="d-flex align-items-center mb-1"
                               key={i}
                             >
-                              <span className="d-flex align-items-center gap-2 _very_small_title">
+                              <span className="d-flex align-items-center gap-2 _very_small_title me-5">
                                 {" "}
                                 <svg
                                   width="18"
@@ -558,7 +561,7 @@ export default function Details() {
                 className="d-flex flex-column mt-2"
                 style={{ borderBottom: "1px solid rgba(188, 188, 188, 0.50)" }}
               >
-                <span className="_details_title p-0">choose your services</span>
+                <span className="_details_title p-0 mb-3">choose your services</span>
                 <div className="btn-group d-flex align-items-center col-xs-12">
                   {card?.parking === 1 && (
                     <div className="select">
@@ -1009,7 +1012,7 @@ export default function Details() {
             </div>
             <div className="right_side">
               <div className="right_box">
-                <span className="_details_title">reservation details :</span>
+                <span className="_details_title text-nowrap ">reservation details :</span>
                 <div
                   className="right_box_inner_container"
                   style={{ marginBottom: "1rem" }}
@@ -1129,7 +1132,7 @@ export default function Details() {
                     )}
                   </div>
                 </div>
-                <span className="_details_title">Payment Details :</span>
+                <span className="_details_title text-nowrap ">Payment Details :</span>
                 <div className="right_box_inner_container">
                   <div className="first_square h-100 pt-2">
                     <span className="_medium_title">night fees</span>
