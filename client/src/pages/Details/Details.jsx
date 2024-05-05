@@ -168,7 +168,7 @@ export default function Details() {
       openLoginModal();
     }
   };
-
+console.log(card)
   return (
     <>
       <Navbar />

@@ -48,6 +48,7 @@ CREATE TABLE IF NOT EXISTS Reservations (
     endDate DATE NOT NULL,
     status ENUM('Pending', 'Approved', 'Declined') DEFAULT 'Pending',
     isPaid TINYINT(1) NOT NULL DEFAULT 0,
+    isProcessed TINYINT(1) NOT NULL DEFAULT 0, -- New property isProcessed
     price DECIMAL(10, 2) NOT NULL DEFAULT '0.00', -- Price in decimal format with 2 decimal places
     FOREIGN KEY (userId) REFERENCES Users(id) ON DELETE CASCADE,
     FOREIGN KEY (apartmentId) REFERENCES Apartment(id) ON DELETE CASCADE,

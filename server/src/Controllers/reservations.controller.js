@@ -43,17 +43,17 @@ async function createReservation(req, res) {
       return res.status(404).json({ error: "Apartment not found" });
     }
 
-    // Check if reservation period falls within apartment availability
-    const [availabilityResult] = await db.query(
-      `SELECT * FROM Price WHERE apartment_id = ? AND start_date <= ? AND end_date >= ?`,
-      [apartmentId, startDate, endDate]
-    );
+    // // Check if reservation period falls within apartment availability
+    // const [availabilityResult] = await db.query(
+    //   `SELECT * FROM Price WHERE apartment_id = ? AND start_date <= ? AND end_date >= ?`,
+    //   [apartmentId, startDate, endDate]
+    // );
 
-    if (!availabilityResult.length) {
-      return res
-        .status(400)
-        .json({ error: "Reservation period is not available" });
-    }
+    // if (!availabilityResult.length) {
+    //   return res
+    //     .status(400)
+    //     .json({ error: "Reservation period is not available" });
+    // }
 
     // Start a database transaction
     await db.beginTransaction();
@@ -246,7 +246,7 @@ async function generatePayPalCheckoutUrl(req, res) {
         payment_method: "paypal",
       },
       redirect_urls: {
-        return_url: "http://localhost:5173/successful/",
+        return_url: `http://localhost:5173/successful/${reservationId}`, // Include reservation ID in return URL
         cancel_url: "http://localhost:5173/",
       },
       transactions: [
@@ -255,7 +255,7 @@ async function generatePayPalCheckoutUrl(req, res) {
             total: totalPrice,
             currency: "USD", // Change currency as needed
           },
-          description: `Reservation for ${reservation.startDate} to ${reservation.endDate}`,
+          description: `Reservation for ${reservation.startDate} to ${reservation.endDate} (ID: ${reservationId})`, // Include reservation ID in description
         },
       ],
     };
@@ -291,6 +291,7 @@ async function generatePayPalCheckoutUrl(req, res) {
   }
 }
 
+
 const handlePayPalPaymentSuccessWebhook = async (req, res, event) => {
   try {
     const eventType = event.event_type;
@@ -300,6 +301,8 @@ const handlePayPalPaymentSuccessWebhook = async (req, res, event) => {
       return res.status(400).json({ error: "Event type is undefined" });
     }
 
+    console.log("Received PayPal webhook event:", event);
+
     if (eventType === "PAYMENTS.PAYMENT.CREATED") {
       const paymentDetails = event.resource;
 
@@ -308,9 +311,21 @@ const handlePayPalPaymentSuccessWebhook = async (req, res, event) => {
         return res.status(400).send("Invalid payment details");
       }
 
-      const reservationId = paymentDetails.reservationId;
+      console.log("paymentDetails : ", paymentDetails);
       const paymentId = paymentDetails.id;
       const payerId = paymentDetails.payer.payer_info.payer_id;
+
+      // Retrieve reservation ID from the return URL
+      const returnURL = paymentDetails.redirect_urls.return_url;
+      const reservationIdMatch = returnURL.match(/successful\/(\d+)/);
+      const reservationId = reservationIdMatch ? reservationIdMatch[1] : null;
+
+      if (!reservationId) {
+        console.error("Reservation ID not found in the return URL:", returnURL);
+        return res
+          .status(400)
+          .json({ error: "Reservation ID not found in the return URL" });
+      }
 
       // Retrieve reservation details from the database
       const [reservation] = await db.query(
@@ -320,6 +335,14 @@ const handlePayPalPaymentSuccessWebhook = async (req, res, event) => {
 
       if (!reservation) {
         return res.status(404).json({ error: "Reservation not found" });
+      }
+
+      // Check if reservation is already paid and processed
+      if (reservation.isPaid && reservation.isProcessed) {
+        console.log("Reservation is already paid and processed");
+        return res
+          .status(200)
+          .json({ message: "Reservation is already paid and processed" });
       }
 
       // Execute the PayPal payment
@@ -334,16 +357,19 @@ const handlePayPalPaymentSuccessWebhook = async (req, res, event) => {
               .json({ error: "PayPal payment execution error" });
           }
 
-          // Update reservation status to mark it as paid
-          await db.query(`UPDATE Reservations SET isPaid = 1 WHERE id = ?`, [
-            reservationId,
-          ]);
+          // Update reservation status to mark it as paid and processed
+          await db.query(
+            `UPDATE Reservations SET isPaid = 1, isProcessed = 1 WHERE id = ?`,
+            [reservationId]
+          );
 
           // Optionally, you can send an email notification here
-
+          console.log("Payment successful");
           return res.status(200).json({ message: "Payment successful" });
         }
       );
+    } else if (eventType === "PAYMENT.SALE.COMPLETED") {
+      console.log("PAYMENT.SALE.COMPLETED");
     } else {
       console.log("Unhandled PayPal webhook event:", eventType);
       return res.status(400).json({ error: "Unhandled PayPal webhook event" });
@@ -353,6 +379,14 @@ const handlePayPalPaymentSuccessWebhook = async (req, res, event) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 };
+
+
+
+
+// Update reservation status function
+async function updateReservationStatus(reservationId) {
+  // Update reservation status in your database
+}
 
 async function getReservationById(reservationId) {
   try {
@@ -466,11 +500,6 @@ async function handleStripeWebhook(req, res) {
   }
 }
 
-// Update reservation status function
-async function updateReservationStatus(reservationId) {
-  // Update reservation status in your database
-}
-
 async function getAllApprovedAndPaidReservations(req, res) {
   try {
     // Retrieve reservation details from the database
@@ -490,7 +519,6 @@ async function getAllApprovedAndPaidReservations(req, res) {
     res.status(500).json({ error: "Internal server error" });
   }
 }
-
 
 async function getAllApprovedAndPaidReservationsForUser(req, res) {
   try {
