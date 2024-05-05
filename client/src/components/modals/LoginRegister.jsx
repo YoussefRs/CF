@@ -105,7 +105,7 @@ export default function LoginRegister({ closeLoginModal }) {
                   <Loader />
                 ) : (
                   <>
-                    <h1>Sign Up</h1>
+                    <h1 className="mt-3">Sign Up</h1>
                     <div className="input_custom relative d-flex align-items-center">
                       <Field
                         type="text"
