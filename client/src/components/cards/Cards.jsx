@@ -41,8 +41,8 @@ export default function Cards({ card, type, customClass }) {
         </Link>
         <div className="card-info">
           <div className="cart-title-rating row">
-            <h2 className="card-title col-8">{card?.name} </h2>
-            <span className="card-rating col-3">
+            <h2 className="card-title col-8">{type === "normal" ? card?.name : card.apartmentName} </h2>
+            <span className="card-rating col-3 ps-0 ">
               <svg
                 width="21"
                 height="19"

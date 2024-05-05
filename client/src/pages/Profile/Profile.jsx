@@ -46,7 +46,7 @@ export default function Profile() {
         <div className="profile-container d-flex align-items-center justify-content-center">
           <div className="container-fluid" style={{ width: 1340 }}>
             <div className="row">
-              <div className="col col-xl-3 col-lg-12 profile_ctr mb-4">
+              <div className="col-lg-3 col-12 profile_ctr mb-4">
                 <div className="panel panel-default">
                   <div className="panel-body py-5 text-center d-flex justify-content-center align-items-center flex-column">
                     <div className="profile-pic">
@@ -85,7 +85,7 @@ export default function Profile() {
                   </div>
                 </div>
               </div>
-              <div className="col col-xl-9 col-lg-12">
+              <div className="col-lg-9 col-12">
                 <div className="_container ">
                   <div className="container-fluid d-flex align-items-center justify-content-center p-0">
                     <ul className="nav nav-pills nav-justified">
@@ -268,8 +268,8 @@ export default function Profile() {
                               </div>
                             </div>
                             <div className="row mt-5">
-                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 submit d-flex justify-content-sm-center justify-content-between  gap-2">
-                                <div className="customer-form-btn d-flex form-group col-5 col-md-2">
+                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 submit d-flex justify-content-center gap-2">
+                                <div className="customer-form-btn d-flex form-group col-5 col-md-2 me-3">
                                   <button className="col">cancel</button>
                                 </div>
                                 <div className="customer-form-btn d-flex form-group col-5 col-md-2">
