@@ -200,3 +200,173 @@ export const apartmentList = [
       "Spacious luxury apartment with great amenities, Spacious luxury apartment with great amenities, Spacious luxury apartment with great amenities, Spacious luxury apartment with great amenities, Spacious luxury apartment with great amenities .",
   },
 ];
+
+export const user = {
+  createdAt: "2024-05-04T10:47:24.000Z",
+  email: "yeseuce@gmail.com",
+  id: 2,
+  image: "",
+  password: "$2b$10$Iy.DQs9rXXxKuz05rXkizOQ1or6gt.JxGoOrgGljom6dnaT5BrwEa",
+  phone: "26279409",
+  role: "admin",
+  username: "admin",
+};
+
+export const favoritess = [
+  {
+    apartmentName: "test close Edit mopdal",
+    bathroom: 3,
+    bedroom: 1,
+    defaultDateAndPrice: {
+      price: 225,
+      startDate: "2024-03-14T00:00:00.000Z",
+      endDate: "2024-03-19T00:00:00.000Z",
+    },
+    description:
+      "fhuzehifhzhgzhgiezhgzehgzhegiuhzeghzegzhifhuzehifhzhgzhgiezhgzehgzhegiuhzeghzegzhifhuzehifhzhgzhgiezhgzehgzhegiuhzeghzegzhifhuzehifhzhgzhgiezhgzehgzhegiuhzeghzegzhifhuzehifhzhgzhgiezhgzehgzhegiuhzeghzegzhi",
+    food: true,
+    id: "65e59211c01db4dba7ea93bc",
+    laundry: true,
+    location: "eazgezg",
+    more: [
+      "https://res.cloudinary.com/dlspkc0so/image/upload/v1709543944/ctuoi89l9mfo8wluk01a.png",
+    ],
+    parking: false,
+    pictures: [
+      "https://res.cloudinary.com/dlspkc0so/image/upload/v1709543937/mgzsip6cyeuwxf70xqwy.png",
+    ],
+    rent: true,
+    specialDate: [
+      {
+        price: 2254,
+        startDate: "2024-03-20T00:00:00.000Z",
+        endDate: "2024-03-22T00:00:00.000Z",
+      },
+    ],
+  },
+  {
+    apartmentName: "test close Edit mopdal",
+    bathroom: 3,
+    bedroom: 1,
+    defaultDateAndPrice: {
+      price: 225,
+      startDate: "2024-03-14T00:00:00.000Z",
+      endDate: "2024-03-19T00:00:00.000Z",
+    },
+    description:
+      "fhuzehifhzhgzhgiezhgzehgzhegiuhzeghzegzhifhuzehifhzhgzhgiezhgzehgzhegiuhzeghzegzhifhuzehifhzhgzhgiezhgzehgzhegiuhzeghzegzhifhuzehifhzhgzhgiezhgzehgzhegiuhzeghzegzhifhuzehifhzhgzhgiezhgzehgzhegiuhzeghzegzhi",
+    food: true,
+    id: "65e59211c01db4dba7ea93bc",
+    laundry: true,
+    location: "eazgezg",
+    more: [
+      "https://res.cloudinary.com/dlspkc0so/image/upload/v1709543944/ctuoi89l9mfo8wluk01a.png",
+    ],
+    parking: false,
+    pictures: [
+      "https://res.cloudinary.com/dlspkc0so/image/upload/v1709543937/mgzsip6cyeuwxf70xqwy.png",
+    ],
+    rent: true,
+    specialDate: [
+      {
+        price: 2254,
+        startDate: "2024-03-20T00:00:00.000Z",
+        endDate: "2024-03-22T00:00:00.000Z",
+      },
+    ],
+  },
+  {
+    apartmentName: "test close Edit mopdal",
+    bathroom: 3,
+    bedroom: 1,
+    defaultDateAndPrice: {
+      price: 225,
+      startDate: "2024-03-14T00:00:00.000Z",
+      endDate: "2024-03-19T00:00:00.000Z",
+    },
+    description:
+      "fhuzehifhzhgzhgiezhgzehgzhegiuhzeghzegzhifhuzehifhzhgzhgiezhgzehgzhegiuhzeghzegzhifhuzehifhzhgzhgiezhgzehgzhegiuhzeghzegzhifhuzehifhzhgzhgiezhgzehgzhegiuhzeghzegzhifhuzehifhzhgzhgiezhgzehgzhegiuhzeghzegzhi",
+    food: true,
+    id: "65e59211c01db4dba7ea93bc",
+    laundry: true,
+    location: "eazgezg",
+    more: [
+      "https://res.cloudinary.com/dlspkc0so/image/upload/v1709543944/ctuoi89l9mfo8wluk01a.png",
+    ],
+    parking: false,
+    pictures: [
+      "https://res.cloudinary.com/dlspkc0so/image/upload/v1709543937/mgzsip6cyeuwxf70xqwy.png",
+    ],
+    rent: true,
+    specialDate: [
+      {
+        price: 2254,
+        startDate: "2024-03-20T00:00:00.000Z",
+        endDate: "2024-03-22T00:00:00.000Z",
+      },
+    ],
+  },
+  {
+    apartmentName: "test close Edit mopdal",
+    bathroom: 3,
+    bedroom: 1,
+    defaultDateAndPrice: {
+      price: 225,
+      startDate: "2024-03-14T00:00:00.000Z",
+      endDate: "2024-03-19T00:00:00.000Z",
+    },
+    description:
+      "fhuzehifhzhgzhgiezhgzehgzhegiuhzeghzegzhifhuzehifhzhgzhgiezhgzehgzhegiuhzeghzegzhifhuzehifhzhgzhgiezhgzehgzhegiuhzeghzegzhifhuzehifhzhgzhgiezhgzehgzhegiuhzeghzegzhifhuzehifhzhgzhgiezhgzehgzhegiuhzeghzegzhi",
+    food: true,
+    id: "65e59211c01db4dba7ea93bc",
+    laundry: true,
+    location: "eazgezg",
+    more: [
+      "https://res.cloudinary.com/dlspkc0so/image/upload/v1709543944/ctuoi89l9mfo8wluk01a.png",
+    ],
+    parking: false,
+    pictures: [
+      "https://res.cloudinary.com/dlspkc0so/image/upload/v1709543937/mgzsip6cyeuwxf70xqwy.png",
+    ],
+    rent: true,
+    specialDate: [
+      {
+        price: 2254,
+        startDate: "2024-03-20T00:00:00.000Z",
+        endDate: "2024-03-22T00:00:00.000Z",
+      },
+    ],
+  },
+  {
+    apartmentName: "test close Edit mopdal",
+    bathroom: 3,
+    bedroom: 1,
+    defaultDateAndPrice: {
+      price: 225,
+      startDate: "2024-03-14T00:00:00.000Z",
+      endDate: "2024-03-19T00:00:00.000Z",
+    },
+    description:
+      "fhuzehifhzhgzhgiezhgzehgzhegiuhzeghzegzhifhuzehifhzhgzhgiezhgzehgzhegiuhzeghzegzhifhuzehifhzhgzhgiezhgzehgzhegiuhzeghzegzhifhuzehifhzhgzhgiezhgzehgzhegiuhzeghzegzhifhuzehifhzhgzhgiezhgzehgzhegiuhzeghzegzhi",
+    food: true,
+    id: "65e59211c01db4dba7ea93bc",
+    laundry: true,
+    location: "eazgezg",
+    more: [
+      "https://res.cloudinary.com/dlspkc0so/image/upload/v1709543944/ctuoi89l9mfo8wluk01a.png",
+    ],
+    parking: false,
+    pictures: [
+      "https://res.cloudinary.com/dlspkc0so/image/upload/v1709543937/mgzsip6cyeuwxf70xqwy.png",
+    ],
+    rent: true,
+    specialDate: [
+      {
+        price: 2254,
+        startDate: "2024-03-20T00:00:00.000Z",
+        endDate: "2024-03-22T00:00:00.000Z",
+      },
+    ],
+  },
+
+];

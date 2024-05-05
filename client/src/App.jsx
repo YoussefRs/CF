@@ -32,7 +32,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    dispatch(getAllApartments());
+    // dispatch(getAllApartments());
   }, [dispatch]);
 
   const Layout = ({ children }) => {
@@ -97,9 +97,9 @@ function App() {
                 path="/profil"
                 element={
                   <Layout>
-                    <PrivateRoute>
+                    {/* <PrivateRoute> */}
                       <Profile />
-                    </PrivateRoute>
+                    {/* </PrivateRoute> */}
                   </Layout>
                 }
               />

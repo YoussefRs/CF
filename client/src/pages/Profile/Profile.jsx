@@ -9,16 +9,21 @@ import { useModal } from "../../hooks/useModal";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserBookings } from "../../redux/BookingSlice";
 import { Link } from "react-router-dom";
+import {user, favoritess} from "../../Dummy/AppData"
 
 export default function Profile() {
+  
   const dispatch = useDispatch();
   const [activeTab, setActiveTab] = useState("profile");
   const { showModal, openModal, closeModal } = useModal();
-  const user = useSelector((state) => state.auth.user);
+  // const user = useSelector((state) => state.auth.user);
   const Rentals = useSelector((state) => state.bookings?.bookings);
-  const [favorites, setFavorites] = useState(
-    JSON.parse(localStorage.getItem("favorites")) || []
-  );
+  // const [favorites, setFavorites] = useState(
+  //   JSON.parse(localStorage.getItem("favorites")) || favorites
+  // );
+   const [favorites, setFavorites] = useState(
+     []
+   );
 
   const removeFav = (id) => {
     const updatedFavorites = favorites.filter((fav) => fav.id !== id);
@@ -27,7 +32,8 @@ export default function Profile() {
   };
 
   useEffect(() => {
-    dispatch(getUserBookings());
+    // dispatch(getUserBookings());
+    setFavorites(favoritess);
   }, []);
 
   const handleTabClick = (tab, event) => {
@@ -45,7 +51,7 @@ export default function Profile() {
                   <div className="panel-body py-5 text-center d-flex justify-content-center align-items-center flex-column">
                     <div className="profile-pic">
                       <img
-                        src={user?.user.image || profilePic}
+                        src={user?.user?.image || profilePic}
                         alt="Profile Picture"
                         onError={(e) => {
                           e.target.onerror = null;
@@ -74,7 +80,8 @@ export default function Profile() {
                       change
                     </button>
                     <br />
-                    <h3>Hello, {user?.user?.username} </h3>
+                    {/* <h3>Hello, {user?.user?.username} </h3> */}
+                    <h3>Hello, {user?.username} </h3>
                   </div>
                 </div>
               </div>
@@ -216,7 +223,8 @@ export default function Profile() {
                                     type="text"
                                     name="text"
                                     className="form-control profile_input"
-                                    value={user?.user?.username}
+                                    // value={user?.user?.username}
+                                    value={user?.username}
                                     required
                                     style={{ pointerEvents: "none" }}
                                   />
@@ -233,7 +241,8 @@ export default function Profile() {
                                     type="tel"
                                     name="phone"
                                     className="form-control profile_input"
-                                    value={user?.user?.phone}
+                                    // value={user?.user?.phone}
+                                    value={user?.phone}
                                     required
                                     style={{ pointerEvents: "none" }}
                                   />
@@ -250,7 +259,8 @@ export default function Profile() {
                                     type="email"
                                     name="email"
                                     className="form-control profile_input"
-                                    value={user?.user?.email}
+                                    // value={user?.user?.email}
+                                    value={user.email}
                                     style={{ pointerEvents: "none" }}
                                     required
                                   />
@@ -451,13 +461,15 @@ export default function Profile() {
                                 <div className="card-price-btn mt-3">
                                   <div className="card-price">
                                     <p>
-                                      {rental?.appartment?.defaultSpecialDate
-                                        ?.price} €{" "}
-                                      <span>/ Month</span>
+                                      {
+                                        rental?.appartment?.defaultSpecialDate
+                                          ?.price
+                                      }{" "}
+                                      € <span>/ Month</span>
                                     </p>
                                   </div>
                                   <div className="profile_card-btn">
-                                      <button>More +</button>
+                                    <button>More +</button>
                                   </div>
                                 </div>
                               </div>
@@ -486,9 +498,7 @@ export default function Profile() {
                         <section className="tables">
                           <div className="table__wrapper scrollable-container">
                             <table className="invoice_table">
-                              <tbody
-                                id="profile_orders_table"
-                              >
+                              <tbody id="profile_orders_table">
                                 <tr
                                   onClick={() => {
                                     openModal();
