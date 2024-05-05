@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./Cards.css";
 import { Link } from "react-router-dom";
 
-export default function Cards({ card }) {
+export default function Cards({ card, type, customClass }) {
   // const [liked, setLiked] = useState(false);
 
   // const handleClick = () => {
@@ -22,14 +22,21 @@ export default function Cards({ card }) {
   //   }
   // };
 
-  
-
-  
   return (
-    <div className="card_box">
+    <div className={`card_box ${customClass ? customClass : ""}`}>
       <div className="material-card" href="/some-article">
         <Link to={`/details/${card.id}`} state={{ card }}>
-          {<img className="card-picture" src={card?.images[0]?.image_url} alt="Apartment" />}
+          {
+            <img
+              className="card-picture"
+              src={
+                type === "normal"
+                  ? card?.images[0]?.image_url
+                  : card?.pictures[0]
+              }
+              alt="Apartment"
+            />
+          }
           {/* {<img className="card-picture" src={card?.pictures[0]} alt="Apartment" />} */}
         </Link>
         <div className="card-info">

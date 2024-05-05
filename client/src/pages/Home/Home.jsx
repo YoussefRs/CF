@@ -54,7 +54,7 @@ export default function Home() {
             <div className="cards_layer"></div>
             <div className="card_ctr">
               {apartmentList?.map((card, i) => (
-                <Cards card={card} key={i} />
+                <Cards card={card} key={i} type={"normal"} />
               ))}
             </div>
           </div>

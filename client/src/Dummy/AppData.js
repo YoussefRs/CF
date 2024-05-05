@@ -13,17 +13,15 @@ export const apartmentList = [
       { image_url: "https://picsum.photos/200/300" },
       { image_url: "https://picsum.photos/200/300" },
       { image_url: "https://picsum.photos/200/300" },
+      { image_url: "https://picsum.photos/200/300" },
+      { image_url: "https://picsum.photos/200/300" },
+      { image_url: "https://picsum.photos/200/300" },
     ],
     default_special_date: {
       price: 2000,
       startDate: "2024-05-01",
       endDate: "2024-05-04",
     },
-    more: [
-      "https://picsum.photos/200/300",
-      "https://picsum.photos/200/300",
-      "https://picsum.photos/200/300",
-    ],
     specialDates: [
       {
         price: 500,
@@ -51,19 +49,12 @@ export const apartmentList = [
     laundry: 1,
     images: [
       { image_url: "https://picsum.photos/200/300" },
-      { image_url: "https://picsum.photos/200/300" },
-      { image_url: "https://picsum.photos/200/300" },
     ],
     default_special_date: {
       price: 2000,
       startDate: "2024-05-01",
       endDate: "2024-05-04",
     },
-    more: [
-      "https://picsum.photos/200/300",
-      "https://picsum.photos/200/300",
-      "https://picsum.photos/200/300",
-    ],
     specialDates: [
       {
         price: 500,
@@ -91,19 +82,16 @@ export const apartmentList = [
     laundry: 1,
     images: [
       { image_url: "https://picsum.photos/200/300" },
-      { image_url: "https://picsum.photos/200/300" },
-      { image_url: "https://picsum.photos/200/300" },
+      { image_url: "https://picsum.photos/200/301" },
+      { image_url: "https://picsum.photos/200/302" },
+      { image_url: "https://picsum.photos/200/303" },
+      { image_url: "https://picsum.photos/200/304" },
     ],
     default_special_date: {
       price: 2000,
       startDate: "2024-05-01",
       endDate: "2024-05-04",
     },
-    more: [
-      "https://picsum.photos/200/300",
-      "https://picsum.photos/200/300",
-      "https://picsum.photos/200/300",
-    ],
     specialDates: [
       {
         price: 500,
@@ -133,17 +121,13 @@ export const apartmentList = [
       { image_url: "https://picsum.photos/200/300" },
       { image_url: "https://picsum.photos/200/300" },
       { image_url: "https://picsum.photos/200/300" },
+      { image_url: "https://picsum.photos/200/300" },
     ],
     default_special_date: {
       price: 2000,
       startDate: "2024-05-01",
       endDate: "2024-05-04",
     },
-    more: [
-      "https://picsum.photos/200/300",
-      "https://picsum.photos/200/300",
-      "https://picsum.photos/200/300",
-    ],
     specialDates: [
       {
         price: 500,
@@ -172,18 +156,12 @@ export const apartmentList = [
     images: [
       { image_url: "https://picsum.photos/200/300" },
       { image_url: "https://picsum.photos/200/300" },
-      { image_url: "https://picsum.photos/200/300" },
     ],
     default_special_date: {
       price: 2000,
       startDate: "2024-05-01",
       endDate: "2024-05-04",
     },
-    more: [
-      "https://picsum.photos/200/300",
-      "https://picsum.photos/200/300",
-      "https://picsum.photos/200/300",
-    ],
     specialDates: [
       {
         price: 500,
@@ -368,5 +346,4 @@ export const favoritess = [
       },
     ],
   },
-
 ];

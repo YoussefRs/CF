@@ -1,4 +1,4 @@
-.card_box {
+.card_box:not(.profile_cards_item) {
   /* @media (min-width: 1920px) {
     width: 440px;
 

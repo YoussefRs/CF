@@ -229,7 +229,7 @@ export default function Details() {
                     </a>
                   </div>
                   <div className="sub">
-                    {card?.images?.slice(0).map((appPic, i) => (
+                    {card?.images?.slice(1, 4).map((appPic, i) => (
                       <div className="img-box" key={i}>
                         <a
                           href={appPic}
@@ -240,17 +240,17 @@ export default function Details() {
                         </a>
                       </div>
                     ))}
-                    {card?.more?.length > 1 && (
+                    {card?.images?.length > 4 && (
                       <div id="multi-link" className="img-box">
                         <a
-                          href={card?.more[0]}
+                          href={card?.images[4]?.image_url}
                           className="glightbox"
                           data-glightbox="type: image"
                         >
-                          <img src={card?.more[0]} alt="image" />
+                          <img src={card?.images[4]?.image_url} alt="image" />
                           <div className="transparent-box">
                             <div className="caption">
-                              +{card?.more?.length}{" "}
+                              +{card?.images?.length - 4}{" "}
                             </div>
                           </div>
                         </a>
@@ -260,34 +260,31 @@ export default function Details() {
                       id="more-img"
                       className="extra-images-container hide-element"
                     >
-                      {card?.more?.map((more, i) => (
+                      {card?.images?.map((more, i) => (
                         <a
-                          href={more?.url}
+                          href={more?.image_url}
                           className="glightbox"
                           data-glightbox="type: image"
                           key={i}
                         >
-                          <img src={more?.url} alt="image" />
+                          <img src={more?.image_url} alt="image" />
                         </a>
                       ))}
                     </div>
                   </div>
-
                   <div className="photos_sm">
-                    {card?.more?.length > 1 && (
-                      <div id="multi-link" className="img-box">
-                        <a
-                          href={card?.more[0]}
-                          className="glightbox"
-                          data-glightbox="type: image"
-                        >
-                          <img src={card?.more[0]} alt="image" />
-                          <div className="transparent-box">
-                            <div className="caption">+{card?.more?.length} </div>
-                          </div>
-                        </a>
-                      </div>
-                    )}
+                    <div id="multi-link" className="img-box">
+                      <a
+                        href={card?.images[0].image_url}
+                        className="glightbox"
+                        data-glightbox="type: image"
+                      >
+                        <img src={card?.images[0].image_url} alt="image" />
+                        <div className="transparent-box">
+                          <div className="caption">+{card?.images?.length} </div>
+                        </div>
+                      </a>
+                    </div>
                     <div
                       id="more-img"
                       className="extra-images-container hide-element"
@@ -306,13 +303,13 @@ export default function Details() {
                   </div>
                 </>
               ) : (
-                <div className="main-photo">
+                <div className="main-single-photo">
                   <a
                     href={card?.images[0].image_url}
                     className="glightbox"
                     data-glightbox="type: image"
                   >
-                    <img src={card.images[0]} alt="image" />
+                    <img src={card.images[0].image_url} alt="image" />
                   </a>
                 </div>
               )}
