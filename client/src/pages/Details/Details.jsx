@@ -219,7 +219,7 @@ export default function Details() {
               </div> */}
               {card?.images?.length > 1 ? (
                 <>
-                  <div className="main-photo">
+                  <div className="main-photo d-sm-block d-none">
                     <a
                       href={card.images[0]?.image_url}
                       className="glightbox"
@@ -252,6 +252,38 @@ export default function Details() {
                             <div className="caption">
                               +{card?.more?.length}{" "}
                             </div>
+                          </div>
+                        </a>
+                      </div>
+                    )}
+                    <div
+                      id="more-img"
+                      className="extra-images-container hide-element"
+                    >
+                      {card?.more?.map((more, i) => (
+                        <a
+                          href={more?.url}
+                          className="glightbox"
+                          data-glightbox="type: image"
+                          key={i}
+                        >
+                          <img src={more?.url} alt="image" />
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="photos_sm">
+                    {card?.more?.length > 1 && (
+                      <div id="multi-link" className="img-box">
+                        <a
+                          href={card?.more[0]}
+                          className="glightbox"
+                          data-glightbox="type: image"
+                        >
+                          <img src={card?.more[0]} alt="image" />
+                          <div className="transparent-box">
+                            <div className="caption">+{card?.more?.length} </div>
                           </div>
                         </a>
                       </div>
@@ -318,33 +350,29 @@ export default function Details() {
                     {card.location}
                   </span>
                   <div className="d-flex align-items-center justify-content-end">
-                  <span
-                    style={{ display: "flex", alignItems: "center" }}
-                    className="_medium_title rating__"
-                  >
-                    <svg
-                      width="17"
-                      height="15"
-                      viewBox="0 0 17 15"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
+                    <span
+                      style={{ display: "flex", alignItems: "center" }}
+                      className="_medium_title rating__"
                     >
-                      <path
-                        d="M8.28564 0L10.2416 5.72684H16.5713L11.4505 9.26622L13.4064 14.9931L8.28564 11.4537L3.16483 14.9931L5.12081 9.26622L0 5.72684H6.32966L8.28564 0Z"
-                        fill="#DEC25F"
-                      />
-                    </svg>
-                    4.7
-                  </span>
+                      <svg
+                        width="17"
+                        height="15"
+                        viewBox="0 0 17 15"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M8.28564 0L10.2416 5.72684H16.5713L11.4505 9.26622L13.4064 14.9931L8.28564 11.4537L3.16483 14.9931L5.12081 9.26622L0 5.72684H6.32966L8.28564 0Z"
+                          fill="#DEC25F"
+                        />
+                      </svg>
+                      4.7
+                    </span>
+                  </div>
                 </div>
-                </div>
-                
               </div>
               <div className="left_sqaure">
-                <div
-                  className="d-flex align-items-center"
-                  id="sqaure-items"
-                >
+                <div className="d-flex align-items-center" id="sqaure-items">
                   <div className="d-flex me-4">
                     <aside>
                       <svg
@@ -476,7 +504,7 @@ export default function Details() {
               </div>
               {formattedDates && (
                 <div className="d-flex flex-column mt-2">
-                  <span className="_medium_title p-0">Special dates</span>
+                  <span className="_medium_title2 p-0">Special dates</span>
                   <div className="small_sqaure mt-2">
                     <div className="d-flex flex-column">
                       {formattedDates?.map((datesArray, i) => (
@@ -561,7 +589,9 @@ export default function Details() {
                 className="d-flex flex-column mt-2"
                 style={{ borderBottom: "1px solid rgba(188, 188, 188, 0.50)" }}
               >
-                <span className="_details_title p-0 mb-3">choose your services</span>
+                <span className="_details_title p-0 mb-3">
+                  choose your services
+                </span>
                 <div className="btn-group d-flex align-items-center col-xs-12">
                   {card?.parking === 1 && (
                     <div className="select">
@@ -1012,7 +1042,9 @@ export default function Details() {
             </div>
             <div className="right_side">
               <div className="right_box">
-                <span className="_details_title text-nowrap ">reservation details :</span>
+                <span className="_details_title text-nowrap ">
+                  reservation details :
+                </span>
                 <div
                   className="right_box_inner_container"
                   style={{ marginBottom: "1rem" }}
@@ -1132,7 +1164,9 @@ export default function Details() {
                     )}
                   </div>
                 </div>
-                <span className="_details_title text-nowrap ">Payment Details :</span>
+                <span className="_details_title text-nowrap ">
+                  Payment Details :
+                </span>
                 <div className="right_box_inner_container">
                   <div className="first_square h-100 pt-2">
                     <span className="_medium_title">night fees</span>

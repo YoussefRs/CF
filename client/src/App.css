@@ -82,6 +82,17 @@ body {
   text-transform: capitalize;
 }
 
+._medium_title2 {
+  color: #2d3136;
+  font-family: "TT Commons", sans-serif;
+  font-size: 1.3rem;
+  font-style: normal;
+  font-weight: 600;
+  /* line-height: 34.673px; */
+  /* 216.704% */
+  text-transform: capitalize;
+}
+
 ._small_title {
   color: #2d3136;
   font-family: "TT Commons", sans-serif;
@@ -99,14 +110,7 @@ body {
 ._very_small_title {
   color: #2d3136;
   font-family: "TT Commons", sans-serif;
-
-  @media (max-width: 1399px) {
-    font-size: .86rem;
-  }
-  @media (min-width: 1400px) {
-    font-size: .9rem;
-  }
-
+  font-size: 1.2rem;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
