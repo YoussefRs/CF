@@ -25,8 +25,8 @@ async function createReservation(req, res) {
     // Extract data from the request body
     const {
       userId,
-      apartmentId,
       userEmail,
+      apartmentId,
       startDate,
       endDate,
       price,

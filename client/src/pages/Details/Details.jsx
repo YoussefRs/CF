@@ -54,10 +54,10 @@ export default function Details() {
       month: "long",
     })} ${date.getFullYear()}`;
   };
-
-  const formattedDates = card?.specialDates?.map((dateObj) => {
-    const startDate = new Date(dateObj.startDate);
-    const endDate = new Date(dateObj.endDate);
+  console.log(card);
+  const formattedDates = card?.prices?.map((dateObj) => {
+    const startDate = new Date(dateObj.start_date);
+    const endDate = new Date(dateObj.end_date);
 
     const datesArray = [];
     let currentDate = startDate;
@@ -469,6 +469,7 @@ export default function Details() {
                   setBookingData={setBookingData}
                   bookingData={bookingData}
                   formattedDates={formattedDates}
+                  card={card}
                 />
               </div>
               {formattedDates && (

@@ -13,7 +13,6 @@ async function httpRegisterUser(req, res) {
       return res.status(400).json({ error: validationResult(req).array() });
     }
 
-
     // Check if user with the same name or email exists
     const [existingUser] = await connection.query(
       "SELECT * FROM users WHERE username = ? OR email = ?",
@@ -97,7 +96,6 @@ async function httpLoginUser(req, res) {
     res.status(500).json({ error: error.message });
   }
 }
-
 
 async function httpGetAllUsers(req, res) {
   try {
@@ -209,7 +207,7 @@ async function httpDeleteOneUser(req, res) {
 
     // Extract user ID from request parameters
     const userId = req.params.id;
-    console.log(userId)
+    console.log(userId);
 
     // Execute SQL query to delete the user
     const result = await db.query("DELETE FROM users WHERE id = ?", [userId]);
