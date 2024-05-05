@@ -338,6 +338,12 @@
 .square {
   display: flex;
   flex-direction: column;
+
+  & .icon svg {
+    width: 15px;
+    height: 15px;
+    fill: #BCBCBC;
+  }
 }
 
 .right_box_footer {
@@ -376,6 +382,14 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr;
+}
+
+._small_title {
+  & svg {
+    width: 15px;
+    height: 15px;
+    fill: #BCBCBC;
+  }
 }
 
 /* ******************************************left_side************************************************ */

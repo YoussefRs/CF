@@ -74,10 +74,10 @@ body {
 ._medium_title {
   color: #2d3136;
   font-family: "TT Commons", sans-serif;
-  font-size: 14px;
+  font-size: 1rem;
   font-style: normal;
   font-weight: 600;
-  line-height: 34.673px;
+  /* line-height: 34.673px; */
   /* 216.704% */
   text-transform: capitalize;
 }
@@ -99,7 +99,7 @@ body {
 ._very_small_title {
   color: #2d3136;
   font-family: "TT Commons", sans-serif;
-  font-size: 10px;
+  font-size: .86rem;
   font-style: normal;
   font-weight: 400;
   line-height: normal;

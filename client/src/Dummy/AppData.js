@@ -7,7 +7,7 @@ export const apartmentList = [
     bathroom: 2,
     parking: 1,
     rent: 1,
-    food: 2,
+    food: 1,
     laundry: 1,
     images: [
       { image_url: "https://picsum.photos/200/300" },
