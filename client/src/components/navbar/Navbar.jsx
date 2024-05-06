@@ -3,7 +3,10 @@ import "./Navbar.css";
 import Logo from "../../assets/homepage_mats/logo_h.png";
 import LogoSm from "../../assets/homepage_mats/logo.png";
 import { Modal } from "react-bootstrap";
-import LoginRegister from "../modals/LoginRegister";
+import LoginRegister, {
+  handleSignInClick,
+  handleSignUpClick,
+} from "../modals/LoginRegister";
 import loader from "../../assets/homepage_mats/logo.png";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -41,6 +44,7 @@ export default function Navbar({ setShow, show }) {
     closeLoginModal();
     setActiveIndex(0);
   };
+
   const toggleLogin = () => {
     setShow(true);
     setIsActive(false);
@@ -60,6 +64,8 @@ export default function Navbar({ setShow, show }) {
       });
     }
   };
+
+  const [authModalToOpen, setAuthModalToOpen] = useState("");
 
   return (
     <>
@@ -342,13 +348,23 @@ export default function Navbar({ setShow, show }) {
                   <>
                     <button
                       className="btn login"
-                      onClick={() => openLoginModal()}
+                      onClick={() => {
+                        openLoginModal();
+                        setTimeout(() => {
+                          handleSignInClick();
+                        }, 100);
+                      }}
                     >
                       Log In
                     </button>
                     <button
                       className="btn register"
-                      onClick={() => openLoginModal()}
+                      onClick={() => {
+                        openLoginModal();
+                        setTimeout(() => {
+                          handleSignUpClick();
+                        }, 100);
+                      }}
                     >
                       sign up
                     </button>

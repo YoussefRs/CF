@@ -2,9 +2,11 @@
   display: flex;
   flex-direction: column;
 }
+
 .form_container .form-rounded {
   border-radius: 1rem;
 }
+
 .form_container h1 {
   color: #1a1b1a;
   font-family: Montserrat, sans-serif;
@@ -14,28 +16,85 @@
   line-height: normal;
   text-transform: capitalize;
 }
+
 .form_container label {
   color: #2d3136;
   font-family: Montserrat, sans-serif;
-  font-size: 10px;
+  font-size: .9rem;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
   text-transform: capitalize;
   margin-bottom: 5px;
 }
+
 .form_container input {
-  border-radius: 60px;
-  border: 1px solid #dedede;
-   background: #fff;
-      box-shadow: -5px -3px 9.4px 0px #dedede inset;
+  border-radius: 3.75rem;
+  border: 1px solid #DEDEDE;
+  background: rgba(255, 255, 255, 0.46);
+  box-shadow: 6px 4px 6.4px 0px rgba(0, 0, 0, 0.14) inset;
+
+  &::placeholder {
+    opacity: .8 !important;
+  }
+
+  &[type="number"] {
+    padding-right: 1rem;
+  }
+
+  /* &[type="date"]::placeholder {
+    opacity: .8 !important;
+  } */
+
+  &[type="date"]::-webkit-calendar-picker-indicator {
+    color: rgba(0, 0, 0, 0);
+    opacity: 0;
+    display: block;
+    width: 20px;
+    height: 20px;
+    border-width: thin;
+
+  }
+
+  &[type="date"] {
+    position: relative;
+
+    &::before {
+      content: "";
+      position: absolute;
+      width: 45px;
+      height: 100%;
+      background-image: url(../../../../assets/calendar_icon.png);
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      top: 0;
+      right: 0;
+    }
+  }
+
+  padding-left: 1.5rem;
 }
+
 .form_container textarea {
   border-radius: 30px;
   border: 1px solid #dedede;
-   background: #fff;
-      box-shadow: -5px -3px 9.4px 0px #dedede inset;
+  background: #f9f9f9;
+  box-shadow: 6px 4px 6.4px 0px rgba(0, 0, 0, 0.14) inset;
+  padding: 1rem;
+
+  &:focus,
+  &:hover {
+    border: 1px solid #dedede;
+    background: #f9f9f9;
+    box-shadow: 6px 4px 6.4px 0px rgba(0, 0, 0, 0.14) inset;
+  }
+
+  &::placeholder {
+    opacity: .8;
+  }
 }
+
 .form-btn button {
   border-radius: 60px;
   border: 1px solid #0db254;
@@ -48,6 +107,7 @@
   line-height: normal;
   text-transform: uppercase;
 }
+
 .form-btn #special-btn {
   border-radius: 60px;
   border: none;
