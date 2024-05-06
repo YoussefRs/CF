@@ -680,7 +680,7 @@ export default function Navbar({ setShow, show }) {
                   </ul>
                 </nav>
               </header>
-              <div>
+              <div className="d-flex">
                 <button onClick={toggleMenu} className="me-4">
                   <i>
                     <svg
