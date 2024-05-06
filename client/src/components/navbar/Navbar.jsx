@@ -565,8 +565,30 @@ export default function Navbar({ setShow, show }) {
             </li>
             <li className="small-screens">
               <div className="small-screens-brand">
-                <img src={Logo} alt="" className="img-fluid d-sm-block d-none" />
-                <img src={LogoSm} alt="" className=" d-sm-none d-block" />
+                <img
+                  src={Logo}
+                  alt=""
+                  className="img-fluid d-sm-block d-none"
+                  onClick={() => {
+                    if (isHomePage) {
+                      scrollToSection("home");
+                    } else {
+                      navigate("/");
+                    }
+                  }}
+                />
+                <img
+                  src={LogoSm}
+                  alt=""
+                  className=" d-sm-none d-block"
+                  onClick={() => {
+                    if (isHomePage) {
+                      scrollToSection("home");
+                    } else {
+                      navigate("/");
+                    }
+                  }}
+                />
               </div>
               <header className="__nav_sidemenu">
                 <nav className={isActive ? "active" : ""}>
@@ -683,7 +705,11 @@ export default function Navbar({ setShow, show }) {
                   </i>
                 </button>
                 {!user ? (
-                  <i onClick={toggleLogin}>
+                  <i
+                    onClick={() => {
+                      openLoginModal();
+                    }}
+                  >
                     <svg
                       width="46"
                       height="46"
@@ -943,12 +969,12 @@ export default function Navbar({ setShow, show }) {
         </div>
       </nav>
       <Modal
-        size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
         className="login_signin_modal"
         show={loginModal}
         onHide={onHide}
+        backdropClassName="login_signin_modal_backdrop"
       >
         <Modal.Body className="d-flex justify-content-center flex-column items-center">
           <LoginRegister closeLoginModal={closeLoginModal} />

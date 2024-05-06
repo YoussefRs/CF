@@ -9,16 +9,19 @@ import { useModal } from "../../hooks/useModal";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserBookings } from "../../redux/BookingSlice";
 import { Link } from "react-router-dom";
+import { user, favoritess } from "../../Dummy/AppData";
+import Cards from "../../components/cards/Cards";
 
 export default function Profile() {
   const dispatch = useDispatch();
   const [activeTab, setActiveTab] = useState("profile");
   const { showModal, openModal, closeModal } = useModal();
-  const user = useSelector((state) => state.auth.user);
+  // const user = useSelector((state) => state.auth.user);
   const Rentals = useSelector((state) => state.bookings?.bookings);
-  const [favorites, setFavorites] = useState(
-    JSON.parse(localStorage.getItem("favorites")) || []
-  );
+  // const [favorites, setFavorites] = useState(
+  //   JSON.parse(localStorage.getItem("favorites")) || favorites
+  // );
+  const [favorites, setFavorites] = useState([]);
 
   const removeFav = (id) => {
     const updatedFavorites = favorites.filter((fav) => fav.id !== id);
@@ -27,25 +30,28 @@ export default function Profile() {
   };
 
   useEffect(() => {
-    dispatch(getUserBookings());
+    // dispatch(getUserBookings());
+    setFavorites(favoritess);
   }, []);
 
   const handleTabClick = (tab, event) => {
     event.preventDefault();
     setActiveTab(tab);
   };
+
+  console.log(favorites);
   return (
     <>
       <div className="profile-ctr mb-5">
         <div className="profile-container d-flex align-items-center justify-content-center">
           <div className="container-fluid" style={{ width: 1340 }}>
             <div className="row">
-              <div className="col col-xl-4 col-lg-12 profile_ctr mb-4">
-                <div className="panel panel-default px-4">
+              <div className="col-lg-3 col-12 profile_ctr mb-4">
+                <div className="panel panel-default">
                   <div className="panel-body py-5 text-center d-flex justify-content-center align-items-center flex-column">
                     <div className="profile-pic">
                       <img
-                        src={user?.user.image || profilePic}
+                        src={user?.user?.image || profilePic}
                         alt="Profile Picture"
                         onError={(e) => {
                           e.target.onerror = null;
@@ -74,11 +80,12 @@ export default function Profile() {
                       change
                     </button>
                     <br />
-                    <h3>Hello, {user?.user?.username} </h3>
+                    {/* <h3>Hello, {user?.user?.username} </h3> */}
+                    <h3>Hello, {user?.username} </h3>
                   </div>
                 </div>
               </div>
-              <div className="col col-xl-8 col-lg-12">
+              <div className="col-lg-9 col-12">
                 <div className="_container ">
                   <div className="container-fluid d-flex align-items-center justify-content-center p-0">
                     <ul className="nav nav-pills nav-justified">
@@ -216,7 +223,8 @@ export default function Profile() {
                                     type="text"
                                     name="text"
                                     className="form-control profile_input"
-                                    value={user?.user?.username}
+                                    // value={user?.user?.username}
+                                    value={user?.username}
                                     required
                                     style={{ pointerEvents: "none" }}
                                   />
@@ -233,7 +241,8 @@ export default function Profile() {
                                     type="tel"
                                     name="phone"
                                     className="form-control profile_input"
-                                    value={user?.user?.phone}
+                                    // value={user?.user?.phone}
+                                    value={user?.phone}
                                     required
                                     style={{ pointerEvents: "none" }}
                                   />
@@ -250,7 +259,8 @@ export default function Profile() {
                                     type="email"
                                     name="email"
                                     className="form-control profile_input"
-                                    value={user?.user?.email}
+                                    // value={user?.user?.email}
+                                    value={user.email}
                                     style={{ pointerEvents: "none" }}
                                     required
                                   />
@@ -258,8 +268,8 @@ export default function Profile() {
                               </div>
                             </div>
                             <div className="row mt-5">
-                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 submit d-flex justify-content-sm-center justify-content-between  gap-2">
-                                <div className="customer-form-btn d-flex form-group col-5 col-md-2">
+                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 submit d-flex justify-content-center gap-2">
+                                <div className="customer-form-btn d-flex form-group col-5 col-md-2 me-3">
                                   <button className="col">cancel</button>
                                 </div>
                                 <div className="customer-form-btn d-flex form-group col-5 col-md-2">
@@ -283,78 +293,85 @@ export default function Profile() {
                     >
                       <ul className="profile_cards scrollable-container mt-4">
                         {favorites?.map((fav, i) => (
-                          <li className="profile_cards_item" key={i}>
-                            <div className="profile_card">
-                              <div className="app_card_image">
-                                <img src={fav?.pictures[0]} alt="app" />
-                              </div>
-
-                              <div className="app_card_content">
-                                <div className="app_card_heading d-flex justify-content-between">
-                                  <span className="app_title">
-                                    {fav.apartmentName}
-                                  </span>
-                                  <span className="app_title">
+                          <>
+                            {/* <li className="profile_cards_item" key={i}>
+                              <div className="profile_card">
+                                <div className="app_card_image">
+                                  <img src={fav?.pictures[0]} alt="app" />
+                                </div>
+  
+                                <div className="app_card_content">
+                                  <div className="app_card_heading d-flex justify-content-between">
+                                    <span className="app_title">
+                                      {fav.apartmentName}
+                                    </span>
+                                    <span className="app_title">
+                                      <svg
+                                        width="16"
+                                        height="15"
+                                        viewBox="0 0 16 15"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        style={{ paddingRight: 5 }}
+                                      >
+                                        <path
+                                          d="M7.66418 0.360352L9.46181 5.62357H15.279L10.5728 8.87641L12.3704 14.1396L7.66418 10.8868L2.95794 14.1396L4.75556 8.87641L0.0493164 5.62357H5.86656L7.66418 0.360352Z"
+                                          fill="#F1AF07"
+                                        />
+                                      </svg>
+                                      4.7
+                                    </span>
+                                    <button
+                                      className="remove_fav"
+                                      onClick={() => removeFav(fav.id)}
+                                    ></button>
+                                  </div>
+                                  <p className="card-span">
                                     <svg
-                                      width="16"
-                                      height="15"
-                                      viewBox="0 0 16 15"
+                                      width="9"
+                                      height="9"
+                                      viewBox="0 0 9 9"
                                       fill="none"
                                       xmlns="http://www.w3.org/2000/svg"
-                                      style={{ paddingRight: 5 }}
                                     >
-                                      <path
-                                        d="M7.66418 0.360352L9.46181 5.62357H15.279L10.5728 8.87641L12.3704 14.1396L7.66418 10.8868L2.95794 14.1396L4.75556 8.87641L0.0493164 5.62357H5.86656L7.66418 0.360352Z"
-                                        fill="#F1AF07"
-                                      />
-                                    </svg>
-                                    4.7
-                                  </span>
-                                  <button
-                                    className="remove_fav"
-                                    onClick={() => removeFav(fav.id)}
-                                  ></button>
-                                </div>
-                                <p className="card-span">
-                                  <svg
-                                    width="9"
-                                    height="9"
-                                    viewBox="0 0 9 9"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <g clipPath="url(#clip0_161_2953)">
-                                      <path
-                                        d="M4.50296 0.195417C6.27031 0.135857 7.72168 1.55078 7.72168 3.30467C7.72168 5.29514 5.81151 6.73968 4.74087 8.81713C4.68651 8.92261 4.53467 8.92274 4.48012 8.81728C3.51157 6.948 1.85618 5.69454 1.5494 3.8937C1.23176 2.03018 2.61367 0.259112 4.50296 0.195417ZM4.61065 4.93425C5.51063 4.93425 6.24023 4.20463 6.24023 3.30467C6.24023 2.40471 5.51061 1.67509 4.61065 1.67509C3.71067 1.67509 2.98105 2.40471 2.98105 3.30467C2.98105 4.20463 3.71067 4.93425 4.61065 4.93425Z"
-                                        fill="#DEC25F"
-                                      />
-                                    </g>
-                                    <defs>
-                                      <clipPath id="clip0_161_2953">
-                                        <rect
-                                          width="8.7027"
-                                          height="8.7027"
-                                          fill="white"
-                                          transform="matrix(-1 0 0 1 8.96387 0.193665)"
+                                      <g clipPath="url(#clip0_161_2953)">
+                                        <path
+                                          d="M4.50296 0.195417C6.27031 0.135857 7.72168 1.55078 7.72168 3.30467C7.72168 5.29514 5.81151 6.73968 4.74087 8.81713C4.68651 8.92261 4.53467 8.92274 4.48012 8.81728C3.51157 6.948 1.85618 5.69454 1.5494 3.8937C1.23176 2.03018 2.61367 0.259112 4.50296 0.195417ZM4.61065 4.93425C5.51063 4.93425 6.24023 4.20463 6.24023 3.30467C6.24023 2.40471 5.51061 1.67509 4.61065 1.67509C3.71067 1.67509 2.98105 2.40471 2.98105 3.30467C2.98105 4.20463 3.71067 4.93425 4.61065 4.93425Z"
+                                          fill="#DEC25F"
                                         />
-                                      </clipPath>
-                                    </defs>
-                                  </svg>
-                                  {fav.description}
-                                </p>
-                                <div className="app_card_heading d-flex justify-content-between">
-                                  <p className="d-flex align-items-center gap-1">
-                                    3000 € <span>/ month</span>
+                                      </g>
+                                      <defs>
+                                        <clipPath id="clip0_161_2953">
+                                          <rect
+                                            width="8.7027"
+                                            height="8.7027"
+                                            fill="white"
+                                            transform="matrix(-1 0 0 1 8.96387 0.193665)"
+                                          />
+                                        </clipPath>
+                                      </defs>
+                                    </svg>
+                                    {fav.description}
                                   </p>
-                                  <div className="d-flex gap-2">
-                                    <button className="profile-btn">
-                                      More
-                                    </button>
+                                  <div className="app_card_heading d-flex justify-content-between">
+                                    <p className="d-flex align-items-center gap-1">
+                                      3000 € <span>/ month</span>
+                                    </p>
+                                    <div className="d-flex gap-2">
+                                      <button className="profile-btn">
+                                        More
+                                      </button>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
-                            </div>
-                          </li>
+                            </li> */}
+                            <Cards card={fav} key={i} type={"fav"} customClass={"profile_cards_item"} />
+                            {/* <button
+                              className="remove_fav"
+                              onClick={() => removeFav(fav.id)}
+                            ></button> */}
+                          </>
                         ))}
                       </ul>
                     </div>
@@ -451,13 +468,15 @@ export default function Profile() {
                                 <div className="card-price-btn mt-3">
                                   <div className="card-price">
                                     <p>
-                                      {rental?.appartment?.defaultSpecialDate
-                                        ?.price} €{" "}
-                                      <span>/ Month</span>
+                                      {
+                                        rental?.appartment?.defaultSpecialDate
+                                          ?.price
+                                      }{" "}
+                                      € <span>/ Month</span>
                                     </p>
                                   </div>
                                   <div className="profile_card-btn">
-                                      <button>More +</button>
+                                    <button>More +</button>
                                   </div>
                                 </div>
                               </div>
@@ -486,9 +505,7 @@ export default function Profile() {
                         <section className="tables">
                           <div className="table__wrapper scrollable-container">
                             <table className="invoice_table">
-                              <tbody
-                                id="profile_orders_table"
-                              >
+                              <tbody id="profile_orders_table">
                                 <tr
                                   onClick={() => {
                                     openModal();

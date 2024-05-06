@@ -219,7 +219,7 @@ console.log(card)
               </div> */}
               {card?.images?.length > 1 ? (
                 <>
-                  <div className="main-photo">
+                  <div className="main-photo d-sm-block d-none">
                     <a
                       href={card.images[0]?.image_url}
                       className="glightbox"
@@ -229,7 +229,7 @@ console.log(card)
                     </a>
                   </div>
                   <div className="sub">
-                    {card?.images?.slice(0).map((appPic, i) => (
+                    {card?.images?.slice(1, 4).map((appPic, i) => (
                       <div className="img-box" key={i}>
                         <a
                           href={appPic}
@@ -240,22 +240,51 @@ console.log(card)
                         </a>
                       </div>
                     ))}
-                    {card?.more?.length > 1 && (
+                    {card?.images?.length > 4 && (
                       <div id="multi-link" className="img-box">
                         <a
-                          href={card?.more[0]}
+                          href={card?.images[4]?.image_url}
                           className="glightbox"
                           data-glightbox="type: image"
                         >
-                          <img src={card?.more[0]} alt="image" />
+                          <img src={card?.images[4]?.image_url} alt="image" />
                           <div className="transparent-box">
                             <div className="caption">
-                              +{card?.more?.length}{" "}
+                              +{card?.images?.length - 4}{" "}
                             </div>
                           </div>
                         </a>
                       </div>
                     )}
+                    <div
+                      id="more-img"
+                      className="extra-images-container hide-element"
+                    >
+                      {card?.images?.map((more, i) => (
+                        <a
+                          href={more?.image_url}
+                          className="glightbox"
+                          data-glightbox="type: image"
+                          key={i}
+                        >
+                          <img src={more?.image_url} alt="image" />
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="photos_sm">
+                    <div id="multi-link" className="img-box">
+                      <a
+                        href={card?.images[0].image_url}
+                        className="glightbox"
+                        data-glightbox="type: image"
+                      >
+                        <img src={card?.images[0].image_url} alt="image" />
+                        <div className="transparent-box">
+                          <div className="caption">+{card?.images?.length} </div>
+                        </div>
+                      </a>
+                    </div>
                     <div
                       id="more-img"
                       className="extra-images-container hide-element"
@@ -274,13 +303,13 @@ console.log(card)
                   </div>
                 </>
               ) : (
-                <div className="main-photo">
+                <div className="main-single-photo">
                   <a
                     href={card?.images[0].image_url}
                     className="glightbox"
                     data-glightbox="type: image"
                   >
-                    <img src={card.images[0]} alt="image" />
+                    <img src={card.images[0].image_url} alt="image" />
                   </a>
                 </div>
               )}
@@ -289,7 +318,7 @@ console.log(card)
           <div className="_inner_container">
             <div className="left_side">
               <div className="left_sqaure" id="special_sqaure">
-                <div className="d-flex align-items-center">
+                <div className="d-flex align-items-center justify-content-between">
                   <span className="_medium_title">
                     <svg
                       width="18"
@@ -317,34 +346,31 @@ console.log(card)
                     </svg>
                     {card.location}
                   </span>
-                </div>
-                <div className="d-flex align-items-center justify-content-end">
-                  <span
-                    style={{ display: "flex", alignItems: "center" }}
-                    className="_medium_title rating__"
-                  >
-                    <svg
-                      width="17"
-                      height="15"
-                      viewBox="0 0 17 15"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
+                  <div className="d-flex align-items-center justify-content-end">
+                    <span
+                      style={{ display: "flex", alignItems: "center" }}
+                      className="_medium_title rating__"
                     >
-                      <path
-                        d="M8.28564 0L10.2416 5.72684H16.5713L11.4505 9.26622L13.4064 14.9931L8.28564 11.4537L3.16483 14.9931L5.12081 9.26622L0 5.72684H6.32966L8.28564 0Z"
-                        fill="#DEC25F"
-                      />
-                    </svg>
-                    4.7
-                  </span>
+                      <svg
+                        width="17"
+                        height="15"
+                        viewBox="0 0 17 15"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M8.28564 0L10.2416 5.72684H16.5713L11.4505 9.26622L13.4064 14.9931L8.28564 11.4537L3.16483 14.9931L5.12081 9.26622L0 5.72684H6.32966L8.28564 0Z"
+                          fill="#DEC25F"
+                        />
+                      </svg>
+                      4.7
+                    </span>
+                  </div>
                 </div>
               </div>
               <div className="left_sqaure">
-                <div
-                  className="d-flex align-items-center justify-content-between "
-                  id="sqaure-items"
-                >
-                  <div className="d-flex ">
+                <div className="d-flex align-items-center" id="sqaure-items">
+                  <div className="d-flex me-4">
                     <aside>
                       <svg
                         width="50"
@@ -443,17 +469,19 @@ console.log(card)
                 <span className="_details_title p-0">description</span>
                 <span className="_description">{card.description}</span>
               </div>
-              <div className="d-flex flex-column mt-2">
-                <span className="_details_title p-0">calendar</span>
-                <div className="left_sqaure">
-                  <div className="d-flex align-items-center justify-content-between gap-2">
-                    <button
-                      onClick={toggleCalendar}
-                      className={showCalendar ? "active" : ""}
-                    >
-                      Day
-                    </button>
-                    <button onClick={() => openModal2()}>Month</button>
+              <div className="calendar_box">
+                <div className="d-flex flex-column mt-2">
+                  <span className="_details_title p-0 mb-2">calendar</span>
+                  <div className="left_sqaure">
+                    <div className="d-flex align-items-center justify-content-between gap-2">
+                      <button
+                        onClick={toggleCalendar}
+                        className={showCalendar ? "active" : ""}
+                      >
+                        Day
+                      </button>
+                      <button onClick={() => openModal2()}>Month</button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -474,17 +502,17 @@ console.log(card)
               </div>
               {formattedDates && (
                 <div className="d-flex flex-column mt-2">
-                  <span className="_medium_title p-0">Special dates</span>
-                  <div className="small_sqaure">
+                  <span className="_medium_title2 p-0">Special dates</span>
+                  <div className="small_sqaure mt-2">
                     <div className="d-flex flex-column">
                       {formattedDates?.map((datesArray, i) => (
                         <Fragment key={i}>
                           {datesArray.map((date, i) => (
                             <div
-                              className="d-flex align-items-center justify-content-between gap-2"
+                              className="d-flex align-items-center mb-1"
                               key={i}
                             >
-                              <span className="d-flex align-items-center gap-2 _very_small_title">
+                              <span className="d-flex align-items-center gap-2 _very_small_title me-5">
                                 {" "}
                                 <svg
                                   width="18"
@@ -559,7 +587,9 @@ console.log(card)
                 className="d-flex flex-column mt-2"
                 style={{ borderBottom: "1px solid rgba(188, 188, 188, 0.50)" }}
               >
-                <span className="_details_title p-0">choose your services</span>
+                <span className="_details_title p-0 mb-3">
+                  choose your services
+                </span>
                 <div className="btn-group d-flex align-items-center col-xs-12">
                   {card?.parking === 1 && (
                     <div className="select">
@@ -1010,7 +1040,9 @@ console.log(card)
             </div>
             <div className="right_side">
               <div className="right_box">
-                <span className="_details_title">reservation details :</span>
+                <span className="_details_title text-nowrap ">
+                  reservation details :
+                </span>
                 <div
                   className="right_box_inner_container"
                   style={{ marginBottom: "1rem" }}
@@ -1130,7 +1162,9 @@ console.log(card)
                     )}
                   </div>
                 </div>
-                <span className="_details_title">Payment Details :</span>
+                <span className="_details_title text-nowrap ">
+                  Payment Details :
+                </span>
                 <div className="right_box_inner_container">
                   <div className="first_square h-100 pt-2">
                     <span className="_medium_title">night fees</span>
