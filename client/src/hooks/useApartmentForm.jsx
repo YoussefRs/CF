@@ -17,14 +17,11 @@ const initialFormData = {
   food: false,
   laundry: false,
   pictures: [],
-  defaultSpecialDate: {
-    price: 0,
-    startDate: "",
-    endDate: "",
-  },
-  specialDates: [],
+  price: "", // Added for price
+  startDate: "", // Added for startDate
+  endDate: "", // Added for endDate
+  specialDates: [], // Added for specialDates
   description: "",
-  more: [],
 };
 
 const useAppartementsForm = () => {
@@ -55,23 +52,43 @@ const useAppartementsForm = () => {
   }, [showModal]);
 
   const handleInputChange = (event) => {
-    const { name, value } = event.target;
+    const { name, value, type, checked } = event.target;
+  
+    // If the input type is checkbox, handle the checked state
+    const inputValue = type === "checkbox" ? checked : value;
+  
+    // If the name includes '.', it means it's nested data (e.g., defaultSpecialDate.price)
     if (name.includes(".")) {
       const [parent, child] = name.split(".");
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        [parent]: {
-          ...prevFormData[parent],
-          [child]: value,
-        },
-      }));
+  
+      // If the child field is 'startDate' or 'endDate', update directly
+      if (child === "startDate" || child === "endDate") {
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          [child]: inputValue,
+        }));
+      } else {
+        // Otherwise, update nested data
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          [parent]: {
+            ...prevFormData[parent],
+            [child]: inputValue,
+          },
+        }));
+      }
     } else {
-      setFormData({ ...formData, [name]: value });
+      // For top-level fields, update directly
+      setFormData({ ...formData, [name]: inputValue });
     }
   };
 
   const handleAddRow = () => {
     setInputRows([...inputRows, { price: "", startDate: "", endDate: "" }]);
+  };
+
+  const handleRemoveRow = (indexToRemove) => {
+    setInputRows(inputRows.filter((_, index) => index !== indexToRemove));
   };
 
   const handleSpecialDateInputChange = (index, event) => {
@@ -126,15 +143,14 @@ const useAppartementsForm = () => {
   //   }));
   // };
 
-  // const handleRemoveImage = (id) => {
-  //   const updatedPictures = formData.pictures.filter(
-  //     (image) => image.id !== id
-  //   );
-  //   setFormData((prevFormData) => ({
-  //     ...prevFormData,
-  //     pictures: updatedPictures,
-  //   }));
-  // };
+  const handleRemoveImage = (index) => {
+    const updatedPictures = [...editApartment.images];
+    updatedPictures.splice(index, 1); // Remove the image at the specified index
+    setEditApartment((prevEditApartment) => ({
+      ...prevEditApartment,
+      images: updatedPictures,
+    }));
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -172,11 +188,9 @@ const useAppartementsForm = () => {
         food: formData.food,
         laundry: formData.laundry,
         pictures: uploadedImages, // Use uploaded image URLs
-        defaultSpecialDate: {
-          price: formData.defaultSpecialDate.price,
-          startDate: formData.defaultSpecialDate.startDate,
-          endDate: formData.defaultSpecialDate.endDate,
-        },
+        price: formData.price,
+        startDate: formData.startDate,
+        endDate: formData.endDate,
         specialDates: formData.specialDates,
         description: formData.description,
       });
@@ -223,13 +237,14 @@ const useAppartementsForm = () => {
       return { ...prevEditApartment, prices: newSpecialDate };
     });
   };
+  
 
   const handleEditAddRow = () => {
     setEditApartment((prevEditApartment) => ({
       ...prevEditApartment,
-      specialDate: [
-        ...prevEditApartment.specialDate,
-        { price: "", startDate: "", endDate: "" },
+      prices: [
+        ...prevEditApartment.prices,
+        { price: "", start_date: "", end_date: "" },
       ],
     }));
   };
@@ -296,9 +311,12 @@ const useAppartementsForm = () => {
 
   const handleEditSubmit = async (e, id) => {
     e.preventDefault();
-
     try {
       setLoadingEdit(true);
+
+      // Convert the startDate and endDate to the correct format
+    const formattedStartDate = new Date(editApartment.startDate).toISOString().slice(0, 19).replace('T', ' ');
+    const formattedEndDate = new Date(editApartment.endDate).toISOString().slice(0, 19).replace('T', ' ');
 
       // Filter out existing images and get only the new ones to upload
       const newImages = editApartment.images.filter((image) => !image.id);
@@ -348,13 +366,11 @@ const useAppartementsForm = () => {
         rent: editApartment.rent,
         food: editApartment.food,
         laundry: editApartment.laundry,
-        pictures: uploadedImages, // Use uploaded image URLs
-        default_special_date: {
-          price: editApartment.default_special_date.price,
-          startDate: editApartment.default_special_date.startDate,
-          endDate: editApartment.default_special_date.endDate,
-        },
-        specialDates: editApartment.specialDates,
+        pictures: editApartment.images, 
+          price: editApartment.price,
+          startDate: formattedStartDate,
+          endDate: formattedEndDate,
+        specialDates: editApartment.prices,
         description: editApartment.description,
       });
 
@@ -398,6 +414,8 @@ const useAppartementsForm = () => {
     OpenDeleteAppModal,
     closeDeleteAppModal,
     loadingAdd,
+    handleRemoveRow,
+    handleRemoveImage
   };
 };
 

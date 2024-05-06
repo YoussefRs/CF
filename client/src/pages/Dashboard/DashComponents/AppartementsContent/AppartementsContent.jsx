@@ -28,6 +28,7 @@ export default function AppartementsContent() {
     handleCounterChange,
     handleSubmit,
     loadingAdd,
+    handleRemoveRow,
   } = useAppartementsForm();
 
   const [submitEnabled, setSubmitEnabled] = useState(false);
@@ -88,7 +89,7 @@ export default function AppartementsContent() {
       document.body.removeEventListener("click", handleImageRemove);
     };
   }, [imgArray]);
-
+  
   return (
     <>
       <div className="container-fluid py-4">
@@ -170,51 +171,48 @@ export default function AppartementsContent() {
                   <div>
                     <div className="row">
                       <div className="col-4">
-                        <label htmlFor="defaultSpecialDate.price">price:</label>
+                        <label htmlFor="price">Price:</label>
                         <input
                           type="number"
                           id="price"
-                          name="defaultSpecialDate.price"
-                          value={formData.defaultSpecialDate.price}
+                          name="price"
+                          value={formData.price}
                           onChange={handleInputChange}
                           placeholder="Price"
                           required
                         />
                       </div>
                       <div className="col-4" style={{ paddingRight: 0 }}>
-                        <label htmlFor="defaultSpecialDate.startDate">
-                          start date:
-                        </label>
+                        <label htmlFor="startDate">Start Date:</label>
                         <input
                           type="date"
                           id="startDate"
-                          name="defaultSpecialDate.startDate"
-                          value={formData.defaultSpecialDate.startDate}
+                          name="startDate"
+                          value={formData.startDate}
                           onChange={handleInputChange}
-                          placeholder="Start date"
+                          placeholder="Start Date"
                           min={new Date().toISOString().split("T")[0]}
                           required
                         />
                       </div>
                       <div className="col-4" style={{ paddingRight: 0 }}>
-                        <label htmlFor="defaultSpecialDate.endDate">
-                          end date:
-                        </label>
+                        <label htmlFor="endDate">End Date:</label>
                         <input
                           type="date"
                           id="endDate"
-                          name="defaultSpecialDate.endDate"
-                          value={formData.defaultSpecialDate.endDate}
+                          name="endDate"
+                          value={formData.endDate}
                           onChange={handleInputChange}
-                          placeholder="End date"
+                          placeholder="End Date"
                           min={new Date().toISOString().split("T")[0]}
                           required
                         />
                       </div>
                     </div>
+
                     {inputRows.map((row, index) => (
                       <div className="row" key={index}>
-                        <div className="col-4" style={{ paddingRight: 0 }}>
+                        <div className="col-3" style={{ paddingRight: 0 }}>
                           <label htmlFor={`price-${index}`}>price:</label>
                           <input
                             type="number"
@@ -256,6 +254,16 @@ export default function AppartementsContent() {
                             placeholder="End date"
                             min={new Date().toISOString().split("T")[0]}
                           />
+                        </div>
+                        <div className="col-1 d-flex align-items-center">
+                          <button
+                            type="button"
+                            className="btn_add"
+                            style={{ marginTop: 25 }}
+                            onClick={() => handleRemoveRow(index)}
+                          >
+                            x
+                          </button>
                         </div>
                       </div>
                     ))}

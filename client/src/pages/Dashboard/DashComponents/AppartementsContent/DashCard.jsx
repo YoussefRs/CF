@@ -37,6 +37,8 @@ function DashCard({ app, card }) {
     closeDeleteAppModal,
     handleEditServiceChange,
     loadingEdit,
+    handleRemoveImage,
+    handleEditRemoveImage
   } = useAppartementsForm();
 
   const convertDateString = (dateString) => {
@@ -48,7 +50,6 @@ function DashCard({ app, card }) {
     day = day < 10 ? `0${day}` : day;
     return `${year}-${month}-${day}`;
   };
-console.log(editApartment)
   const handleEditImagesChange = (event) => {
     const files = event.target.files;
     const filesArr = Array.from(files);
@@ -75,11 +76,11 @@ console.log(editApartment)
             .insertAdjacentHTML("beforeend", html);
         };
         reader.readAsDataURL(file);
-        
+
         selectedImages.push({
-          id: null, // Set to null for new images
-          apartment_id: editApartment.id, // Assuming editApartment has an id property
-          file: file, // Store the File object
+          id: null,
+          apartment_id: editApartment.id,
+          file: file,
         });
       }
     });
@@ -104,6 +105,8 @@ console.log(editApartment)
   //     };
   //   });
   // };
+
+  console.log(editApartment)
 
   return (
     <div className="col-xxl-4 col-lg-6 col-12 px-sm-2 py-5 px-0 ">
@@ -272,7 +275,7 @@ console.log(editApartment)
         <div className="card-price-btn">
           <div className="card-price">
             <p>
-              {card?.default_special_date?.price} € <span>/ Month</span>
+              {card?.price} € <span>/ Month</span>
             </p>
           </div>
           <div className="d-flex px-4 gap-2">
@@ -339,24 +342,22 @@ console.log(editApartment)
                         <input
                           type="number"
                           id="price"
-                          name="default_special_date.price"
-                          value={editApartment?.default_special_date.price}
+                          name="price"
+                          value={editApartment?.price}
                           onChange={handleEditInputChange}
                           placeholder="Price"
                           // required
                         />
                       </div>
                       <div className="col-4" style={{ paddingRight: 0 }}>
-                        <label htmlFor="defaultSpecialDate.startDate">
+                        <label htmlFor="startDate">
                           start date:
                         </label>
                         <input
                           type="date"
                           id="startDate"
-                          name="default_special_date.startDate"
-                          value={convertDateString(
-                            editApartment?.default_special_date.startDate
-                          )}
+                          name="startDate"
+                          value={convertDateString(editApartment?.startDate)}
                           onChange={handleEditInputChange}
                           placeholder="Start date"
                           min={new Date().toISOString().split("T")[0]}
@@ -364,16 +365,14 @@ console.log(editApartment)
                         />
                       </div>
                       <div className="col-4" style={{ paddingRight: 0 }}>
-                        <label htmlFor="default_special_date.endDate">
+                        <label htmlFor="endDate">
                           end date:
                         </label>
                         <input
                           type="date"
                           id="endDate"
-                          name="defaultSpecialDate.endDate"
-                          value={convertDateString(
-                            editApartment?.default_special_date.endDate
-                          )}
+                          name="endDate"
+                          value={convertDateString(editApartment?.endDate)}
                           onChange={handleEditInputChange}
                           placeholder="End date"
                           min={new Date().toISOString().split("T")[0]}
@@ -383,7 +382,7 @@ console.log(editApartment)
                     </div>
                     {editApartment?.prices.map((row, index) => (
                       <div className="row" key={index}>
-                        <div className="col-4" style={{ paddingRight: 0 }}>
+                        <div className="col-3" style={{ paddingRight: 0 }}>
                           <label htmlFor={`price-${index}`}>price:</label>
                           <input
                             type="number"
@@ -425,6 +424,16 @@ console.log(editApartment)
                             placeholder="End date"
                             min={new Date().toISOString().split("T")[0]}
                           />
+                        </div>
+                        <div className="col-1 d-flex align-items-center">
+                          <button
+                            type="button"
+                            className="btn_add"
+                            style={{ marginTop: 25 }}
+                            // onClick={() => handleRemoveRow(index)}
+                          >
+                            x
+                          </button>
                         </div>
                       </div>
                     ))}
@@ -763,7 +772,7 @@ console.log(editApartment)
                               >
                                 <div
                                   className="upload__img-close"
-                                  // onClick={() => handleDeleteImage(index)}
+                                  onClick={() => handleEditRemoveImage(index)}
                                 ></div>
                               </div>
                             </div>

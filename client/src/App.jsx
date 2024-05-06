@@ -32,7 +32,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    // dispatch(getAllApartments());
+    dispatch(getAllApartments());
   }, [dispatch]);
 
   const Layout = ({ children }) => {

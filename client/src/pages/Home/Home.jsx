@@ -1,10 +1,5 @@
 import React, { useEffect } from "react";
 import "./Home.css";
-import Navbar from "../../components/navbar/Navbar";
-import logo from "../../assets/homepage_mats/logo.png";
-import name from "../../assets/homepage_mats/name.png";
-import house from "../../assets/homepage_mats/Vector.png";
-import RangeSlider from "../../components/sliders/RangeSlider";
 import Logo from "../../assets/homepage_mats/Group_50.png";
 import Cards from "../../components/cards/Cards";
 import TestimonialsSlider from "../../components/sliders/TestimonialsSlider";
@@ -13,8 +8,6 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 // import { apartmentList } from "../../Dummy/AppData";
-
-// import joinLogo from '../../assets/homepage_mats/'
 
 import MultiFunc from "../../components/multi/MultiFunc";
 
