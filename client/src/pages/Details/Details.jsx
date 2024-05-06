@@ -171,7 +171,7 @@ export default function Details() {
 console.log(card)
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
       <div className="_details">
         <div className="_details_big_container">
           <div className="_container">

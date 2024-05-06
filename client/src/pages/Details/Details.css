@@ -556,11 +556,11 @@
   }
 
   @media (min-width: 850px) and (max-width: 991px) {
-    width: 65%;
+    width: 40%;
   }
 
   @media (min-width: 769px) and (max-width: 849px) {
-    width: 80%;
+    width: 50%;
   }
 }
 
