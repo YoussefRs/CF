@@ -9,14 +9,22 @@ const {
 
   createPaymentIntent,
   confirmPayment,
-
+  getAllApprovedAndPaidReservations,
+  getAllApprovedAndPaidReservationsForUser,
 } = require("../Controllers/reservations.controller");
-const { verifyAdmin, verifyToken } = require("../Middlewares/authorization_handler");
+const {
+  verifyAdmin,
+  verifyToken,
+} = require("../Middlewares/authorization_handler");
 
 const reservationRouter = express.Router();
 
 reservationRouter.route("/").get(getAllReservations);
-reservationRouter.route("/add").post(verifyToken ,createReservation);
+reservationRouter.route("/invoices").get(getAllApprovedAndPaidReservations);
+reservationRouter
+  .route("/my-invoices")
+  .get(verifyToken, getAllApprovedAndPaidReservationsForUser);
+reservationRouter.route("/add").post(verifyToken, createReservation);
 reservationRouter.route("/:id").get(getReservation);
 reservationRouter.route("/:id/approve").put(verifyAdmin, approveReservation);
 reservationRouter.route("/:id/decline").put(verifyAdmin, declineReservation);
@@ -24,6 +32,7 @@ reservationRouter.post(
   "/generate-paypal-checkout/:reservationId",
   generatePayPalCheckoutUrl
 );
+
 
 // Route to create a payment intent
 reservationRouter.post("/payment-intent/:reservationId", async (req, res) => {
@@ -48,8 +57,5 @@ reservationRouter.post("/confirm-payment/:reservationId", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
-
-
-
 
 module.exports = { reservationRouter };

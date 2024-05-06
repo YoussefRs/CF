@@ -23,16 +23,8 @@ async function createReservation(req, res) {
   const db = await startScript();
   try {
     // Extract data from the request body
-    const {
-      userId,
-      apartmentId,
-      userEmail,
-      startDate,
-      endDate,
-      price,
-      servicesFee,
-      totalPrice,
-    } = req.body;
+    const { userId, apartmentId, userEmail, startDate, endDate, price } =
+      req.body;
 
     // Check if start date is before end date
     if (new Date(startDate) >= new Date(endDate)) {
@@ -41,35 +33,36 @@ async function createReservation(req, res) {
         .json({ error: "Start date must be before end date" });
     }
 
-    // Check if reservation period falls within apartment availability
-    const [availabilityResult] = await db.query(
-      `SELECT * FROM Price WHERE apartment_id = ? AND start_date <= ? AND end_date >= ?`,
-      [apartmentId, startDate, endDate]
+    // Check if the apartment with the given ID exists
+    const [apartmentResult] = await db.query(
+      `SELECT id FROM Apartment WHERE id = ?`,
+      [apartmentId]
     );
 
-    if (!availabilityResult.length) {
-      return res
-        .status(400)
-        .json({ error: "Reservation period is not available" });
+    if (apartmentResult.length === 0) {
+      return res.status(404).json({ error: "Apartment not found" });
     }
+
+    // // Check if reservation period falls within apartment availability
+    // const [availabilityResult] = await db.query(
+    //   `SELECT * FROM Price WHERE apartment_id = ? AND start_date <= ? AND end_date >= ?`,
+    //   [apartmentId, startDate, endDate]
+    // );
+
+    // if (!availabilityResult.length) {
+    //   return res
+    //     .status(400)
+    //     .json({ error: "Reservation period is not available" });
+    // }
 
     // Start a database transaction
     await db.beginTransaction();
 
     // Insert the reservation details into the Reservations table with status "Pending"
     const [reservationResult] = await db.query(
-      `INSERT INTO Reservations (userId, apartmentId, userEmail, startDate, endDate, price, servicesFee, totalPrice)
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-      [
-        userId,
-        apartmentId,
-        userEmail,
-        startDate,
-        endDate,
-        price,
-        servicesFee,
-        totalPrice,
-      ]
+      `INSERT INTO Reservations (userId, apartmentId, userEmail, startDate, endDate, price)
+             VALUES (?, ?, ?, ?, ?, ?)`,
+      [userId, apartmentId, userEmail, startDate, endDate, price]
     );
 
     // Commit the transaction
@@ -90,8 +83,6 @@ async function createReservation(req, res) {
     res.status(500).json({ error: "Internal server error" });
   }
 }
-
-
 
 async function getAllReservations(req, res) {
   const db = await startScript();
@@ -144,7 +135,7 @@ async function approveReservation(req, res) {
 
   try {
     const reservationId = req.params.id;
-    console.log(reservationId)
+    console.log(reservationId);
     // Execute SQL query to update the reservation status to approved
     await db.query('UPDATE Reservations SET status = "approved" WHERE id = ?', [
       reservationId,
@@ -255,7 +246,7 @@ async function generatePayPalCheckoutUrl(req, res) {
         payment_method: "paypal",
       },
       redirect_urls: {
-        return_url: "http://localhost:5173/successful/",
+        return_url: `http://localhost:5173/successful/${reservationId}`, // Include reservation ID in return URL
         cancel_url: "http://localhost:5173/",
       },
       transactions: [
@@ -264,7 +255,7 @@ async function generatePayPalCheckoutUrl(req, res) {
             total: totalPrice,
             currency: "USD", // Change currency as needed
           },
-          description: `Reservation for ${reservation.startDate} to ${reservation.endDate}`,
+          description: `Reservation for ${reservation.startDate} to ${reservation.endDate} (ID: ${reservationId})`, // Include reservation ID in description
         },
       ],
     };
@@ -300,6 +291,7 @@ async function generatePayPalCheckoutUrl(req, res) {
   }
 }
 
+
 const handlePayPalPaymentSuccessWebhook = async (req, res, event) => {
   try {
     const eventType = event.event_type;
@@ -309,6 +301,8 @@ const handlePayPalPaymentSuccessWebhook = async (req, res, event) => {
       return res.status(400).json({ error: "Event type is undefined" });
     }
 
+    console.log("Received PayPal webhook event:", event);
+
     if (eventType === "PAYMENTS.PAYMENT.CREATED") {
       const paymentDetails = event.resource;
 
@@ -317,9 +311,21 @@ const handlePayPalPaymentSuccessWebhook = async (req, res, event) => {
         return res.status(400).send("Invalid payment details");
       }
 
-      const reservationId = paymentDetails.reservationId;
+      console.log("paymentDetails : ", paymentDetails);
       const paymentId = paymentDetails.id;
       const payerId = paymentDetails.payer.payer_info.payer_id;
+
+      // Retrieve reservation ID from the return URL
+      const returnURL = paymentDetails.redirect_urls.return_url;
+      const reservationIdMatch = returnURL.match(/successful\/(\d+)/);
+      const reservationId = reservationIdMatch ? reservationIdMatch[1] : null;
+
+      if (!reservationId) {
+        console.error("Reservation ID not found in the return URL:", returnURL);
+        return res
+          .status(400)
+          .json({ error: "Reservation ID not found in the return URL" });
+      }
 
       // Retrieve reservation details from the database
       const [reservation] = await db.query(
@@ -329,6 +335,14 @@ const handlePayPalPaymentSuccessWebhook = async (req, res, event) => {
 
       if (!reservation) {
         return res.status(404).json({ error: "Reservation not found" });
+      }
+
+      // Check if reservation is already paid and processed
+      if (reservation.isPaid && reservation.isProcessed) {
+        console.log("Reservation is already paid and processed");
+        return res
+          .status(200)
+          .json({ message: "Reservation is already paid and processed" });
       }
 
       // Execute the PayPal payment
@@ -343,16 +357,19 @@ const handlePayPalPaymentSuccessWebhook = async (req, res, event) => {
               .json({ error: "PayPal payment execution error" });
           }
 
-          // Update reservation status to mark it as paid
-          await db.query(`UPDATE Reservations SET isPaid = 1 WHERE id = ?`, [
-            reservationId,
-          ]);
+          // Update reservation status to mark it as paid and processed
+          await db.query(
+            `UPDATE Reservations SET isPaid = 1, isProcessed = 1 WHERE id = ?`,
+            [reservationId]
+          );
 
           // Optionally, you can send an email notification here
-
+          console.log("Payment successful");
           return res.status(200).json({ message: "Payment successful" });
         }
       );
+    } else if (eventType === "PAYMENT.SALE.COMPLETED") {
+      console.log("PAYMENT.SALE.COMPLETED");
     } else {
       console.log("Unhandled PayPal webhook event:", eventType);
       return res.status(400).json({ error: "Unhandled PayPal webhook event" });
@@ -362,6 +379,14 @@ const handlePayPalPaymentSuccessWebhook = async (req, res, event) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 };
+
+
+
+
+// Update reservation status function
+async function updateReservationStatus(reservationId) {
+  // Update reservation status in your database
+}
 
 async function getReservationById(reservationId) {
   try {
@@ -377,7 +402,7 @@ async function getReservationById(reservationId) {
   }
 }
 
-// Stripe 
+// Stripe
 // Endpoint to create a payment intent
 async function createPaymentIntent(req, res) {
   try {
@@ -422,15 +447,11 @@ async function confirmPayment(req, res) {
     }
 
     // Confirm the payment with Stripe using the clientSecret
-        const { paymentIntentId, paymentMethod } = req.body;
-        const paymentIntent = await stripe.paymentIntents.confirm(
-          paymentIntentId,
-          {
-            payment_method: paymentMethod,
-            return_url: "https://yourdomain.com/payment/success",
-          }
-        );
-  
+    const { paymentIntentId, paymentMethod } = req.body;
+    const paymentIntent = await stripe.paymentIntents.confirm(paymentIntentId, {
+      payment_method: paymentMethod,
+      return_url: "https://yourdomain.com/payment/success",
+    });
 
     // Check if payment was successful
     if (paymentIntent.status === "succeeded") {
@@ -453,7 +474,7 @@ async function confirmPayment(req, res) {
   }
 }
 
-
+// Webhook handler to listen for payment_intent.succeeded event
 // Webhook handler to listen for payment_intent.succeeded event
 async function handleStripeWebhook(req, res) {
   let event;
@@ -463,26 +484,85 @@ async function handleStripeWebhook(req, res) {
     // Verify the event to ensure it came from Stripe
     const verifiedEvent = await stripe.webhooks.constructEvent(
       req.rawBody,
-      req.headers['stripe-signature'],
-      'your_webhook_secret'
+      req.headers["stripe-signature"],
+      "your_webhook_secret"
     );
 
-    if (verifiedEvent.type === 'payment_intent.succeeded') {
+    if (verifiedEvent.type === "payment_intent.succeeded") {
       const paymentIntent = verifiedEvent.data.object;
-      // Update reservation status to mark it as paid in your database
-      await updateReservationStatus(paymentIntent.metadata.reservationId);
-    }
+      const reservationId = paymentIntent.metadata.reservationId;
 
-    res.status(200).end();
+      // Retrieve reservation details from the database
+      const db = await startScript();
+      const [reservation] = await db.query(
+        `SELECT * FROM Reservations WHERE id = ? AND isPaid = 0 AND isProcessed = 0`,
+        [reservationId]
+      );
+
+      if (!reservation) {
+        console.log("Reservation is already paid and processed or not found");
+        return res.status(200).end();
+      }
+
+      // Update reservation status to mark it as paid and processed
+      await db.query(
+        `UPDATE Reservations SET isPaid = 1, isProcessed = 1 WHERE id = ?`,
+        [reservationId]
+      );
+
+      // Optionally, you can send an email notification here
+      console.log("Payment successful and reservation processed");
+
+      res.status(200).end();
+    } else {
+      res.status(200).end();
+    }
   } catch (error) {
     console.error("Error handling Stripe webhook event:", error);
     res.status(400).send(`Webhook Error: ${error.message}`);
   }
 }
 
-// Update reservation status function
-async function updateReservationStatus(reservationId) {
-  // Update reservation status in your database
+
+async function getAllApprovedAndPaidReservations(req, res) {
+  try {
+    // Retrieve reservation details from the database
+    const db = await startScript();
+    // Query to fetch all approved and paid reservations
+    const query = `
+      SELECT * 
+      FROM Reservations 
+      WHERE status = 'Approved' AND isPaid = 1
+    `;
+
+    const [results] = await db.query(query);
+
+    res.status(200).json(results);
+  } catch (error) {
+    console.error("Error fetching reservations:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+}
+
+async function getAllApprovedAndPaidReservationsForUser(req, res) {
+  try {
+    // Extract user ID from request
+    const userId = req.userId;
+
+    // Query to fetch all approved and paid reservations for the logged-in user
+    const query = `
+      SELECT * 
+      FROM Reservations 
+      WHERE userId = ? AND status = 'Approved' AND isPaid = 1
+    `;
+
+    const [results] = await db.query(query, [userId]);
+
+    res.status(200).json(results);
+  } catch (error) {
+    console.error("Error fetching user reservations:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
 }
 
 module.exports = {
@@ -496,4 +576,6 @@ module.exports = {
   createPaymentIntent,
   confirmPayment,
   handleStripeWebhook,
+  getAllApprovedAndPaidReservationsForUser,
+  getAllApprovedAndPaidReservations,
 };

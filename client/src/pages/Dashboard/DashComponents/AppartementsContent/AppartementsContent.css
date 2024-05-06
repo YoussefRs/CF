@@ -473,7 +473,7 @@
 }
 
 .upload__box {
-  padding: 40px;
+  /* padding: 40px 10px; */
 }
 .upload__inputfile {
   width: 0.1px;
@@ -486,18 +486,17 @@
 .upload__btn {
   display: inline-block;
   font-weight: 600;
-  color: #fff;
+  color: #fff !important;
   text-align: center;
   min-width: 116px;
   padding: 5px;
   transition: all 0.3s ease;
   cursor: pointer;
-  border: 2px solid;
-  background-color: #4045ba;
-  border-color: #4045ba;
+  background: var(--Linear, linear-gradient(315deg, #07d25f 20.24%, #028139 80.97%));
   border-radius: 10px;
   line-height: 26px;
   font-size: 14px;
+  padding: 20px;
 }
 .upload__btn:hover {
   background-color: unset;
@@ -506,6 +505,7 @@
 }
 .upload__btn-box {
   margin-bottom: 10px;
+  width: 20%;
 }
 .upload__img-wrap {
   display: flex;

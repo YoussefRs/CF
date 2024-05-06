@@ -54,10 +54,10 @@ export default function Details() {
       month: "long",
     })} ${date.getFullYear()}`;
   };
-
-  const formattedDates = card?.specialDates?.map((dateObj) => {
-    const startDate = new Date(dateObj.startDate);
-    const endDate = new Date(dateObj.endDate);
+  console.log(card);
+  const formattedDates = card?.prices?.map((dateObj) => {
+    const startDate = new Date(dateObj.start_date);
+    const endDate = new Date(dateObj.end_date);
 
     const datesArray = [];
     let currentDate = startDate;
@@ -168,7 +168,7 @@ export default function Details() {
       openLoginModal();
     }
   };
-
+console.log(card)
   return (
     <>
       <Navbar />
@@ -484,20 +484,21 @@ export default function Details() {
                     </div>
                   </div>
                 </div>
-                <div
-                  className={`left_sqaure ${showCalendar ? "show" : "hide"}`}
-                  style={{
-                    transition: "height 0.5s ease",
-                    height: showCalendar ? "350px" : "0",
-                    overflow: "hidden",
-                  }}
-                >
-                  <CalendarComp
-                    setBookingData={setBookingData}
-                    bookingData={bookingData}
-                    formattedDates={formattedDates}
-                  />
-                </div>
+              </div>
+              <div
+                className={`left_sqaure ${showCalendar ? "show" : "hide"}`}
+                style={{
+                  transition: "height 0.5s ease",
+                  height: showCalendar ? "350px" : "0",
+                  overflow: "hidden",
+                }}
+              >
+                <CalendarComp
+                  setBookingData={setBookingData}
+                  bookingData={bookingData}
+                  formattedDates={formattedDates}
+                  card={card}
+                />
               </div>
               {formattedDates && (
                 <div className="d-flex flex-column mt-2">
