@@ -58,6 +58,10 @@
   cursor: pointer;
 }
 
+.app_cards_item_add {
+  min-height: 400px;
+}
+
 .app_card_image {
   display: flex;
   align-items: center;
