@@ -1,5 +1,6 @@
 export const apartmentList = [
   {
+    // smth
     id: "244fzGb",
     name: "Luxury Apartment",
     location: "Düsseldorf, Allemagne",
