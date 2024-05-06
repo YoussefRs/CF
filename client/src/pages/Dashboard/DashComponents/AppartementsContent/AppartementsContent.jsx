@@ -341,7 +341,7 @@ export default function AppartementsContent() {
 
                 <div className="row">
                   <label htmlFor="first">services:</label>
-                  <div className="__services col-4 col-md-3">
+                  <div className="__services col-sm-4 col-6 col-md-3">
                     <label
                       htmlFor="myCheckbox"
                       className={`checkbox ${
@@ -407,7 +407,7 @@ export default function AppartementsContent() {
                       </span>
                     </label>
                   </div>
-                  <div className="__services col-4 col-md-3">
+                  <div className="__services col-sm-4 col-6 col-md-3">
                     <label
                       htmlFor="myCheckbox_2"
                       className={`checkbox ${
@@ -475,7 +475,7 @@ export default function AppartementsContent() {
                       </span>
                     </label>
                   </div>
-                  <div className="__services col-4 col-md-3">
+                  <div className="__services col-sm-4 col-6 col-md-3">
                     <label
                       htmlFor="myCheckbox_3"
                       className={`checkbox ${
@@ -544,7 +544,7 @@ export default function AppartementsContent() {
                       </span>
                     </label>
                   </div>
-                  <div className="__services col-4 col-md-3">
+                  <div className="__services col-sm-4 col-6 col-md-3">
                     <label
                       htmlFor="myCheckbox_4"
                       className={`checkbox ${

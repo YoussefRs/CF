@@ -610,7 +610,7 @@
 
 .add_apart_modal {
   width: 100%;
-  padding: 0;
+  padding: 0 !important;
 
   & .modal-dialog {
     width: 100% !important;
@@ -618,7 +618,6 @@
   }
 
   & .modal-content {
-    margin: 0 auto;
 
     @media (min-width: 992px) {
       width: 800px;
@@ -640,6 +639,10 @@
 
     @media (max-width: 767px) {
       width: 95%;
+    }
+
+    @media (min-width: 576px) {
+      margin: 0 auto;
     }
   }
 }
