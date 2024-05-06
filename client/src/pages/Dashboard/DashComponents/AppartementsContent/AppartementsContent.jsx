@@ -56,7 +56,9 @@ export default function AppartementsContent() {
 
         const reader = new FileReader();
         reader.onload = (e) => {
-          const html = `<div class='upload__img-box'><div style='background-image: url(${e.target.result})' data-file='${file.name}' class='img-bg'><div class='upload__img-close'></div></div></div>`;
+          const html = `<div class='upload__img-box'><img src='${e.target.result}' data-file='${file.name}' class='img-fluid file_thumbnail' /><p>${file.name}</p><div class='upload__img_close'><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" fill="none">
+  <path d="M6 6.66562L1.97812 10.6875L1.3125 10.0219L5.33438 6L1.3125 1.97812L1.97812 1.3125L6 5.33438L10.0219 1.3125L10.6875 1.97813L6.66562 6L10.6875 10.0219L10.0219 10.6875L6 6.66562Z" fill="#0DB254"/>
+</svg></div></div>`;
           document
             .querySelector(".upload__img-wrap")
             .insertAdjacentHTML("beforeend", html);
@@ -71,6 +73,8 @@ export default function AppartementsContent() {
       pictures: [...prevFormData.pictures, ...selectedImages],
     }));
   };
+
+  console.log(formData.pictures);
 
   useEffect(() => {
     const handleImageRemove = (event) => {
@@ -593,7 +597,9 @@ export default function AppartementsContent() {
                 </div>
 
                 <div className="mt-3">
-                  <label htmlFor="pictures" className="mb-3">Pictures:</label>
+                  <label htmlFor="pictures" className="mb-3">
+                    Pictures:
+                  </label>
                   <div className="row">
                     <div className="col">
                       <div className="upload__box">
@@ -641,7 +647,7 @@ export default function AppartementsContent() {
                             />
                           </label>
                         </div>
-                        <div className="upload__img-wrap"></div>
+                        <div className="upload__img-wrap mt-4"></div>
                       </div>
                     </div>
                   </div>
