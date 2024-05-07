@@ -22,9 +22,9 @@
 }
 
 @media screen and (min-width: 60em) {
-  .app_cards_item {
-    /* width: 32%; */
-  }
+  /* .app_cards_item {
+    width: 32%;
+  } */
 
   .no-flexbox .app_cards_item:nth-child(2n + 1) {
     clear: both;
@@ -86,9 +86,9 @@
   gap: 1rem;
 }
 
-.app_card_content p {
-  /* flex: 1 0 auto; */
-}
+/* .app_card_content p {
+  flex: 1 0 auto;
+} */
 
 .add_app_card {
   display: flex;
