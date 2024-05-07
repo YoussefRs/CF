@@ -34,6 +34,8 @@ export default function AppartementsContent() {
   // console.log(formData)
   const [imgArray, setImgArray] = useState([]);
 
+  const [selectedImages, setSelectedImages] = useState([]);
+
   const handleImagesChange = (event) => {
     const files = event.target.files;
     const filesArr = Array.from(files);
@@ -42,56 +44,31 @@ export default function AppartementsContent() {
       10
     );
 
-    const selectedImages = [];
+    const newSelectedImages = filesArr
+      .filter((file) => file.type.match("image.*"))
+      .slice(0, maxLength);
 
-    filesArr.forEach((file) => {
-      if (!file.type.match("image.*")) {
-        return;
-      }
+    setSelectedImages((prevSelectedImages) => [
+      ...prevSelectedImages,
+      ...newSelectedImages,
+    ]);
 
-      if (selectedImages.length >= maxLength) {
-        return false;
-      } else {
-        selectedImages.push(file);
-
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          const html = `<div class='upload__img-box'><img src='${e.target.result}' data-file='${file.name}' class='img-fluid file_thumbnail' /><p>${file.name}</p><div class='upload__img_close'><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" fill="none">
-  <path d="M6 6.66562L1.97812 10.6875L1.3125 10.0219L5.33438 6L1.3125 1.97812L1.97812 1.3125L6 5.33438L10.0219 1.3125L10.6875 1.97813L6.66562 6L10.6875 10.0219L10.0219 10.6875L6 6.66562Z" fill="#0DB254"/>
-</svg></div></div>`;
-          document
-            .querySelector(".upload__img-wrap")
-            .insertAdjacentHTML("beforeend", html);
-        };
-        reader.readAsDataURL(file);
-      }
-    });
-
-    // Update formData state with selected images
     setFormData((prevFormData) => ({
       ...prevFormData,
-      pictures: [...prevFormData.pictures, ...selectedImages],
+      pictures: [...prevFormData.pictures, ...newSelectedImages],
     }));
   };
 
-  console.log(formData.pictures);
+  const handleImageRemove = (fileName) => {
+    setSelectedImages((prevSelectedImages) =>
+      prevSelectedImages.filter((file) => file.name !== fileName)
+    );
 
-  useEffect(() => {
-    const handleImageRemove = (event) => {
-      if (event.target.classList.contains("upload__img_close")) {
-        const file = event.target.parentNode.getAttribute("data-file");
-        const updatedImgArray = imgArray.filter((img) => img.name !== file);
-        setImgArray(updatedImgArray);
-        event.target.parentNode.parentNode.remove();
-      }
-    };
-
-    document.body.addEventListener("click", handleImageRemove);
-
-    return () => {
-      document.body.removeEventListener("click", handleImageRemove);
-    };
-  }, [imgArray]);
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      pictures: prevFormData.pictures.filter((file) => file.name !== fileName),
+    }));
+  };
 
   return (
     <>
@@ -669,7 +646,33 @@ export default function AppartementsContent() {
                             />
                           </label>
                         </div>
-                        <div className="upload__img-wrap mt-4"></div>
+                        <div className="upload__img-wrap mt-4">
+                          {selectedImages.map((image, index) => (
+                            <div key={index} className="upload__img-box">
+                              <img
+                                src={URL.createObjectURL(image)}
+                                className="img-fluid file_thumbnail"
+                                alt={image.name}
+                              />
+                              <p>{image.name}</p>
+                              <div
+                                className="upload__img_close"
+                                onClick={() => handleImageRemove(image.name)}
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 12 12"
+                                  fill="none"
+                                >
+                                  <path
+                                    d="M6 6.66562L1.97812 10.6875L1.3125 10.0219L5.33438 6L1.3125 1.97812L1.97812 1.3125L6 5.33438L10.0219 1.3125L10.6875 1.97813L6.66562 6L10.6875 10.0219L10.0219 10.6875L6 6.66562Z"
+                                    fill="#0DB254"
+                                  />
+                                </svg>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
                       </div>
                     </div>
                   </div>
