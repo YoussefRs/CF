@@ -190,7 +190,8 @@ export default function AppartementsContent() {
                           required
                         />
                       </div>
-                      <div
+
+                      {/*<div
                         className="price_row_col"
                         style={{ paddingRight: 0 }}
                       >
@@ -225,7 +226,7 @@ export default function AppartementsContent() {
                           min={new Date().toISOString().split("T")[0]}
                           required
                         />
-                      </div>
+                        </div> */}
                     </div>
                     {inputRows.map((row, index) => (
                       <div className="added_price_row" key={index}>
