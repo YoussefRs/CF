@@ -20,7 +20,9 @@ CREATE TABLE IF NOT EXISTS Apartment (
     laundry BOOLEAN NOT NULL DEFAULT false,
     rent BOOLEAN NOT NULL DEFAULT false,
     description TEXT,
-    default_special_date JSON
+    price INT NOT NULL,
+    startDate DATE NOT NULL,
+    endDate DATE NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Price (

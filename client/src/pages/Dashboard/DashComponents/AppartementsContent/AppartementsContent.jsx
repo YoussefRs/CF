@@ -34,6 +34,8 @@ export default function AppartementsContent() {
   // console.log(formData)
   const [imgArray, setImgArray] = useState([]);
 
+  const [selectedImages, setSelectedImages] = useState([]);
+
   const handleImagesChange = (event) => {
     const files = event.target.files;
     const filesArr = Array.from(files);
@@ -42,52 +44,31 @@ export default function AppartementsContent() {
       10
     );
 
-    const selectedImages = [];
+    const newSelectedImages = filesArr
+      .filter((file) => file.type.match("image.*"))
+      .slice(0, maxLength);
 
-    filesArr.forEach((file) => {
-      if (!file.type.match("image.*")) {
-        return;
-      }
+    setSelectedImages((prevSelectedImages) => [
+      ...prevSelectedImages,
+      ...newSelectedImages,
+    ]);
 
-      if (selectedImages.length >= maxLength) {
-        return false;
-      } else {
-        selectedImages.push(file);
-
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          const html = `<div class='upload__img-box'><div style='background-image: url(${e.target.result})' data-file='${file.name}' class='img-bg'><div class='upload__img-close'></div></div></div>`;
-          document
-            .querySelector(".upload__img-wrap")
-            .insertAdjacentHTML("beforeend", html);
-        };
-        reader.readAsDataURL(file);
-      }
-    });
-
-    // Update formData state with selected images
     setFormData((prevFormData) => ({
       ...prevFormData,
-      pictures: [...prevFormData.pictures, ...selectedImages],
+      pictures: [...prevFormData.pictures, ...newSelectedImages],
     }));
   };
 
-  useEffect(() => {
-    const handleImageRemove = (event) => {
-      if (event.target.classList.contains("upload__img-close")) {
-        const file = event.target.parentNode.getAttribute("data-file");
-        const updatedImgArray = imgArray.filter((img) => img.name !== file);
-        setImgArray(updatedImgArray);
-        event.target.parentNode.parentNode.remove();
-      }
-    };
+  const handleImageRemove = (fileName) => {
+    setSelectedImages((prevSelectedImages) =>
+      prevSelectedImages.filter((file) => file.name !== fileName)
+    );
 
-    document.body.addEventListener("click", handleImageRemove);
-
-    return () => {
-      document.body.removeEventListener("click", handleImageRemove);
-    };
-  }, [imgArray]);
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      pictures: prevFormData.pictures.filter((file) => file.name !== fileName),
+    }));
+  };
 
   return (
     <>
@@ -173,8 +154,8 @@ export default function AppartementsContent() {
 
                 <div className="row">
                   <div>
-                    <div className="row">
-                      <div className="col-md-4 col-12">
+                    <div className="price_row">
+                      <div className="price_row_col">
                         <label htmlFor="defaultSpecialDate.price">price:</label>
                         <input
                           type="number"
@@ -186,8 +167,9 @@ export default function AppartementsContent() {
                           required
                         />
                       </div>
-                      <div
-                        className="col-md-4 col-12"
+
+                      {/*<div
+                        className="price_row_col"
                         style={{ paddingRight: 0 }}
                       >
                         <label htmlFor="defaultSpecialDate.startDate">
@@ -205,7 +187,7 @@ export default function AppartementsContent() {
                         />
                       </div>
                       <div
-                        className="col-md-4 col-12"
+                        className="price_row_col"
                         style={{ paddingRight: 0 }}
                       >
                         <label htmlFor="defaultSpecialDate.endDate">
@@ -221,11 +203,14 @@ export default function AppartementsContent() {
                           min={new Date().toISOString().split("T")[0]}
                           required
                         />
-                      </div>
+                        </div> */}
                     </div>
                     {inputRows.map((row, index) => (
-                      <div className="row" key={index}>
-                        <div className="col-4" style={{ paddingRight: 0 }}>
+                      <div className="added_price_row" key={index}>
+                        <div
+                          className="added_price_row_col"
+                          style={{ paddingRight: 0 }}
+                        >
                           <label htmlFor={`price-${index}`}>price:</label>
                           <input
                             type="number"
@@ -238,7 +223,10 @@ export default function AppartementsContent() {
                             placeholder="Price"
                           />
                         </div>
-                        <div className="col-4" style={{ paddingRight: 0 }}>
+                        <div
+                          className="added_price_row_col"
+                          style={{ paddingRight: 0 }}
+                        >
                           <label htmlFor={`startDate-${index}`}>
                             start date:
                           </label>
@@ -254,7 +242,10 @@ export default function AppartementsContent() {
                             min={new Date().toISOString().split("T")[0]}
                           />
                         </div>
-                        <div className="col-4" style={{ paddingRight: 0 }}>
+                        <div
+                          className="added_price_row_col"
+                          style={{ paddingRight: 0 }}
+                        >
                           <label htmlFor={`endDate-${index}`}>end date:</label>
                           <input
                             type="date"
@@ -267,6 +258,18 @@ export default function AppartementsContent() {
                             placeholder="End date"
                             min={new Date().toISOString().split("T")[0]}
                           />
+                        </div>
+                        <div class="rmv_btn">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 12 12"
+                            fill="none"
+                          >
+                            <path
+                              d="M6 6.66562L1.97812 10.6875L1.3125 10.0219L5.33438 6L1.3125 1.97812L1.97812 1.3125L6 5.33438L10.0219 1.3125L10.6875 1.97813L6.66562 6L10.6875 10.0219L10.0219 10.6875L6 6.66562Z"
+                              fill="#0DB254"
+                            />
+                          </svg>
                         </div>
                       </div>
                     ))}
@@ -593,7 +596,9 @@ export default function AppartementsContent() {
                 </div>
 
                 <div className="mt-3">
-                  <label htmlFor="pictures" className="mb-3">Pictures:</label>
+                  <label htmlFor="pictures" className="mb-3">
+                    Pictures:
+                  </label>
                   <div className="row">
                     <div className="col">
                       <div className="upload__box">
@@ -641,7 +646,33 @@ export default function AppartementsContent() {
                             />
                           </label>
                         </div>
-                        <div className="upload__img-wrap"></div>
+                        <div className="upload__img-wrap mt-4">
+                          {selectedImages.map((image, index) => (
+                            <div key={index} className="upload__img-box">
+                              <img
+                                src={URL.createObjectURL(image)}
+                                className="img-fluid file_thumbnail"
+                                alt={image.name}
+                              />
+                              <p>{image.name}</p>
+                              <div
+                                className="upload__img_close"
+                                onClick={() => handleImageRemove(image.name)}
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 12 12"
+                                  fill="none"
+                                >
+                                  <path
+                                    d="M6 6.66562L1.97812 10.6875L1.3125 10.0219L5.33438 6L1.3125 1.97812L1.97812 1.3125L6 5.33438L10.0219 1.3125L10.6875 1.97813L6.66562 6L10.6875 10.0219L10.0219 10.6875L6 6.66562Z"
+                                    fill="#0DB254"
+                                  />
+                                </svg>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
                       </div>
                     </div>
                   </div>
