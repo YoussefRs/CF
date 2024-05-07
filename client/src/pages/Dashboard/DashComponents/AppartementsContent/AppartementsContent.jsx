@@ -3,7 +3,10 @@ import "./AppartementsContent.css";
 import Modal from "../../../../components/modals/Modal";
 import useAppartementsForm from "../../../../hooks/useApartmentForm";
 import { useSelector, useDispatch } from "react-redux";
-import { deleteApartmentById } from "../../../../redux/apartmentSlice";
+import {
+  deleteApartmentById,
+  getAllApartments,
+} from "../../../../redux/apartmentSlice";
 import Cards from "../../../../components/cards/Cards";
 import DashCard from "./DashCard";
 import Loader from "../../../../components/Loader/Loader";
@@ -28,11 +31,9 @@ export default function AppartementsContent() {
     handleCounterChange,
     handleSubmit,
     loadingAdd,
+    handleKeyDown,
+    handleRemoveRow,
   } = useAppartementsForm();
-
-  const [submitEnabled, setSubmitEnabled] = useState(false);
-  // console.log(formData)
-  const [imgArray, setImgArray] = useState([]);
 
   const [selectedImages, setSelectedImages] = useState([]);
 
@@ -69,6 +70,11 @@ export default function AppartementsContent() {
       pictures: prevFormData.pictures.filter((file) => file.name !== fileName),
     }));
   };
+
+  useEffect(() => {
+    dispatch(getAllApartments());
+  }, [dispatch]);
+
 
   return (
     <>
@@ -156,54 +162,19 @@ export default function AppartementsContent() {
                   <div>
                     <div className="price_row">
                       <div className="price_row_col">
-                        <label htmlFor="defaultSpecialDate.price">price:</label>
+                        <label htmlFor="price">price:</label>
                         <input
                           type="number"
                           id="price"
-                          name="defaultSpecialDate.price"
-                          value={formData.defaultSpecialDate.price}
+                          name="price"
+                          value={formData.price}
                           onChange={handleInputChange}
                           placeholder="Price"
+                          onKeyDown={handleKeyDown}
+                          min="0"
                           required
                         />
                       </div>
-
-                      {/*<div
-                        className="price_row_col"
-                        style={{ paddingRight: 0 }}
-                      >
-                        <label htmlFor="defaultSpecialDate.startDate">
-                          start date:
-                        </label>
-                        <input
-                          type="date"
-                          id="startDate"
-                          name="defaultSpecialDate.startDate"
-                          value={formData.defaultSpecialDate.startDate}
-                          onChange={handleInputChange}
-                          placeholder="Start date"
-                          min={new Date().toISOString().split("T")[0]}
-                          required
-                        />
-                      </div>
-                      <div
-                        className="price_row_col"
-                        style={{ paddingRight: 0 }}
-                      >
-                        <label htmlFor="defaultSpecialDate.endDate">
-                          end date:
-                        </label>
-                        <input
-                          type="date"
-                          id="endDate"
-                          name="defaultSpecialDate.endDate"
-                          value={formData.defaultSpecialDate.endDate}
-                          onChange={handleInputChange}
-                          placeholder="End date"
-                          min={new Date().toISOString().split("T")[0]}
-                          required
-                        />
-                        </div> */}
                     </div>
                     {inputRows.map((row, index) => (
                       <div className="added_price_row" key={index}>
@@ -221,6 +192,8 @@ export default function AppartementsContent() {
                               handleSpecialDateInputChange(index, e)
                             }
                             placeholder="Price"
+                            onKeyDown={handleKeyDown}
+                            min="0"
                           />
                         </div>
                         <div
@@ -259,7 +232,7 @@ export default function AppartementsContent() {
                             min={new Date().toISOString().split("T")[0]}
                           />
                         </div>
-                        <div class="rmv_btn">
+                        <div className="rmv_btn" onClick={() => handleRemoveRow(index)}>
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 12 12"
@@ -305,7 +278,7 @@ export default function AppartementsContent() {
                         className="minus"
                         type="button"
                         onClick={() => handleCounterChange("bedroom", -1)}
-                        disabled={formData.bedroom === 0}
+                        disabled={formData.bedroom === 1}
                       >
                         -
                       </button>
@@ -326,7 +299,7 @@ export default function AppartementsContent() {
                         className="minus"
                         type="button"
                         onClick={() => handleCounterChange("bathroom", -1)}
-                        disabled={formData.bathroom === 0}
+                        disabled={formData.bathroom === 1}
                       >
                         -
                       </button>
@@ -701,6 +674,7 @@ export default function AppartementsContent() {
                   </button>
                   <button
                     type="submit"
+                    onClick={handleSubmit}
                     // disabled={!submitEnabled}
                     // className={submitEnabled ? "enabled" : "disabled"}
                   >

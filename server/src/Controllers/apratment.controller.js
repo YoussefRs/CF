@@ -31,8 +31,8 @@ async function httpAddApartment(req, res) {
 
     // Insert the apartment details into the Apartments table
     const [apartmentResult] = await db.query(
-      `INSERT INTO Apartment (name, location, bedroom, bathroom, parking, rent, food, laundry, description, price, startDate, endDate)
-           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      `INSERT INTO Apartment (name, location, bedroom, bathroom, parking, rent, food, laundry, description, price)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         apartmentName,
         location,
@@ -44,8 +44,6 @@ async function httpAddApartment(req, res) {
         laundry,
         description,
         price,
-        startDate,
-        endDate,
       ]
     );
 
@@ -108,8 +106,6 @@ async function httpEditApartment(req, res) {
       laundry = false,
       pictures,
       price,
-      startDate,
-      endDate,
       specialDates = [],
       description,
     } = req.body;
@@ -122,7 +118,7 @@ async function httpEditApartment(req, res) {
     // Update the apartment details in the Apartments table
     await db.query(
       `UPDATE Apartment 
-       SET name = ?, location = ?, bedroom = ?, bathroom = ?, parking = ?, rent = ?, food = ?, laundry = ?, description = ?, price = ?, startDate = ?, endDate = ?
+       SET name = ?, location = ?, bedroom = ?, bathroom = ?, parking = ?, rent = ?, food = ?, laundry = ?, description = ?, price = ?
        WHERE id = ?`,
       [
         name,
@@ -135,8 +131,6 @@ async function httpEditApartment(req, res) {
         laundry,
         description,
         price,
-        startDate,
-        endDate,
         id,
       ]
     );
@@ -244,10 +238,10 @@ async function httpGetAllApartments(req, res) {
         [apartment.id]
       );
       // Convert prices' dates to the desired format
-      apartment.prices = prices.map((price) => ({
+      apartment.prices = prices?.map((price) => ({
         ...price,
-        start_date: price.start_date.toISOString().split("T")[0],
-        end_date: price.end_date.toISOString().split("T")[0],
+        start_date: price?.start_date?.toISOString().split("T")[0],
+        end_date: price?.end_date?.toISOString().split("T")[0],
       }));
     }
 
@@ -259,16 +253,6 @@ async function httpGetAllApartments(req, res) {
       );
       apartment.images = images;
     }
-    // Convert apartment's startDate and endDate to the desired format
-    apartments.forEach((apartment) => {
-      apartment.startDate = new Date(apartment.startDate)
-        .toISOString()
-        .split("T")[0];
-      apartment.endDate = new Date(apartment.endDate)
-        .toISOString()
-        .split("T")[0];
-    });
-    // Respond with the list of apartments
     res.status(200).json({ apartments });
   } catch (error) {
     console.error("Error getting apartments:", error);

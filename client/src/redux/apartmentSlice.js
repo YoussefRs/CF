@@ -63,8 +63,8 @@ export const deleteApartmentById = (id) => async (dispatch) => {
   try {
     dispatch(deleteApartment());
     await axios.delete(`${BASE_URL}/appartments/${id}`);
-    dispatch(deleteApartmentSuccess(id));
-    dispatch(getAllApartments())
+    // dispatch(deleteApartmentSuccess(id));
+    dispatch(getAllApartments());
   } catch (error) {
     console.error("deleteApartment failed", error);
     dispatch(deleteApartmentFail());

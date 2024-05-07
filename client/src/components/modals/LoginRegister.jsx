@@ -70,8 +70,6 @@ export default function LoginRegister({ closeLoginModal }) {
         registrationData
       );
 
-      // Handle successful response
-      console.log("Registration successful", response.data);
     } catch (error) {
       console.error("Registration failed", error);
     } finally {

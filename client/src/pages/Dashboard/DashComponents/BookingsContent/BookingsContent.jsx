@@ -18,11 +18,9 @@ export default function BookingsContent() {
   }, [dispatch]);
 
   const AcceptOrder = async (orderId) => {
-    console.log(orderId);
     dispatch(adminAcceptOrder(orderId));
   };
   const DeclineOrder = async (orderId) => {
-    console.log(orderId);
     dispatch(adminRejectOrder(orderId));
   };
 

@@ -54,7 +54,6 @@ export default function Details() {
       month: "long",
     })} ${date.getFullYear()}`;
   };
-  console.log(card);
   const formattedDates = card?.prices?.map((dateObj) => {
     const startDate = new Date(dateObj.start_date);
     const endDate = new Date(dateObj.end_date);
@@ -140,9 +139,38 @@ export default function Details() {
     };
   }, []);
 
-  const nightsPrice = bookingData?.nightsCount * 200;
+  const calculateTotalPrice = () => {
+    let normalNightsPrice = 0;
+    let specialNightsPrice = 0;
 
-  const totalPrice = nightsPrice + ServicesFees;
+    if (bookingData && card) {
+      for (let i = 0; i < bookingData.nightsCount; i++) {
+        const currentDate = new Date(bookingData.startDate);
+        currentDate.setDate(currentDate.getDate() + i);
+        let isSpecialDate = false;
+
+        for (const price of card.prices) {
+          const startDate = new Date(price.start_date);
+          const endDate = new Date(price.end_date);
+          if (currentDate >= startDate && currentDate <= endDate) {
+            isSpecialDate = true;
+            specialNightsPrice += parseFloat(price.price);
+            break;
+          }
+        }
+
+        if (!isSpecialDate) {
+          normalNightsPrice += card.price;
+        }
+      }
+    }
+
+    const totalPrice = normalNightsPrice + specialNightsPrice + ServicesFees;
+    return totalPrice;
+  };
+
+  // Usage example:
+  const totalPrice = calculateTotalPrice();
 
   const submitBookingData = () => {
     if (user) {
@@ -168,7 +196,7 @@ export default function Details() {
       openLoginModal();
     }
   };
-console.log(card)
+  console.log(card);
   return (
     <>
       {/* <Navbar /> */}
@@ -232,7 +260,7 @@ console.log(card)
                     {card?.images?.slice(1, 4).map((appPic, i) => (
                       <div className="img-box" key={i}>
                         <a
-                          href={appPic}
+                          href={appPic.image_url}
                           className="glightbox"
                           data-glightbox="type: image"
                         >
@@ -281,7 +309,9 @@ console.log(card)
                       >
                         <img src={card?.images[0].image_url} alt="image" />
                         <div className="transparent-box">
-                          <div className="caption">+{card?.images?.length} </div>
+                          <div className="caption">
+                            +{card?.images?.length}{" "}
+                          </div>
                         </div>
                       </a>
                     </div>
@@ -1171,7 +1201,7 @@ console.log(card)
                   </div>
 
                   <div className="square">
-                    <span>{nightsPrice} €</span>
+                    <span>{totalPrice} €</span>
                     <span className="_small_title">
                       {bookingData?.nightsCount} * 200€
                     </span>

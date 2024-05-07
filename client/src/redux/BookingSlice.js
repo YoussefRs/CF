@@ -109,7 +109,6 @@ export const adminAcceptOrder = (orderId) => async (dispatch) => {
         },
       }
     );
-    console.log(response);
   } catch (error) {
     console.log(error);
   }
@@ -125,7 +124,6 @@ export const adminRejectOrder = (orderId) => async (dispatch) => {
         },
       }
     );
-    console.log(response);
   } catch (error) {
     console.log(error);
   }

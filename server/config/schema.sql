@@ -20,17 +20,15 @@ CREATE TABLE IF NOT EXISTS Apartment (
     laundry BOOLEAN NOT NULL DEFAULT false,
     rent BOOLEAN NOT NULL DEFAULT false,
     description TEXT,
-    price INT NOT NULL,
-    startDate DATE NOT NULL,
-    endDate DATE NOT NULL
+    price INT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Price (
     id INT PRIMARY KEY AUTO_INCREMENT,
     apartment_id INT NOT NULL,
-    price DECIMAL(10, 2) NOT NULL,
-    start_date DATE NOT NULL,
-    end_date DATE NOT NULL,
+    price DECIMAL(10, 2) ,
+    start_date DATE,
+    end_date DATE,
     FOREIGN KEY (apartment_id) REFERENCES Apartment(id)
 );
 

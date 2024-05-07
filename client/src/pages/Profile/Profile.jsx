@@ -38,8 +38,6 @@ export default function Profile() {
     event.preventDefault();
     setActiveTab(tab);
   };
-
-  console.log(favorites);
   return (
     <>
       <div className="profile-ctr mb-5">
