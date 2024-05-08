@@ -142,47 +142,77 @@ export default function Details() {
   const calculateTotalPrice = () => {
     let normalNightsPrice = 0;
     let specialNightsPrice = 0;
+    let normalNightsCount = 0;
+    let specialNightsCount = 0;
 
-    if (bookingData && card) {
-      for (let i = 0; i < bookingData.nightsCount; i++) {
-        const currentDate = new Date(bookingData.startDate);
+    if (bookingData && card && bookingData.startDate && bookingData.endDate) {
+      const startDate = new Date(bookingData.startDate);
+      const endDate = new Date(bookingData.endDate);
+
+      // Calculate the number of nights between the start and end dates
+      let totalNightsCount = Math.floor(
+        (endDate - startDate) / (1000 * 60 * 60 * 24)
+      );
+
+      for (let i = 0; i <= totalNightsCount; i++) {
+        const currentDate = new Date(startDate);
         currentDate.setDate(currentDate.getDate() + i);
         let isSpecialDate = false;
 
         for (const price of card.prices) {
-          const startDate = new Date(price.start_date);
-          const endDate = new Date(price.end_date);
-          if (currentDate >= startDate && currentDate <= endDate) {
+          const priceStartDate = new Date(price.start_date);
+          const priceEndDate = new Date(price.end_date);
+          if (currentDate >= priceStartDate && currentDate <= priceEndDate) {
             isSpecialDate = true;
             specialNightsPrice += parseFloat(price.price);
+            specialNightsCount++; // Increment special nights count
             break;
           }
         }
 
         if (!isSpecialDate) {
-          normalNightsPrice += card.price;
+          normalNightsPrice += parseFloat(card.price);
+          normalNightsCount++; // Increment normal nights count
         }
       }
     }
 
     const totalPrice = normalNightsPrice + specialNightsPrice + ServicesFees;
-    return totalPrice;
+
+    // Return total price along with counts of special and normal nights
+    return {
+      totalPrice,
+      specialNightsPrice,
+      normalNightsPrice,
+      specialNightsCount,
+      normalNightsCount,
+    };
   };
 
   // Usage example:
-  const totalPrice = calculateTotalPrice();
+  const {
+    totalPrice,
+    normalNightsPrice,
+    specialNightsPrice,
+    specialNightsCount,
+    normalNightsCount,
+  } = calculateTotalPrice();
 
   const submitBookingData = () => {
     if (user) {
       let bookingDataList = {
         ...bookingData,
-        userId: user.id,
-        apartmentId: card.id,
+        userId: user?.id,
+        apartmentId: card?.id,
         userEmail: user?.email,
         servicesFee: ServicesFees,
-        price: card.default_special_date?.price,
+        normalNightsCount: normalNightsCount,
+        normalNightsPrice: normalNightsPrice,
+        specialNightsCount: specialNightsCount,
+        specialNightsPrice: specialNightsPrice,
         totalPrice: totalPrice,
       };
+      console.log(bookingDataList);
       dispatch(createNewBooking(bookingDataList));
       setBookingData({
         startDate: null,
@@ -196,7 +226,8 @@ export default function Details() {
       openLoginModal();
     }
   };
-  console.log(card);
+
+  console.log(bookingData);
   return (
     <>
       {/* <Navbar /> */}
@@ -1141,7 +1172,7 @@ export default function Details() {
                                   viewBox="0 0 33 34"
                                   xmlns="http://www.w3.org/2000/svg"
                                 >
-                                  <g clippath="url(#clip0_43_907)">
+                                  <g clipPath="url(#clip0_43_907)">
                                     <path d="M14.6259 27.9957L16.8503 30.2202L19.0747 27.9957H14.6259Z" />
                                     <path d="M14.4039 12.9843H10.2348C5.69474 12.9843 1.97525 16.5651 1.75208 21.0507H22.8866C22.6634 16.5651 18.944 12.9843 14.4039 12.9843ZM8.93075 18.558H6.78216V16.6472H8.93075V18.558ZM13.3937 17.3969H11.2451V15.4861H13.3937V17.3969ZM17.8566 18.558H15.708V16.6472H17.8566V18.558Z" />
                                     <path d="M17.5549 32.2177H20.5632C21.8502 32.2177 22.8972 31.1708 22.8972 29.8838V27.9957H21.7769L17.5549 32.2177Z" />
@@ -1166,7 +1197,7 @@ export default function Details() {
                                   viewBox="0 0 34 35"
                                   xmlns="http://www.w3.org/2000/svg"
                                 >
-                                  <g clippath="url(#clip0_189_3766)">
+                                  <g clipPath="url(#clip0_189_3766)">
                                     <path d="M7.76363 7.11829H6.66895V9.30758H7.76363C8.36722 9.30758 8.8583 8.8165 8.8583 8.2129C8.8583 7.60931 8.36722 7.11829 7.76363 7.11829Z" />
                                     <path d="M31.4808 29.5394C32.7522 29.0861 33.6701 27.8824 33.6701 26.4571V24.2679C33.6701 22.7449 32.6231 21.4726 31.2146 21.1028L29.734 16.6615C29.2865 15.3185 28.035 14.4159 26.619 14.4159H18.0983C16.6823 14.4159 15.4308 15.3184 14.9832 16.6612L13.5025 21.1027C12.0941 21.4725 11.0472 22.7448 11.0472 24.2678V26.4571C11.0472 27.8823 11.9651 29.086 13.2365 29.5393V30.8357C13.2365 31.2213 13.3156 31.5863 13.4382 31.9303H8.85783V17.9774C12.5652 17.4433 15.4258 14.2548 15.4258 10.4022V8.21292C15.4258 3.98782 11.9886 0.550293 7.76321 0.550293C3.53785 0.550293 0.100586 3.98782 0.100586 8.21292V10.4022C0.100586 14.2548 2.9612 17.4433 6.66853 17.9774V31.9305H1.19527C0.590949 31.9305 0.100586 32.4204 0.100586 33.0251C0.100586 33.6298 0.590949 34.1198 1.19527 34.1198H32.5755C33.1798 34.1198 33.6701 33.6298 33.6701 33.0251C33.6701 32.4204 33.1798 31.9304 32.5755 31.9304H31.2791C31.4017 31.5863 31.4808 31.2215 31.4808 30.8357V29.5394ZM6.66853 11.4969V12.5916C6.66853 13.1963 6.17817 13.6863 5.57385 13.6863C4.96954 13.6863 4.47917 13.1963 4.47917 12.5916V10.4023V6.02356C4.47917 5.41885 4.96954 4.92888 5.57385 4.92888H7.76315C9.574 4.92888 11.0471 6.402 11.0471 8.21285C11.0471 10.0237 9.574 11.4968 7.76315 11.4968H6.66853V11.4969ZM17.06 17.3536C17.2097 16.906 17.6266 16.6053 18.0984 16.6053H26.6191C27.0909 16.6053 27.5078 16.906 27.6575 17.354L28.8674 20.9839C24.8817 20.9839 19.9467 20.9839 15.8498 20.9839L17.06 17.3536ZM14.3311 27.5518C13.7275 27.5518 13.2364 27.0607 13.2364 26.4571V24.2679C13.2364 23.6643 13.7275 23.1732 14.3311 23.1732H15.7317L17.1913 27.5518H14.3311ZM19.6027 31.9305C19.7253 31.5864 19.8044 31.2215 19.8044 30.8358V29.7411H24.9128V30.8358C24.9128 31.2215 24.9919 31.5864 25.1144 31.9305H19.6027ZM30.3861 27.5518H27.526L28.9855 23.1732H30.3862C30.9898 23.1732 31.4808 23.6643 31.4808 24.2679V26.4571C31.4808 27.0607 30.9897 27.5518 30.3861 27.5518Z" />
                                   </g>
@@ -1203,7 +1234,10 @@ export default function Details() {
                   <div className="square">
                     <span>{totalPrice} €</span>
                     <span className="_small_title">
-                      {bookingData?.nightsCount} * 200€
+                      Normal : {normalNightsCount} * {normalNightsPrice}€
+                    </span>
+                    <span className="_small_title">
+                      Special : {specialNightsCount} * {specialNightsPrice}€
                     </span>
                   </div>
                   <div className="first_square h-100">
@@ -1211,14 +1245,14 @@ export default function Details() {
                   </div>
                   <div className="square">
                     {bookingData?.services?.map((service, index) => (
-                      <>
+                      <div key={index}>
                         {service.name === "Parking" && (
                           <span className="_small_title">
                             <svg
                               viewBox="0 0 34 35"
                               xmlns="http://www.w3.org/2000/svg"
                             >
-                              <g clippath="url(#clip0_189_3766)">
+                              <g clipPath="url(#clip0_189_3766)">
                                 <path d="M7.76363 7.11829H6.66895V9.30758H7.76363C8.36722 9.30758 8.8583 8.8165 8.8583 8.2129C8.8583 7.60931 8.36722 7.11829 7.76363 7.11829Z" />
                                 <path d="M31.4808 29.5394C32.7522 29.0861 33.6701 27.8824 33.6701 26.4571V24.2679C33.6701 22.7449 32.6231 21.4726 31.2146 21.1028L29.734 16.6615C29.2865 15.3185 28.035 14.4159 26.619 14.4159H18.0983C16.6823 14.4159 15.4308 15.3184 14.9832 16.6612L13.5025 21.1027C12.0941 21.4725 11.0472 22.7448 11.0472 24.2678V26.4571C11.0472 27.8823 11.9651 29.086 13.2365 29.5393V30.8357C13.2365 31.2213 13.3156 31.5863 13.4382 31.9303H8.85783V17.9774C12.5652 17.4433 15.4258 14.2548 15.4258 10.4022V8.21292C15.4258 3.98782 11.9886 0.550293 7.76321 0.550293C3.53785 0.550293 0.100586 3.98782 0.100586 8.21292V10.4022C0.100586 14.2548 2.9612 17.4433 6.66853 17.9774V31.9305H1.19527C0.590949 31.9305 0.100586 32.4204 0.100586 33.0251C0.100586 33.6298 0.590949 34.1198 1.19527 34.1198H32.5755C33.1798 34.1198 33.6701 33.6298 33.6701 33.0251C33.6701 32.4204 33.1798 31.9304 32.5755 31.9304H31.2791C31.4017 31.5863 31.4808 31.2215 31.4808 30.8357V29.5394ZM6.66853 11.4969V12.5916C6.66853 13.1963 6.17817 13.6863 5.57385 13.6863C4.96954 13.6863 4.47917 13.1963 4.47917 12.5916V10.4023V6.02356C4.47917 5.41885 4.96954 4.92888 5.57385 4.92888H7.76315C9.574 4.92888 11.0471 6.402 11.0471 8.21285C11.0471 10.0237 9.574 11.4968 7.76315 11.4968H6.66853V11.4969ZM17.06 17.3536C17.2097 16.906 17.6266 16.6053 18.0984 16.6053H26.6191C27.0909 16.6053 27.5078 16.906 27.6575 17.354L28.8674 20.9839C24.8817 20.9839 19.9467 20.9839 15.8498 20.9839L17.06 17.3536ZM14.3311 27.5518C13.7275 27.5518 13.2364 27.0607 13.2364 26.4571V24.2679C13.2364 23.6643 13.7275 23.1732 14.3311 23.1732H15.7317L17.1913 27.5518H14.3311ZM19.6027 31.9305C19.7253 31.5864 19.8044 31.2215 19.8044 30.8358V29.7411H24.9128V30.8358C24.9128 31.2215 24.9919 31.5864 25.1144 31.9305H19.6027ZM30.3861 27.5518H27.526L28.9855 23.1732H30.3862C30.9898 23.1732 31.4808 23.6643 31.4808 24.2679V26.4571C31.4808 27.0607 30.9897 27.5518 30.3861 27.5518Z" />
                               </g>
@@ -1242,7 +1276,7 @@ export default function Details() {
                               viewBox="0 0 33 34"
                               xmlns="http://www.w3.org/2000/svg"
                             >
-                              <g clippath="url(#clip0_43_907)">
+                              <g clipPath="url(#clip0_43_907)">
                                 <path d="M14.6259 27.9957L16.8503 30.2202L19.0747 27.9957H14.6259Z" />
                                 <path d="M14.4039 12.9843H10.2348C5.69474 12.9843 1.97525 16.5651 1.75208 21.0507H22.8866C22.6634 16.5651 18.944 12.9843 14.4039 12.9843ZM8.93075 18.558H6.78216V16.6472H8.93075V18.558ZM13.3937 17.3969H11.2451V15.4861H13.3937V17.3969ZM17.8566 18.558H15.708V16.6472H17.8566V18.558Z" />
                                 <path d="M17.5549 32.2177H20.5632C21.8502 32.2177 22.8972 31.1708 22.8972 29.8838V27.9957H21.7769L17.5549 32.2177Z" />
@@ -1308,7 +1342,7 @@ export default function Details() {
                             {service.price}
                           </span>
                         )}
-                      </>
+                      </div>
                     ))}
                     {bookingData?.services?.length == 0 && (
                       <div className="_small_title">No Services Selected</div>
@@ -1322,7 +1356,7 @@ export default function Details() {
                   </div>
                   <div className="square" id="_right_box_button">
                     {/* <Link to={`/checkout/${bookingData.id}`}> */}
-                    <button onClick={submitBookingData}>rent now</button>
+                      <button onClick={submitBookingData}>rent now</button>
                     {/* </Link> */}
                   </div>
                 </div>

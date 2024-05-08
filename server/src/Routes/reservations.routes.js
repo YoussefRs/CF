@@ -26,7 +26,8 @@ reservationRouter
   .get(verifyToken, getAllApprovedAndPaidReservationsForUser);
 reservationRouter.route("/add").post(verifyToken, createReservation);
 reservationRouter.route("/:id").get(getReservation);
-reservationRouter.route("/:id/approve").put(verifyAdmin, approveReservation);
+// reservationRouter.route("/:id/approve").put(verifyAdmin, approveReservation);
+reservationRouter.route("/:id/approve").put( approveReservation);
 reservationRouter.route("/:id/decline").put(verifyAdmin, declineReservation);
 reservationRouter.post(
   "/generate-paypal-checkout/:reservationId",

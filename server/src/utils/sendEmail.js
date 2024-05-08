@@ -29,8 +29,8 @@ function sendReservationEmail(user, reservation) {
   const template = handlebars.compile(emailReservationTemplateSource);
   const title = "CityFlat Reservation feedback";
   const checkoutUrl = `http://localhost:5173/checkout/${reservation?.id}`;
-  const message = `Hi there ${user?.name}, We're excited to inform you that your reservation is accepted for ${reservation?.apartmentName}.
-        Your reservation code is: ${reservation?.id}. Please proceed to checkout by clicking the following link: ${checkoutUrl}`;
+  const message = `Hi there ${user?.username}, We're excited to inform you that your reservation is accepted for ${reservation?.name}.
+   Please proceed to checkout by clicking the following link: ${checkoutUrl}`;
 
   const htmlToSend = template({
     title: title,
@@ -63,7 +63,7 @@ function sendDeclineReservationEmail(user, reservation) {
 
   const template = handlebars.compile(emailDeclineReservationTemplateSource);
   const title = "CityFlat Reservation feedback";
-  const message = `Hi there ${user.name}, We're terribly sorry to inform you that your reservation is declined for ${reservation?.apartmentName}.
+  const message = `Hi there ${user.username}, We're terribly sorry to inform you that your reservation is declined for ${reservation?.name}.
   check your CityFlat App`;
 
   const htmlToSend = template({

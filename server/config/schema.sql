@@ -46,12 +46,27 @@ CREATE TABLE IF NOT EXISTS Reservations (
     apartmentId INT NOT NULL,
     startDate DATE NOT NULL,
     endDate DATE NOT NULL,
-    status ENUM('Pending', 'Approved', 'Declined') DEFAULT 'Pending',
+    nightsCount INT NOT NULL,
+    normalNightsCount INT NOT NULL,
+    specialNightsCount INT NOT NULL,
+    normalNightsPrice DECIMAL(10, 2) NOT NULL,
+    specialNightsPrice DECIMAL(10, 2) NOT NULL,
+    totalPrice DECIMAL(10, 2) NOT NULL,
+    servicesFee DECIMAL(10, 2) NOT NULL,
     isPaid TINYINT(1) NOT NULL DEFAULT 0,
-    isProcessed TINYINT(1) NOT NULL DEFAULT 0, -- New property isProcessed
-    price DECIMAL(10, 2) NOT NULL DEFAULT '0.00', -- Price in decimal format with 2 decimal places
-    FOREIGN KEY (userId) REFERENCES Users(id) ON DELETE CASCADE,
-    FOREIGN KEY (apartmentId) REFERENCES Apartment(id) ON DELETE CASCADE,
+    isProcessed TINYINT(1) NOT NULL DEFAULT 0, 
+    status ENUM('Pending', 'Approved', 'Declined') DEFAULT 'Pending',
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (userId) REFERENCES Users(id) ON DELETE CASCADE,
+    FOREIGN KEY (apartmentId) REFERENCES Apartment(id) ON DELETE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS Services (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    reservationId INT NOT NULL,
+    serviceName VARCHAR(255) NOT NULL,
+    servicePrice DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (reservationId) REFERENCES Reservations(id) ON DELETE CASCADE
+);
+

@@ -14,17 +14,73 @@ const {
 } = require("../utils/sendEmail");
 const stripe = require("stripe")(process.env.SECRET_KEY);
 paypal.configure({
-  mode: "sandbox", // Set to 'live' for production
+  mode: "sandbox",
   client_id: process.env.PAYPAL_CLIENT_ID,
   client_secret: process.env.PAYPAL_APP_SECRET,
 });
 
+// async function createReservation(req, res) {
+//   const db = await startScript();
+//   try {
+//     const { userId, apartmentId, userEmail, startDate, endDate, price } =
+//       req.body;
+
+//     if (new Date(startDate) >= new Date(endDate)) {
+//       return res
+//         .status(400)
+//         .json({ error: "Start date must be before end date" });
+//     }
+
+//     const [apartmentResult] = await db.query(
+//       `SELECT id FROM Apartment WHERE id = ?`,
+//       [apartmentId]
+//     );
+
+//     if (apartmentResult.length === 0) {
+//       return res.status(404).json({ error: "Apartment not found" });
+//     }
+
+//     await db.beginTransaction();
+
+//     const [reservationResult] = await db.query(
+//       `INSERT INTO Reservations (userId, apartmentId, userEmail, startDate, endDate, price)
+//              VALUES (?, ?, ?, ?, ?, ?)`,
+//       [userId, apartmentId, userEmail, startDate, endDate, price]
+//     );
+
+//     await db.commit();
+
+//     await db.end();
+
+//     res.status(201).json({
+//       message: "Reservation created successfully and is pending admin approval",
+//     });
+//   } catch (error) {
+//     await db.rollback();
+
+//     console.error("Error creating reservation:", error);
+//     res.status(500).json({ error: "Internal server error" });
+//   }
+// }
 async function createReservation(req, res) {
   const db = await startScript();
   try {
     // Extract data from the request body
-    const { userId, apartmentId, userEmail, startDate, endDate, price } =
-      req.body;
+    const {
+      userId,
+      apartmentId,
+      userEmail,
+      startDate,
+      endDate,
+      nightsCount,
+      normalNightsCount,
+      specialNightsCount,
+      normalNightsPrice,
+      specialNightsPrice,
+      totalPrice,
+      servicesFee,
+      services,
+    } = req.body;
 
     // Check if start date is before end date
     if (new Date(startDate) >= new Date(endDate)) {
@@ -33,37 +89,42 @@ async function createReservation(req, res) {
         .json({ error: "Start date must be before end date" });
     }
 
-    // Check if the apartment with the given ID exists
-    const [apartmentResult] = await db.query(
-      `SELECT id FROM Apartment WHERE id = ?`,
-      [apartmentId]
-    );
-
-    if (apartmentResult.length === 0) {
-      return res.status(404).json({ error: "Apartment not found" });
-    }
-
-    // // Check if reservation period falls within apartment availability
-    // const [availabilityResult] = await db.query(
-    //   `SELECT * FROM Price WHERE apartment_id = ? AND start_date <= ? AND end_date >= ?`,
-    //   [apartmentId, startDate, endDate]
-    // );
-
-    // if (!availabilityResult.length) {
-    //   return res
-    //     .status(400)
-    //     .json({ error: "Reservation period is not available" });
-    // }
-
     // Start a database transaction
     await db.beginTransaction();
 
-    // Insert the reservation details into the Reservations table with status "Pending"
+    // Insert the reservation details into the Reservations table
     const [reservationResult] = await db.query(
-      `INSERT INTO Reservations (userId, apartmentId, userEmail, startDate, endDate, price)
-             VALUES (?, ?, ?, ?, ?, ?)`,
-      [userId, apartmentId, userEmail, startDate, endDate, price]
+      `INSERT INTO Reservations 
+            (userId, apartmentId, userEmail, startDate, endDate, nightsCount, 
+            normalNightsCount, specialNightsCount, normalNightsPrice, specialNightsPrice, 
+            totalPrice, servicesFee)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        userId,
+        apartmentId,
+        userEmail,
+        startDate,
+        endDate,
+        nightsCount,
+        normalNightsCount,
+        specialNightsCount,
+        normalNightsPrice,
+        specialNightsPrice,
+        totalPrice,
+        servicesFee,
+      ]
     );
+
+    // Get the reservation ID
+    const reservationId = reservationResult.insertId;
+
+    // Insert services into the Services table
+    for (const service of services) {
+      await db.query(
+        `INSERT INTO Services (reservationId, serviceName, servicePrice) VALUES (?, ?, ?)`,
+        [reservationId, service.name, service.price]
+      );
+    }
 
     // Commit the transaction
     await db.commit();
@@ -73,7 +134,7 @@ async function createReservation(req, res) {
 
     // Respond with success message
     res.status(201).json({
-      message: "Reservation created successfully and is pending admin approval",
+      message: "Reservation created successfully",
     });
   } catch (error) {
     // Rollback the transaction if an error occurs
@@ -87,21 +148,64 @@ async function createReservation(req, res) {
 async function getAllReservations(req, res) {
   const db = await startScript();
   try {
-    // Execute SQL query to retrieve all reservations with apartment and user details
+    // Execute SQL query to retrieve all reservations with apartment, user, services, and images details
     const [reservations] = await db.query(`
-      SELECT 
-        r.*, 
-        a.*, 
-        u.*
-      FROM 
-        reservations r
-      INNER JOIN 
-        apartment a ON r.apartmentId = a.id
-      INNER JOIN 
-        users u ON r.userId = u.id
+    SELECT 
+    r.*, 
+    a.*, 
+    u.*, 
+    JSON_OBJECT(
+        'services', COALESCE(
+            JSON_ARRAYAGG(
+                JSON_OBJECT('name', serviceName, 'price', servicePrice)
+            ), JSON_ARRAY()
+        ),
+        'images', COALESCE(
+            JSON_ARRAYAGG(
+                JSON_OBJECT('image_url', img.image_url)
+            ), JSON_ARRAY()
+        )
+    ) AS details
+FROM 
+    Reservations r
+INNER JOIN 
+    Apartment a ON r.apartmentId = a.id
+INNER JOIN 
+    Users u ON r.userId = u.id
+LEFT JOIN (
+    SELECT 
+        DISTINCT reservationId,  -- Ensure distinct reservationIds
+        JSON_ARRAYAGG(
+            JSON_OBJECT('name', serviceName, 'price', servicePrice)
+        ) AS services,
+        reservationId AS service_reservationId,
+        serviceName,  -- alias added here
+        servicePrice  -- alias added here
+    FROM 
+        Services
+    GROUP BY 
+        reservationId, serviceName, servicePrice  -- Include serviceName and servicePrice in GROUP BY
+) service ON r.id = service.service_reservationId
+LEFT JOIN (
+    SELECT 
+        apartment_id,
+        JSON_ARRAYAGG(
+            JSON_OBJECT('image_url', image_url)
+        ) AS image_url
+    FROM 
+        Image
+    GROUP BY 
+        apartment_id
+) img ON img.apartment_id = a.id
+GROUP BY 
+    r.id;
+
+
+
+
     `);
 
-    // Respond with the retrieved reservations along with apartment and user details
+    // Respond with the retrieved reservations along with apartment, user, services, and images details
     res.status(200).json(reservations);
   } catch (error) {
     console.error("Error fetching reservations:", error);
@@ -157,14 +261,16 @@ async function approveReservation(req, res) {
     const userId = reservation[0].userId;
 
     // Fetch user's email address
-    const [user] = await db.query("SELECT email FROM Users WHERE id = ?", [
-      userId,
-    ]);
+    const [user] = await db.query(
+      "SELECT email, username FROM Users WHERE id = ?",
+      [userId]
+    );
 
     if (user.length === 0) {
       return res.status(404).json({ error: "User not found" });
     }
 
+    console.log("approve fc user", user);
     // Send email to user
     sendReservationEmail(user[0], reservation[0]);
 
@@ -202,16 +308,16 @@ async function declineReservation(req, res) {
     const userId = reservation[0].userId;
 
     // Fetch user's email address
-    const [user] = await db.query("SELECT email FROM Users WHERE id = ?", [
-      userId,
-    ]);
+    const [user] = await db.query(
+      "SELECT email, username FROM Users WHERE id = ?",
+      [userId]
+    );
 
     if (user.length === 0) {
       return res.status(404).json({ error: "User not found" });
     }
-
     // Send email to user
-    sendDeclineReservationEmail(user[0], reservation[0]);
+    sendDeclineReservationEmail(user, reservation[0]);
 
     // Respond with success message
     res.status(200).json({ message: "Reservation declined successfully" });
@@ -290,7 +396,6 @@ async function generatePayPalCheckoutUrl(req, res) {
     res.status(500).json({ error: "Internal server error" });
   }
 }
-
 
 const handlePayPalPaymentSuccessWebhook = async (req, res, event) => {
   try {
@@ -379,9 +484,6 @@ const handlePayPalPaymentSuccessWebhook = async (req, res, event) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 };
-
-
-
 
 // Update reservation status function
 async function updateReservationStatus(reservationId) {
@@ -522,7 +624,6 @@ async function handleStripeWebhook(req, res) {
     res.status(400).send(`Webhook Error: ${error.message}`);
   }
 }
-
 
 async function getAllApprovedAndPaidReservations(req, res) {
   try {

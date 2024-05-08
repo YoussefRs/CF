@@ -113,6 +113,17 @@
   }
 }
 /* STATS BUTTONS */
+.view-btn {
+  cursor: pointer;
+  height: 40px;
+  width: 40px;
+  position: relative;
+  transition: 250ms ease;
+  border-radius: 50%;
+  background: linear-gradient(158deg, #0563a6 19.76%, #0563a6 92.48%);
+  padding: 5px;
+}
+
 .close-btn {
   cursor: pointer;
   height: 40px;
