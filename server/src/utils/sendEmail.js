@@ -30,7 +30,8 @@ function sendReservationEmail(user, reservation) {
   const title = "CityFlat Reservation feedback";
   const checkoutUrl = `http://localhost:5173/checkout/${reservation?.id}`;
   const message = `Hi there ${user?.username}, We're excited to inform you that your reservation is accepted for ${reservation?.name}.
-   Please proceed to checkout by clicking the following link: ${checkoutUrl}`;
+   Please proceed to checkout by clicking the following link: ${checkoutUrl}.
+   Claimer: You have 24h to pay thee reservation otherwise it will be cancelled automatically.`;
 
   const htmlToSend = template({
     title: title,
@@ -109,7 +110,9 @@ function sendHelpRequest(req, res) {
     if (err) {
       console.log(err);
     } else {
-      res.status(200).send({ message: "Your Request Has Been Submited Successfuly." });
+      res
+        .status(200)
+        .send({ message: "Your Request Has Been Submited Successfuly." });
     }
     console.log(`Email sent to successfully`);
   });

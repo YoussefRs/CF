@@ -139,65 +139,137 @@ export default function Details() {
     };
   }, []);
 
-  const calculateTotalPrice = () => {
-    let normalNightsPrice = 0;
-    let specialNightsPrice = 0;
-    let normalNightsCount = 0;
-    let specialNightsCount = 0;
+  // const calculateTotalPrice = () => {
+  //   let normalNightsPrice = 0;
+  //   let specialNightsPrice = 0;
+  //   let normalNightsCount = 0;
+  //   let specialNightsCount = 0;
 
-    if (bookingData && card && bookingData.startDate && bookingData.endDate) {
-      const startDate = new Date(bookingData.startDate);
-      const endDate = new Date(bookingData.endDate);
+  //   if (bookingData && card && bookingData.startDate && bookingData.endDate) {
+  //     const startDate = new Date(bookingData.startDate);
+  //     const endDate = new Date(bookingData.endDate);
 
-      // Calculate the number of nights between the start and end dates
-      let totalNightsCount = Math.floor(
-        (endDate - startDate) / (1000 * 60 * 60 * 24)
-      );
+  //     // Calculate the number of nights between the start and end dates
+  //     let totalNightsCount = Math.floor(
+  //       (endDate - startDate) / (1000 * 60 * 60 * 24)
+  //     );
 
-      for (let i = 0; i <= totalNightsCount; i++) {
-        const currentDate = new Date(startDate);
-        currentDate.setDate(currentDate.getDate() + i);
-        let isSpecialDate = false;
+  //     for (let i = 0; i <= totalNightsCount; i++) {
+  //       const currentDate = new Date(startDate);
+  //       currentDate.setDate(currentDate.getDate() + i);
+  //       let isSpecialDate = false;
 
-        for (const price of card.prices) {
-          const priceStartDate = new Date(price.start_date);
-          const priceEndDate = new Date(price.end_date);
-          if (currentDate >= priceStartDate && currentDate <= priceEndDate) {
-            isSpecialDate = true;
-            specialNightsPrice += parseFloat(price.price);
-            specialNightsCount++; // Increment special nights count
-            break;
-          }
-        }
+  //       // Check if the current date is within any special date range
+  //       for (const price of card.prices) {
+  //         const priceStartDate = new Date(price.start_date);
+  //         const priceEndDate = new Date(price.end_date);
+  //         if (currentDate >= priceStartDate && currentDate <= priceEndDate) {
+  //           isSpecialDate = true;
+  //           specialNightsPrice += parseFloat(price.price);
+  //           specialNightsCount++; // Increment special nights count
+  //           break;
+  //         }
+  //       }
 
-        if (!isSpecialDate) {
-          normalNightsPrice += parseFloat(card.price);
-          normalNightsCount++; // Increment normal nights count
-        }
-      }
-    }
+  //       // If the current date is not a special date, it's a normal night
+  //       if (!isSpecialDate) {
+  //         normalNightsPrice += parseFloat(card.price);
+  //         normalNightsCount++; // Increment normal nights count
+  //       }
+  //     }
+  //   }
 
-    const totalPrice = normalNightsPrice + specialNightsPrice + ServicesFees;
+  //   const totalPrice = normalNightsPrice + specialNightsPrice + ServicesFees;
 
-    // Return total price along with counts of special and normal nights
-    return {
-      totalPrice,
-      specialNightsPrice,
-      normalNightsPrice,
-      specialNightsCount,
-      normalNightsCount,
-    };
-  };
+  //   // Return total price along with counts of special and normal nights
+  //   return {
+  //     totalPrice,
+  //     specialNightsPrice,
+  //     normalNightsPrice,
+  //     specialNightsCount,
+  //     normalNightsCount,
+  //   };
+  // };
+
 
   // Usage example:
-  const {
+  
+ const calculateTotalPrice = () => {
+  let normalNightsPrice = 0;
+  let specialNightsPrice = 0;
+  let normalNightsCount = 0;
+  let specialNightsCount = 0;
+  let specialStartDates = [];
+  let specialEndDates = [];
+
+  if (bookingData && card && bookingData.startDate && bookingData.endDate) {
+    const startDate = new Date(bookingData.startDate);
+    const endDate = new Date(bookingData.endDate);
+
+    // Calculate the number of nights between the start and end dates
+    let totalNightsCount = Math.floor(
+      (endDate - startDate) / (1000 * 60 * 60 * 24)
+    );
+
+    for (let i = 0; i <= totalNightsCount; i++) {
+      const currentDate = new Date(startDate);
+      currentDate.setDate(currentDate.getDate() + i);
+      let isSpecialDate = false;
+
+      // Check if the current date is within any special date range
+      for (const price of card.prices) {
+        const priceStartDate = new Date(price.start_date);
+        const priceEndDate = new Date(price.end_date);
+        if (currentDate >= priceStartDate && currentDate <= priceEndDate) {
+          isSpecialDate = true;
+          specialNightsPrice += parseFloat(price.price);
+          specialNightsCount++; // Increment special nights count
+          if (!specialStartDates.includes(price.start_date)) {
+            specialStartDates.push(price.start_date);
+          }
+          if (!specialEndDates.includes(price.end_date)) {
+            specialEndDates.push(price.end_date);
+          }
+          break;
+        }
+      }
+
+      // If the current date is not a special date, it's a normal night
+      if (!isSpecialDate) {
+        normalNightsPrice += parseFloat(card.price);
+        normalNightsCount++; // Increment normal nights count
+      }
+    }
+  }
+
+  const totalPrice = normalNightsPrice + specialNightsPrice + ServicesFees;
+
+  // Return total price along with counts of special and normal nights
+  return {
     totalPrice,
-    normalNightsPrice,
     specialNightsPrice,
+    normalNightsPrice,
     specialNightsCount,
     normalNightsCount,
-  } = calculateTotalPrice();
+    specialStartDates,
+    specialEndDates
+  };
+};
 
+
+  
+  const {
+    totalPrice,
+    specialNightsPrice,
+    normalNightsPrice,
+    specialNightsCount,
+    normalNightsCount,
+    specialStartDates,
+    specialEndDates,
+    normalStartDates,
+    normalEndDates,
+  } = calculateTotalPrice();
+  
   const submitBookingData = () => {
     if (user) {
       let bookingDataList = {

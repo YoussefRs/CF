@@ -20,11 +20,11 @@ async function httpAddApartment(req, res) {
       laundry = false,
       pictures,
       price,
-      startDate,
-      endDate,
       specialDates = [],
       description,
     } = req.body;
+
+    console.log(specialDates)
 
     // Start a database transaction
     await db.beginTransaction();
@@ -67,8 +67,8 @@ async function httpAddApartment(req, res) {
         [
           apartmentId,
           specialDate.price,
-          specialDate.startDate,
-          specialDate.endDate,
+          specialDate.start_date,
+          specialDate.end_date,
         ]
       );
     }

@@ -27,7 +27,6 @@ export default function AppartementsContent() {
     handleInputChange,
     handleAddRow,
     setFormData,
-    handleSpecialDateInputChange,
     handleCounterChange,
     handleSubmit,
     loadingAdd,
@@ -75,7 +74,16 @@ export default function AppartementsContent() {
     dispatch(getAllApartments());
   }, [dispatch]);
 
-
+ const handleSpecialDateInputChange = (index, event) => {
+   const { name, value } = event.target;
+   const newSpecialDate = [...formData.specialDates];
+   newSpecialDate[index] = { ...newSpecialDate[index], [name]: value };
+   setFormData((prevFormData) => ({
+     ...prevFormData,
+     specialDates: newSpecialDate,
+   }));
+  };
+  
   return (
     <>
       <div className="container-fluid py-4">
@@ -200,14 +208,14 @@ export default function AppartementsContent() {
                           className="added_price_row_col"
                           style={{ paddingRight: 0 }}
                         >
-                          <label htmlFor={`startDate-${index}`}>
+                          <label htmlFor={`start_date-${index}`}>
                             start date:
                           </label>
                           <input
                             type="date"
-                            id={`startDate-${index}`}
-                            name="startDate"
-                            value={formData.specialDates.startDate}
+                            id={`start_date-${index}`}
+                            name="start_date"
+                            value={formData.specialDates.start_date}
                             onChange={(e) =>
                               handleSpecialDateInputChange(index, e)
                             }
@@ -219,12 +227,12 @@ export default function AppartementsContent() {
                           className="added_price_row_col"
                           style={{ paddingRight: 0 }}
                         >
-                          <label htmlFor={`endDate-${index}`}>end date:</label>
+                          <label htmlFor={`end_date-${index}`}>end date:</label>
                           <input
                             type="date"
-                            id={`endDate-${index}`}
-                            name="endDate"
-                            value={formData.specialDates.endDate}
+                            id={`end_date-${index}`}
+                            name="end_date"
+                            value={formData.specialDates.end_date}
                             onChange={(e) =>
                               handleSpecialDateInputChange(index, e)
                             }
@@ -232,7 +240,10 @@ export default function AppartementsContent() {
                             min={new Date().toISOString().split("T")[0]}
                           />
                         </div>
-                        <div className="rmv_btn" onClick={() => handleRemoveRow(index)}>
+                        <div
+                          className="rmv_btn"
+                          onClick={() => handleRemoveRow(index)}
+                        >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 12 12"
