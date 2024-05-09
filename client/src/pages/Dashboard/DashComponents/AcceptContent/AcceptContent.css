@@ -1,0 +1,29 @@
+.accept_table {
+  width: 100%;
+  min-width: 800px;
+}
+
+.accept_table tr {
+  display: grid;
+  /* grid: auto/200px 250px 1fr 1fr 1fr; */
+  grid: auto/1fr 1fr 1fr 1fr 1fr;
+  align-items: center;
+}
+
+.accept_table .table__header tr {
+  border-radius: 50px !important;
+  background: rgba(0, 0, 0, 0.44) !important;
+  margin-bottom: 3px;
+  color: #5d6377;
+  font-family: Montserrat, sans-serif;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  font-variant: small-caps;
+  text-align: left;
+}
+
+.accept_table td {
+  padding: 18px 15px;
+}

@@ -18,6 +18,7 @@ import InvoiceContent from "./pages/Dashboard/DashComponents/InvoiceContent/Invo
 import { getAllApartments } from "./redux/apartmentSlice";
 import { useDispatch } from "react-redux";
 import Checkout from "./pages/CheckOut/checkout";
+import AcceptContent from "./pages/Dashboard/DashComponents/AcceptContent/AcceptContent";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -83,7 +84,7 @@ function App() {
                 path="/dashboard"
                 element={
                   // <PrivateRoute>
-                    <Dashboard />
+                  <Dashboard />
                   // </PrivateRoute>
                 }
               >
@@ -92,13 +93,14 @@ function App() {
                 <Route path="customers" element={<CustomersContent />} />
                 <Route path="help" element={<HelpContent />} />
                 <Route path="invoice" element={<InvoiceContent />} />
+                <Route path="accept" element={<AcceptContent />} />
               </Route>
               <Route
                 path="/profil"
                 element={
                   <Layout>
                     {/* <PrivateRoute> */}
-                      <Profile />
+                    <Profile />
                     {/* </PrivateRoute> */}
                   </Layout>
                 }
