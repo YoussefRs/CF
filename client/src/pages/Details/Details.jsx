@@ -269,7 +269,7 @@ export default function Details() {
     normalStartDates,
     normalEndDates,
   } = calculateTotalPrice();
-  
+  console.log(totalPrice)
   const submitBookingData = () => {
     if (user) {
       let bookingDataList = {

@@ -247,9 +247,8 @@ async function approveReservation(req, res) {
   const db = await startScript();
 
   try {
-    const reservationId = req.params.id; // Correctly fetch the reservation ID from the request parameters
-    console.log("reservation Id", reservationId);
-    
+    const reservationId = req.params.id; 
+
     // Execute SQL query to update the reservation status to approved
     await db.query('UPDATE Reservations SET status = "Approved" WHERE id = ?', [reservationId]);
     // Fetch the reservation details using the correct reservation ID
@@ -277,8 +276,6 @@ async function approveReservation(req, res) {
       return res.status(404).json({ error: "User not found" });
     }
 
-    console.log("approve fc user", user);
-    console.log("reservation", reservation[0].id)
     sendReservationEmail(user[0], reservation[0], reservationId);
 
     res.status(200).json({ message: "Reservation approved successfully" });
@@ -680,20 +677,37 @@ async function getUserReservationById(req, res) {
   const userId = req.params.userId;
 
   try {
-      const db = await startScript();
-      const [reservation] = await db.query(
-          `SELECT * FROM Reservations WHERE id = ? AND userId = ?`,
-          [reservationId, userId]
-      );
+    const db = await startScript();
+    const [reservation] = await db.query(
+      `SELECT 
+      R.*, 
+      U.phone,
+      A.*,  -- Select all columns from Apartment
+      JSON_ARRAYAGG(JSON_OBJECT('image_url', I.image_url)) AS apartment_images
+  FROM 
+      Reservations R
+  INNER JOIN 
+      Users U ON R.userId = U.id
+  INNER JOIN 
+      Apartment A ON R.apartmentId = A.id
+  LEFT JOIN 
+      Image I ON A.id = I.apartment_id
+  WHERE 
+      R.id = ? AND R.userId = ?
+  GROUP BY 
+      R.id;  -- Group by reservation ID to ensure one row per reservation
+  `,
+      [reservationId, userId]
+    );
 
-      if (!reservation) {
-          return res.status(404).json({ error: 'Reservation not found' });
-      }
+    if (!reservation) {
+      return res.status(404).json({ error: 'Reservation not found' });
+    }
 
-      return res.status(200).json({ reservation });
+    return res.status(200).json({ reservation });
   } catch (error) {
-      console.error('Error fetching reservation:', error);
-      return res.status(500).json({ error: 'Internal server error' });
+    console.error('Error fetching reservation:', error);
+    return res.status(500).json({ error: 'Internal server error' });
   }
 }
 

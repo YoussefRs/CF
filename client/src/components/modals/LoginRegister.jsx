@@ -18,6 +18,7 @@ export function handleSignUpClick() {
 }
 
 export default function LoginRegister({ closeLoginModal }) {
+  const BASE_URL = import.meta.env.VITE_API_URL;
   const navigate = useNavigate();
   const { user, isLoading, isAuthenticated } = useSelector(
     (state) => state.auth
@@ -66,7 +67,7 @@ export default function LoginRegister({ closeLoginModal }) {
       };
 
       const response = await axios.post(
-        "http://127.0.0.1:3001/user/register",
+        `${BASE_URL}/user/register`,
         registrationData
       );
 

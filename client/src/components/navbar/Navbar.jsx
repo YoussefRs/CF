@@ -52,6 +52,7 @@ export default function Navbar({ setShow, show }) {
 
   const logout = () => {
     localStorage.removeItem("user");
+    localStorage.removeItem("loginToken")
   };
 
   const scrollToSection = (id) => {

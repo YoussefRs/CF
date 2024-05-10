@@ -3,14 +3,15 @@ import "./Checkout.css";
 import { useLocation, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getOneBooking } from "../../redux/BookingSlice";
+import axios from "axios";
 
 import Form from "react-bootstrap/Form";
 
 export default function Checkout() {
+  const BASE_URL = import.meta.env.VITE_API_URL;
   const { id, userId } = useParams();
   const dispatch = useDispatch();
   const location = useLocation();
-  const { card } = location.state || {};
   const bookingData = useSelector((state) => state.bookings.bookings);
 
   const [selectedType, setSelectedType] = useState("");
@@ -18,10 +19,33 @@ export default function Checkout() {
   const handleTypeClick = (type) => {
     setSelectedType(type);
   };
-  useEffect(() => {
-    dispatch(getOneBooking(id, userId));
-  }, []);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      await dispatch(getOneBooking(id, userId));
+    };
+    fetchData();
+  }, [dispatch, id, userId]);
+
+  const handleContinue = (e) => {
+    e.preventDefault();
+    if (selectedType === "PayPal") {
+      axios
+        .post(`${BASE_URL}/reservations/generate-paypal-checkout/${id}`, {
+          // Add your data to be sent in the request body
+        })
+        .then((response) => {
+          console.log("PayPal API response:", response.data);
+          window.open(response.data.approval_url, "_blank");
+        })
+        .catch((error) => {
+          // Handle error if needed
+          console.error("Error calling PayPal API:", error);
+        });
+    } else {
+      // Handle other types or do nothing
+    }
+  };
   return (
     <div className="checkout_container">
       <header>
@@ -30,7 +54,7 @@ export default function Checkout() {
 
       <main>
         <section className="checkout-form">
-          <form action="#!" method="get">
+          <form onSubmit={(e) => handleContinue(e)}>
             <h6>Contact information</h6>
             <div className="form-control">
               <label htmlFor="checkout-email">E-mail</label>
@@ -77,7 +101,7 @@ export default function Checkout() {
                   type="email"
                   id="checkout-email"
                   name="checkout-email"
-                  value={bookingData?.User?.email}
+                  value={bookingData?.reservation?.[0]?.userEmail}
                   placeholder="Enter your email..."
                 />
               </div>
@@ -104,7 +128,7 @@ export default function Checkout() {
                   name="checkout-phone"
                   id="checkout-phone"
                   placeholder="Enter you phone..."
-                  value={bookingData?.phone}
+                  value={bookingData?.reservation?.[0]?.phone}
                 />
               </div>
             </div>
@@ -298,7 +322,7 @@ export default function Checkout() {
               </div>
             </div>
             <div className="form-control-btn">
-              <button>Continue</button>
+              <button type="submit">Continue</button>
             </div>
           </form>
         </section>
@@ -309,13 +333,16 @@ export default function Checkout() {
               <div className="_card">
                 <div className="card-image">
                   <img
-                    src={bookingData?.appartment?.pictures[0]}
+                    src={
+                      bookingData?.reservation?.[0].apartment_images?.[0]
+                        ?.image_url
+                    }
                     alt="apartment picture"
                   />
                 </div>
                 <div className="card-details">
                   <div className="card-name">
-                    {bookingData?.appartment?.apartmentName}{" "}
+                    {bookingData?.reservation?.[0].name}{" "}
                   </div>
                   <div className="_card-price row">
                     <span className="col-1">
@@ -372,13 +399,14 @@ export default function Checkout() {
                       </svg>
                     </span>
                     <span className="col">
-                      {bookingData.startDate} To {bookingData.endDate}{" "}
+                      {bookingData.reservation?.[0]?.startDate} To{" "}
+                      {bookingData?.reservation?.[0]?.endDate}{" "}
                     </span>
                   </div>
                   <div className="_card-price row">
                     <span className="col-1"></span>
                     <span className="col">
-                      Nights: {bookingData?.nightsCount}{" "}
+                      Nights: {bookingData?.reservation?.[0]?.nightsCount}{" "}
                     </span>
                   </div>
                   <div className="_card-price row">
@@ -461,16 +489,37 @@ export default function Checkout() {
               </div>
             </div>
             <div className="checkout-shipping">
-              <h6>Night Fees</h6>
+              <h6>Normal Dates</h6>
               <div className="d-flex flex-column">
-                <p>{bookingData?.nightsCount * 200} € </p>
-                <p>{bookingData?.nightsCount} * 200€</p>
+                <p>
+                  {bookingData?.reservation?.[0]?.normalNightsCount *
+                    bookingData?.reservation?.[0]?.normalNightsPrice}
+                  €{" "}
+                </p>
+                <p>
+                  {bookingData?.reservation?.[0]?.normalNightsCount} *{" "}
+                  {bookingData?.reservation?.[0]?.normalNightsPrice}€
+                </p>
+              </div>
+            </div>
+            <div className="checkout-shipping">
+              <h6>Special Dates</h6>
+              <div className="d-flex flex-column">
+                <p>
+                  {bookingData?.reservation?.[0]?.specialNightsCount *
+                    bookingData?.reservation?.[0]?.specialNightsPrice}{" "}
+                  €{" "}
+                </p>
+                <p>
+                  {bookingData?.reservation?.[0]?.specialNightsCount} *{" "}
+                  {bookingData?.reservation?.[0]?.specialNightsPrice}€
+                </p>
               </div>
             </div>
             <div className="checkout-shipping">
               <h6>Services Fees</h6>
               <div className="d-flex flex-column">
-                <p>test</p>
+                <p>{bookingData?.reservation?.[0]?.servicesFee}€</p>
                 <p>
                   {bookingData?.services?.includes("Food") && (
                     <span className="_small_title">
@@ -592,7 +641,7 @@ export default function Checkout() {
             </div>
             <div className="checkout-total">
               <h6>Total</h6>
-              <p>{bookingData?.totalPrice} € </p>
+              <p>{bookingData?.reservation?.[0]?.totalPrice} € </p>
             </div>
           </div>
         </section>
