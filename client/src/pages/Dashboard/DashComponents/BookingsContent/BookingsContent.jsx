@@ -525,7 +525,9 @@ export default function BookingsContent() {
               </div>
             </div>
             <div className="cancel_btn">
-              <button className="btn">Cancel</button>
+              <button className="btn" onClick={onClose}>
+                Cancel
+              </button>
             </div>
           </div>
         </ReusableModal>
