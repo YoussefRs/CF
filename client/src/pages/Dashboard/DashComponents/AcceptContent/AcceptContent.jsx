@@ -34,7 +34,7 @@ export default function AcceptContent() {
       </div>
       <div className="row">
         <div className="col-lg-12 mb-4">
-          <div className="row">
+          <div className="row gx-0" style={{ marginLeft: 0, marginRight: 0 }}>
             <div className="col-lg-8 booking_inputs" id="search">
               <span className="fa-search">
                 <svg
