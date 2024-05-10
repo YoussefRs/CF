@@ -17,7 +17,7 @@ const emailDeclineReservationTemplateSource = fs.readFileSync(
   "utf8"
 );
 
-function sendReservationEmail(user, reservation) {
+function sendReservationEmail(user, reservation,reservationId) {
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -28,7 +28,7 @@ function sendReservationEmail(user, reservation) {
 
   const template = handlebars.compile(emailReservationTemplateSource);
   const title = "CityFlat Reservation feedback";
-  const checkoutUrl = `http://localhost:5173/checkout/${reservation?.id}`;
+  const checkoutUrl = `http://localhost:5173/reservations/${user.id}/${reservationId}`;
   const message = `Hi there ${user?.username}, We're excited to inform you that your reservation is accepted for ${reservation?.name}.
    Please proceed to checkout by clicking the following link: ${checkoutUrl}.
    Claimer: You have 24h to pay thee reservation otherwise it will be cancelled automatically.`;

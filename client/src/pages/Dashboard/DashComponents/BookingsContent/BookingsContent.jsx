@@ -205,6 +205,7 @@ export default function BookingsContent() {
                       onClick={() => {
                         AcceptOrder(booking.id);
                         dispatch(getAllBookings());
+                        // console.log(booking.id)
                       }}
                     ></div>
                   </td>

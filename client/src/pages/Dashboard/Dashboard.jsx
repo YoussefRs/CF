@@ -558,7 +558,9 @@ function Dashboard() {
                   <span>Customers</span>
                 </Link>
               </li>
-              <li onClick={handleHelpPage}>
+              <li onClick={() => {
+                handleHelpPage(), handleClick(5)
+              }}>
                 <Link
                   to="/dashboard/help"
                   className={activeIndex === 5 ? "active" : ""}

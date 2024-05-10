@@ -11,6 +11,7 @@ const {
   confirmPayment,
   getAllApprovedAndPaidReservations,
   getAllApprovedAndPaidReservationsForUser,
+  getUserReservationById
 } = require("../Controllers/reservations.controller");
 const {
   verifyAdmin,
@@ -26,6 +27,7 @@ reservationRouter
   .get(verifyToken, getAllApprovedAndPaidReservationsForUser);
 reservationRouter.route("/add").post(verifyToken, createReservation);
 reservationRouter.route("/:id").get(getReservation);
+reservationRouter.route("/:userId/:id").get(getUserReservationById);
 // reservationRouter.route("/:id/approve").put(verifyAdmin, approveReservation);
 reservationRouter.route("/:id/approve").put( approveReservation);
 reservationRouter.route("/:id/decline").put(verifyAdmin, declineReservation);

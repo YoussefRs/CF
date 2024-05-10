@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getOneBooking } from "../../redux/BookingSlice";
 
 export default function Checkout() {
-  const { id } = useParams();
+  const { id, userId } = useParams();
   const dispatch = useDispatch();
   const location = useLocation();
   const { card } = location.state || {};
@@ -17,7 +17,7 @@ export default function Checkout() {
     setSelectedType(type);
   };
   useEffect(() => {
-    dispatch(getOneBooking(id));
+    dispatch(getOneBooking(id, userId));
   }, []);
 
   return (
