@@ -4,6 +4,8 @@ import { useLocation, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getOneBooking } from "../../redux/BookingSlice";
 
+import Form from "react-bootstrap/Form";
+
 export default function Checkout() {
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -83,7 +85,20 @@ export default function Checkout() {
             <div className="form-control">
               <label htmlFor="checkout-phone">Phone</label>
               <div>
-                <span className="fa fa-phone"></span>
+                <span className="fa fa-envelope">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 9 13"
+                    fill="none"
+                  >
+                    <path
+                      d="M6.73253 0H2.26724C1.22143 0 0.370605 0.850829 0.370605 1.89663V11.1034C0.370605 12.1492 1.22143 13 2.26724 13H6.73253C7.77833 13 8.62916 12.1492 8.62916 11.1034V1.89663C8.62916 0.850829 7.77833 0 6.73253 0ZM3.94238 0.630406H5.05739C5.15264 0.630406 5.22981 0.707582 5.22981 0.802827C5.22981 0.898073 5.15264 0.975248 5.05739 0.975248H3.94238C3.84713 0.975248 3.76996 0.898073 3.76996 0.802827C3.76996 0.707582 3.84713 0.630406 3.94238 0.630406ZM4.49988 12.2286C4.19515 12.2286 3.94814 11.9816 3.94814 11.6769C3.94814 11.3722 4.19515 11.1251 4.49988 11.1251C4.80459 11.1251 5.05163 11.3722 5.05163 11.6769C5.05163 11.9816 4.80462 12.2286 4.49988 12.2286ZM7.76709 10.0101C7.76709 10.1998 7.61191 10.355 7.42225 10.355H1.57755C1.38789 10.355 1.23271 10.1998 1.23271 10.0101V1.94081C1.23271 1.75114 1.38789 1.59596 1.57755 1.59596H7.42225C7.61191 1.59596 7.76709 1.75114 7.76709 1.94081V10.0101Z"
+                      fill="#BCBCBC"
+                    />
+                  </svg>
+                </span>
                 <input
                   type="tel"
                   name="checkout-phone"
@@ -94,9 +109,9 @@ export default function Checkout() {
               </div>
             </div>
             <br />
-            <h6>Payment Method</h6>
-            <div className="payment-type border px-3">
-              <div className="types d-flex align-items-center justify-content-center gap-5">
+            <div className="payment_types border">
+              <h6>Payment Method</h6>
+              {/* <div className="types d-flex align-items-center justify-content-center gap-5">
                 <div
                   className={`type ${
                     selectedType === "Credit Card" ? "selected" : ""
@@ -179,6 +194,59 @@ export default function Checkout() {
                     <p>Pay with PayPal</p>
                   </div>
                 </div>
+              </div> */}
+              <div
+                className={`type ${
+                  selectedType === "Credit Card" ? "selected" : ""
+                }`}
+                onClick={() => {
+                  handleTypeClick("Credit Card");
+                }}
+              >
+                <Form.Check
+                  type="radio"
+                  name="payment-type"
+                  checked={selectedType === "Credit Card"}
+                />
+                <span className="icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 27 20">
+                    <path d="M24.4805 0.954102H1.88312C0.844578 0.954102 0 1.82535 0 2.89669V8.72444V17.4661C0 18.5374 0.844578 19.4086 1.88312 19.4086H24.4805C25.5191 19.4086 26.3636 18.5374 26.3636 17.4661C26.3636 13.7208 26.3636 6.56088 26.3636 2.89669C26.3636 1.82535 25.5191 0.954102 24.4805 0.954102ZM1.88312 1.92539H24.4805C24.9998 1.92539 25.4221 2.36102 25.4221 2.89669V4.83927H0.941558V2.89669C0.941558 2.36102 1.36385 1.92539 1.88312 1.92539ZM24.4805 18.4374H1.88312C1.36385 18.4374 0.941558 18.0017 0.941558 17.4661V9.21008H25.4221V17.4661C25.4221 18.0017 24.9998 18.4374 24.4805 18.4374ZM11.7695 16.4948H3.29545C3.03558 16.4948 2.82468 16.2777 2.82468 16.0091C2.82468 15.7406 3.03558 15.5235 3.29545 15.5235H11.7695C12.3904 15.5342 12.3857 16.4851 11.7695 16.4948ZM3.29545 13.5809H8.94481C9.56482 13.5916 9.562 14.542 8.94481 14.5522H3.29545C2.67544 14.5415 2.67826 13.5911 3.29545 13.5809ZM22.5974 14.5522V16.0091C22.5974 16.5448 22.1751 16.9804 21.6558 16.9804H18.3604C17.8411 16.9804 17.4188 16.5448 17.4188 16.0091V14.5522C17.4188 14.0165 17.8411 13.5809 18.3604 13.5809H21.6558C22.1751 13.5809 22.5974 14.0165 22.5974 14.5522Z" />
+                  </svg>
+                </span>
+                <span className="label">Credit</span>
+              </div>
+              <div
+                className={`type ${
+                  selectedType === "PayPal" ? "selected" : ""
+                }`}
+                onClick={() => {
+                  handleTypeClick("PayPal");
+                }}
+              >
+                <Form.Check
+                  type="radio"
+                  name="payment-type"
+                  checked={selectedType === "PayPal"}
+                />
+                <span className="icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 21">
+                    <g clipPath="url(#clip0_631_461)">
+                      <path d="M6.72821 12.3612C6.79618 11.9349 7.16569 11.6197 7.60192 11.6197H9.41854C12.9888 11.6197 15.7829 10.1813 16.5997 6.02035C16.6245 5.89677 16.6628 5.65949 16.6628 5.65949C16.8951 4.11969 16.6615 3.07545 15.8224 2.12759C14.9006 1.08334 13.2322 0.635986 11.098 0.635986H4.90418C4.46794 0.635986 4.09721 0.951114 4.028 1.37746L1.44894 17.6047C1.39827 17.9248 1.6479 18.2139 1.97415 18.2139H5.7977L6.75791 12.1709L6.72821 12.3612Z" />
+                      <path d="M9.41804 12.7122H7.78926L6.57324 20.4088H9.21537C9.59723 20.4088 9.92225 20.1332 9.98157 19.7588L10.0125 19.5956L10.6205 15.7758L10.66 15.5657C10.7193 15.1913 11.0444 14.9157 11.425 14.9157H11.9082C15.031 14.9157 17.4754 13.6576 18.1897 10.0182C18.4764 8.5575 18.338 7.33283 17.6299 6.448C16.7426 10.5447 13.9114 12.7122 9.41804 12.7122Z" />
+                    </g>
+                    <defs>
+                      <clipPath id="clip0_631_461">
+                        <rect
+                          width="19.7727"
+                          height="19.7727"
+                          fill="white"
+                          transform="translate(0 0.63623)"
+                        />
+                      </clipPath>
+                    </defs>
+                  </svg>
+                </span>
+                <span className="label">PayPal</span>
               </div>
             </div>
             <div
