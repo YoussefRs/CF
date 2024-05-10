@@ -151,18 +151,49 @@ async function getAllReservations(req, res) {
     // Execute SQL query to retrieve all reservations with apartment, user, services, and images details
     const [reservations] = await db.query(`
     SELECT 
-    r.*, 
-    a.*, 
-    u.*, 
+    r.id,
+    r.userId,
+    r.userEmail,
+    r.apartmentId,
+    r.startDate,
+    r.endDate,
+    r.nightsCount,
+    r.normalNightsCount,
+    r.specialNightsCount,
+    r.normalNightsPrice,
+    r.specialNightsPrice,
+    r.totalPrice,
+    r.servicesFee,
+    r.isPaid,
+    r.isProcessed,
+    r.status,
+    r.createdAt,
+    r.updatedAt,
+    a.name,
+    a.location,
+    a.bedroom,
+    a.bathroom,
+    a.parking,
+    a.food,
+    a.laundry,
+    a.rent,
+    a.description,
+    a.price,
+    u.username,
+    u.phone,
+    u.email,
+    u.password,
+    u.image,
+    u.role,
     JSON_OBJECT(
         'services', COALESCE(
             JSON_ARRAYAGG(
-                JSON_OBJECT('name', serviceName, 'price', servicePrice)
+                JSON_OBJECT('name', s.serviceName, 'price', s.servicePrice)
             ), JSON_ARRAY()
         ),
         'images', COALESCE(
             JSON_ARRAYAGG(
-                JSON_OBJECT('image_url', img.image_url)
+                JSON_OBJECT('image_url', i.image_url)
             ), JSON_ARRAY()
         )
     ) AS details
@@ -172,34 +203,12 @@ INNER JOIN
     Apartment a ON r.apartmentId = a.id
 INNER JOIN 
     Users u ON r.userId = u.id
-LEFT JOIN (
-    SELECT 
-        DISTINCT reservationId,  -- Ensure distinct reservationIds
-        JSON_ARRAYAGG(
-            JSON_OBJECT('name', serviceName, 'price', servicePrice)
-        ) AS services,
-        reservationId AS service_reservationId,
-        serviceName,  -- alias added here
-        servicePrice  -- alias added here
-    FROM 
-        Services
-    GROUP BY 
-        reservationId, serviceName, servicePrice  -- Include serviceName and servicePrice in GROUP BY
-) service ON r.id = service.service_reservationId
-LEFT JOIN (
-    SELECT 
-        apartment_id,
-        JSON_ARRAYAGG(
-            JSON_OBJECT('image_url', image_url)
-        ) AS image_url
-    FROM 
-        Image
-    GROUP BY 
-        apartment_id
-) img ON img.apartment_id = a.id
+LEFT JOIN 
+    Services s ON r.id = s.reservationId
+LEFT JOIN 
+    Image i ON a.id = i.apartment_id
 GROUP BY 
     r.id;
-
 
 
 
@@ -238,19 +247,18 @@ async function approveReservation(req, res) {
   const db = await startScript();
 
   try {
-    const reservationId = req.params.id;
-    console.log(reservationId);
+    const reservationId = req.params.id; // Correctly fetch the reservation ID from the request parameters
+    console.log("reservation Id", reservationId);
+    
     // Execute SQL query to update the reservation status to approved
-    await db.query('UPDATE Reservations SET status = "approved" WHERE id = ?', [
-      reservationId,
-    ]);
-
+    await db.query('UPDATE Reservations SET status = "Approved" WHERE id = ?', [reservationId]);
+    // Fetch the reservation details using the correct reservation ID
     const [reservation] = await db.query(
       `
         SELECT Reservations.*, Apartment.* 
         FROM Reservations 
         INNER JOIN Apartment ON Reservations.apartmentId = Apartment.id 
-        WHERE Reservations.id = ?`,
+        WHERE Reservations.id = ?`, 
       [reservationId]
     );
 
@@ -258,11 +266,10 @@ async function approveReservation(req, res) {
       return res.status(404).json({ error: "Reservation not found" });
     }
 
-    const userId = reservation[0].userId;
 
-    // Fetch user's email address
+    const userId = reservation[0].userId;
     const [user] = await db.query(
-      "SELECT email, username FROM Users WHERE id = ?",
+      "SELECT email, username, id FROM Users WHERE id = ?",
       [userId]
     );
 
@@ -271,10 +278,9 @@ async function approveReservation(req, res) {
     }
 
     console.log("approve fc user", user);
-    // Send email to user
-    sendReservationEmail(user[0], reservation[0]);
+    console.log("reservation", reservation[0].id)
+    sendReservationEmail(user[0], reservation[0], reservationId);
 
-    // Respond with success message
     res.status(200).json({ message: "Reservation approved successfully" });
   } catch (error) {
     console.error("Error approving reservation:", error);
@@ -331,11 +337,13 @@ async function generatePayPalCheckoutUrl(req, res) {
   try {
     const { reservationId } = req.params;
 
+    console.log(reservationId)
+
     const db = await startScript();
 
     // Retrieve reservation details from the database
     const [reservation] = await db.query(
-      `SELECT *, price FROM Reservations WHERE id = ?`,
+      `SELECT *, totalPrice FROM Reservations WHERE id = ?`,
       [reservationId]
     );
     if (!reservation) {
@@ -343,7 +351,7 @@ async function generatePayPalCheckoutUrl(req, res) {
     }
 
     // Ensure the price is in the correct format
-    const totalPrice = parseFloat(reservation[0].price).toFixed(2);
+    const totalPrice = parseFloat(reservation[0].totalPrice).toFixed(2);
 
     // Construct PayPal payment object
     const createPayment = {
@@ -666,8 +674,32 @@ async function getAllApprovedAndPaidReservationsForUser(req, res) {
   }
 }
 
+
+async function getUserReservationById(req, res) {
+  const reservationId = req.params.id; 
+  const userId = req.params.userId;
+
+  try {
+      const db = await startScript();
+      const [reservation] = await db.query(
+          `SELECT * FROM Reservations WHERE id = ? AND userId = ?`,
+          [reservationId, userId]
+      );
+
+      if (!reservation) {
+          return res.status(404).json({ error: 'Reservation not found' });
+      }
+
+      return res.status(200).json({ reservation });
+  } catch (error) {
+      console.error('Error fetching reservation:', error);
+      return res.status(500).json({ error: 'Internal server error' });
+  }
+}
+
 module.exports = {
   createReservation,
+  getUserReservationById,
   getAllReservations,
   getReservation,
   approveReservation,

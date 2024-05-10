@@ -17,8 +17,8 @@ import HelpContent from "./pages/Dashboard/DashComponents/HelpContent/HelpConten
 import InvoiceContent from "./pages/Dashboard/DashComponents/InvoiceContent/InvoiceContent";
 import { getAllApartments } from "./redux/apartmentSlice";
 import { useDispatch } from "react-redux";
-import Checkout from "./pages/CheckOut/checkout";
 import AcceptContent from "./pages/Dashboard/DashComponents/AcceptContent/AcceptContent";
+import Checkout from "./pages/CheckOut/Checkout";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -73,7 +73,7 @@ function App() {
                 }
               />
               <Route
-                path="/checkout/:id"
+                path="/reservations/:userId/:id"
                 element={
                   <Layout>
                     <Checkout />
