@@ -402,7 +402,7 @@ export default function Checkout() {
                       {new Date(
                         bookingData?.reservation?.[0]?.startDate
                       ).toLocaleDateString("en-GB")}{" "}
-                      To{" "}
+                      Bis{" "}
                       {new Date(
                         bookingData?.reservation?.[0]?.endDate
                       ).toLocaleDateString("en-GB")}
