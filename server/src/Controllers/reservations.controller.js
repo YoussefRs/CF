@@ -650,6 +650,26 @@ async function getAllApprovedAndPaidReservations(req, res) {
   }
 }
 
+async function getAllApprovedAndUnPaidReservations(req, res) {
+  try {
+    // Retrieve reservation details from the database
+    const db = await startScript();
+    // Query to fetch all approved and paid reservations
+    const query = `
+      SELECT * 
+      FROM Reservations 
+      WHERE status = 'Approved' AND isPaid = 0
+    `;
+
+    const [results] = await db.query(query);
+
+    res.status(200).json(results);
+  } catch (error) {
+    console.error("Error fetching reservations:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+}
+
 async function getAllApprovedAndPaidReservationsForUser(req, res) {
   try {
     // Extract user ID from request
@@ -725,4 +745,5 @@ module.exports = {
   handleStripeWebhook,
   getAllApprovedAndPaidReservationsForUser,
   getAllApprovedAndPaidReservations,
+  getAllApprovedAndUnPaidReservations
 };

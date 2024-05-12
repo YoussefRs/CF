@@ -465,15 +465,14 @@ export default function BookingsContent() {
                   <div className="item">
                     <p className="label">Nights fees: </p>
                     <div className="value">
-                      <p>
-                        {clickedBooking?.normalNightsCount *
+                      {/* <p>
+                        {
                           formatPrice(clickedBooking?.normalNightsPrice) +
-                          clickedBooking?.normalNightsCount *
                             formatPrice(clickedBooking?.specialNightsPrice)}
                         €
-                      </p>
+                      </p> */}
                       <p>
-                        {clickedBooking?.normalNightsCount} *{" "}
+                        {clickedBooking?.normalNightsCount} /{" "}
                         {formatPrice(clickedBooking?.normalNightsPrice)}€
                       </p>
                       {clickedBooking?.specialNightsCount > 0 ? (
@@ -520,7 +519,7 @@ export default function BookingsContent() {
               <div className="total_details">
                 <div className="item">
                   <p className="label">Total price: </p>
-                  <div className="value">0</div>
+                  <div className="value">{clickedBooking?.totalPrice}€ </div>
                 </div>
               </div>
             </div>
