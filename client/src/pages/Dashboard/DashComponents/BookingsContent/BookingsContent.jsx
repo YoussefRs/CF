@@ -17,7 +17,7 @@ export default function BookingsContent() {
     (booking) => booking.status == "Pending"
   );
 
-  console.table(filteredBooking);
+  console.table(bookings);
   useEffect(() => {
     dispatch(getAllBookings());
   }, [dispatch]);
@@ -47,7 +47,7 @@ export default function BookingsContent() {
     return `${day}.${month}.${year}`;
   }
 
-  console.log(clickedBooking);
+
 
   function formatPrice(priceString) {
     const price = parseFloat(priceString);
