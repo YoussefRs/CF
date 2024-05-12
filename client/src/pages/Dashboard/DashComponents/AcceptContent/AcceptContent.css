@@ -27,3 +27,19 @@
 .accept_table td {
   padding: 18px 15px;
 }
+
+.booking-details {
+  margin-bottom: 20px;
+}
+
+.label {
+  font-weight: bold;
+}
+
+.value {
+  padding-left: 20px;
+}
+
+.price {
+  font-weight: bold;
+}

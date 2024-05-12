@@ -126,7 +126,7 @@ export default function AcceptContent() {
     <>
       <div className="container-fluid py-4">
         <h1 className="h3 mb-0 text-start">
-          Accept({filteredBooking?.length})
+          Akzeptiert({filteredBooking?.length})
         </h1>
       </div>
       <div className="row">
@@ -158,11 +158,11 @@ export default function AcceptContent() {
           <table className="accept_table">
             <thead className="table__header">
               <tr>
-                <td>apartement</td>
-                <td>check in</td>
-                <td>check out</td>
-                <td>total Price</td>
-                <td>action</td>
+                <td>apartment</td>
+                <td>Check-in</td>
+                <td>Check-out</td>
+                <td>Gesamtpreis</td>
+                <td>Aktion</td>
               </tr>
             </thead>
             <tbody className="table__body">
@@ -181,8 +181,15 @@ export default function AcceptContent() {
                       </svg>
                       {Abooking?.name}
                     </td>
-                    <td>{Abooking?.startDate}</td>
-                    <td>{Abooking?.endDate}</td>
+                    <td>
+                      {new Date(Abooking?.startDate).toLocaleDateString(
+                        "en-GB"
+                      )}
+                    </td>
+                    <td>
+                      {new Date(Abooking?.endDate).toLocaleDateString("en-GB")}
+                    </td>
+
                     <td className="d-flex align-items-center gap-2">
                       {Abooking?.totalPrice}€
                     </td>
@@ -294,7 +301,7 @@ export default function AcceptContent() {
                             </div>
                             <div className="content">
                               <div className="">
-                                <p className="label">Customer : </p>
+                                <p className="label">Kunden : </p>
                                 <p className="value">
                                   {clickedAcceptedBooking?.username}
                                 </p>
@@ -309,10 +316,10 @@ export default function AcceptContent() {
                           </div>
                           <div className="divider"></div>
                           <div className="reservation_details">
-                            <p className="title">Reservation datails:</p>
+                            <p className="title">Reservierungsdetails:</p>
                             <div className="content">
                               <div className="item">
-                                <p className="label">Dates: </p>
+                                <p className="label">Datum: </p>
                                 <div className="value">
                                   <p className="duration">
                                     <svg
@@ -370,13 +377,13 @@ export default function AcceptContent() {
                                     </svg>
                                     {`${formatDate(
                                       clickedAcceptedBooking?.startDate
-                                    )} To ${formatDate(
+                                    )} bis ${formatDate(
                                       clickedAcceptedBooking?.endDate
                                     )}`}
                                   </p>
                                   <div className="nights">
                                     <p>
-                                      Nights :
+                                      Normale Nächte :
                                       <span>
                                         {" "}
                                         {
@@ -388,11 +395,11 @@ export default function AcceptContent() {
                                     clickedAcceptedBooking?.specialNightsCount >
                                       0 ? (
                                       <p>
-                                        Special nights :
+                                        Besondere Nächte :
                                         <span>
                                           {" "}
                                           {
-                                            clickedAcceptedBooking?.normalNightsCount
+                                            clickedAcceptedBooking?.specialNightsCount
                                           }
                                         </span>
                                       </p>
@@ -405,7 +412,7 @@ export default function AcceptContent() {
                                 (service) => service.name !== null
                               ) ? (
                                 <div className="item">
-                                  <p className="label">Services: </p>
+                                  <p className="label">Dienstleistungen: </p>
                                   <p className="value">
                                     <div className="services">
                                       {clickedAcceptedBooking.details?.services.map(
@@ -435,38 +442,49 @@ export default function AcceptContent() {
                             </div>
                           </div>
                           <div className="payment_details">
-                            <p className="title">Payment datails:</p>
+                            <p className="title">Zahlungsdetails:</p>
                             <div className="content">
                               <div className="item">
-                                <p className="label">Nights fees: </p>
-                                <div className="value">
-                                  {/* <p>
-                        {
-                          formatPrice(clickedAcceptedBooking?.normalNightsPrice) +
-                            formatPrice(clickedAcceptedBooking?.specialNightsPrice)}
-                        €
-                      </p> */}
-                                  <p>
-                                    {clickedAcceptedBooking?.normalNightsCount}{" "}
-                                    /{" "}
-                                    {formatPrice(
-                                      clickedAcceptedBooking?.normalNightsPrice
-                                    )}
-                                    €
+                                <div className="booking-details">
+                                  <p className="label">
+                                    Übernachtungsgebühren:
                                   </p>
-                                  {clickedAcceptedBooking?.specialNightsCount >
-                                  0 ? (
+                                  <div className="value">
                                     <p>
-                                      {
-                                        clickedAcceptedBooking?.specialNightsCount
-                                      }{" "}
-                                      *{" "}
-                                      {formatPrice(
-                                        clickedAcceptedBooking?.specialNightsPrice
-                                      )}
-                                      €
+                                      Preis für normale Nächte:{" "}
+                                      <span className="price">
+                                        {
+                                          clickedAcceptedBooking?.normalNightsCount
+                                        }{" "}
+                                        *{" "}
+                                        {clickedAcceptedBooking?.normalNightsCount !==
+                                        0
+                                          ? formatPrice(
+                                              clickedAcceptedBooking?.normalNightsPrice /
+                                                clickedAcceptedBooking?.normalNightsCount
+                                            )
+                                          : formatPrice(0)}{" "}
+                                        €
+                                      </span>
                                     </p>
-                                  ) : null}
+                                    {clickedAcceptedBooking?.specialNightsCount >
+                                      0 && (
+                                      <p>
+                                        Preis für besondere Nächte:{" "}
+                                        <span className="price">
+                                          {
+                                            clickedAcceptedBooking?.specialNightsCount
+                                          }{" "}
+                                          *{" "}
+                                          {formatPrice(
+                                            clickedAcceptedBooking?.specialNightsPrice /
+                                              clickedAcceptedBooking?.specialNightsCount
+                                          )}{" "}
+                                          €
+                                        </span>
+                                      </p>
+                                    )}
+                                  </div>
                                 </div>
                               </div>
                               {clickedAcceptedBooking?.details?.services &&
@@ -474,7 +492,7 @@ export default function AcceptContent() {
                                 (service) => service.name !== null
                               ) ? (
                                 <div className="item">
-                                  <p className="label">Services fees: </p>
+                                  <p className="label">Servicegebühren: </p>
                                   <p className="value">
                                     <div className="services">
                                       <p>{totalServicePrice}€</p>
@@ -506,7 +524,7 @@ export default function AcceptContent() {
                           </div>
                           <div className="total_details">
                             <div className="item">
-                              <p className="label">Total price: </p>
+                              <p className="label">Gesamtpreis: </p>
                               <div className="value">
                                 {clickedAcceptedBooking?.totalPrice}€{" "}
                               </div>
@@ -518,7 +536,7 @@ export default function AcceptContent() {
                             className="btn"
                             onClick={onCloseAcceptedModal}
                           >
-                            Cancel
+                            Stornieren
                           </button>
                         </div>
                       </div>

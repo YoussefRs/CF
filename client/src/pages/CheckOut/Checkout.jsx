@@ -286,10 +286,14 @@ export default function Checkout() {
                 <div>
                   <span className="fa fa-home"></span>
                   <input
-                    type="text"
-                    name="checkout-address"
-                    id="checkout-address"
-                    placeholder="Ihre Adresse..."
+                    id="ccn"
+                    type="tel"
+                    inputmode="numeric"
+                    pattern="[0-9\s]{13,19}"
+                    autocomplete="cc-number"
+                    maxlength="19"
+                    placeholder="xxxx xxxx xxxx xxxx"
+                    required
                   />
                 </div>
               </div>
@@ -494,7 +498,7 @@ export default function Checkout() {
               </div>
             </div>
             <div className="checkout-shipping">
-              <h6>Termine</h6>
+              <h6>Datum</h6>
               <div className="d-flex flex-column">
                 <p>
                   {bookingData?.reservation?.[0]?.normalNightsCount *
@@ -508,7 +512,7 @@ export default function Checkout() {
               </div>
             </div>
             <div className="checkout-shipping">
-              <h6>Besondere Termine</h6>
+              <h6>Besondere Datum</h6>
               <div className="d-flex flex-column">
                 <p>
                   {bookingData?.reservation?.[0]?.specialNightsCount *
