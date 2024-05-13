@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./Calendar.css";
 import { Calendar } from "react-multi-date-picker";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export default function CalendarComp({ setBookingData, bookingData, card }) {
   const BASE_URL = import.meta.env.VITE_API_URL;
@@ -52,9 +53,7 @@ export default function CalendarComp({ setBookingData, bookingData, card }) {
       );
 
       if (rangeIncludesDisabled) {
-        console.log(
-          "You cannot select this date range because it contains disabled dates."
-        );
+        toast.error("Sie können diesen Datumsbereich nicht auswählen, da deaktivierte Daten enthalten sind.")
         return;
       }
 

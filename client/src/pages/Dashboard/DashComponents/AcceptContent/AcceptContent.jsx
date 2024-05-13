@@ -451,12 +451,11 @@ export default function AcceptContent() {
                                   </p>
                                   <div className="value">
                                     <p>
-                                      Preis für normale Nächte:{" "}
                                       <span className="price">
                                         {
                                           clickedAcceptedBooking?.normalNightsCount
-                                        }{" "}
-                                        *{" "}
+                                        }{" "} normale Nächte{" "}
+                                        /{" "}
                                         {clickedAcceptedBooking?.normalNightsCount !==
                                         0
                                           ? formatPrice(
@@ -470,12 +469,11 @@ export default function AcceptContent() {
                                     {clickedAcceptedBooking?.specialNightsCount >
                                       0 && (
                                       <p>
-                                        Preis für besondere Nächte:{" "}
                                         <span className="price">
                                           {
                                             clickedAcceptedBooking?.specialNightsCount
-                                          }{" "}
-                                          *{" "}
+                                          }{" "}besondere Nächte
+                                          /{" "}
                                           {formatPrice(
                                             clickedAcceptedBooking?.specialNightsPrice /
                                               clickedAcceptedBooking?.specialNightsCount

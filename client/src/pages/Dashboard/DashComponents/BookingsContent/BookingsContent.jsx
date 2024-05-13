@@ -7,6 +7,8 @@ import {
   getAllBookings,
 } from "../../../../redux/BookingSlice";
 import ReusableModal from "../../../../components/modals/Modal";
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function BookingsContent() {
   const dispatch = useDispatch();
@@ -148,6 +150,18 @@ export default function BookingsContent() {
 
   return (
     <>
+     <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <div className="container-fluid py-4">
         <h1 className="h3 mb-0 text-start">
           Bookings ({filteredBooking?.length || 0}){" "}
@@ -421,7 +435,7 @@ export default function BookingsContent() {
                         clickedBooking?.specialNightsCount > 0 ? (
                           <p>
                             Besondere Nächte :
-                            <span> {clickedBooking?.normalNightsCount}</span>
+                            <span> {clickedBooking?.specialNightsCount}</span>
                           </p>
                         ) : null}
                       </div>
@@ -475,7 +489,7 @@ export default function BookingsContent() {
                         {clickedBooking?.normalNightsCount !== 0
                           ? `${
                               clickedBooking?.normalNightsCount
-                            } * ${formatPrice(
+                            } Nächte / ${formatPrice(
                               clickedBooking?.normalNightsPrice /
                                 clickedBooking?.normalNightsCount
                             )}€`
@@ -484,7 +498,7 @@ export default function BookingsContent() {
 
                       {clickedBooking?.specialNightsCount > 0 ? (
                         <p>
-                          {clickedBooking?.specialNightsCount} *{" "}
+                          {clickedBooking?.specialNightsCount} Besondere Nächte /{" "}
                           {formatPrice(clickedBooking?.specialNightsPrice)}€
                         </p>
                       ) : null}

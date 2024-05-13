@@ -101,7 +101,7 @@ export default function CustomersContent() {
                     <td>{user?.email}</td>
                     <td>{user?.phone}</td>
                     <td className="d-flex align-items-center gap-2">
-                      <div className="customer_slider">
+                      {/* <div className="customer_slider">
                         <input
                           type="checkbox"
                           name="slider"
@@ -112,7 +112,7 @@ export default function CustomersContent() {
                           <span className="slider-inner"></span>
                           <span className="slider-circle"></span>
                         </label>
-                      </div>
+                      </div> */}
                       <div
                         className="close-btn"
                         onClick={() => {

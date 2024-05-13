@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 const token = localStorage.getItem("loginToken");
@@ -109,8 +110,13 @@ export const adminAcceptOrder = (orderId) => async (dispatch) => {
         },
       }
     );
+    toast.success(
+      "Reservierung akzeptiert. Eine E-Mail wird versendet, um den Kunden zu benachrichtigen."
+    );
   } catch (error) {
-    console.log(error);
+    toast.success(
+      "Reservierung abgelehnt. Eine E-Mail wird versendet, um den Kunden zu benachrichtigen."
+    );
   }
 };
 
@@ -129,15 +135,17 @@ export const adminRejectOrder = (orderId) => async (dispatch) => {
   }
 };
 
-
 export const getOneBooking = (id, userId) => async (dispatch) => {
   try {
     dispatch(fetchBookings());
-    const response = await axios.get(`${BASE_URL}/reservations/${userId}/${id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await axios.get(
+      `${BASE_URL}/reservations/${userId}/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     const data = await response.data;
     dispatch(fetchBookingsSuccess(data));
   } catch (error) {

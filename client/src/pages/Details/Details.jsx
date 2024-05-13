@@ -14,6 +14,8 @@ import { useDispatch, useSelector } from "react-redux";
 import LoginRegister from "../../components/modals/LoginRegister";
 import { createNewBooking } from "../../redux/BookingSlice";
 import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Details() {
   const { loginModal, openLoginModal, closeLoginModal } = useModal();
@@ -196,70 +198,73 @@ export default function Details() {
 
   // Usage example:
   
- const calculateTotalPrice = () => {
-  let normalNightsPrice = 0;
-  let specialNightsPrice = 0;
-  let normalNightsCount = 0;
-  let specialNightsCount = 0;
-  let specialStartDates = [];
-  let specialEndDates = [];
-
-  if (bookingData && card && bookingData.startDate && bookingData.endDate) {
-    const startDate = new Date(bookingData.startDate);
-    const endDate = new Date(bookingData.endDate);
-
-    // Calculate the number of nights between the start and end dates
-    let totalNightsCount = Math.floor(
-      (endDate - startDate) / (1000 * 60 * 60 * 24)
-    );
-
-    for (let i = 0; i <= totalNightsCount; i++) {
-      const currentDate = new Date(startDate);
-      currentDate.setDate(currentDate.getDate() + i);
-      let isSpecialDate = false;
-
-      // Check if the current date is within any special date range
+  const calculateTotalPrice = () => {
+    let normalNightsPrice = 0;
+    let specialNightsPrice = 0;
+    let normalNightsCount = 0;
+    let specialNightsCount = 0;
+    let specialStartDates = [];
+    let specialEndDates = [];
+  
+    if (bookingData && card && bookingData.startDate && bookingData.endDate) {
+      const startDate = new Date(bookingData.startDate);
+      const endDate = new Date(bookingData.endDate);
+  
+      // Iterate over each special date range
       for (const price of card.prices) {
         const priceStartDate = new Date(price.start_date);
         const priceEndDate = new Date(price.end_date);
-        if (currentDate >= priceStartDate && currentDate <= priceEndDate) {
-          isSpecialDate = true;
-          specialNightsPrice += parseFloat(price.price);
-          specialNightsCount++; // Increment special nights count
+  
+        // Check if the special date range overlaps with the selected date range
+        if (
+          (startDate <= priceStartDate && endDate >= priceStartDate) ||
+          (startDate <= priceEndDate && endDate >= priceEndDate) ||
+          (startDate >= priceStartDate && endDate <= priceEndDate)
+        ) {
+          // Calculate the number of nights within the special date range
+          const nightsInSpecialRange = Math.ceil(
+            (Math.min(endDate, priceEndDate) - Math.max(startDate, priceStartDate)) /
+              (1000 * 60 * 60 * 24)
+          );
+  
+          // Increment special nights count and price
+          specialNightsCount += nightsInSpecialRange;
+          specialNightsPrice += parseFloat(price.price) * nightsInSpecialRange;
+  
+          // Add the special date range to the lists if not already present
           if (!specialStartDates.includes(price.start_date)) {
             specialStartDates.push(price.start_date);
           }
           if (!specialEndDates.includes(price.end_date)) {
             specialEndDates.push(price.end_date);
           }
-          break;
         }
       }
-
-      // If the current date is not a special date, it's a normal night
-      if (!isSpecialDate) {
-        normalNightsPrice += parseFloat(card.price);
-        normalNightsCount++; // Increment normal nights count
-      }
-    }
-  }
-
-  const totalPrice = normalNightsPrice + specialNightsPrice + ServicesFees;
-
-  // Return total price along with counts of special and normal nights
-  return {
-    totalPrice,
-    specialNightsPrice,
-    normalNightsPrice,
-    specialNightsCount,
-    normalNightsCount,
-    specialStartDates,
-    specialEndDates
-  };
-};
-
-
   
+      // Calculate the number of normal nights
+      normalNightsCount = Math.ceil(
+        (endDate - startDate - specialNightsCount * (1000 * 60 * 60 * 24)) /
+          (1000 * 60 * 60 * 24)
+      );
+  
+      // Calculate the normal nights price
+      normalNightsPrice = normalNightsCount * parseFloat(card.price);
+    }
+  
+    // Calculate the total price by adding special, normal, and service fees
+    const totalPrice = normalNightsPrice + specialNightsPrice + ServicesFees;
+  
+    // Return the calculated values
+    return {
+      totalPrice,
+      specialNightsPrice,
+      normalNightsPrice,
+      specialNightsCount,
+      normalNightsCount,
+    };
+  };
+
+ 
   const {
     totalPrice,
     specialNightsPrice,
@@ -269,6 +274,11 @@ export default function Details() {
   } = calculateTotalPrice();
 
   const submitBookingData = () => {
+    if (!bookingData.startDate || !bookingData.endDate) {
+      toast.error("Bitte wählen Sie Start- und Enddaten aus.");
+      return; // Prevent further execution
+    }
+  
     if (user) {
       let bookingDataList = {
         ...bookingData,
@@ -290,16 +300,30 @@ export default function Details() {
         nightsCount: 0,
         services: [],
       });
+      toast.success("Buchung abgeschlossen. Sie werden per E-Mail benachrichtigt, sobald der Eigentümer sie akzeptiert.");
       setShowCalendar(false);
       closeModal();
     } else {
       openLoginModal();
     }
   };
+  
 
   return (
     <>
       {/* <Navbar /> */}
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <div className="_details">
         <div className="_details_big_container">
           <div className="_container">

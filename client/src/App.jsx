@@ -20,6 +20,7 @@ import { useDispatch } from "react-redux";
 import AcceptContent from "./pages/Dashboard/DashComponents/AcceptContent/AcceptContent";
 import Checkout from "./pages/CheckOut/Checkout";
 
+
 function App() {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
@@ -55,57 +56,57 @@ function App() {
       ) : (
         <>
           <Router>
-            <Routes>
-              <Route
-                path="/"
-                element={
-                  <Layout>
-                    <Home />
-                  </Layout>
-                }
-              />
-              <Route
-                path="/details/:id"
-                element={
-                  <Layout>
-                    <Details />
-                  </Layout>
-                }
-              />
-              <Route
-                path="/reservations/:userId/:id"
-                element={
-                  <Layout>
-                    <Checkout />
-                  </Layout>
-                }
-              />
-              <Route
-                path="/dashboard"
-                element={
-                  // <PrivateRoute>
-                  <Dashboard />
-                  // </PrivateRoute>
-                }
-              >
-                <Route path="bookings" element={<BookingsContent />} />
-                <Route path="apartments" element={<AppartementsContent />} />
-                <Route path="customers" element={<CustomersContent />} />
-                <Route path="help" element={<HelpContent />} />
-                <Route path="invoice" element={<InvoiceContent />} />
-                <Route path="accept" element={<AcceptContent />} />
-              </Route>
-              <Route
-                path="/profil"
-                element={
-                  <Layout>
-                    {/* <PrivateRoute> */}
-                    <Profile />
-                    {/* </PrivateRoute> */}
-                  </Layout>
-                }
-              />
-            </Routes>
+              <Routes>
+                <Route
+                  path="/"
+                  element={
+                    <Layout>
+                      <Home />
+                    </Layout>
+                  }
+                />
+                <Route
+                  path="/details/:id"
+                  element={
+                    <Layout>
+                      <Details />
+                    </Layout>
+                  }
+                />
+                <Route
+                  path="/reservations/:userId/:id"
+                  element={
+                    <Layout>
+                      <Checkout />
+                    </Layout>
+                  }
+                />
+                <Route
+                  path="/dashboard"
+                  element={
+                    // <PrivateRoute>
+                    <Dashboard />
+                    // </PrivateRoute>
+                  }
+                >
+                  <Route path="bookings" element={<BookingsContent />} />
+                  <Route path="apartments" element={<AppartementsContent />} />
+                  <Route path="customers" element={<CustomersContent />} />
+                  <Route path="help" element={<HelpContent />} />
+                  <Route path="invoice" element={<InvoiceContent />} />
+                  <Route path="accept" element={<AcceptContent />} />
+                </Route>
+                <Route
+                  path="/profil"
+                  element={
+                    <Layout>
+                      {/* <PrivateRoute> */}
+                      <Profile />
+                      {/* </PrivateRoute> */}
+                    </Layout>
+                  }
+                />
+              </Routes>
           </Router>
         </>
       )}

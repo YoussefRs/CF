@@ -2,8 +2,7 @@ import { useState } from "react";
 
 // Custom hook for managing modal state
 export const useModal = () => {
-  
-  const [oneAppartementData, setOneAppartmentData] = useState(null)
+  const [oneAppartementData, setOneAppartmentData] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [showModal2, setShowModal2] = useState(false);
   const [editModal, setEditModal] = useState(false);
@@ -13,15 +12,15 @@ export const useModal = () => {
 
   const openLoginModal = () => {
     setLoginModal(true);
-  }
-
+  };
+  
   const closeLoginModal = () => {
-    setLoginModal(false)
-  }
+    setLoginModal(false);
+  };
 
   const openEditModal = (apartment) => {
     setEditModal(true);
-    setEditApartment(apartment); 
+    setEditApartment(apartment);
   };
 
   const closeEditModal = () => {
@@ -45,13 +44,13 @@ export const useModal = () => {
   };
 
   const OpenDeleteAppModal = (appartement) => {
-    setOneAppartmentData(appartement)
-    setDeleteAppModal(true)
-  }
+    setOneAppartmentData(appartement);
+    setDeleteAppModal(true);
+  };
   const closeDeleteAppModal = () => {
-    setDeleteAppModal(false)
-  }
-  
+    setDeleteAppModal(false);
+  };
+
   return {
     loginModal,
     openLoginModal,
@@ -71,6 +70,6 @@ export const useModal = () => {
     setEditApartment,
     OpenDeleteAppModal,
     deleteAppModal,
-    closeDeleteAppModal
+    closeDeleteAppModal,
   };
 };

@@ -2,6 +2,8 @@
 
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { toast } from "react-toastify";
+
 
 const user = localStorage.getItem("user");
 const BASE_URL = import.meta.env.VITE_API_URL;
@@ -54,8 +56,11 @@ export const loginUser = (userData) => async (dispatch) => {
     localStorage.setItem("loginToken", data.token);
     localStorage.setItem("user", JSON.stringify(data));
     dispatch(loginSuccess());
+    toast.success("Willkommen in deinem Raum")
+    window.location.reload();
   } catch (error) {
     console.error("Login failed", error);
+    toast.error(error.response.data.message)
     dispatch(loginFail());
   }
 };

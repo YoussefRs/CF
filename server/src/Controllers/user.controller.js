@@ -20,7 +20,12 @@ async function httpRegisterUser(req, res) {
     );
 
     if (existingUser.length > 0) {
-      return res.status(409).json({ message: "User exists already!" });
+      return res.status(409).json({ message: "Benutzer existiert bereits!" });
+    }
+
+    // Check if password meets minimum length requirement
+    if (req.body.password.length < 8) {
+      return res.status(400).json({ message: "Das Passwort muss mindestens 8 Zeichen lang sein." });
     }
 
     // Hash password
@@ -78,14 +83,14 @@ async function httpLoginUser(req, res) {
 
     // Check if user exists
     if (rows.length === 0) {
-      return res.status(404).json({ message: "User not found!" });
+      return res.status(404).json({ message: "Benutzer nicht gefunden!" });
     }
 
     // User found, compare passwords
     const user = rows[0];
     const isValidPassword = await bcrypt.compare(password, user.password);
     if (!isValidPassword) {
-      return res.status(404).json({ message: "Wrong email or password!" });
+      return res.status(404).json({ message: "Falsche E-Mail oder Passwort!" });
     }
 
     // If the password is valid, return the user object with a token
@@ -165,7 +170,6 @@ async function httpUpdateOneUser(req, res) {
       queryParams.push(phone);
     }
 
-    // Check if an image URL is provided
     if (image) {
       updateFields.push("image = ?");
       queryParams.push(image);

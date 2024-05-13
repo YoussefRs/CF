@@ -333,6 +333,7 @@
       & .pp {
         @media (min-width: 576px) {
           width: calc(20% + 2px);
+          height: calc(20% + 2px);
         }
 
         @media (max-width: 575px) {
@@ -344,7 +345,12 @@
         overflow: hidden;
         border: 5px solid #fff;
         outline: 2px solid #028139;
-        margin: 2px;
+        margin: 2px; 
+        & img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
       }
 
       & .content {
