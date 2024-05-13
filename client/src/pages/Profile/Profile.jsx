@@ -9,19 +9,56 @@ import { useModal } from "../../hooks/useModal";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserBookings } from "../../redux/BookingSlice";
 import { Link } from "react-router-dom";
-import { user, favoritess } from "../../Dummy/AppData";
+import { favoritess } from "../../Dummy/AppData";
 import Cards from "../../components/cards/Cards";
+import axios from "axios";
 
 export default function Profile() {
   const dispatch = useDispatch();
+  const BASE_URL = import.meta.env.VITE_API_URL;
+
+  const user = useSelector((state) => state?.auth?.user?.user);
+
   const [activeTab, setActiveTab] = useState("profile");
   const { showModal, openModal, closeModal } = useModal();
+
   // const user = useSelector((state) => state.auth.user);
   const Rentals = useSelector((state) => state.bookings?.bookings);
   // const [favorites, setFavorites] = useState(
   //   JSON.parse(localStorage.getItem("favorites")) || favorites
   // );
   const [favorites, setFavorites] = useState([]);
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const handleImageChange = async (e) => {
+    setSelectedImage(e.target.files[0]);
+    await uploadImage(e.target.files[0]);
+  };
+
+  const uploadImage = async (image) => {
+    try {
+      const formData = new FormData();
+      formData.append("file", image);
+      formData.append("upload_preset", "cityflat");
+
+      const response = await axios.post(
+        "https://api.cloudinary.com/v1_1/dlspkc0so/image/upload",
+        formData
+      );
+
+      if (response.data && response.data.secure_url) {
+        const imageUrl = response.data.secure_url;
+
+        const userId = "USER_ID"; // Replace with the actual user ID
+        await axios.put(`${BASE_URL}/user/${user?.id}`, { image: imageUrl });
+        console.log("User profile image updated successfully");
+      } else {
+        throw new Error("Failed to upload image");
+      }
+    } catch (error) {
+      console.error("Error uploading image:", error);
+    }
+  };
 
   const removeFav = (id) => {
     const updatedFavorites = favorites.filter((fav) => fav.id !== id);
@@ -38,6 +75,29 @@ export default function Profile() {
     event.preventDefault();
     setActiveTab(tab);
   };
+
+  const [fullName, setFullName] = useState(user.username);
+  const [mobileNumber, setMobileNumber] = useState(user.phone);
+  const [email, setEmail] = useState(user.email);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.put(`${BASE_URL}/user/${user.id}`, {
+        username: fullName,
+        phone: mobileNumber,
+        email: email,
+      });
+
+      const currentUser = JSON.parse(localStorage.getItem("user"));
+      const updatedUser = { ...currentUser, user: response.data.user };
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+
+    } catch (error) {
+      console.error("Error updating user information:", error);
+    }
+  };
+
   return (
     <>
       <div className="profile-ctr mb-5">
@@ -49,7 +109,7 @@ export default function Profile() {
                   <div className="panel-body py-5 text-center d-flex justify-content-center align-items-center flex-column">
                     <div className="profile-pic">
                       <img
-                        src={user?.user?.image || profilePic}
+                        src={user?.image}
                         alt="Profile Picture"
                         onError={(e) => {
                           e.target.onerror = null;
@@ -58,27 +118,41 @@ export default function Profile() {
                       />
                     </div>
                     <br />
-                    <button className="profile-btn d-flex align-items-center justify-content-center gap-1">
-                      <svg
-                        width="18"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M20.25 5.99254L17.5725 5.99254C17.4254 5.99206 17.2816 5.94847 17.159 5.86716C17.0363 5.78585 16.9402 5.67039 16.8825 5.53504L16.3275 4.22254C16.1297 3.8354 15.824 3.51389 15.4473 3.29692C15.0706 3.07995 14.6391 2.97683 14.205 3.00004L9.75 3.00004C9.31116 2.97675 8.87508 3.08217 8.49534 3.30335C8.1156 3.52453 7.80875 3.85183 7.6125 4.24503L7.095 5.52753C7.03903 5.66623 6.94252 5.78481 6.81808 5.86777C6.69363 5.95074 6.54705 5.99422 6.3975 5.99253L3.75 5.99253C3.1538 5.99427 2.58251 6.23188 2.16093 6.65347C1.73935 7.07505 1.50174 7.64633 1.5 8.24253L1.5 18.75C1.50174 19.3462 1.73936 19.9175 2.16094 20.3391C2.58252 20.7607 3.1538 20.9983 3.75 21L20.25 21C20.8462 20.9983 21.4175 20.7607 21.8391 20.3391C22.2606 19.9175 22.4983 19.3462 22.5 18.75L22.5 8.24254C22.4983 7.64634 22.2606 7.07505 21.8391 6.65347C21.4175 6.23189 20.8462 5.99428 20.25 5.99254ZM6.645 12.75C6.64584 11.3301 7.2103 9.96849 8.21438 8.96441C9.21845 7.96034 10.58 7.39588 12 7.39504C19.088 7.64338 19.0862 17.8578 11.9999 18.105C10.5799 18.1042 9.2184 17.5397 8.21434 16.5356C7.21029 15.5316 6.64584 14.17 6.645 12.75ZM18.99 9.75004C18.815 9.75003 18.6471 9.68049 18.5233 9.55671C18.3995 9.43294 18.33 9.26506 18.33 9.09002C18.33 8.91498 18.3996 8.7471 18.5233 8.62333C18.6471 8.49956 18.815 8.43003 18.99 8.43004C19.1651 8.43004 19.333 8.49958 19.4567 8.62336C19.5805 8.74714 19.65 8.91501 19.65 9.09006C19.65 9.2651 19.5805 9.43297 19.4567 9.55674C19.3329 9.68051 19.165 9.75004 18.99 9.75004Z"
-                          fill="white"
-                        />
-                        <path
-                          d="M15.8545 12.75C15.6883 7.65629 8.30999 7.65749 8.14453 12.7501C8.31079 17.8437 15.689 17.8425 15.8545 12.75Z"
-                          fill="white"
-                        />
-                      </svg>
-                      change
-                    </button>
+                    <div className="upload__box">
+                      <div className="upload_profile__btn_box">
+                        <label className="upload_profile__btn">
+                          <p className="d-flex align-items-center justify-content-center gap-1">
+                            {" "}
+                            <svg
+                              width="18"
+                              height="24"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M20.25 5.99254L17.5725 5.99254C17.4254 5.99206 17.2816 5.94847 17.159 5.86716C17.0363 5.78585 16.9402 5.67039 16.8825 5.53504L16.3275 4.22254C16.1297 3.8354 15.824 3.51389 15.4473 3.29692C15.0706 3.07995 14.6391 2.97683 14.205 3.00004L9.75 3.00004C9.31116 2.97675 8.87508 3.08217 8.49534 3.30335C8.1156 3.52453 7.80875 3.85183 7.6125 4.24503L7.095 5.52753C7.03903 5.66623 6.94252 5.78481 6.81808 5.86777C6.69363 5.95074 6.54705 5.99422 6.3975 5.99253L3.75 5.99253C3.1538 5.99427 2.58251 6.23188 2.16093 6.65347C1.73935 7.07505 1.50174 7.64633 1.5 8.24253L1.5 18.75C1.50174 19.3462 1.73936 19.9175 2.16094 20.3391C2.58252 20.7607 3.1538 20.9983 3.75 21L20.25 21C20.8462 20.9983 21.4175 20.7607 21.8391 20.3391C22.2606 19.9175 22.4983 19.3462 22.5 18.75L22.5 8.24254C22.4983 7.64634 22.2606 7.07505 21.8391 6.65347C21.4175 6.23189 20.8462 5.99428 20.25 5.99254ZM6.645 12.75C6.64584 11.3301 7.2103 9.96849 8.21438 8.96441C9.21845 7.96034 10.58 7.39588 12 7.39504C19.088 7.64338 19.0862 17.8578 11.9999 18.105C10.5799 18.1042 9.2184 17.5397 8.21434 16.5356C7.21029 15.5316 6.64584 14.17 6.645 12.75ZM18.99 9.75004C18.815 9.75003 18.6471 9.68049 18.5233 9.55671C18.3995 9.43294 18.33 9.26506 18.33 9.09002C18.33 8.91498 18.3996 8.7471 18.5233 8.62333C18.6471 8.49956 18.815 8.43003 18.99 8.43004C19.1651 8.43004 19.333 8.49958 19.4567 8.62336C19.5805 8.74714 19.65 8.91501 19.65 9.09006C19.65 9.2651 19.5805 9.43297 19.4567 9.55674C19.3329 9.68051 19.165 9.75004 18.99 9.75004Z"
+                                fill="white"
+                              />
+                              <path
+                                d="M15.8545 12.75C15.6883 7.65629 8.30999 7.65749 8.14453 12.7501C8.31079 17.8437 15.689 17.8425 15.8545 12.75Z"
+                                fill="white"
+                              />
+                            </svg>{" "}
+                            Chnage
+                          </p>
+                          <input
+                            type="file"
+                            multiple
+                            data-max_length="20"
+                            className="upload__inputfile"
+                            onChange={handleImageChange}
+                            required
+                          />
+                        </label>
+                      </div>
+                    </div>
                     <br />
-                    {/* <h3>Hello, {user?.user?.username} </h3> */}
                     <h3>Hello, {user?.username} </h3>
                   </div>
                 </div>
@@ -210,7 +284,7 @@ export default function Profile() {
                     >
                       <div className="profile_container">
                         <div className="col px-5 edit_information">
-                          <form action="" method="POST">
+                          <form onSubmit={handleSubmit}>
                             <div className="row">
                               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <div className="form-group">
@@ -221,10 +295,10 @@ export default function Profile() {
                                     type="text"
                                     name="text"
                                     className="form-control profile_input"
-                                    // value={user?.user?.username}
-                                    value={user?.username}
-                                    required
-                                    style={{ pointerEvents: "none" }}
+                                    value={fullName}
+                                    onChange={(e) =>
+                                      setFullName(e.target.value)
+                                    }
                                   />
                                 </div>
                               </div>
@@ -239,10 +313,10 @@ export default function Profile() {
                                     type="tel"
                                     name="phone"
                                     className="form-control profile_input"
-                                    // value={user?.user?.phone}
-                                    value={user?.phone}
-                                    required
-                                    style={{ pointerEvents: "none" }}
+                                    value={mobileNumber}
+                                    onChange={(e) =>
+                                      setMobileNumber(e.target.value)
+                                    }
                                   />
                                 </div>
                               </div>
@@ -257,10 +331,8 @@ export default function Profile() {
                                     type="email"
                                     name="email"
                                     className="form-control profile_input"
-                                    // value={user?.user?.email}
-                                    value={user.email}
-                                    style={{ pointerEvents: "none" }}
-                                    required
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
                                   />
                                 </div>
                               </div>
@@ -271,7 +343,11 @@ export default function Profile() {
                                   <button className="col">cancel</button>
                                 </div>
                                 <div className="customer-form-btn d-flex form-group col-5 col-md-2">
-                                  <button className="col" id="special-btn">
+                                  <button
+                                    type="submit"
+                                    className="col"
+                                    id="special-btn"
+                                  >
                                     change
                                   </button>
                                 </div>
@@ -364,7 +440,12 @@ export default function Profile() {
                                 </div>
                               </div>
                             </li> */}
-                            <Cards card={fav} key={i} type={"fav"} customClass={"profile_cards_item"} />
+                            <Cards
+                              card={fav}
+                              key={i}
+                              type={"fav"}
+                              customClass={"profile_cards_item"}
+                            />
                             {/* <button
                               className="remove_fav"
                               onClick={() => removeFav(fav.id)}

@@ -266,10 +266,6 @@ export default function Details() {
     normalNightsPrice,
     specialNightsCount,
     normalNightsCount,
-    specialStartDates,
-    specialEndDates,
-    normalStartDates,
-    normalEndDates,
   } = calculateTotalPrice();
 
   const submitBookingData = () => {

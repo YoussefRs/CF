@@ -145,20 +145,14 @@ async function httpGetUser(req, res) {
 async function httpUpdateOneUser(req, res) {
   try {
     const db = await startScript();
-
-    // Extract user ID from request parameters
-    const userId = req.params.param;
-
-    // Extract updated user data from request body
-    const { name, email, phone } = req.body;
-
-    // Construct SQL query for updating user information
+    const userId = req.params.id;
+    const { username, email, phone, image } = req.body; 
     let updateFields = [];
     let queryParams = [];
 
-    if (name) {
-      updateFields.push("name = ?");
-      queryParams.push(name);
+    if (username) {
+      updateFields.push("username = ?");
+      queryParams.push(username);
     }
 
     if (email) {
@@ -171,35 +165,42 @@ async function httpUpdateOneUser(req, res) {
       queryParams.push(phone);
     }
 
-    // Check if any fields are provided for update
+    // Check if an image URL is provided
+    if (image) {
+      updateFields.push("image = ?");
+      queryParams.push(image);
+    }
+
     if (updateFields.length === 0) {
       return res.status(400).json({ message: "No fields provided for update" });
     }
 
-    // Construct the full SQL update query
-    const updateQuery = `UPDATE users SET ${updateFields.join(
-      ", "
-    )} WHERE id = ?`;
+    const updateQuery = `UPDATE users SET ${updateFields.join(", ")} WHERE id = ?`;
     queryParams.push(userId);
 
-    // Execute SQL query to update user information
+    // Execute the update query
     const result = await db.query(updateQuery, queryParams);
 
-    // Close database connection
-    await db.end();
-
-    // Check if user was successfully updated
+    // Check if the user was found and updated successfully
     if (result.affectedRows === 0) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Return success response
-    res.status(200).json({ message: "User updated successfully" });
+    // Fetch the updated user data
+    const [updatedUserRows] = await db.query("SELECT * FROM users WHERE id = ?", [userId]);
+
+    // Close the database connection
+    await db.end();
+
+    // Return the updated user data along with the success message
+    res.status(200).json({ message: "User updated successfully", user: updatedUserRows[0] });
   } catch (error) {
     console.error("Error updating user:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 }
+
+
 
 async function httpDeleteOneUser(req, res) {
   try {
