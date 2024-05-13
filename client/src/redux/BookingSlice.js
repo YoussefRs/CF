@@ -130,10 +130,10 @@ export const adminRejectOrder = (orderId) => async (dispatch) => {
 };
 
 
-export const getOneBooking = (id) => async (dispatch) => {
+export const getOneBooking = (id, userId) => async (dispatch) => {
   try {
     dispatch(fetchBookings());
-    const response = await axios.get(`${BASE_URL}/user/getOneOrder/${id}`, {
+    const response = await axios.get(`${BASE_URL}/reservations/${userId}/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

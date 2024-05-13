@@ -52,6 +52,7 @@ export default function Navbar({ setShow, show }) {
 
   const logout = () => {
     localStorage.removeItem("user");
+    localStorage.removeItem("loginToken")
   };
 
   const scrollToSection = (id) => {
@@ -165,7 +166,7 @@ export default function Navbar({ setShow, show }) {
                   <span
                     style={{ color: activeIndex === 1 ? "#DEC25F" : "white" }}
                   >
-                    Properties
+                    Eigenschaften
                   </span>
                   <svg
                     width="40"
@@ -217,7 +218,7 @@ export default function Navbar({ setShow, show }) {
                   <span
                     style={{ color: activeIndex === 3 ? "#DEC25F" : "white" }}
                   >
-                    Testimonials
+                    Referenzen
                   </span>
                   <svg
                     width="40"
@@ -269,7 +270,7 @@ export default function Navbar({ setShow, show }) {
                   <span
                     style={{ color: activeIndex === 2 ? "#DEC25F" : "white" }}
                   >
-                    Follow us
+                    Folgen Sie uns
                   </span>
                   <svg
                     width="40"
@@ -321,7 +322,7 @@ export default function Navbar({ setShow, show }) {
                   <span
                     style={{ color: activeIndex === 4 ? "#DEC25F" : "white" }}
                   >
-                    Contact Us
+                    Kontaktieren Sie uns
                   </span>
                   <svg
                     width="40"
@@ -355,7 +356,7 @@ export default function Navbar({ setShow, show }) {
                         }, 100);
                       }}
                     >
-                      Log In
+                      Anmelden
                     </button>
                     <button
                       className="btn register"
@@ -366,7 +367,7 @@ export default function Navbar({ setShow, show }) {
                         }, 100);
                       }}
                     >
-                      sign up
+                      Registrieren
                     </button>
                   </>
                 ) : (
@@ -548,7 +549,7 @@ export default function Navbar({ setShow, show }) {
                                 d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"
                               />
                             </svg>
-                            &nbsp;Profile
+                            &nbsp;Profil
                           </a>
                         </li>
                         <li>
@@ -570,7 +571,7 @@ export default function Navbar({ setShow, show }) {
                                 d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"
                               />
                             </svg>
-                            &nbsp;Sign Out
+                            &nbsp;Abmelden
                           </a>
                         </li>
                       </ul>
@@ -659,7 +660,7 @@ export default function Navbar({ setShow, show }) {
                         {activeIndex === 4 && (
                           <img src={loader} id="selector_" alt="selector" />
                         )}
-                        testimonials
+                        Referenzen
                       </a>
                     </li>
                     <li>
@@ -675,7 +676,7 @@ export default function Navbar({ setShow, show }) {
                         {activeIndex === 3 && (
                           <img src={loader} id="selector_" alt="selector" />
                         )}
-                        follow us
+                        Folgen Sie uns
                       </a>
                     </li>
                     <li>
@@ -690,7 +691,7 @@ export default function Navbar({ setShow, show }) {
                         {activeIndex === 5 && (
                           <img src={loader} id="selector_" alt="selector" />
                         )}
-                        contact us
+                        Kontaktieren Sie uns
                       </a>
                     </li>
                   </ul>
@@ -950,7 +951,7 @@ export default function Navbar({ setShow, show }) {
                                 d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"
                               />
                             </svg>
-                            &nbsp;Profile
+                            &nbsp;Profil
                           </a>
                         </li>
                         <li onClick={logout}>
@@ -972,7 +973,7 @@ export default function Navbar({ setShow, show }) {
                                 d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"
                               />
                             </svg>
-                            &nbsp;Sign Out
+                            &nbsp;Abmelden
                           </a>
                         </li>
                       </ul>

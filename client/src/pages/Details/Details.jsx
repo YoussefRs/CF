@@ -13,6 +13,7 @@ import { Modal } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import LoginRegister from "../../components/modals/LoginRegister";
 import { createNewBooking } from "../../redux/BookingSlice";
+import axios from "axios";
 
 export default function Details() {
   const { loginModal, openLoginModal, closeLoginModal } = useModal();
@@ -29,7 +30,7 @@ export default function Details() {
   } = useModal();
 
   const [showLoginReview, setShowLoginReview] = useState(false);
-
+ 
   const { id } = useParams();
   const { card } = location.state || {};
   const admin = JSON.parse(localStorage.getItem("user"));
@@ -37,6 +38,7 @@ export default function Details() {
   const [showCalendar, setShowCalendar] = useState(true);
   const [reviewText, setReviewText] = useState("");
   const [rating, setRating] = useState(0);
+  const [approvedBookings, setApprovedBookings] = useState([])
   const onHide = () => {
     setShowLoginReview(false);
   };
@@ -264,12 +266,8 @@ export default function Details() {
     normalNightsPrice,
     specialNightsCount,
     normalNightsCount,
-    specialStartDates,
-    specialEndDates,
-    normalStartDates,
-    normalEndDates,
   } = calculateTotalPrice();
-  
+
   const submitBookingData = () => {
     if (user) {
       let bookingDataList = {
@@ -299,7 +297,6 @@ export default function Details() {
     }
   };
 
-  console.log(bookingData);
   return (
     <>
       {/* <Navbar /> */}

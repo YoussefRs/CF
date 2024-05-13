@@ -58,14 +58,12 @@ async function startScript() {
     console.log("Connected to City Flat");
     await executeSchemaScript(connection);
     return connection;
-    
   } catch (err) {
     console.error("Error connecting to City Flat database:", err);
     throw err;
   }
 }
 
-
 module.exports = {
-  startScript
+  startScript,
 };

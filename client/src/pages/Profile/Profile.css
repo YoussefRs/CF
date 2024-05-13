@@ -83,7 +83,6 @@
   @media (max-width: 420px) {
     max-width: 400px;
   }
-
 }
 
 .profile_container {
@@ -112,7 +111,7 @@
     }
 
     &:nth-of-type(3n-2) {
-      margin-left: calc(((100% - (290px * 3) - 3rem)/2));
+      margin-left: calc(((100% - (290px * 3) - 3rem) / 2));
     }
 
     &:nth-of-type(3n) {
@@ -134,7 +133,7 @@
     }
 
     &:nth-of-type(2n-1) {
-      margin-left: calc(((100% - (400px * 2) - 1.5rem)/2));
+      margin-left: calc(((100% - (400px * 2) - 1.5rem) / 2));
     }
 
     margin-bottom: 1.5rem;
@@ -152,7 +151,7 @@
     }
 
     &:nth-of-type(2n-1) {
-      margin-left: calc(((100% - (325px * 2) - 1.5rem)/2));
+      margin-left: calc(((100% - (325px * 2) - 1.5rem) / 2));
     }
 
     margin-bottom: 1.5rem;
@@ -170,7 +169,7 @@
     }
 
     &:nth-of-type(2n-1) {
-      margin-left: calc(((100% - (325px * 2) - 1.5rem)/2));
+      margin-left: calc(((100% - (325px * 2) - 1.5rem) / 2));
     }
 
     margin-bottom: 1.5rem;
@@ -206,10 +205,34 @@
   border-radius: 35.311px;
 }
 
+.upload__box {
+  & .upload_profile__btn_box {
+    border-radius: 1.875rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 2rem;
+    
+    & .upload_profile__btn {
+      width: 150px;
+      border-radius: 5rem;
+      background: var(
+        --Linear,
+        linear-gradient(315deg, #07d25f 20.24%, #028139 80.97%)
+      );
+      color: #fff;
+      padding: 1rem;
+      text-align: center;
+      cursor: pointer;
+    }
+  }
+}
 .profile-btn {
   border-radius: 35.311px;
-  background: var(--Linear,
-      linear-gradient(315deg, #07d25f 20.24%, #028139 80.97%));
+  background: var(
+    --Linear,
+    linear-gradient(315deg, #07d25f 20.24%, #028139 80.97%)
+  );
   width: max-content;
   padding: 15px;
   color: #fff;
@@ -230,8 +253,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--Linear,
-      linear-gradient(315deg, #07d25f 20.24%, #028139 80.97%));
+  background: var(
+    --Linear,
+    linear-gradient(315deg, #07d25f 20.24%, #028139 80.97%)
+  );
 }
 
 .profile_card-btn button {
@@ -284,14 +309,13 @@
 /* form styles */
 
 .edit_information {
-
   margin-top: 6rem;
   margin-bottom: 2rem;
 
   & .profile_details_text {
     font-size: 1.2rem;
-    margin-bottom: .5rem;
-    color: #2D3136;
+    margin-bottom: 0.5rem;
+    color: #2d3136;
     font-family: Montserrat, sans-serif;
     font-weight: 400;
     line-height: normal;
@@ -301,9 +325,9 @@
   & .profile_input {
     margin-bottom: 2rem;
     border-radius: 60px;
-    border: 1px solid #DEDEDE;
+    border: 1px solid #dedede;
     background: rgba(222, 222, 222, 0.46);
-    box-shadow: -5px -3px 9.4px 0px #DEDEDE inset;
+    box-shadow: -5px -3px 9.4px 0px #dedede inset;
   }
 }
 
@@ -314,7 +338,6 @@
 }
 
 @media (max-width: 1024px) {
-
   .nav-pills {
     width: 100%;
     padding: 0 15px;
@@ -326,7 +349,6 @@
 }
 
 @media (max-width: 1025px) {
-
   .panel {
     width: 100%;
   }

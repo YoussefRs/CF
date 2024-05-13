@@ -4,7 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const user = localStorage.getItem("user");
-
+const BASE_URL = import.meta.env.VITE_API_URL;
 const initialState = {
   user: user ? JSON.parse(user) : null,
   isAuthenticated: false,
@@ -46,7 +46,7 @@ export default authSlice.reducer;
 export const loginUser = (userData) => async (dispatch) => {
   try {
     const response = await axios.post(
-      "http://127.0.0.1:3001/user/login",
+      `${BASE_URL}/user/login`,
       userData
     );
     const data = await response.data;
