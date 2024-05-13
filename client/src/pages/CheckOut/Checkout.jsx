@@ -49,13 +49,13 @@ export default function Checkout() {
   return (
     <div className="checkout_container">
       <header>
-        <h3>Checkout</h3>
+        <h3>Zur Kasse</h3>
       </header>
 
       <main>
         <section className="checkout-form">
           <form onSubmit={(e) => handleContinue(e)}>
-            <h6>Contact information</h6>
+            <h6>Kontaktdaten</h6>
             <div className="form-control">
               <label htmlFor="checkout-email">E-mail</label>
               <div>
@@ -107,7 +107,7 @@ export default function Checkout() {
               </div>
             </div>
             <div className="form-control">
-              <label htmlFor="checkout-phone">Phone</label>
+              <label htmlFor="checkout-phone">Telefonnummer</label>
               <div>
                 <span className="fa fa-envelope">
                   <svg
@@ -282,28 +282,32 @@ export default function Checkout() {
               }}
             >
               <div className="form-control">
-                <label htmlFor="checkout-address">Card Number</label>
+                <label htmlFor="checkout-address">Kartennummer</label>
                 <div>
                   <span className="fa fa-home"></span>
                   <input
-                    type="text"
-                    name="checkout-address"
-                    id="checkout-address"
-                    placeholder="Your address..."
+                    id="ccn"
+                    type="tel"
+                    inputmode="numeric"
+                    pattern="[0-9\s]{13,19}"
+                    autocomplete="cc-number"
+                    maxlength="19"
+                    placeholder="xxxx xxxx xxxx xxxx"
+                    required
                   />
                 </div>
               </div>
 
               <div className="form-group">
                 <div className="form-control">
-                  <label htmlFor="checkout-country">Expiry Date</label>
+                  <label htmlFor="checkout-country">Ablaufdatum</label>
                   <div>
                     <span className="fa fa-globe"></span>
                     <input
                       type="date"
                       name="expiryDate"
                       id="expiryDate"
-                      placeholder="Expiry Date"
+                      placeholder="Ablaufdatum"
                     />
                   </div>
                 </div>
@@ -315,14 +319,14 @@ export default function Checkout() {
                       type="numeric"
                       name="checkout-postal"
                       id="checkout-postal"
-                      placeholder="Your CVV"
+                      placeholder="Ihr CVV"
                     />
                   </div>
                 </div>
               </div>
             </div>
             <div className="form-control-btn">
-              <button type="submit">Continue</button>
+              <button type="submit">Weiter</button>
             </div>
           </form>
         </section>
@@ -399,14 +403,19 @@ export default function Checkout() {
                       </svg>
                     </span>
                     <span className="col">
-                      {bookingData.reservation?.[0]?.startDate} To{" "}
-                      {bookingData?.reservation?.[0]?.endDate}{" "}
+                      {new Date(
+                        bookingData?.reservation?.[0]?.startDate
+                      ).toLocaleDateString("en-GB")}{" "}
+                      Bis{" "}
+                      {new Date(
+                        bookingData?.reservation?.[0]?.endDate
+                      ).toLocaleDateString("en-GB")}
                     </span>
                   </div>
                   <div className="_card-price row">
                     <span className="col-1"></span>
                     <span className="col">
-                      Nights: {bookingData?.reservation?.[0]?.nightsCount}{" "}
+                      Nächte: {bookingData?.reservation?.[0]?.nightsCount}{" "}
                     </span>
                   </div>
                   <div className="_card-price row">
@@ -489,7 +498,7 @@ export default function Checkout() {
               </div>
             </div>
             <div className="checkout-shipping">
-              <h6>Normal Dates</h6>
+              <h6>Datum</h6>
               <div className="d-flex flex-column">
                 <p>
                   {bookingData?.reservation?.[0]?.normalNightsCount *
@@ -503,21 +512,24 @@ export default function Checkout() {
               </div>
             </div>
             <div className="checkout-shipping">
-              <h6>Special Dates</h6>
+              <h6>Besondere Datum</h6>
               <div className="d-flex flex-column">
                 <p>
                   {bookingData?.reservation?.[0]?.specialNightsCount *
-                    bookingData?.reservation?.[0]?.specialNightsPrice}{" "}
+                    (bookingData?.reservation?.[0]?.specialNightsPrice /
+                      bookingData?.reservation?.[0]?.specialNightsCount)}{" "}
                   €{" "}
                 </p>
                 <p>
                   {bookingData?.reservation?.[0]?.specialNightsCount} *{" "}
-                  {bookingData?.reservation?.[0]?.specialNightsPrice}€
+                  {bookingData?.reservation?.[0]?.specialNightsPrice /
+                    bookingData?.reservation?.[0]?.specialNightsCount}
+                  €
                 </p>
               </div>
             </div>
             <div className="checkout-shipping">
-              <h6>Services Fees</h6>
+              <h6>Servicegebühren</h6>
               <div className="d-flex flex-column">
                 <p>{bookingData?.reservation?.[0]?.servicesFee}€</p>
                 <p>
@@ -640,7 +652,7 @@ export default function Checkout() {
               </div>
             </div>
             <div className="checkout-total">
-              <h6>Total</h6>
+              <h6>Gesamt</h6>
               <p>{bookingData?.reservation?.[0]?.totalPrice} € </p>
             </div>
           </div>

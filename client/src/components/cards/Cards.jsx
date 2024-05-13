@@ -162,12 +162,12 @@ export default function Cards({ card, type, customClass }) {
         <div className="card-price-btn">
           <div className="card-price">
             <p>
-              {card?.price} € <span>/ Month</span>
+              {card?.price} € <span>/Tag</span>
             </p>
           </div>
           <div className="card-btn">
             <Link to={`/details/${card.id}`} state={{ card }}>
-              <button>More +</button>
+              <button>MEHR +</button>
             </Link>
           </div>
         </div>

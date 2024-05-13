@@ -42,7 +42,7 @@ export default function LoginRegister({ closeLoginModal }) {
         }
       })
       .catch((error) => {
-        console.error("Login failed", error);
+        console.error("Anmeldung fehlgeschlagen", error);
       })
       .finally(() => {
         // Show loading for two seconds before hiding the form
@@ -104,12 +104,12 @@ export default function LoginRegister({ closeLoginModal }) {
                   <Loader />
                 ) : (
                   <>
-                    <h1 className="mt-3">Sign Up</h1>
+                    <h1 className="mt-3">Registrieren</h1>
                     <div className="input_custom relative d-flex align-items-center">
                       <Field
                         type="text"
                         name="username"
-                        placeholder="Full Name"
+                        placeholder="Vollständiger Name"
                         required
                         autoComplete="off"
                       />
@@ -129,7 +129,7 @@ export default function LoginRegister({ closeLoginModal }) {
                       <Field
                         type="number"
                         name="gsm"
-                        placeholder="Gsm"
+                        placeholder="Handynummer"
                         required
                         autoComplete="off"
                       />
@@ -173,7 +173,7 @@ export default function LoginRegister({ closeLoginModal }) {
                       <Field
                         type="password"
                         name="password"
-                        placeholder="Password"
+                        placeholder="Passwort"
                         required
                         autoComplete="new-password"
                       />
@@ -191,13 +191,13 @@ export default function LoginRegister({ closeLoginModal }) {
                     </div>
 
                     <button type="submit" className="mb-3">
-                      Sign Up
+                      Registrieren
                     </button>
 
                     <span>
-                      Already have an account ?{" "}
+                      Haben Sie bereits ein Konto?{" "}
                       <a id="SignIn" onClick={handleSignInClick}>
-                        Login
+                        Anmelden
                       </a>
                     </span>
                   </>
@@ -216,7 +216,7 @@ export default function LoginRegister({ closeLoginModal }) {
                   <Loader />
                 ) : (
                   <>
-                    <h1>Sign In</h1>
+                    <h1>Anmelden</h1>
                     <div className="input_custom relative d-flex align-items-center">
                       <Field
                         type="email"
@@ -242,7 +242,7 @@ export default function LoginRegister({ closeLoginModal }) {
                       <Field
                         type="password"
                         name="password"
-                        placeholder="Password"
+                        placeholder="Passwort"
                         required
                         autoComplete="new-password"
                       />
@@ -261,15 +261,15 @@ export default function LoginRegister({ closeLoginModal }) {
                     </div>
 
                     <a href="#" className="mb-4 rs_pw_link">
-                      Forgot your password?
+                      Passwort vergessen?
                     </a>
                     <button type="submit" className="mb-4">
-                      Sign In
+                      Anmelden
                     </button>
                     <span>
-                      You don't have an account ?{" "}
+                      Sie haben noch kein Konto?{" "}
                       <a id="SignUp" onClick={handleSignUpClick}>
-                        create an account
+                        Erstellen Sie ein Konto
                       </a>
                     </span>
                   </>
@@ -285,7 +285,7 @@ export default function LoginRegister({ closeLoginModal }) {
                   id="SignIn"
                   onClick={handleSignInClick}
                 >
-                  Sign In
+                  Anmelden
                 </button>
               </div>
               <div className="overlay-panel overlay-right">
@@ -294,7 +294,7 @@ export default function LoginRegister({ closeLoginModal }) {
                   id="SignUp"
                   onClick={handleSignUpClick}
                 >
-                  Sign Up
+                  Registrieren
                 </button>
               </div>
             </div>

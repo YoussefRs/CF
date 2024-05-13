@@ -160,7 +160,7 @@ export default function MultiFunc() {
                       setShowSmFilter(false);
                     }}
                   >
-                    <span>Cancel</span>
+                    <span>Abbrechen</span>
                   </button>
                 </div>
               </div>

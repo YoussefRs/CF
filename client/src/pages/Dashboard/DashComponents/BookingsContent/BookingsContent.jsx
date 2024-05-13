@@ -17,7 +17,7 @@ export default function BookingsContent() {
     (booking) => booking.status == "Pending"
   );
 
-  console.table(filteredBooking);
+  console.table(bookings);
   useEffect(() => {
     dispatch(getAllBookings());
   }, [dispatch]);
@@ -47,7 +47,7 @@ export default function BookingsContent() {
     return `${day}.${month}.${year}`;
   }
 
-  console.log(clickedBooking);
+
 
   function formatPrice(priceString) {
     const price = parseFloat(priceString);
@@ -185,11 +185,11 @@ export default function BookingsContent() {
           <table className="booking_table">
             <thead className="table__header">
               <tr>
-                <td>apartements</td>
-                <td>username</td>
-                <td>check in</td>
-                <td>check out</td>
-                <td>total price</td>
+                <td>apartments</td>
+                <td>Benutzername</td>
+                <td>check-in</td>
+                <td>check-out</td>
+                <td>Gesamtpreis</td>
                 <td>Status</td>
               </tr>
             </thead>
@@ -342,7 +342,7 @@ export default function BookingsContent() {
                 </div>
                 <div className="content">
                   <div className="">
-                    <p className="label">Customer : </p>
+                    <p className="label">Kunden : </p>
                     <p className="value">{clickedBooking?.username}</p>
                   </div>
                   <div className="">
@@ -353,10 +353,10 @@ export default function BookingsContent() {
               </div>
               <div className="divider"></div>
               <div className="reservation_details">
-                <p className="title">Reservation datails:</p>
+                <p className="title">Reservierungsdetails:</p>
                 <div className="content">
                   <div className="item">
-                    <p className="label">Dates: </p>
+                    <p className="label">Datum: </p>
                     <div className="value">
                       <p className="duration">
                         <svg
@@ -410,17 +410,17 @@ export default function BookingsContent() {
                         </svg>
                         {`${formatDate(
                           clickedBooking?.startDate
-                        )} To ${formatDate(clickedBooking?.endDate)}`}
+                        )} bis ${formatDate(clickedBooking?.endDate)}`}
                       </p>
                       <div className="nights">
                         <p>
-                          Nights :
+                          Nächte :
                           <span> {clickedBooking?.normalNightsCount}</span>
                         </p>
                         {clickedBooking?.specialNightsCount &&
                         clickedBooking?.specialNightsCount > 0 ? (
                           <p>
-                            Special nights :
+                            Besondere Nächte :
                             <span> {clickedBooking?.normalNightsCount}</span>
                           </p>
                         ) : null}
@@ -432,7 +432,7 @@ export default function BookingsContent() {
                     (service) => service.name !== null
                   ) ? (
                     <div className="item">
-                      <p className="label">Services: </p>
+                      <p className="label">Dienstleistungen: </p>
                       <p className="value">
                         <div className="services">
                           {clickedBooking.details?.services.map(
@@ -460,10 +460,10 @@ export default function BookingsContent() {
                 </div>
               </div>
               <div className="payment_details">
-                <p className="title">Payment datails:</p>
+                <p className="title">Zahlungsdetails:</p>
                 <div className="content">
                   <div className="item">
-                    <p className="label">Nights fees: </p>
+                    <p className="label">Gebühren für Nächte: </p>
                     <div className="value">
                       {/* <p>
                         {
@@ -472,9 +472,16 @@ export default function BookingsContent() {
                         €
                       </p> */}
                       <p>
-                        {clickedBooking?.normalNightsCount} /{" "}
-                        {formatPrice(clickedBooking?.normalNightsPrice)}€
+                        {clickedBooking?.normalNightsCount !== 0
+                          ? `${
+                              clickedBooking?.normalNightsCount
+                            } * ${formatPrice(
+                              clickedBooking?.normalNightsPrice /
+                                clickedBooking?.normalNightsCount
+                            )}€`
+                          : "0 * €0.00"}
                       </p>
+
                       {clickedBooking?.specialNightsCount > 0 ? (
                         <p>
                           {clickedBooking?.specialNightsCount} *{" "}
@@ -488,7 +495,7 @@ export default function BookingsContent() {
                     (service) => service.name !== null
                   ) ? (
                     <div className="item">
-                      <p className="label">Services fees: </p>
+                      <p className="label">Servicegebühren: </p>
                       <p className="value">
                         <div className="services">
                           <p>{totalServicePrice}€</p>
@@ -518,14 +525,14 @@ export default function BookingsContent() {
               </div>
               <div className="total_details">
                 <div className="item">
-                  <p className="label">Total price: </p>
+                  <p className="label">Gesamtpreis: </p>
                   <div className="value">{clickedBooking?.totalPrice}€ </div>
                 </div>
               </div>
             </div>
             <div className="cancel_btn">
               <button className="btn" onClick={onClose}>
-                Cancel
+                Stornieren
               </button>
             </div>
           </div>
