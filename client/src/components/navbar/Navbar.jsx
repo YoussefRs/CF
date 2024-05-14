@@ -346,7 +346,7 @@ export default function Navbar({ setShow, show }) {
               </div>
               <div>
                 {!user ? (
-                  <>
+                  <div className="d-flex">
                     <button
                       className="btn login"
                       onClick={() => {
@@ -369,7 +369,7 @@ export default function Navbar({ setShow, show }) {
                     >
                       Registrieren
                     </button>
-                  </>
+                  </div>
                 ) : (
                   <>
                     <div className="profile" onClick={toggleDropMenu}>
