@@ -139,7 +139,7 @@ export default function Profile() {
                                 fill="white"
                               />
                             </svg>{" "}
-                            Chnage
+                            Hochladen
                           </p>
                           <input
                             type="file"
@@ -153,7 +153,7 @@ export default function Profile() {
                       </div>
                     </div>
                     <br />
-                    <h3>Hello, {user?.username} </h3>
+                    <h3>Hallo, {user?.username} </h3>
                   </div>
                 </div>
               </div>
@@ -185,7 +185,7 @@ export default function Profile() {
                               stroke="#848998"
                             />
                           </svg>
-                          <span>My Profile</span>
+                          <span>Profil</span>
                         </a>
                       </li>
                       <li className="nav-item">
@@ -208,7 +208,7 @@ export default function Profile() {
                               fill="#848998"
                             />
                           </svg>
-                          <span>My Favorite</span>
+                          <span>Favoriten</span>
                         </a>
                       </li>
                       <li className="nav-item">
@@ -232,7 +232,7 @@ export default function Profile() {
                               stroke="#848998"
                             />
                           </svg>
-                          <span>My Rentals</span>
+                          <span>Vermietungen</span>
                         </a>
                       </li>
                       <li className="nav-item">
@@ -268,7 +268,7 @@ export default function Profile() {
                             />
                           </svg>
 
-                          <span>My Orders</span>
+                          <span>Bestellungen</span>
                         </a>
                       </li>
                     </ul>
@@ -289,7 +289,7 @@ export default function Profile() {
                               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <div className="form-group">
                                   <label className="profile_details_text">
-                                    Full Name:
+                                    Vollständiger Name:
                                   </label>
                                   <input
                                     type="text"
@@ -307,7 +307,7 @@ export default function Profile() {
                               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <div className="form-group">
                                   <label className="profile_details_text">
-                                    Mobile Number:
+                                    Telefonnummer :
                                   </label>
                                   <input
                                     type="tel"
@@ -348,7 +348,7 @@ export default function Profile() {
                                     className="col"
                                     id="special-btn"
                                   >
-                                    change
+                                    Ändern
                                   </button>
                                 </div>
                               </div>
@@ -551,11 +551,11 @@ export default function Profile() {
                                         rental?.appartment?.defaultSpecialDate
                                           ?.price
                                       }{" "}
-                                      € <span>/ Month</span>
+                                      € <span> / Nacht</span>
                                     </p>
                                   </div>
                                   <div className="profile_card-btn">
-                                    <button>More +</button>
+                                    <button>Mehr +</button>
                                   </div>
                                 </div>
                               </div>
@@ -577,7 +577,7 @@ export default function Profile() {
                           className="mb-0 text-start"
                           style={{ color: "#000", paddingLeft: 10 }}
                         >
-                          Invoices (1)
+                          Rechnungen (1)
                         </h3>
                       </div>
                       <div className="_profile-table scrollable-container">
@@ -1012,12 +1012,12 @@ export default function Profile() {
             </defs>
           </svg>
           <br />
-          <h3>Are you sure</h3>
+          <h3>Sind Sie sicher</h3>
           <br />
           <div className="customer-form-btn row d-flex justify-content-center gap-2">
-            <button className="col">No</button>
+            <button className="col">Nein</button>
             <button className="col" id="special-btn">
-              yes
+              Ja
             </button>
           </div>
         </div>
