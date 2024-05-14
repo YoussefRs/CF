@@ -70,3 +70,13 @@ CREATE TABLE IF NOT EXISTS Services (
     FOREIGN KEY (reservationId) REFERENCES Reservations(id) ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS ApartmentReview (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    apartmentId INT NOT NULL,
+    userId INT NOT NULL,
+    rating INT NOT NULL,
+    comment TEXT,
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (apartmentId) REFERENCES Apartment(id),
+    FOREIGN KEY (userId) REFERENCES Users(id)
+);

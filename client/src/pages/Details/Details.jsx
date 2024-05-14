@@ -15,7 +15,7 @@ import LoginRegister from "../../components/modals/LoginRegister";
 import { createNewBooking } from "../../redux/BookingSlice";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Details() {
   const { loginModal, openLoginModal, closeLoginModal } = useModal();
@@ -30,17 +30,27 @@ export default function Details() {
     openModal2,
     closeModal2,
   } = useModal();
-
+  const BASE_URL = import.meta.env.VITE_API_URL;
   const [showLoginReview, setShowLoginReview] = useState(false);
- 
+
   const { id } = useParams();
   const { card } = location.state || {};
-  const admin = JSON.parse(localStorage.getItem("user"));
-  const reviews = JSON.parse(localStorage.getItem("reviews"));
+  const [reviews, setReviews] = useState([])
   const [showCalendar, setShowCalendar] = useState(true);
   const [reviewText, setReviewText] = useState("");
   const [rating, setRating] = useState(0);
-  const [approvedBookings, setApprovedBookings] = useState([])
+
+  useEffect(() => async () => {
+    try {
+      const res = await axios.get(`${BASE_URL}/appartments/${card?.id}/reviews`)
+      setReviews(res.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }, [])
+
+console.log(reviews)
+
   const onHide = () => {
     setShowLoginReview(false);
   };
@@ -75,18 +85,22 @@ export default function Details() {
     return datesArray;
   });
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const newReview = {
-      text: reviewText,
+      comment: reviewText,
       rating: rating,
-      user: admin?.username,
+      userId: user?.id,
+      apartmentId: card?.id,
     };
-    const storedReviews = JSON.parse(localStorage.getItem("reviews")) || [];
-    const updatedReviews = [...storedReviews, newReview];
-    localStorage.setItem("reviews", JSON.stringify(updatedReviews));
-    setReviewText("");
-    setRating(0);
+    try {
+      const res = await axios.post(
+        `${BASE_URL}/appartments/${card?.id}/reviews`,
+        newReview
+      );
+      setReviewText("");
+      setRating(0);
+    } catch (error) {}
   };
 
   const [bookingData, setBookingData] = useState({
@@ -143,61 +157,6 @@ export default function Details() {
     };
   }, []);
 
-  // const calculateTotalPrice = () => {
-  //   let normalNightsPrice = 0;
-  //   let specialNightsPrice = 0;
-  //   let normalNightsCount = 0;
-  //   let specialNightsCount = 0;
-
-  //   if (bookingData && card && bookingData.startDate && bookingData.endDate) {
-  //     const startDate = new Date(bookingData.startDate);
-  //     const endDate = new Date(bookingData.endDate);
-
-  //     // Calculate the number of nights between the start and end dates
-  //     let totalNightsCount = Math.floor(
-  //       (endDate - startDate) / (1000 * 60 * 60 * 24)
-  //     );
-
-  //     for (let i = 0; i <= totalNightsCount; i++) {
-  //       const currentDate = new Date(startDate);
-  //       currentDate.setDate(currentDate.getDate() + i);
-  //       let isSpecialDate = false;
-
-  //       // Check if the current date is within any special date range
-  //       for (const price of card.prices) {
-  //         const priceStartDate = new Date(price.start_date);
-  //         const priceEndDate = new Date(price.end_date);
-  //         if (currentDate >= priceStartDate && currentDate <= priceEndDate) {
-  //           isSpecialDate = true;
-  //           specialNightsPrice += parseFloat(price.price);
-  //           specialNightsCount++; // Increment special nights count
-  //           break;
-  //         }
-  //       }
-
-  //       // If the current date is not a special date, it's a normal night
-  //       if (!isSpecialDate) {
-  //         normalNightsPrice += parseFloat(card.price);
-  //         normalNightsCount++; // Increment normal nights count
-  //       }
-  //     }
-  //   }
-
-  //   const totalPrice = normalNightsPrice + specialNightsPrice + ServicesFees;
-
-  //   // Return total price along with counts of special and normal nights
-  //   return {
-  //     totalPrice,
-  //     specialNightsPrice,
-  //     normalNightsPrice,
-  //     specialNightsCount,
-  //     normalNightsCount,
-  //   };
-  // };
-
-
-  // Usage example:
-  
   const calculateTotalPrice = () => {
     let normalNightsPrice = 0;
     let specialNightsPrice = 0;
@@ -205,16 +164,16 @@ export default function Details() {
     let specialNightsCount = 0;
     let specialStartDates = [];
     let specialEndDates = [];
-  
+
     if (bookingData && card && bookingData.startDate && bookingData.endDate) {
       const startDate = new Date(bookingData.startDate);
       const endDate = new Date(bookingData.endDate);
-  
+
       // Iterate over each special date range
       for (const price of card.prices) {
         const priceStartDate = new Date(price.start_date);
         const priceEndDate = new Date(price.end_date);
-  
+
         // Check if the special date range overlaps with the selected date range
         if (
           (startDate <= priceStartDate && endDate >= priceStartDate) ||
@@ -223,14 +182,15 @@ export default function Details() {
         ) {
           // Calculate the number of nights within the special date range
           const nightsInSpecialRange = Math.ceil(
-            (Math.min(endDate, priceEndDate) - Math.max(startDate, priceStartDate)) /
+            (Math.min(endDate, priceEndDate) -
+              Math.max(startDate, priceStartDate)) /
               (1000 * 60 * 60 * 24)
           );
-  
+
           // Increment special nights count and price
           specialNightsCount += nightsInSpecialRange;
           specialNightsPrice += parseFloat(price.price) * nightsInSpecialRange;
-  
+
           // Add the special date range to the lists if not already present
           if (!specialStartDates.includes(price.start_date)) {
             specialStartDates.push(price.start_date);
@@ -240,20 +200,20 @@ export default function Details() {
           }
         }
       }
-  
+
       // Calculate the number of normal nights
       normalNightsCount = Math.ceil(
         (endDate - startDate - specialNightsCount * (1000 * 60 * 60 * 24)) /
           (1000 * 60 * 60 * 24)
       );
-  
+
       // Calculate the normal nights price
       normalNightsPrice = normalNightsCount * parseFloat(card.price);
     }
-  
+
     // Calculate the total price by adding special, normal, and service fees
     const totalPrice = normalNightsPrice + specialNightsPrice + ServicesFees;
-  
+
     // Return the calculated values
     return {
       totalPrice,
@@ -264,7 +224,6 @@ export default function Details() {
     };
   };
 
- 
   const {
     totalPrice,
     specialNightsPrice,
@@ -278,7 +237,7 @@ export default function Details() {
       toast.error("Bitte wählen Sie Start- und Enddaten aus.");
       return; // Prevent further execution
     }
-  
+
     if (user) {
       let bookingDataList = {
         ...bookingData,
@@ -300,15 +259,16 @@ export default function Details() {
         nightsCount: 0,
         services: [],
       });
-      toast.success("Buchung abgeschlossen. Sie werden per E-Mail benachrichtigt, sobald der Eigentümer sie akzeptiert.");
+      toast.success(
+        "Buchung abgeschlossen. Sie werden per E-Mail benachrichtigt, sobald der Eigentümer sie akzeptiert."
+      );
       setShowCalendar(false);
       closeModal();
     } else {
       openLoginModal();
     }
   };
-  
-
+  console.log(card);
   return (
     <>
       {/* <Navbar /> */}
@@ -897,21 +857,21 @@ export default function Details() {
                   )}
                 </div>
               </div>
-              {user ? (
-                <>
-                  <div className="_reviews mt-2">
-                    {reviews?.map((review, i) => (
-                      <Fragment key={i}>
-                        <div className="_review_box">
-                          <div className="_review_img">
-                            <img src={logo} alt="" />
-                          </div>
-                        </div>
-                        <div className="_review_box">
-                          <div className="_review_text d-flex flex-column">
-                            <span className="d-flex flex-column _medium_title lh-1">
-                              {review?.username}
-                              {/* <fieldset className="rating">
+
+              <div className="_reviews mt-2">
+                {reviews?.map((review, i) => (
+                  <Fragment key={i}>
+                    {console.log(review)}
+                    <div className="_review_box">
+                      <div className="_review_img">
+                        <img src={logo} alt="" />
+                      </div>
+                    </div>
+                    <div className="_review_box">
+                      <div className="_review_text d-flex flex-column">
+                        <span className="d-flex flex-column _medium_title lh-1">
+                          {review?.username}
+                          {/* <fieldset className="rating">
                             <input
                               type="radio"
                               id="star5"
@@ -1034,151 +994,151 @@ export default function Details() {
                               title="Sucks big time - 0.5 stars"
                             ></label>
                           </fieldset> */}
-                            </span>
-                            <span></span>
-                            <span className="_description">{review?.text}</span>
-                          </div>
-                        </div>
-                      </Fragment>
-                    ))}
-                  </div>
-                  <div className="_review_box d-flex flex-column">
-                    <textarea
-                      rows="3"
-                      name="description"
-                      placeholder="Write review ..."
-                      value={reviewText}
-                      onChange={handleReviewTextChange}
-                      required
-                    ></textarea>
-                    <fieldset className="rating">
-                      <input
-                        type="radio"
-                        id="star5"
-                        name="rating"
-                        value="5"
-                        onChange={handleRatingChange}
-                      />
-                      <label
-                        className="full"
-                        htmlFor="star5"
-                        title="Awesome - 5 stars"
-                      ></label>
-                      <input
-                        type="radio"
-                        id="star4half"
-                        name="rating"
-                        value={4.5}
-                        onChange={handleRatingChange}
-                      />
-                      <label
-                        className="half"
-                        htmlFor="star4half"
-                        title="Pretty good - 4.5 stars"
-                      ></label>
-                      <input
-                        type="radio"
-                        id="star4"
-                        name="rating"
-                        value={4}
-                        onChange={handleRatingChange}
-                      />
-                      <label
-                        className="full"
-                        htmlFor="star4"
-                        title="Pretty good - 4 stars"
-                      ></label>
-                      <input
-                        type="radio"
-                        id="star3half"
-                        name="rating"
-                        value={3.5}
-                        onChange={handleRatingChange}
-                      />
-                      <label
-                        className="half"
-                        htmlFor="star3half"
-                        title="Meh - 3.5 stars"
-                      ></label>
-                      <input
-                        type="radio"
-                        id="star3"
-                        name="rating"
-                        value={3}
-                        onChange={handleRatingChange}
-                      />
-                      <label
-                        className="full"
-                        htmlFor="star3"
-                        title="Meh - 3 stars"
-                      ></label>
-                      <input
-                        type="radio"
-                        id="star2half"
-                        name="rating"
-                        value={2.5}
-                        onChange={handleRatingChange}
-                      />
-                      <label
-                        className="half"
-                        htmlFor="star2half"
-                        title="Kinda bad - 2.5 stars"
-                      ></label>
-                      <input
-                        type="radio"
-                        id="star2"
-                        name="rating"
-                        value={2}
-                        onChange={handleRatingChange}
-                      />
-                      <label
-                        className="full"
-                        htmlFor="star2"
-                        title="Kinda bad - 2 stars"
-                      ></label>
-                      <input
-                        type="radio"
-                        id="star1half"
-                        name="rating"
-                        value={1.5}
-                        onChange={handleRatingChange}
-                      />
-                      <label
-                        className="half"
-                        htmlFor="star1half"
-                        title="Meh - 1.5 stars"
-                      ></label>
-                      <input
-                        type="radio"
-                        id="star1"
-                        name="rating"
-                        value={1}
-                        onChange={handleRatingChange}
-                      />
-                      <label
-                        className="full"
-                        htmlFor="star1"
-                        title="Sucks big time - 1 star"
-                      ></label>
-                      <input
-                        type="radio"
-                        id="starhalf"
-                        name="rating"
-                        value={0.5}
-                        onChange={handleRatingChange}
-                      />
-                      <label
-                        className="half"
-                        htmlFor="starhalf"
-                        title="Sucks big time - 0.5 stars"
-                      ></label>
-                    </fieldset>
-
-                    <div className="square" id="_review_button">
-                      <button onClick={handleSubmit}>Submit</button>
+                        </span>
+                        <span></span>
+                        <span className="_description">{review?.comment}</span>
+                      </div>
                     </div>
+                  </Fragment>
+                ))}
+              </div>
+              {user ? (
+                <div className="_review_box d-flex flex-column">
+                  <textarea
+                    rows="3"
+                    name="description"
+                    placeholder="Write review ..."
+                    value={reviewText}
+                    onChange={handleReviewTextChange}
+                    required
+                  ></textarea>
+                  <fieldset className="rating">
+                    <input
+                      type="radio"
+                      id="star5"
+                      name="rating"
+                      value="5"
+                      onChange={handleRatingChange}
+                    />
+                    <label
+                      className="full"
+                      htmlFor="star5"
+                      title="Awesome - 5 stars"
+                    ></label>
+                    <input
+                      type="radio"
+                      id="star4half"
+                      name="rating"
+                      value={4.5}
+                      onChange={handleRatingChange}
+                    />
+                    <label
+                      className="half"
+                      htmlFor="star4half"
+                      title="Pretty good - 4.5 stars"
+                    ></label>
+                    <input
+                      type="radio"
+                      id="star4"
+                      name="rating"
+                      value={4}
+                      onChange={handleRatingChange}
+                    />
+                    <label
+                      className="full"
+                      htmlFor="star4"
+                      title="Pretty good - 4 stars"
+                    ></label>
+                    <input
+                      type="radio"
+                      id="star3half"
+                      name="rating"
+                      value={3.5}
+                      onChange={handleRatingChange}
+                    />
+                    <label
+                      className="half"
+                      htmlFor="star3half"
+                      title="Meh - 3.5 stars"
+                    ></label>
+                    <input
+                      type="radio"
+                      id="star3"
+                      name="rating"
+                      value={3}
+                      onChange={handleRatingChange}
+                    />
+                    <label
+                      className="full"
+                      htmlFor="star3"
+                      title="Meh - 3 stars"
+                    ></label>
+                    <input
+                      type="radio"
+                      id="star2half"
+                      name="rating"
+                      value={2.5}
+                      onChange={handleRatingChange}
+                    />
+                    <label
+                      className="half"
+                      htmlFor="star2half"
+                      title="Kinda bad - 2.5 stars"
+                    ></label>
+                    <input
+                      type="radio"
+                      id="star2"
+                      name="rating"
+                      value={2}
+                      onChange={handleRatingChange}
+                    />
+                    <label
+                      className="full"
+                      htmlFor="star2"
+                      title="Kinda bad - 2 stars"
+                    ></label>
+                    <input
+                      type="radio"
+                      id="star1half"
+                      name="rating"
+                      value={1.5}
+                      onChange={handleRatingChange}
+                    />
+                    <label
+                      className="half"
+                      htmlFor="star1half"
+                      title="Meh - 1.5 stars"
+                    ></label>
+                    <input
+                      type="radio"
+                      id="star1"
+                      name="rating"
+                      value={1}
+                      onChange={handleRatingChange}
+                    />
+                    <label
+                      className="full"
+                      htmlFor="star1"
+                      title="Sucks big time - 1 star"
+                    ></label>
+                    <input
+                      type="radio"
+                      id="starhalf"
+                      name="rating"
+                      value={0.5}
+                      onChange={handleRatingChange}
+                    />
+                    <label
+                      className="half"
+                      htmlFor="starhalf"
+                      title="Sucks big time - 0.5 stars"
+                    ></label>
+                  </fieldset>
+
+                  <div className="square" id="_review_button">
+                    <button onClick={handleSubmit}>Submit</button>
                   </div>
-                </>
+                </div>
               ) : (
                 <p className="mt-3 mb-3">
                   Please{" "}
@@ -1449,7 +1409,7 @@ export default function Details() {
                   </div>
                   <div className="square" id="_right_box_button">
                     {/* <Link to={`/checkout/${bookingData.id}`}> */}
-                      <button onClick={submitBookingData}>rent now</button>
+                    <button onClick={submitBookingData}>rent now</button>
                     {/* </Link> */}
                   </div>
                 </div>

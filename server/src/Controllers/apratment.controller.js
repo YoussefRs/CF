@@ -337,9 +337,47 @@ async function getAvailableDatesForApartment(req, res) {
   }
 }
 
+async function createApartmentReview(req, res) {
+  const db = await startScript();
+  try {
+    const { apartmentId, userId, rating, comment } = req.body;
+
+    // Insert the review into the database
+    const result = await db.query(
+      'INSERT INTO ApartmentReview (apartmentId, userId, rating, comment) VALUES (?, ?, ?, ?)',
+      [apartmentId, userId, rating, comment]
+    );
+
+    res.status(201).json({ message: 'Review added successfully', reviewId: result.insertId });
+  } catch (error) {
+    console.error('Error adding review:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+}
+
+async function getAllApartmentReview(req, res) {
+  const db = await startScript();
+  try {
+    const { apartmentId } = req.params;
+
+    const reviews = await db.query(
+      'SELECT id, apartmentId, userId, rating, comment, createdAt FROM ApartmentReview WHERE apartmentId = ?',
+      [apartmentId]
+    );
+
+    res.status(200).json(reviews);
+  } catch (error) {
+    console.error('Error fetching reviews:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+}
+
+
 // Export the controller function
 module.exports = {
   httpAddApartment,
+  createApartmentReview,
+  getAllApartmentReview,
   httpEditApartment,
   httpDeleteApartment,
   httpGetAllApartments,
