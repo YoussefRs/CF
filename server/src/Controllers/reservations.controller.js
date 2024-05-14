@@ -1,4 +1,5 @@
 const paypal = require("paypal-rest-sdk");
+const jwt = require('jsonwebtoken');
 const {
   createConnectionWithoutDatabase,
   startScript,
@@ -276,7 +277,10 @@ async function approveReservation(req, res) {
       return res.status(404).json({ error: "User not found" });
     }
 
-    sendReservationEmail(user[0], reservation[0], reservationId);
+    // Generate a unique token
+    const token = jwt.sign({ userId, reservationId }, process.env.JWT_SECRET, { expiresIn: '24h' });
+
+    sendReservationEmail(user[0], reservation[0], reservationId, token);
 
     res.status(200).json({ message: "Reservation approved successfully" });
   } catch (error) {

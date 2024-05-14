@@ -13,6 +13,7 @@ const { paypalRouter } = require("./Routes/paypal.routes");
 const { startScript } = require("../config/db");
 const { handlePayPalPaymentSuccessWebhook, handleStripeWebhook, handleStripePaymentSuccessWebhook, updateReservationStatus } = require("./Controllers/reservations.controller");
 const { default: Stripe } = require("stripe");
+const cron = require('node-cron');
 
 
 const app = express();
@@ -22,6 +23,28 @@ const dotenv = require("dotenv");
 dotenv.config();
 //const stripeClient = new Stripe(process.env.SECRET_KEY); 
 const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
+
+cron.schedule('0 */6 * * *', async () => {
+  try {
+    const db = await startScript();
+
+    const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString().slice(0, 19).replace('T', ' '); // 24 hours ago
+
+    const pendingReservations = await db.query(
+      'SELECT * FROM Reservations WHERE isPaid = 0 AND isProcessed = 0 AND status = "Approved" AND createdAt <= ?',
+      [twentyFourHoursAgo]
+    );
+
+    for (const reservation of pendingReservations[0]) { 
+      await db.query('UPDATE Reservations SET status = "Pending" WHERE id = ?', [reservation.id]);
+    }
+
+    console.log('Pending reservations updated successfully');
+  } catch (error) {
+    console.error('Error updating pending reservations:', error);
+  }
+});
+
 
 // Middleware for parsing raw request body
 app.use(
