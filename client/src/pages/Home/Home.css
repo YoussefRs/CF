@@ -617,7 +617,7 @@
   text-overflow: ellipsis;
 
   @media (min-width: 1200px) {
-    font-size: clamp(1.5rem, 4vw, 5.625rem);
+    font-size: clamp(1.5rem, 3.5vw, 5.625rem);
   }
 
   @media (min-width: 768px) and (max-width: 1200px) {

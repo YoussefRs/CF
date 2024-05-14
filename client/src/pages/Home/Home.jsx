@@ -64,13 +64,13 @@ export default function Home() {
                       alt=""
                     />
                     <p>
-                      Indulge In the luxury of living in this stunning home that
-                      combines elegance
+                      Tauchen Sie ein in den Luxus des Lebens in diesem
+                      prächtigen Anwesen, das Eleganz nahtlos vereint.
                     </p>
                   </div>
                   <div className="girl_box">
                     <img src="https://i.ibb.co/8x9xK4H/team.jpg" alt="" />
-                    <p>hello i want to rent</p>
+                    <p>Hallo! Ich möchte mieten.</p>
                   </div>
                 </div>
               </div>
@@ -79,20 +79,25 @@ export default function Home() {
               <div className="_content">
                 <div className="search_title">
                   <h1>
-                    Just Click, <span>Big Move</span> !
+                    Einfach klicken, <span>großer Schritt</span> !
                   </h1>
                 </div>
                 <div className="search_description">
                   <p>
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                    Quibusdam quod, aliquid repudiandae vero cumque eligendi
-                    modi iusto ut delectus distinctio reiciendis autem quia,
-                    accusamus, minus aspernatur rerum sunt a maxime.
+                    Willkommen in unseren charmanten Apartments im Herzen von
+                    Mönchengladbach, Nordrhein-Westfalen, Deutschland. Mit
+                    modernen Annehmlichkeiten und einer gemütlichen Atmosphäre
+                    bieten unsere Unterkünfte den perfekten Rückzugsort für
+                    Ihren Aufenthalt. Dank der günstigen Lage in der Nähe von
+                    Sehenswürdigkeiten und öffentlichen Verkehrsmitteln bieten
+                    unsere Apartments einfachen Zugang zu allem, was die Stadt
+                    zu bieten hat. Buchen Sie Ihren Aufenthalt bei uns und
+                    erleben Sie Komfort, Bequemlichkeit und Gastfreundschaft wie
+                    nie zuvor.
                   </p>
                 </div>
                 <div className="search_boxes">
                   <div className="_box" title="Searching for houses">
-
                     <div className="icon">
                       <svg
                         viewBox="0 0 79 92"
@@ -441,7 +446,7 @@ export default function Home() {
             <div className="join_flower_ctr">
               <div className="join_ctr">
                 <div className="join_title">
-                  <span>Join Us</span>
+                  <span>Treten Sie uns bei</span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 88 112"
@@ -455,14 +460,21 @@ export default function Home() {
                   </svg>
                 </div>
                 <h5>
-                  stay connected with us! follow us on social media to stay in
-                  the loop with our latest updates
+                  Bleiben Sie mit uns in Verbindung! Folgen Sie uns auf Social
+                  Media, um stets über unsere neuesten Updates informiert zu
+                  bleiben.
                 </h5>
                 <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Culpa, explicabo quibusdam. Fugiat a ad atque soluta
-                  necessitatibus unde corporis consequatur molestiae maxime
-                  obcaecati neque corrupti id, praesentium nam amet minima.
+                  Eingebettet in eine ruhige Nachbarschaft, bietet dieses
+                  Zuhause luxuriöse Annehmlichkeiten und exquisites Design. Vom
+                  prächtigen Eingang bis zu den sorgfältig gestalteten
+                  Innenräumen strahlt jedes Detail Eleganz aus. Unterhalten Sie
+                  Ihre Gäste in den großzügigen Wohnbereichen oder ziehen Sie
+                  sich in den ruhigen Komfort der privaten Schlafzimmer zurück.
+                  Genießen Sie entspannte Spaziergänge durch wunderschön
+                  angelegte Gärten oder entspannen Sie in den luxuriösen,
+                  spa-ähnlichen Badezimmern. Erleben Sie das Höchstmaß an
+                  raffiniertem Wohnen in diesem außergewöhnlichen Rückzugsort.
                 </p>
               </div>
               <div className="flower_ctr">
