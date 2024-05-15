@@ -30,7 +30,7 @@ export default function BookingsContent() {
     dispatch(adminAcceptOrder(orderId, setRefresh));
   };
   const DeclineOrder = async (orderId) => {
-    dispatch(adminRejectOrder(orderId));
+    dispatch(adminRejectOrder(orderId, setRefresh));
   };
   const openBookingModal = (booking) => {
     setBookingModal(true);

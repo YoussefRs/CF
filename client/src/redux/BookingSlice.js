@@ -121,7 +121,7 @@ export const adminAcceptOrder = (orderId, refresh) => async (dispatch) => {
   }
 };
 
-export const adminRejectOrder = (orderId) => async (dispatch) => {
+export const adminRejectOrder = (orderId, refresh) => async (dispatch) => {
   try {
     const response = await axios.put(
       `${BASE_URL}/reservations/${orderId}/decline`,
@@ -131,6 +131,7 @@ export const adminRejectOrder = (orderId) => async (dispatch) => {
         },
       }
     );
+    refresh((prev) => prev + 1);
   } catch (error) {
     console.log(error);
   }
