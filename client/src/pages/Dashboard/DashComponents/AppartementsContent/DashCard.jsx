@@ -193,8 +193,8 @@ function DashCard({ app, card }) {
                   </svg>
                 </div>
                 <div className="col d-flex flex-column ">
-                  <span>Bedroom</span>
-                  <p>{card?.bedroom} Rooms</p>
+                  <span>Schlafzimmer</span>
+                  <p>{card?.bedroom} Schlafzimmer</p>
                 </div>
               </div>
               <div className="col d-flex">
@@ -250,8 +250,8 @@ function DashCard({ app, card }) {
                   </svg>
                 </div>
                 <div className="col d-flex flex-column ">
-                  <span>Bathroom</span>
-                  <p>{card?.bathroom} Rooms</p>
+                  <span>Badezimmer</span>
+                  <p>{card?.bathroom} Badezimmer</p>
                 </div>
               </div>
             </div>
@@ -260,7 +260,7 @@ function DashCard({ app, card }) {
         <div className="card-price-btn">
           <div className="card-price">
             <p>
-              {card?.price} € <span>/ Month</span>
+              {card?.price} € <span> /Tag</span>
             </p>
           </div>
           <div className="d-flex px-4 gap-2">
@@ -1070,41 +1070,39 @@ function DashCard({ app, card }) {
                           </label>
                         </div>
                         <div className="upload__img-wrap mt-4">
-                        {selectedImages?.map((item, index) => (
-  <div key={index} className="upload__img-box">
-    <img
-      src={
-        typeof item === "string" 
-          ? item
-          : item.image_url 
-          ? item.image_url 
-          : item instanceof File 
-          ? URL.createObjectURL(item) 
-          : null 
-      }
-      className="img-fluid file_thumbnail"
-      alt={item.name || `Image ${index + 1}`} 
-    />
-    <p>{item.name}</p>
-    <div
-      className="upload__img_close"
-      onClick={() => RemoveEditImages(index)}
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 12 12"
-        fill="none"
-      >
-        <path
-          d="M6 6.66562L1.97812 10.6875L1.3125 10.0219L5.33438 6L1.3125 1.97812L1.97812 1.3125L6 5.33438L10.0219 1.3125L10.6875 1.97813L6.66562 6L10.6875 10.0219L10.0219 10.6875L6 6.66562Z"
-          fill="#0DB254"
-        />
-      </svg>
-    </div>
-  </div>
-))}
-
-
+                          {selectedImages?.map((item, index) => (
+                            <div key={index} className="upload__img-box">
+                              <img
+                                src={
+                                  typeof item === "string"
+                                    ? item
+                                    : item.image_url
+                                    ? item.image_url
+                                    : item instanceof File
+                                    ? URL.createObjectURL(item)
+                                    : null
+                                }
+                                className="img-fluid file_thumbnail"
+                                alt={item.name || `Image ${index + 1}`}
+                              />
+                              <p>{item.name}</p>
+                              <div
+                                className="upload__img_close"
+                                onClick={() => RemoveEditImages(index)}
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 12 12"
+                                  fill="none"
+                                >
+                                  <path
+                                    d="M6 6.66562L1.97812 10.6875L1.3125 10.0219L5.33438 6L1.3125 1.97812L1.97812 1.3125L6 5.33438L10.0219 1.3125L10.6875 1.97813L6.66562 6L10.6875 10.0219L10.0219 10.6875L6 6.66562Z"
+                                    fill="#0DB254"
+                                  />
+                                </svg>
+                              </div>
+                            </div>
+                          ))}
                         </div>
                       </div>
                     </div>

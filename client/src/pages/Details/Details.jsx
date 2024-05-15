@@ -35,21 +35,25 @@ export default function Details() {
 
   const { id } = useParams();
   const { card } = location.state || {};
-  const [reviews, setReviews] = useState([])
+  const [reviews, setReviews] = useState([]);
   const [showCalendar, setShowCalendar] = useState(true);
   const [reviewText, setReviewText] = useState("");
   const [rating, setRating] = useState(0);
+  
 
-  useEffect(() => async () => {
+  const getAllReview = async () => {
     try {
-      const res = await axios.get(`${BASE_URL}/appartments/${card?.id}/reviews`)
-      setReviews(res.data)
+      const res = await axios.get(
+        `${BASE_URL}/appartments/${card?.id}/reviews`
+      );
+      setReviews(res.data);
     } catch (error) {
-      console.log(error)
+      console.error(error);
     }
-  }, [])
-
-console.log(reviews)
+  };
+  useEffect(() => {
+    getAllReview();
+  }, []);
 
   const onHide = () => {
     setShowLoginReview(false);
@@ -84,7 +88,17 @@ console.log(reviews)
 
     return datesArray;
   });
-
+  const handleRemoveReview = async (id) => {
+    try {
+      const response = await axios.delete(
+        `${BASE_URL}/appartments/reviews/${id}`
+      );
+      getAllReview();
+      toast.success(response.data.message);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const handleSubmit = async (event) => {
     event.preventDefault();
     const newReview = {
@@ -98,6 +112,8 @@ console.log(reviews)
         `${BASE_URL}/appartments/${card?.id}/reviews`,
         newReview
       );
+      getAllReview();
+      toast.success(res?.data.message)
       setReviewText("");
       setRating(0);
     } catch (error) {}
@@ -139,6 +155,17 @@ console.log(reviews)
       });
     }
   };
+
+  function formatDate(createdAt) {
+    const date = new Date(createdAt);
+
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+
+    // Rückgabe des formatierten Datums als String
+    return `${day}.${month}.${year}`;
+  }
 
   const toggleCalendar = () => {
     setShowCalendar((prevShowCalendar) => !prevShowCalendar);
@@ -861,10 +888,16 @@ console.log(reviews)
               <div className="_reviews mt-2">
                 {reviews?.map((review, i) => (
                   <Fragment key={i}>
-                    {console.log(review)}
                     <div className="_review_box">
                       <div className="_review_img">
-                        <img src={logo} alt="" />
+                        <img
+                          src={review?.image}
+                          alt="Profile Picture"
+                          onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = logo;
+                          }}
+                        />
                       </div>
                     </div>
                     <div className="_review_box">
@@ -994,10 +1027,21 @@ console.log(reviews)
                               title="Sucks big time - 0.5 stars"
                             ></label>
                           </fieldset> */}
+                          <span className="_description">
+                            {formatDate(review?.createdAt)}{" "}
+                          </span>
                         </span>
                         <span></span>
                         <span className="_description">{review?.comment}</span>
                       </div>
+                      {user && user?.role === "admin" && (
+                        <button
+                          className="close-btn"
+                          onClick={() => handleRemoveReview(review.id)}
+                        >
+                          X
+                        </button>
+                      )}
                     </div>
                   </Fragment>
                 ))}
@@ -1140,12 +1184,12 @@ console.log(reviews)
                   </div>
                 </div>
               ) : (
-                <p className="mt-3 mb-3">
-                  Please{" "}
-                  <button onClick={() => setShowLoginReview(true)}>
-                    log in
+                <p className="mt-3 mb-3 text-center">
+                  Bitte{" "}  
+                  <button style={{color: "#07d25f", textDecoration: "underline", fontWeight : 600}} onClick={() => setShowLoginReview(true)}>
+                  melden Sie
                   </button>{" "}
-                  to share your feedback. Please
+                  sich an, um Ihr Feedback zu teilen.
                 </p>
               )}
               <div className="_mobile-box left_sqaure">
