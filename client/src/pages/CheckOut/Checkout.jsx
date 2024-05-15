@@ -29,16 +29,16 @@ export default function Checkout() {
 
   const cardStyle = {
     base: {
-      color: "#000",
+      color: "#BCBCBC",
       fontFamily: '"TT Commons", sans-serif',
       fontSmoothing: "antialiased",
       fontSize: "16px",
       "::placeholder": {
-        color: "#bdcaf7",
+        color: "#BCBCBC",
       },
     },
     invalid: {
-      color: "#000",
+      color: "#BCBCBC",
       iconColor: "#bdcaf7",
     },
   };
@@ -101,9 +101,6 @@ export default function Checkout() {
 
       const { id: paymentIntentId, status } = paymentIntent;
 
-      console.log("Payment Intent ID:", paymentIntentId);
-      console.log("Payment Status:", status);
-
       // Check if PaymentIntent has already succeeded
       if (status === "succeeded") {
         console.log("Payment already succeeded. No further action needed.");
@@ -120,7 +117,6 @@ export default function Checkout() {
       console.log(response.data.message);
       // Redirect or show success message as needed
       toast.success("payment successful");
-      
     } catch (error) {
       // Handle error if needed
       setBtnDisabled(false);
@@ -401,8 +397,8 @@ export default function Checkout() {
                     selectedType === "Credit Card" ? "show" : "hide"
                   }`}
                   style={{
-                    transition: "height 0.5s ease",
-                    height: selectedType === "Credit Card" ? "200px" : "0",
+                    transition: "all 0.5s ease-in-out",
+                    maxHeight: selectedType === "Credit Card" ? "200px" : "0",
                     overflow: "hidden",
                   }}
                 >
@@ -449,23 +445,25 @@ export default function Checkout() {
                       </div>
                     </div>
                   </div> */}
-                  <div className="card-detail-input ">
-                    <CardNumberElement
-                      className="mb-4 card_input"
-                      options={{ style: cardStyle }}
-                    />
-                  </div>
-                  <div className="card-detail-input">
-                    <CardExpiryElement
-                      className="mb-4 card_input"
-                      options={{ style: cardStyle }}
-                    />
-                  </div>
-                  <div className="card-detail-input">
-                    <CardCvcElement
-                      className="mb-4 card_input"
-                      options={{ style: cardStyle }}
-                    />
+                  <div className="card_details">
+                    <div className="card-detail-input ">
+                      <CardNumberElement
+                        className="mb-4 card_input"
+                        options={{ style: cardStyle, placeholder: "xxxx xxxx xxxx xxxx" }}
+                      />
+                    </div>
+                    <div className="card-detail-input">
+                      <CardExpiryElement
+                        className="mb-4 card_input"
+                        options={{ style: cardStyle, placeholder: "Month / Year" }}
+                      />
+                    </div>
+                    <div className="card-detail-input">
+                      <CardCvcElement
+                        className="mb-4 card_input"
+                        options={{ style: cardStyle, placeholder: "xxx" }}
+                      />
+                    </div>
                   </div>
                 </div>
                 <div className="form-control-btn">
