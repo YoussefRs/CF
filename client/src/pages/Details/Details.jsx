@@ -39,7 +39,6 @@ export default function Details() {
   const [showCalendar, setShowCalendar] = useState(true);
   const [reviewText, setReviewText] = useState("");
   const [rating, setRating] = useState(0);
-  
 
   const getAllReview = async () => {
     try {
@@ -113,7 +112,7 @@ export default function Details() {
         newReview
       );
       getAllReview();
-      toast.success(res?.data.message)
+      toast.success(res?.data.message);
       setReviewText("");
       setRating(0);
     } catch (error) {}
@@ -1185,9 +1184,16 @@ export default function Details() {
                 </div>
               ) : (
                 <p className="mt-3 mb-3 text-center">
-                  Bitte{" "}  
-                  <button style={{color: "#07d25f", textDecoration: "underline", fontWeight : 600}} onClick={() => setShowLoginReview(true)}>
-                  melden Sie
+                  Bitte{" "}
+                  <button
+                    style={{
+                      color: "#07d25f",
+                      textDecoration: "underline",
+                      fontWeight: 600,
+                    }}
+                    onClick={() => setShowLoginReview(true)}
+                  >
+                    melden Sie
                   </button>{" "}
                   sich an, um Ihr Feedback zu teilen.
                 </p>
@@ -1462,10 +1468,28 @@ export default function Details() {
           </div>
         </div>
       </div>
-      <Modals show={showModal2} onHide={closeModal2} size={"md"}>
-        <span className="_description d-flex justify-content-center">
-          please contact the owner on whatsapp.
+      <Modals
+        show={showModal2}
+        onHide={closeModal2}
+        customClass={"whatsapp_modal"}
+        customBackdropClass={"whatsapp_backdrop"}
+      >
+        <span className="whatsapp_title d-flex justify-content-center">
+          Bitte kontaktieren Sie den Besitzer über WhatsApp.
         </span>
+        <span className="whatsapp_number">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">
+            <path
+              fillRule="evenodd"
+              clipRule="evenodd"
+              d="M44.5951 40.2089C43.2325 40.7658 42.362 42.8991 41.4789 43.9889C41.0261 44.5472 40.4861 44.6344 39.79 44.3545C34.6754 42.3169 30.7548 38.9039 27.9325 34.1972C27.4544 33.4673 27.5401 32.8908 28.1167 32.213C28.9689 31.2089 30.0404 30.0684 30.2711 28.7156C30.7829 25.7231 26.8708 16.4405 21.7042 20.6466C6.83732 32.7614 46.5048 64.8928 53.664 47.5144C55.689 42.5883 46.8536 39.2836 44.5951 40.2089ZM36.0001 65.7113C30.7422 65.7113 25.5686 64.3134 21.039 61.6669C20.312 61.2408 19.4331 61.1283 18.6203 61.3491L8.77794 64.0505L12.2064 56.4975C12.6733 55.4695 12.5537 54.2728 11.8942 53.3587C8.2267 48.2752 6.28748 42.2733 6.28748 36C6.28748 19.6158 19.6159 6.28734 36.0001 6.28734C52.3844 6.28734 65.7114 19.6158 65.7114 36C65.7114 52.3828 52.3829 65.7113 36.0001 65.7113ZM36.0001 0C16.1495 0 0.000132218 16.1494 0.000132218 36C0.000132218 42.9834 1.98294 49.6898 5.75029 55.5103L0.281382 67.5548C-0.223462 68.6672 -0.0392427 69.9694 0.75107 70.8961C1.35857 71.6062 2.23748 72 3.14451 72C5.17232 72 16.2297 68.5252 19.0436 67.7531C24.2453 70.5361 30.0798 72 36.0001 72C55.8493 72 72.0001 55.8492 72.0001 36C72.0001 16.1494 55.8493 0 36.0001 0Z"
+            />
+          </svg>
+          <span>49 176 83174731</span>
+        </span>
+        <div className="whatsapp_button">
+          <button className="btn" onClick={closeModal2}>OK</button>
+        </div>
       </Modals>
       <Modals show={showModal} onHide={closeModal} size={"md"}>
         <span className="_details_title">reservation details :</span>
