@@ -1,5 +1,5 @@
 const paypal = require("paypal-rest-sdk");
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 const {
   createConnectionWithoutDatabase,
   startScript,
@@ -228,10 +228,11 @@ async function getReservation(req, res) {
   try {
     const reservationId = req.params.id;
     // Execute SQL query to retrieve the reservation
-    const [reservation] = await db.query(
-      "SELECT * FROM Reservations WHERE id = ?",
-      [reservationId]
-    );
+    const [
+      reservation,
+    ] = await db.query("SELECT * FROM Reservations WHERE id = ?", [
+      reservationId,
+    ]);
     // Check if the reservation exists
     if (reservation.length === 0) {
       return res.status(404).json({ message: "Reservation not found" });
@@ -248,17 +249,19 @@ async function approveReservation(req, res) {
   const db = await startScript();
 
   try {
-    const reservationId = req.params.id; 
+    const reservationId = req.params.id;
 
     // Execute SQL query to update the reservation status to approved
-    await db.query('UPDATE Reservations SET status = "Approved" WHERE id = ?', [reservationId]);
+    await db.query('UPDATE Reservations SET status = "Approved" WHERE id = ?', [
+      reservationId,
+    ]);
     // Fetch the reservation details using the correct reservation ID
     const [reservation] = await db.query(
       `
         SELECT Reservations.*, Apartment.* 
         FROM Reservations 
         INNER JOIN Apartment ON Reservations.apartmentId = Apartment.id 
-        WHERE Reservations.id = ?`, 
+        WHERE Reservations.id = ?`,
       [reservationId]
     );
 
@@ -266,19 +269,21 @@ async function approveReservation(req, res) {
       return res.status(404).json({ error: "Reservation not found" });
     }
 
-
     const userId = reservation[0].userId;
-    const [user] = await db.query(
-      "SELECT email, username, id FROM Users WHERE id = ?",
-      [userId]
-    );
+    const [
+      user,
+    ] = await db.query("SELECT email, username, id FROM Users WHERE id = ?", [
+      userId,
+    ]);
 
     if (user.length === 0) {
       return res.status(404).json({ error: "User not found" });
     }
 
     // Generate a unique token
-    const token = jwt.sign({ userId, reservationId }, process.env.JWT_SECRET, { expiresIn: '24h' });
+    const token = jwt.sign({ userId, reservationId }, process.env.JWT_SECRET, {
+      expiresIn: "24h",
+    });
 
     sendReservationEmail(user[0], reservation[0], reservationId, token);
 
@@ -315,10 +320,11 @@ async function declineReservation(req, res) {
     const userId = reservation[0].userId;
 
     // Fetch user's email address
-    const [user] = await db.query(
-      "SELECT email, username FROM Users WHERE id = ?",
-      [userId]
-    );
+    const [
+      user,
+    ] = await db.query("SELECT email, username FROM Users WHERE id = ?", [
+      userId,
+    ]);
 
     if (user.length === 0) {
       return res.status(404).json({ error: "User not found" });
@@ -338,15 +344,16 @@ async function generatePayPalCheckoutUrl(req, res) {
   try {
     const { reservationId } = req.params;
 
-    console.log(reservationId)
+    console.log(reservationId);
 
     const db = await startScript();
 
     // Retrieve reservation details from the database
-    const [reservation] = await db.query(
-      `SELECT *, totalPrice FROM Reservations WHERE id = ?`,
-      [reservationId]
-    );
+    const [
+      reservation,
+    ] = await db.query(`SELECT *, totalPrice FROM Reservations WHERE id = ?`, [
+      reservationId,
+    ]);
     if (!reservation) {
       return res.status(404).json({ error: "Reservation not found" });
     }
@@ -442,10 +449,11 @@ const handlePayPalPaymentSuccessWebhook = async (req, res, event) => {
       }
 
       // Retrieve reservation details from the database
-      const [reservation] = await db.query(
-        `SELECT * FROM Reservations WHERE id = ?`,
-        [reservationId]
-      );
+      const [
+        reservation,
+      ] = await db.query(`SELECT * FROM Reservations WHERE id = ?`, [
+        reservationId,
+      ]);
 
       if (!reservation) {
         return res.status(404).json({ error: "Reservation not found" });
@@ -502,10 +510,11 @@ async function updateReservationStatus(reservationId) {
 async function getReservationById(reservationId) {
   try {
     const db = await startScript();
-    const [reservation] = await db.query(
-      `SELECT * FROM Reservations WHERE id = ?`,
-      [reservationId]
-    );
+    const [
+      reservation,
+    ] = await db.query(`SELECT * FROM Reservations WHERE id = ?`, [
+      reservationId,
+    ]);
     return reservation;
   } catch (error) {
     console.error("Error fetching reservation:", error);
@@ -522,13 +531,15 @@ async function createPaymentIntent(req, res) {
     // Retrieve reservation details from the database (assuming you have a function getReservationById)
     const reservation = await getReservationById(reservationId);
 
+    // console.log("reservation: ", reservation);
+
     if (!reservation) {
       return res.status(404).json({ error: "Reservation not found" });
     }
 
     // Create a payment intent with Stripe
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: reservation[0].price * 100, // Convert to cents
+      amount: reservation[0].totalPrice * 100, // Convert to cents
       currency: "usd",
       metadata: { reservationId },
     });
@@ -548,10 +559,11 @@ async function confirmPayment(req, res) {
 
     // Retrieve reservation details from the database
     const db = await startScript();
-    const [reservation] = await db.query(
-      `SELECT * FROM Reservations WHERE id = ?`,
-      [reservationId]
-    );
+    const [
+      reservation,
+    ] = await db.query(`SELECT * FROM Reservations WHERE id = ?`, [
+      reservationId,
+    ]);
 
     if (!reservation) {
       return res.status(404).json({ error: "Reservation not found" });
@@ -605,7 +617,9 @@ async function handleStripeWebhook(req, res) {
 
       // Retrieve reservation details from the database
       const db = await startScript();
-      const [reservation] = await db.query(
+      const [
+        reservation,
+      ] = await db.query(
         `SELECT * FROM Reservations WHERE id = ? AND isPaid = 0 AND isProcessed = 0`,
         [reservationId]
       );
@@ -695,9 +709,8 @@ async function getAllApprovedAndPaidReservationsForUser(req, res) {
   }
 }
 
-
 async function getUserReservationById(req, res) {
-  const reservationId = req.params.id; 
+  const reservationId = req.params.id;
   const userId = req.params.userId;
 
   try {
@@ -725,13 +738,13 @@ async function getUserReservationById(req, res) {
     );
 
     if (!reservation) {
-      return res.status(404).json({ error: 'Reservation not found' });
+      return res.status(404).json({ error: "Reservation not found" });
     }
 
     return res.status(200).json({ reservation });
   } catch (error) {
-    console.error('Error fetching reservation:', error);
-    return res.status(500).json({ error: 'Internal server error' });
+    console.error("Error fetching reservation:", error);
+    return res.status(500).json({ error: "Internal server error" });
   }
 }
 
@@ -749,5 +762,5 @@ module.exports = {
   handleStripeWebhook,
   getAllApprovedAndPaidReservationsForUser,
   getAllApprovedAndPaidReservations,
-  getAllApprovedAndUnPaidReservations
+  getAllApprovedAndUnPaidReservations,
 };

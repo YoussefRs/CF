@@ -45,16 +45,41 @@
   margin-bottom: 2px;
 }
 
-.checkout_container main .checkout-form form .form-control input:not([type="checkbox"]) {
-  width: 100%;
-  padding: 10px 10px 10px 40px;
-  border-radius: 50px;
-  border: 1px solid #dedede;
-  background: #fff;
-  box-shadow: 6px 4px 6.4px 0px rgba(0, 0, 0, 0.14) inset;
-  font-size: 12px;
-  font-weight: 700;
+.card_details {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 12px;
+
+  & .card-detail-input {
+    width: 100%;
+    padding: 1rem 1rem 1rem 40px;
+    border-radius: 20px;
+    border: 1px solid #dedede;
+    background: #fff;
+    box-shadow: 6px 4px 6.4px 0px rgba(0, 0, 0, 0.14) inset;
+    font-size: 12px;
+    font-weight: 700;
+
+    &>div {
+      margin-bottom: 0 !important;
+    }
+
+    margin-bottom: 1rem;
+
+    @media (min-width: 576px) {
+
+      &:nth-child(2),
+      &:nth-child(3) {
+        width: calc((100% - 1rem)/2);
+      }
+
+      &:nth-child(2) {
+        margin-right: 1rem;
+      }
+    }
+  }
 }
+
 
 .checkout_container main .checkout-form form .form-control input:not([type="checkbox"])::placeholder {
   font-size: 10px;
@@ -90,14 +115,13 @@
 }
 
 .checkout_container main .checkout-form form .form-control-btn {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
+  padding: 0 12px;
 }
 
 .checkout_container main .checkout-form form .form-control-btn button {
-  padding: 10px 25px;
-  font-size: 10px;
+  padding: 20px 25px;
+  width: 100%;
+  font-size: 16px;
   font-weight: 700;
   line-height: normal;
   text-transform: uppercase;

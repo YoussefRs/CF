@@ -7,13 +7,43 @@ import axios from "axios";
 
 import Form from "react-bootstrap/Form";
 import { verifyTokenExpiration } from "../../utils/dateFormatters";
+import {
+  useStripe,
+  useElements,
+  CardNumberElement,
+  CardExpiryElement,
+  CardCvcElement,
+} from "@stripe/react-stripe-js";
 
 export default function Checkout() {
   const BASE_URL = import.meta.env.VITE_API_URL;
+  const token = localStorage.getItem("loginToken");
   const { id, userId } = useParams();
+  // console.log(id)
   const dispatch = useDispatch();
   const location = useLocation();
   const bookingData = useSelector((state) => state.bookings.bookings);
+
+  const stripe = useStripe();
+  const elements = useElements();
+
+  const cardStyle = {
+    base: {
+      color: "#BCBCBC",
+      fontFamily: '"TT Commons", sans-serif',
+      fontSmoothing: "antialiased",
+      fontSize: "16px",
+      "::placeholder": {
+        color: "#BCBCBC",
+      },
+    },
+    invalid: {
+      color: "#BCBCBC",
+      iconColor: "#bdcaf7",
+    },
+  };
+
+  const [btnDisabled, setBtnDisabled] = useState(false);
 
   const [selectedType, setSelectedType] = useState("");
 
@@ -29,6 +59,70 @@ export default function Checkout() {
       fetchData();
     }
   }, [dispatch, id, userId]);
+
+  const createPaymentIntent = async (reservationId) => {
+    try {
+      const response = await axios.post(
+        `${BASE_URL}/reservations/payment-intent/${reservationId}`,
+        {
+          paymentMethod: "card", // You can pass payment method if needed
+        }
+      );
+      return response.data.clientSecret;
+    } catch (error) {
+      console.error("Error creating payment intent:", error);
+      throw new Error("Error creating payment intent");
+    }
+  };
+
+  const handlePayment = async () => {
+    try {
+      setBtnDisabled(true);
+      const clientSecret = await createPaymentIntent(id);
+
+      if (!stripe || !elements) {
+        throw new Error("Stripe.js has not loaded yet.");
+      }
+
+      const cardElement = elements.getElement(CardNumberElement);
+
+      const { paymentIntent, error } = await stripe.confirmCardPayment(
+        clientSecret,
+        {
+          payment_method: {
+            card: cardElement,
+          },
+        }
+      );
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      const { id: paymentIntentId, status } = paymentIntent;
+
+      // Check if PaymentIntent has already succeeded
+      if (status === "succeeded") {
+        console.log("Payment already succeeded. No further action needed.");
+        return;
+      }
+
+      const response = await axios.post(
+        `${BASE_URL}/reservations/confirm-payment/${id}`,
+        {
+          paymentIntentId,
+        }
+      );
+
+      console.log(response.data.message);
+      // Redirect or show success message as needed
+      toast.success("payment successful");
+    } catch (error) {
+      // Handle error if needed
+      setBtnDisabled(false);
+      console.error("Error processing Stripe payment:", error);
+    }
+  };
 
   const handleContinue = (e) => {
     e.preventDefault();
@@ -46,7 +140,7 @@ export default function Checkout() {
           console.error("Error calling PayPal API:", error);
         });
     } else {
-      // Handle other types or do nothing
+      handlePayment();
     }
   };
   return (
@@ -303,12 +397,12 @@ export default function Checkout() {
                     selectedType === "Credit Card" ? "show" : "hide"
                   }`}
                   style={{
-                    transition: "height 0.5s ease",
-                    height: selectedType === "Credit Card" ? "200px" : "0",
+                    transition: "all 0.5s ease-in-out",
+                    maxHeight: selectedType === "Credit Card" ? "200px" : "0",
                     overflow: "hidden",
                   }}
                 >
-                  <div className="form-control">
+                  {/* <div className="form-control">
                     <label htmlFor="checkout-address">Kartennummer</label>
                     <div>
                       <span className="fa fa-home"></span>
@@ -350,10 +444,32 @@ export default function Checkout() {
                         />
                       </div>
                     </div>
+                  </div> */}
+                  <div className="card_details">
+                    <div className="card-detail-input ">
+                      <CardNumberElement
+                        className="mb-4 card_input"
+                        options={{ style: cardStyle, placeholder: "xxxx xxxx xxxx xxxx" }}
+                      />
+                    </div>
+                    <div className="card-detail-input">
+                      <CardExpiryElement
+                        className="mb-4 card_input"
+                        options={{ style: cardStyle, placeholder: "Month / Year" }}
+                      />
+                    </div>
+                    <div className="card-detail-input">
+                      <CardCvcElement
+                        className="mb-4 card_input"
+                        options={{ style: cardStyle, placeholder: "xxx" }}
+                      />
+                    </div>
                   </div>
                 </div>
                 <div className="form-control-btn">
-                  <button type="submit">Weiter</button>
+                  <button type="submit" disabled={btnDisabled}>
+                    Weiter
+                  </button>
                 </div>
               </form>
             </section>
