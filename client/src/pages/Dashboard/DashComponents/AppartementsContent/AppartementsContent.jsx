@@ -88,7 +88,7 @@ export default function AppartementsContent() {
     <>
       <div className="container-fluid py-4">
         <h1 className="h3 mb-0 text-start">
-          Appartements ({apartmentList?.length})
+          Apartments ({apartmentList?.length})
         </h1>
       </div>
       <ul className="app_cards scrollable-container">
@@ -101,7 +101,7 @@ export default function AppartementsContent() {
                   openModal();
                 }}
               >
-                <span>add a new appartement</span>
+                <span>Ein neues Apartment hinzufügen</span>
                 <svg
                   width="70"
                   height="70"
@@ -148,21 +148,21 @@ export default function AppartementsContent() {
         <div className="add_form">
           {loadingAdd ? (
             <>
-              <h1>adding new apparatement</h1>
+              <h1>Neues Apartment hinzufügen</h1>
               <Loader />
             </>
           ) : (
             <>
-              <h1>add new apparatement</h1>
+              <h1>Ein neues Apartment hinzufügen</h1>
               <form className="form_container" onSubmit={handleSubmit}>
-                <label htmlFor="apartmentName">apartment Name :</label>
+                <label htmlFor="apartmentName">Name des Apartments:</label>
                 <input
                   type="text"
                   id="apartmentName"
                   name="apartmentName"
                   value={formData.apartmentName}
                   onChange={handleInputChange}
-                  placeholder="Enter Apartment Name"
+                  placeholder="Name des Apartments"
                   required
                 />
 
@@ -170,14 +170,14 @@ export default function AppartementsContent() {
                   <div>
                     <div className="price_row">
                       <div className="price_row_col">
-                        <label htmlFor="price">price:</label>
+                        <label htmlFor="price">Preis:</label>
                         <input
                           type="number"
                           id="price"
                           name="price"
                           value={formData.price}
                           onChange={handleInputChange}
-                          placeholder="Price"
+                          placeholder="Preis"
                           onKeyDown={handleKeyDown}
                           min="0"
                           required
@@ -190,7 +190,7 @@ export default function AppartementsContent() {
                           className="added_price_row_col"
                           style={{ paddingRight: 0 }}
                         >
-                          <label htmlFor={`price-${index}`}>price:</label>
+                          <label htmlFor={`price-${index}`}>Preis:</label>
                           <input
                             type="number"
                             id={`price-${index}`}
@@ -199,7 +199,7 @@ export default function AppartementsContent() {
                             onChange={(e) =>
                               handleSpecialDateInputChange(index, e)
                             }
-                            placeholder="Price"
+                            placeholder="Preis"
                             onKeyDown={handleKeyDown}
                             min="0"
                           />
@@ -208,9 +208,7 @@ export default function AppartementsContent() {
                           className="added_price_row_col"
                           style={{ paddingRight: 0 }}
                         >
-                          <label htmlFor={`start_date-${index}`}>
-                            start date:
-                          </label>
+                          <label htmlFor={`start_date-${index}`}>Von:</label>
                           <input
                             type="date"
                             id={`start_date-${index}`}
@@ -219,7 +217,7 @@ export default function AppartementsContent() {
                             onChange={(e) =>
                               handleSpecialDateInputChange(index, e)
                             }
-                            placeholder="Start date"
+                            placeholder="Von..."
                             min={new Date().toISOString().split("T")[0]}
                           />
                         </div>
@@ -227,7 +225,7 @@ export default function AppartementsContent() {
                           className="added_price_row_col"
                           style={{ paddingRight: 0 }}
                         >
-                          <label htmlFor={`end_date-${index}`}>end date:</label>
+                          <label htmlFor={`end_date-${index}`}>Bis:</label>
                           <input
                             type="date"
                             id={`end_date-${index}`}
@@ -236,7 +234,7 @@ export default function AppartementsContent() {
                             onChange={(e) =>
                               handleSpecialDateInputChange(index, e)
                             }
-                            placeholder="End date"
+                            placeholder="Bis..."
                             min={new Date().toISOString().split("T")[0]}
                           />
                         </div>
@@ -258,7 +256,7 @@ export default function AppartementsContent() {
                       </div>
                     ))}
                     <div className="add_new_price d-flex align-items-center gap-2">
-                      <span>Add new price </span>
+                      <span>Neuen Preis hinzufügen</span>
                       <button
                         className="btn_add"
                         type="button"
@@ -270,20 +268,20 @@ export default function AppartementsContent() {
                   </div>
                 </div>
 
-                <label htmlFor="last">location:</label>
+                <label htmlFor="last">Standort:</label>
                 <input
                   type="text"
                   id="location"
                   name="location"
                   value={formData.location}
                   onChange={handleInputChange}
-                  placeholder="Enter location"
+                  placeholder="Standort"
                   required
                 />
 
                 <div className="row">
                   <div className="col-6 col-md-4">
-                    <label htmlFor="first">bedroom:</label>
+                    <label htmlFor="first">Schlafzimmer:</label>
                     <div className="_modal_counter border">
                       <button
                         className="minus"
@@ -304,7 +302,7 @@ export default function AppartementsContent() {
                     </div>
                   </div>
                   <div className="col-6 col-md-4">
-                    <label htmlFor="first">bathroom:</label>
+                    <label htmlFor="first">Badezimmer:</label>
                     <div className="_modal_counter border">
                       <button
                         className="minus"
@@ -327,7 +325,9 @@ export default function AppartementsContent() {
                 </div>
 
                 <div className="row">
-                  <label htmlFor="first">services:</label>
+                  <label htmlFor="first">
+                    Das bietet dir diese Unterkunft:
+                  </label>
                   <div className="__services col-sm-4 col-6 col-md-3">
                     <label
                       htmlFor="myCheckbox"
@@ -390,7 +390,7 @@ export default function AppartementsContent() {
                             </clipPath>
                           </defs>
                         </svg>
-                        <span>parking</span>
+                        <span>Parkplatz</span>
                       </span>
                     </label>
                   </div>
@@ -458,7 +458,7 @@ export default function AppartementsContent() {
                             </clipPath>
                           </defs>
                         </svg>
-                        <span>Food</span>
+                        <span>Essen</span>
                       </span>
                     </label>
                   </div>
@@ -527,7 +527,7 @@ export default function AppartementsContent() {
                             <path d="M21.5625 5.56641H18.2812C17.7959 5.56641 17.4023 5.17289 17.4023 4.6875C17.4023 4.20211 17.7959 3.80859 18.2812 3.80859H21.5625C22.0479 3.80859 22.4414 4.20211 22.4414 4.6875C22.4414 5.17289 22.0479 5.56641 21.5625 5.56641ZM11.7187 5.56395C11.2347 5.56395 10.8424 5.17154 10.8424 4.6875C10.8424 4.20346 11.2347 3.81105 11.7187 3.81105C12.2028 3.81105 12.5951 4.20346 12.5951 4.6875C12.5951 5.17154 12.2028 5.56395 11.7187 5.56395ZM7.96875 5.53898C7.49853 5.53898 7.11732 5.15777 7.11732 4.6875C7.11732 4.21723 7.49853 3.83602 7.96875 3.83602C8.43896 3.83602 8.82018 4.21723 8.82018 4.6875C8.82018 5.15777 8.43896 5.53898 7.96875 5.53898ZM24.9023 0H5.09766C4.1284 0 3.33984 0.788555 3.33984 1.75781V7.55859H26.6602V1.75781C26.6602 0.788555 25.8716 0 24.9023 0Z" />
                           </g>
                         </svg>
-                        <span>Laundry</span>
+                        <span>Wäsche</span>
                       </span>
                     </label>
                   </div>
@@ -573,7 +573,7 @@ export default function AppartementsContent() {
                           <path d="M4 9a1 1 0 1 1-2 0 1 1 0 0 1 2 0m10 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0M6 8a1 1 0 0 0 0 2h4a1 1 0 1 0 0-2zM4.862 4.276 3.906 6.19a.51.51 0 0 0 .497.731c.91-.073 2.35-.17 3.597-.17s2.688.097 3.597.17a.51.51 0 0 0 .497-.731l-.956-1.913A.5.5 0 0 0 10.691 4H5.309a.5.5 0 0 0-.447.276" />
                           <path d="M2.52 3.515A2.5 2.5 0 0 1 4.82 2h6.362c1 0 1.904.596 2.298 1.515l.792 1.848c.075.175.21.319.38.404.5.25.855.715.965 1.262l.335 1.679q.05.242.049.49v.413c0 .814-.39 1.543-1 1.997V13.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1.338c-1.292.048-2.745.088-4 .088s-2.708-.04-4-.088V13.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1.892c-.61-.454-1-1.183-1-1.997v-.413a2.5 2.5 0 0 1 .049-.49l.335-1.68c.11-.546.465-1.012.964-1.261a.8.8 0 0 0 .381-.404l.792-1.848ZM4.82 3a1.5 1.5 0 0 0-1.379.91l-.792 1.847a1.8 1.8 0 0 1-.853.904.8.8 0 0 0-.43.564L1.03 8.904a1.5 1.5 0 0 0-.03.294v.413c0 .796.62 1.448 1.408 1.484 1.555.07 3.786.155 5.592.155s4.037-.084 5.592-.155A1.48 1.48 0 0 0 15 9.611v-.413q0-.148-.03-.294l-.335-1.68a.8.8 0 0 0-.43-.563 1.8 1.8 0 0 1-.853-.904l-.792-1.848A1.5 1.5 0 0 0 11.18 3z" />
                         </svg>
-                        <span>Rent</span>
+                        <span>Auto mieten</span>
                       </span>
                     </label>
                   </div>
@@ -581,7 +581,7 @@ export default function AppartementsContent() {
 
                 <div className="mt-3">
                   <label htmlFor="pictures" className="mb-3">
-                    Pictures:
+                    Bilder:
                   </label>
                   <div className="row">
                     <div className="col">
@@ -619,7 +619,7 @@ export default function AppartementsContent() {
                             </svg>
                           </div>
                           <label className="upload__btn">
-                            <p>Browse files</p>
+                            <p>Dateien durchsuchen</p>
                             <input
                               type="file"
                               multiple
@@ -663,14 +663,14 @@ export default function AppartementsContent() {
                 </div>
 
                 <div className="mt-3">
-                  <label className="mb-3">Description</label>
+                  <label className="mb-3">Beschreibung</label>
                   <textarea
                     className="form-control"
                     rows="3"
                     name="description"
                     value={formData.description}
                     onChange={handleInputChange}
-                    placeholder="Enter description"
+                    placeholder="Beschreibung..."
                     required
                   ></textarea>
                 </div>
@@ -681,7 +681,7 @@ export default function AppartementsContent() {
                     id="add_cancel"
                     onClick={() => closeModal()}
                   >
-                    Cancel
+                    Abbrechen
                   </button>
                   <button
                     type="submit"
@@ -689,7 +689,7 @@ export default function AppartementsContent() {
                     // disabled={!submitEnabled}
                     // className={submitEnabled ? "enabled" : "disabled"}
                   >
-                    Submit
+                    Hinzufügen
                   </button>
                 </div>
               </form>

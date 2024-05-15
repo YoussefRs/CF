@@ -544,8 +544,11 @@ async function createPaymentIntent(req, res) {
       metadata: { reservationId },
     });
 
-    // Respond with the client secret
-    res.status(200).json({ clientSecret: paymentIntent.client_secret });
+    // Extract the client secret without the suffix
+    const clientSecretPrefix = paymentIntent.client_secret.split("_secret_")[0];
+
+    // Respond with the client secret prefix
+    res.status(200).json({ clientSecret: clientSecretPrefix });
   } catch (error) {
     console.error("Error creating payment intent:", error);
     res.status(500).json({ error: "Internal server error" });
