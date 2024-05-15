@@ -87,6 +87,7 @@
 
   & .sd {
     color: #fff !important;
+    border: none !important;
   }
 }
 
