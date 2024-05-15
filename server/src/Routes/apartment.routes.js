@@ -8,6 +8,7 @@ const {
   getAvailableDatesForApartment,
   createApartmentReview,
   getAllApartmentReview,
+  deleteApartementReview,
 } = require("../Controllers/apratment.controller");
 const { verifyAdmin } = require("../Middlewares/authorization_handler");
 
@@ -19,6 +20,7 @@ appartmentRouter
   .route("/:apartmentId/reviews")
   .post(createApartmentReview)
   .get(getAllApartmentReview);
+appartmentRouter.route("/reviews/:reviewId").delete(deleteApartementReview);
 appartmentRouter.route("/getAllAppart").get(httpGetAllApartments);
 appartmentRouter
   .route("/:id")

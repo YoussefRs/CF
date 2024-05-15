@@ -596,9 +596,11 @@
 ._review_box {
   width: 100%;
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
 }
-
+._review_text {
+  width: 90%;
+}
 ._review_img {
   height: 50px;
   width: 50px;

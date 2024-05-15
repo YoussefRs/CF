@@ -348,7 +348,7 @@ async function createApartmentReview(req, res) {
       [apartmentId, userId, rating, comment]
     );
 
-    res.status(201).json({ message: 'Review added successfully', reviewId: result.insertId });
+    res.status(201).json({ message: 'Überprüfung erfolgreich hinzugefügt.', reviewId: result.insertId });
   } catch (error) {
     console.error('Error adding review:', error);
     res.status(500).json({ error: 'Internal server error' });
@@ -368,7 +368,8 @@ async function getAllApartmentReview(req, res) {
          ApartmentReview.rating, 
          ApartmentReview.comment, 
          ApartmentReview.createdAt,
-         Users.username
+         Users.username,
+         Users.image
        FROM 
          ApartmentReview 
        INNER JOIN 
@@ -390,6 +391,20 @@ async function getAllApartmentReview(req, res) {
   }
 }
 
+async function deleteApartementReview(req, res) {
+  const db = await startScript();
+  try {
+    const {reviewId} = req.params;
+    await db.query('DELETE FROM ApartmentReview WHERE id = ?', [reviewId]);
+
+    res.status(200).json({ message: 'Überprüfung erfolgreich gelöscht.' });
+  } catch (error) {
+    console.error('Error deleting review:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+}
+
+
 
 
 
@@ -403,4 +418,5 @@ module.exports = {
   httpGetAllApartments,
   httpGetOneApartment,
   getAvailableDatesForApartment,
+  deleteApartementReview
 };
