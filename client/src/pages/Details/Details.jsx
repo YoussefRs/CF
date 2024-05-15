@@ -40,6 +40,11 @@ export default function Details() {
   const [reviewText, setReviewText] = useState("");
   const [rating, setRating] = useState(0);
 
+  const [showAllComments, setShowAllComments] = useState(false);
+
+  const handleViewMoreClick = () => {
+    setShowAllComments(!showAllComments);
+  };
   const getAllReview = async () => {
     try {
       const res = await axios.get(
@@ -884,166 +889,145 @@ export default function Details() {
                 </div>
               </div>
 
-              <div className="_reviews mt-2">
-                {reviews?.map((review, i) => (
-                  <Fragment key={i}>
-                    <div className="_review_box">
-                      <div className="_review_img">
-                        <img
-                          src={review?.image}
-                          alt="Profile Picture"
-                          onError={(e) => {
-                            e.target.onerror = null;
-                            e.target.src = logo;
-                          }}
-                        />
-                      </div>
-                    </div>
-                    <div className="_review_box">
-                      <div className="_review_text d-flex flex-column">
-                        <span className="d-flex flex-column _medium_title lh-1">
-                          {review?.username}
-                          {/* <fieldset className="rating">
-                            <input
-                              type="radio"
-                              id="star5"
-                              name="rating"
-                              checked={reviews?.rating}
+              <div className="_reviews mt-2" >
+                {reviews?.length > 3 ? (
+                  <>
+                    {reviews?.slice(0, 3).map((review, i) => (
+                      <Fragment key={i}>
+                        <div className="_review_box">
+                          <div className="_review_img">
+                            <img
+                              src={review?.image}
+                              alt="Profile Picture"
+                              onError={(e) => {
+                                e.target.onerror = null;
+                                e.target.src = logo;
+                              }}
                             />
-                            <label
-                              className="full"
-                              htmlFor="star5"
-                              title="Awesome - 5 stars"
-                            ></label>
-                            <input
-                              type="radio"
-                              id="star4half"
-                              name="rating"
-                              value={4.5}
-                              onChange={handleRatingChange}
+                          </div>
+                        </div>
+                        <div className="_review_box">
+                          <div className="_review_text d-flex flex-column">
+                            <span className="d-flex flex-column _medium_title lh-1">
+                              {review?.username}
+                              <span className="_description">
+                                {formatDate(review?.createdAt)}{" "}
+                              </span>
+                            </span>
+                            <span></span>
+                            <span className="_description">
+                              {review?.comment}
+                            </span>
+                          </div>
+                          {user && user?.role === "admin" && (
+                            <button
+                              className="close-btn"
+                              onClick={() => handleRemoveReview(review.id)}
+                            >
+                              X
+                            </button>
+                          )}
+                        </div>
+                      </Fragment>
+                    ))}
+                    {showAllComments &&
+                      reviews?.slice(3).map((review, i) => (
+                        <Fragment key={i}>
+                          <div className="_review_box">
+                            <div className="_review_img">
+                              <img
+                                src={review?.image}
+                                alt="Profile Picture"
+                                onError={(e) => {
+                                  e.target.onerror = null;
+                                  e.target.src = logo;
+                                }}
+                              />
+                            </div>
+                          </div>
+                          <div className="_review_box">
+                            <div className="_review_text d-flex flex-column">
+                              <span className="d-flex flex-column _medium_title lh-1">
+                                {review?.username}
+                                <span className="_description">
+                                  {formatDate(review?.createdAt)}{" "}
+                                </span>
+                              </span>
+                              <span></span>
+                              <span className="_description">
+                                {review?.comment}
+                              </span>
+                            </div>
+                            {user && user?.role === "admin" && (
+                              <button
+                                className="close-btn"
+                                onClick={() => handleRemoveReview(review.id)}
+                              >
+                                X
+                              </button>
+                            )}
+                          </div>
+                        </Fragment>
+                      ))}
+                  </>
+                ) : (
+                  <>
+                    {reviews?.map((review, i) => (
+                      <Fragment key={i}>
+                        <div className="_review_box">
+                          <div className="_review_img">
+                            <img
+                              src={review?.image}
+                              alt="Profile Picture"
+                              onError={(e) => {
+                                e.target.onerror = null;
+                                e.target.src = logo;
+                              }}
                             />
-                            <label
-                              className="half"
-                              htmlFor="star4half"
-                              title="Pretty good - 4.5 stars"
-                            ></label>
-                            <input
-                              type="radio"
-                              id="star4"
-                              name="rating"
-                              value={4}
-                              onChange={handleRatingChange}
-                            />
-                            <label
-                              className="full"
-                              htmlFor="star4"
-                              title="Pretty good - 4 stars"
-                            ></label>
-                            <input
-                              type="radio"
-                              id="star3half"
-                              name="rating"
-                              value={3.5}
-                              checked={reviews?.rating}
-                            />
-                            <label
-                              className="half"
-                              htmlFor="star3half"
-                              title="Meh - 3.5 stars"
-                            ></label>
-                            <input
-                              type="radio"
-                              id="star3"
-                              name="rating"
-                              value={3}
-                              onChange={handleRatingChange}
-                              checked={reviews?.rating}
-                            />
-                            <label
-                              className="full"
-                              htmlFor="star3"
-                              title="Meh - 3 stars"
-                            ></label>
-                            <input
-                              type="radio"
-                              id="star2half"
-                              name="rating"
-                              value={2.5}
-                              onChange={handleRatingChange}
-                            />
-                            <label
-                              className="half"
-                              htmlFor="star2half"
-                              title="Kinda bad - 2.5 stars"
-                            ></label>
-                            <input
-                              type="radio"
-                              id="star2"
-                              name="rating"
-                              value={2}
-                              onChange={handleRatingChange}
-                            />
-                            <label
-                              className="full"
-                              htmlFor="star2"
-                              title="Kinda bad - 2 stars"
-                            ></label>
-                            <input
-                              type="radio"
-                              id="star1half"
-                              name="rating"
-                              value={1.5}
-                              onChange={handleRatingChange}
-                              checked={reviews?.rating}
-                            />
-                            <label
-                              className="half"
-                              htmlFor="star1half"
-                              title="Meh - 1.5 stars"
-                            ></label>
-                            <input
-                              type="radio"
-                              id="star1"
-                              name="rating"
-                              value={1}
-                              onChange={handleRatingChange}
-                            />
-                            <label
-                              className="full"
-                              htmlFor="star1"
-                              title="Sucks big time - 1 star"
-                            ></label>
-                            <input
-                              type="radio"
-                              id="starhalf"
-                              name="rating"
-                              value={0.5}
-                              onChange={handleRatingChange}
-                            />
-                            <label
-                              className="half"
-                              htmlFor="starhalf"
-                              title="Sucks big time - 0.5 stars"
-                            ></label>
-                          </fieldset> */}
-                          <span className="_description">
-                            {formatDate(review?.createdAt)}{" "}
-                          </span>
-                        </span>
-                        <span></span>
-                        <span className="_description">{review?.comment}</span>
-                      </div>
-                      {user && user?.role === "admin" && (
-                        <button
-                          className="close-btn"
-                          onClick={() => handleRemoveReview(review.id)}
-                        >
-                          X
-                        </button>
-                      )}
-                    </div>
-                  </Fragment>
-                ))}
+                          </div>
+                        </div>
+                        <div className="_review_box">
+                          <div className="_review_text d-flex flex-column">
+                            <span className="d-flex flex-column _medium_title lh-1">
+                              {review?.username}
+                              <span className="_description">
+                                {formatDate(review?.createdAt)}{" "}
+                              </span>
+                            </span>
+                            <span></span>
+                            <span className="_description">
+                              {review?.comment}
+                            </span>
+                          </div>
+                          {user && user?.role === "admin" && (
+                            <button
+                              className="close-btn"
+                              onClick={() => handleRemoveReview(review.id)}
+                            >
+                              X
+                            </button>
+                          )}
+                        </div>
+                      </Fragment>
+                    ))}
+                  </>
+                )}
+
+                <div className="_review_box"></div>
+                {reviews?.length > 3 && (
+                  <div className="_review_box">
+                    <button
+                      onClick={handleViewMoreClick}
+                      style={{
+                        color: "#07d25f",
+                        textDecoration: "underline",
+                        fontWeight: 600,
+                      }}
+                    >
+                      {showAllComments ? "Weniger anzeigen" : "Mehr anzeigen..."}
+                    </button>
+                  </div>
+                )}
               </div>
               {user ? (
                 <div className="_review_box d-flex flex-column">
