@@ -360,10 +360,28 @@ async function getAllApartmentReview(req, res) {
   try {
     const { apartmentId } = req.params;
 
-    const reviews = await db.query(
-      'SELECT id, apartmentId, userId, rating, comment, createdAt FROM ApartmentReview WHERE apartmentId = ?',
+    const reviewsResult = await db.query(
+      `SELECT 
+         ApartmentReview.id, 
+         ApartmentReview.apartmentId, 
+         ApartmentReview.userId, 
+         ApartmentReview.rating, 
+         ApartmentReview.comment, 
+         ApartmentReview.createdAt,
+         Users.username
+       FROM 
+         ApartmentReview 
+       INNER JOIN 
+         Users 
+       ON 
+         ApartmentReview.userId = Users.id
+       WHERE 
+         ApartmentReview.apartmentId = ?`,
       [apartmentId]
     );
+
+    // Extracting only the data array from the result
+    const reviews = reviewsResult[0];
 
     res.status(200).json(reviews);
   } catch (error) {
@@ -371,6 +389,8 @@ async function getAllApartmentReview(req, res) {
     res.status(500).json({ error: 'Internal server error' });
   }
 }
+
+
 
 
 // Export the controller function
