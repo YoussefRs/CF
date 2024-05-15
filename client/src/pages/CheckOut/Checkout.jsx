@@ -99,7 +99,11 @@ export default function Checkout() {
         throw new Error(error.message);
       }
 
-      const { id: paymentIntentId, status } = paymentIntent;
+      const {
+        id: paymentIntentId,
+        status,
+        payment_method: paymentMethod,
+      } = paymentIntent;
 
       // Check if PaymentIntent has already succeeded
       if (status === "succeeded") {
@@ -111,10 +115,11 @@ export default function Checkout() {
         `${BASE_URL}/reservations/confirm-payment/${id}`,
         {
           paymentIntentId,
+          paymentMethod, // Pass paymentMethod to the server
         }
       );
 
-      console.log(response.data.message);
+      // console.log(response.data.message);
       // Redirect or show success message as needed
       toast.success("payment successful");
     } catch (error) {
@@ -161,12 +166,12 @@ export default function Checkout() {
         </h1>
       ) : (
         <div className="checkout_container">
-          <header>
+          <header className="ps-3">
             <h3>Zur Kasse</h3>
           </header>
 
           <main>
-            <section className="checkout-form">
+            <section className="checkout-form ps-3">
               <form onSubmit={(e) => handleContinue(e)}>
                 <h6>Kontaktdaten</h6>
                 <div className="form-control">
@@ -216,6 +221,7 @@ export default function Checkout() {
                       name="checkout-email"
                       value={bookingData?.reservation?.[0]?.userEmail}
                       placeholder="Enter your email..."
+                      className="ps-5"
                     />
                   </div>
                 </div>
@@ -242,6 +248,7 @@ export default function Checkout() {
                       id="checkout-phone"
                       placeholder="Enter you phone..."
                       value={bookingData?.reservation?.[0]?.phone}
+                      className="ps-5"
                     />
                   </div>
                 </div>
@@ -449,13 +456,19 @@ export default function Checkout() {
                     <div className="card-detail-input ">
                       <CardNumberElement
                         className="mb-4 card_input"
-                        options={{ style: cardStyle, placeholder: "xxxx xxxx xxxx xxxx" }}
+                        options={{
+                          style: cardStyle,
+                          placeholder: "xxxx xxxx xxxx xxxx",
+                        }}
                       />
                     </div>
                     <div className="card-detail-input">
                       <CardExpiryElement
                         className="mb-4 card_input"
-                        options={{ style: cardStyle, placeholder: "Month / Year" }}
+                        options={{
+                          style: cardStyle,
+                          placeholder: "Month / Year",
+                        }}
                       />
                     </div>
                     <div className="card-detail-input">
@@ -468,7 +481,7 @@ export default function Checkout() {
                 </div>
                 <div className="form-control-btn">
                   <button type="submit" disabled={btnDisabled}>
-                    Weiter
+                    {btnDisabled ? "..." : "Weiter"}
                   </button>
                 </div>
               </form>

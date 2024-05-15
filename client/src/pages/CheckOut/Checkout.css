@@ -131,6 +131,10 @@
       linear-gradient(315deg, #07d25f 20.24%, #028139 80.97%));
   letter-spacing: 0.5px;
   cursor: pointer;
+
+  &:disabled {
+    background: #BCBCBC
+  }
 }
 
 .checkout-details {

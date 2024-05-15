@@ -8,7 +8,7 @@ import {
 } from "../../../../redux/BookingSlice";
 import ReusableModal from "../../../../components/modals/Modal";
 import { toast, ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 
 export default function BookingsContent() {
   const dispatch = useDispatch();
@@ -19,13 +19,15 @@ export default function BookingsContent() {
     (booking) => booking.status == "Pending"
   );
 
+  const [refresh, setRefresh] = useState(0);
+
   console.table(bookings);
   useEffect(() => {
     dispatch(getAllBookings());
-  }, [dispatch]);
+  }, [dispatch, refresh]);
 
   const AcceptOrder = async (orderId) => {
-    dispatch(adminAcceptOrder(orderId));
+    dispatch(adminAcceptOrder(orderId, setRefresh));
   };
   const DeclineOrder = async (orderId) => {
     dispatch(adminRejectOrder(orderId));
@@ -48,8 +50,6 @@ export default function BookingsContent() {
     const year = date.getFullYear(); // Get full year
     return `${day}.${month}.${year}`;
   }
-
-
 
   function formatPrice(priceString) {
     const price = parseFloat(priceString);
@@ -150,7 +150,7 @@ export default function BookingsContent() {
 
   return (
     <>
-     <ToastContainer
+      <ToastContainer
         position="top-right"
         autoClose={2000}
         hideProgressBar={false}
@@ -498,8 +498,8 @@ export default function BookingsContent() {
 
                       {clickedBooking?.specialNightsCount > 0 ? (
                         <p>
-                          {clickedBooking?.specialNightsCount} Besondere Nächte /{" "}
-                          {formatPrice(clickedBooking?.specialNightsPrice)}€
+                          {clickedBooking?.specialNightsCount} Besondere Nächte
+                          / {formatPrice(clickedBooking?.specialNightsPrice)}€
                         </p>
                       ) : null}
                     </div>

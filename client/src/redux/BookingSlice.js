@@ -100,7 +100,7 @@ export const getUserBookings = () => async (dispatch) => {
   }
 };
 
-export const adminAcceptOrder = (orderId) => async (dispatch) => {
+export const adminAcceptOrder = (orderId, refresh) => async (dispatch) => {
   try {
     const response = await axios.put(
       `${BASE_URL}/reservations/${orderId}/approve`,
@@ -110,6 +110,7 @@ export const adminAcceptOrder = (orderId) => async (dispatch) => {
         },
       }
     );
+    refresh((prev) => prev + 1);
     toast.success(
       "Reservierung akzeptiert. Eine E-Mail wird versendet, um den Kunden zu benachrichtigen."
     );
