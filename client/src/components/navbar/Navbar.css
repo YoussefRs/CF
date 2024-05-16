@@ -9,9 +9,15 @@
   font-size: 20px;
   padding: 0 10px;
   /* background: rgba(27, 29, 28, 0.28); */
-  background: #1b1d1c;
   box-shadow: 5px 4px 25.7px 0px rgba(0, 0, 0, 0.3);
   z-index: 9999;
+  /* background: #1b1d1cd9; */
+    background: #1b1d1c;
+
+  &.navbar_scrolled {
+    background: #1b1d1c;
+    transition: all .3s ease-in-out;
+  }
 }
 
 ._nav_ctr {

@@ -41,8 +41,8 @@ export default function Cards({ card, type, customClass }) {
         </Link>
         <div className="card-info">
           <div className="cart-title-rating row">
-            <h2 className="card-title col-8">{type === "normal" ? card?.name : card.apartmentName} </h2>
-            <span className="card-rating col-3 ps-0 ">
+            <h2 className="card-title col">{type === "normal" ? card?.name : card.apartmentName} </h2>
+            {/* <span className="card-rating col-3 ps-0 ">
               <svg
                 width="21"
                 height="19"
@@ -56,7 +56,7 @@ export default function Cards({ card, type, customClass }) {
                 />
               </svg>
               4.5
-            </span>
+            </span> */}
           </div>
           <div className="card-location">
             <span className="card-span">
@@ -162,7 +162,7 @@ export default function Cards({ card, type, customClass }) {
         <div className="card-price-btn">
           <div className="card-price">
             <p>
-              {card?.price} € <span>/Tag</span>
+              2000 € <span>/Tag</span>
             </p>
           </div>
           <div className="card-btn">

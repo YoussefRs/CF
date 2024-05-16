@@ -7,9 +7,9 @@ import Footer from "../../components/footer/Footer";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-// import { apartmentList } from "../../Dummy/AppData";
+import { apartmentList } from "../../Dummy/AppData";
 
-import MultiFunc from "../../components/multi/MultiFunc";
+// import MultiFunc from "../../components/multi/MultiFunc";
 
 export default function Home() {
   const apartmentList = useSelector(
@@ -23,7 +23,7 @@ export default function Home() {
       {/* <div className="home_container"> */}
       <div className="_home">
         <section className="landingpage" id="home">
-          <div className="container d-flex align-items-center justify-content-center">
+          <div className="container d-flex align-items-center mb-5">
             <div className="lp-alignment">
               <img
                 src={Logo}
@@ -35,9 +35,9 @@ export default function Home() {
               <span className="_title_small_">
                 am <span className="special_span">borussia park</span>
               </span>
-              <div className="">
+              {/* <div className="">
                 <MultiFunc />
-              </div>
+              </div> */}
             </div>
           </div>
         </section>
@@ -45,6 +45,7 @@ export default function Home() {
         {apartmentList && (
           <div className="_cards_container" id="properties">
             <div className="cards_layer"></div>
+            <p className="title">Unsere Wohnungen</p>
             <div className="card_ctr">
               {apartmentList?.map((card, i) => (
                 <Cards card={card} key={i} type={"normal"} />
