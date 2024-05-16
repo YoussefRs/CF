@@ -13,6 +13,7 @@ import ReservationComp from "../../components/reservation/ReservationComp";
 export default function Details() {
   const location = useLocation();
   const { showModal2, closeModal2 } = useModal();
+  const { showModal, closeModal, openModal } = useModal();
 
   const { card } = location.state || {};
 
@@ -305,6 +306,9 @@ export default function Details() {
               <div className="reservation-container">
                 <ReservationComp id="1978163" />
               </div>
+              <div className="_mobile-box left_sqaure">
+                <button onClick={() => openModal()}>Rent now</button>
+              </div>
             </div>
             <div className="right_side">
               <div className="right_box">
@@ -342,6 +346,13 @@ export default function Details() {
             OK
           </button>
         </div>
+      </Modals>
+      <Modals show={showModal} onHide={closeModal} size={"md"}>
+        <CalendarComp
+          id={card?.id}
+          loadCalendarUrl={card?.loadCalendarUrl}
+          verification={card?.verification}
+        />
       </Modals>
       <Footer />
     </>
