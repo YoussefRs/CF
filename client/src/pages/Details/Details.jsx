@@ -13,6 +13,9 @@ import { Modal } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import LoginRegister from "../../components/modals/LoginRegister";
 import { createNewBooking } from "../../redux/BookingSlice";
+import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Details() {
   const { loginModal, openLoginModal, closeLoginModal } = useModal();
@@ -27,16 +30,35 @@ export default function Details() {
     openModal2,
     closeModal2,
   } = useModal();
-
+  const BASE_URL = import.meta.env.VITE_API_URL;
   const [showLoginReview, setShowLoginReview] = useState(false);
 
   const { id } = useParams();
   const { card } = location.state || {};
-  const admin = JSON.parse(localStorage.getItem("user"));
-  const reviews = JSON.parse(localStorage.getItem("reviews"));
+  const [reviews, setReviews] = useState([]);
   const [showCalendar, setShowCalendar] = useState(true);
   const [reviewText, setReviewText] = useState("");
   const [rating, setRating] = useState(0);
+
+  const [showAllComments, setShowAllComments] = useState(false);
+
+  const handleViewMoreClick = () => {
+    setShowAllComments(!showAllComments);
+  };
+  const getAllReview = async () => {
+    try {
+      const res = await axios.get(
+        `${BASE_URL}/appartments/${card?.id}/reviews`
+      );
+      setReviews(res.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  useEffect(() => {
+    getAllReview();
+  }, []);
+
   const onHide = () => {
     setShowLoginReview(false);
   };
@@ -54,7 +76,6 @@ export default function Details() {
       month: "long",
     })} ${date.getFullYear()}`;
   };
-  console.log(card);
   const formattedDates = card?.prices?.map((dateObj) => {
     const startDate = new Date(dateObj.start_date);
     const endDate = new Date(dateObj.end_date);
@@ -71,19 +92,35 @@ export default function Details() {
 
     return datesArray;
   });
-
-  const handleSubmit = (event) => {
+  const handleRemoveReview = async (id) => {
+    try {
+      const response = await axios.delete(
+        `${BASE_URL}/appartments/reviews/${id}`
+      );
+      getAllReview();
+      toast.success(response.data.message);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const newReview = {
-      text: reviewText,
+      comment: reviewText,
       rating: rating,
-      user: admin?.username,
+      userId: user?.id,
+      apartmentId: card?.id,
     };
-    const storedReviews = JSON.parse(localStorage.getItem("reviews")) || [];
-    const updatedReviews = [...storedReviews, newReview];
-    localStorage.setItem("reviews", JSON.stringify(updatedReviews));
-    setReviewText("");
-    setRating(0);
+    try {
+      const res = await axios.post(
+        `${BASE_URL}/appartments/${card?.id}/reviews`,
+        newReview
+      );
+      getAllReview();
+      toast.success(res?.data.message);
+      setReviewText("");
+      setRating(0);
+    } catch (error) {}
   };
 
   const [bookingData, setBookingData] = useState({
@@ -123,6 +160,17 @@ export default function Details() {
     }
   };
 
+  function formatDate(createdAt) {
+    const date = new Date(createdAt);
+
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+
+    // Rückgabe des formatierten Datums als String
+    return `${day}.${month}.${year}`;
+  }
+
   const toggleCalendar = () => {
     setShowCalendar((prevShowCalendar) => !prevShowCalendar);
   };
@@ -140,21 +188,101 @@ export default function Details() {
     };
   }, []);
 
-  const nightsPrice = bookingData?.nightsCount * 200;
+  const calculateTotalPrice = () => {
+    let normalNightsPrice = 0;
+    let specialNightsPrice = 0;
+    let normalNightsCount = 0;
+    let specialNightsCount = 0;
+    let specialStartDates = [];
+    let specialEndDates = [];
 
-  const totalPrice = nightsPrice + ServicesFees;
+    if (bookingData && card && bookingData.startDate && bookingData.endDate) {
+      const startDate = new Date(bookingData.startDate);
+      const endDate = new Date(bookingData.endDate);
+
+      // Iterate over each special date range
+      for (const price of card.prices) {
+        const priceStartDate = new Date(price.start_date);
+        const priceEndDate = new Date(price.end_date);
+
+        // Check if the special date range overlaps with the selected date range
+        if (
+          (startDate <= priceStartDate && endDate >= priceStartDate) ||
+          (startDate <= priceEndDate && endDate >= priceEndDate) ||
+          (startDate >= priceStartDate && endDate <= priceEndDate)
+        ) {
+          // Calculate the number of nights within the special date range
+          const nightsInSpecialRange = Math.ceil(
+            (Math.min(endDate, priceEndDate) -
+              Math.max(startDate, priceStartDate)) /
+              (1000 * 60 * 60 * 24)
+          );
+
+          // Increment special nights count and price
+          specialNightsCount += nightsInSpecialRange;
+          specialNightsPrice += parseFloat(price.price) * nightsInSpecialRange;
+
+          // Add the special date range to the lists if not already present
+          if (!specialStartDates.includes(price.start_date)) {
+            specialStartDates.push(price.start_date);
+          }
+          if (!specialEndDates.includes(price.end_date)) {
+            specialEndDates.push(price.end_date);
+          }
+        }
+      }
+
+      // Calculate the number of normal nights
+      normalNightsCount = Math.ceil(
+        (endDate - startDate - specialNightsCount * (1000 * 60 * 60 * 24)) /
+          (1000 * 60 * 60 * 24)
+      );
+
+      // Calculate the normal nights price
+      normalNightsPrice = normalNightsCount * parseFloat(card.price);
+    }
+
+    // Calculate the total price by adding special, normal, and service fees
+    const totalPrice = normalNightsPrice + specialNightsPrice + ServicesFees;
+
+    // Return the calculated values
+    return {
+      totalPrice,
+      specialNightsPrice,
+      normalNightsPrice,
+      specialNightsCount,
+      normalNightsCount,
+    };
+  };
+
+  const {
+    totalPrice,
+    specialNightsPrice,
+    normalNightsPrice,
+    specialNightsCount,
+    normalNightsCount,
+  } = calculateTotalPrice();
 
   const submitBookingData = () => {
+    if (!bookingData.startDate || !bookingData.endDate) {
+      toast.error("Bitte wählen Sie Start- und Enddaten aus.");
+      return; // Prevent further execution
+    }
+
     if (user) {
       let bookingDataList = {
         ...bookingData,
-        userId: user.id,
-        apartmentId: card.id,
+        userId: user?.id,
+        apartmentId: card?.id,
         userEmail: user?.email,
         servicesFee: ServicesFees,
-        price: card.default_special_date?.price,
+        normalNightsCount: normalNightsCount,
+        normalNightsPrice: normalNightsPrice,
+        specialNightsCount: specialNightsCount,
+        specialNightsPrice: specialNightsPrice,
         totalPrice: totalPrice,
       };
+      console.log(bookingDataList);
       dispatch(createNewBooking(bookingDataList));
       setBookingData({
         startDate: null,
@@ -162,16 +290,31 @@ export default function Details() {
         nightsCount: 0,
         services: [],
       });
+      toast.success(
+        "Buchung abgeschlossen. Sie werden per E-Mail benachrichtigt, sobald der Eigentümer sie akzeptiert."
+      );
       setShowCalendar(false);
       closeModal();
     } else {
       openLoginModal();
     }
   };
-console.log(card)
+  console.log(card);
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <div className="_details">
         <div className="_details_big_container">
           <div className="_container">
@@ -219,7 +362,7 @@ console.log(card)
               </div> */}
               {card?.images?.length > 1 ? (
                 <>
-                  <div className="main-photo">
+                  <div className="main-photo d-sm-block d-none">
                     <a
                       href={card.images[0]?.image_url}
                       className="glightbox"
@@ -229,10 +372,10 @@ console.log(card)
                     </a>
                   </div>
                   <div className="sub">
-                    {card?.images?.slice(0).map((appPic, i) => (
+                    {card?.images?.slice(1, 4).map((appPic, i) => (
                       <div className="img-box" key={i}>
                         <a
-                          href={appPic}
+                          href={appPic.image_url}
                           className="glightbox"
                           data-glightbox="type: image"
                         >
@@ -240,22 +383,53 @@ console.log(card)
                         </a>
                       </div>
                     ))}
-                    {card?.more?.length > 1 && (
+                    {card?.images?.length > 4 && (
                       <div id="multi-link" className="img-box">
                         <a
-                          href={card?.more[0]}
+                          href={card?.images[4]?.image_url}
                           className="glightbox"
                           data-glightbox="type: image"
                         >
-                          <img src={card?.more[0]} alt="image" />
+                          <img src={card?.images[4]?.image_url} alt="image" />
                           <div className="transparent-box">
                             <div className="caption">
-                              +{card?.more?.length}{" "}
+                              +{card?.images?.length - 4}{" "}
                             </div>
                           </div>
                         </a>
                       </div>
                     )}
+                    <div
+                      id="more-img"
+                      className="extra-images-container hide-element"
+                    >
+                      {card?.images?.map((more, i) => (
+                        <a
+                          href={more?.image_url}
+                          className="glightbox"
+                          data-glightbox="type: image"
+                          key={i}
+                        >
+                          <img src={more?.image_url} alt="image" />
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="photos_sm">
+                    <div id="multi-link" className="img-box">
+                      <a
+                        href={card?.images[0].image_url}
+                        className="glightbox"
+                        data-glightbox="type: image"
+                      >
+                        <img src={card?.images[0].image_url} alt="image" />
+                        <div className="transparent-box">
+                          <div className="caption">
+                            +{card?.images?.length}{" "}
+                          </div>
+                        </div>
+                      </a>
+                    </div>
                     <div
                       id="more-img"
                       className="extra-images-container hide-element"
@@ -274,13 +448,13 @@ console.log(card)
                   </div>
                 </>
               ) : (
-                <div className="main-photo">
+                <div className="main-single-photo">
                   <a
                     href={card?.images[0].image_url}
                     className="glightbox"
                     data-glightbox="type: image"
                   >
-                    <img src={card.images[0]} alt="image" />
+                    <img src={card.images[0].image_url} alt="image" />
                   </a>
                 </div>
               )}
@@ -289,7 +463,7 @@ console.log(card)
           <div className="_inner_container">
             <div className="left_side">
               <div className="left_sqaure" id="special_sqaure">
-                <div className="d-flex align-items-center">
+                <div className="d-flex align-items-center justify-content-between">
                   <span className="_medium_title">
                     <svg
                       width="18"
@@ -317,34 +491,31 @@ console.log(card)
                     </svg>
                     {card.location}
                   </span>
-                </div>
-                <div className="d-flex align-items-center justify-content-end">
-                  <span
-                    style={{ display: "flex", alignItems: "center" }}
-                    className="_medium_title rating__"
-                  >
-                    <svg
-                      width="17"
-                      height="15"
-                      viewBox="0 0 17 15"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
+                  <div className="d-flex align-items-center justify-content-end">
+                    <span
+                      style={{ display: "flex", alignItems: "center" }}
+                      className="_medium_title rating__"
                     >
-                      <path
-                        d="M8.28564 0L10.2416 5.72684H16.5713L11.4505 9.26622L13.4064 14.9931L8.28564 11.4537L3.16483 14.9931L5.12081 9.26622L0 5.72684H6.32966L8.28564 0Z"
-                        fill="#DEC25F"
-                      />
-                    </svg>
-                    4.7
-                  </span>
+                      <svg
+                        width="17"
+                        height="15"
+                        viewBox="0 0 17 15"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M8.28564 0L10.2416 5.72684H16.5713L11.4505 9.26622L13.4064 14.9931L8.28564 11.4537L3.16483 14.9931L5.12081 9.26622L0 5.72684H6.32966L8.28564 0Z"
+                          fill="#DEC25F"
+                        />
+                      </svg>
+                      4.7
+                    </span>
+                  </div>
                 </div>
               </div>
               <div className="left_sqaure">
-                <div
-                  className="d-flex align-items-center justify-content-between "
-                  id="sqaure-items"
-                >
-                  <div className="d-flex ">
+                <div className="d-flex align-items-center" id="sqaure-items">
+                  <div className="d-flex me-4">
                     <aside>
                       <svg
                         width="50"
@@ -443,17 +614,19 @@ console.log(card)
                 <span className="_details_title p-0">description</span>
                 <span className="_description">{card.description}</span>
               </div>
-              <div className="d-flex flex-column mt-2">
-                <span className="_details_title p-0">calendar</span>
-                <div className="left_sqaure">
-                  <div className="d-flex align-items-center justify-content-between gap-2">
-                    <button
-                      onClick={toggleCalendar}
-                      className={showCalendar ? "active" : ""}
-                    >
-                      Day
-                    </button>
-                    <button onClick={() => openModal2()}>Month</button>
+              <div className="calendar_box">
+                <div className="d-flex flex-column mt-2">
+                  <span className="_details_title p-0 mb-2">calendar</span>
+                  <div className="left_sqaure">
+                    <div className="d-flex align-items-center justify-content-between gap-2">
+                      <button
+                        onClick={toggleCalendar}
+                        className={showCalendar ? "active" : ""}
+                      >
+                        Day
+                      </button>
+                      <button onClick={() => openModal2()}>Month</button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -474,17 +647,17 @@ console.log(card)
               </div>
               {formattedDates && (
                 <div className="d-flex flex-column mt-2">
-                  <span className="_medium_title p-0">Special dates</span>
-                  <div className="small_sqaure">
+                  <span className="_medium_title2 p-0">Special dates</span>
+                  <div className="small_sqaure mt-2">
                     <div className="d-flex flex-column">
                       {formattedDates?.map((datesArray, i) => (
                         <Fragment key={i}>
                           {datesArray.map((date, i) => (
                             <div
-                              className="d-flex align-items-center justify-content-between gap-2"
+                              className="d-flex align-items-center mb-1"
                               key={i}
                             >
-                              <span className="d-flex align-items-center gap-2 _very_small_title">
+                              <span className="d-flex align-items-center gap-2 _very_small_title me-5">
                                 {" "}
                                 <svg
                                   width="18"
@@ -559,7 +732,9 @@ console.log(card)
                 className="d-flex flex-column mt-2"
                 style={{ borderBottom: "1px solid rgba(188, 188, 188, 0.50)" }}
               >
-                <span className="_details_title p-0">choose your services</span>
+                <span className="_details_title p-0 mb-3">
+                  choose your services
+                </span>
                 <div className="btn-group d-flex align-items-center col-xs-12">
                   {card?.parking === 1 && (
                     <div className="select">
@@ -713,295 +888,298 @@ console.log(card)
                   )}
                 </div>
               </div>
-              {user ? (
-                <>
-                  <div className="_reviews mt-2">
-                    {reviews?.map((review, i) => (
+
+              <div className="_reviews mt-2" >
+                {reviews?.length > 3 ? (
+                  <>
+                    {reviews?.slice(0, 3).map((review, i) => (
                       <Fragment key={i}>
                         <div className="_review_box">
                           <div className="_review_img">
-                            <img src={logo} alt="" />
+                            <img
+                              src={review?.image}
+                              alt="Profile Picture"
+                              onError={(e) => {
+                                e.target.onerror = null;
+                                e.target.src = logo;
+                              }}
+                            />
                           </div>
                         </div>
                         <div className="_review_box">
                           <div className="_review_text d-flex flex-column">
                             <span className="d-flex flex-column _medium_title lh-1">
                               {review?.username}
-                              {/* <fieldset className="rating">
-                            <input
-                              type="radio"
-                              id="star5"
-                              name="rating"
-                              checked={reviews?.rating}
-                            />
-                            <label
-                              className="full"
-                              htmlFor="star5"
-                              title="Awesome - 5 stars"
-                            ></label>
-                            <input
-                              type="radio"
-                              id="star4half"
-                              name="rating"
-                              value={4.5}
-                              onChange={handleRatingChange}
-                            />
-                            <label
-                              className="half"
-                              htmlFor="star4half"
-                              title="Pretty good - 4.5 stars"
-                            ></label>
-                            <input
-                              type="radio"
-                              id="star4"
-                              name="rating"
-                              value={4}
-                              onChange={handleRatingChange}
-                            />
-                            <label
-                              className="full"
-                              htmlFor="star4"
-                              title="Pretty good - 4 stars"
-                            ></label>
-                            <input
-                              type="radio"
-                              id="star3half"
-                              name="rating"
-                              value={3.5}
-                              checked={reviews?.rating}
-                            />
-                            <label
-                              className="half"
-                              htmlFor="star3half"
-                              title="Meh - 3.5 stars"
-                            ></label>
-                            <input
-                              type="radio"
-                              id="star3"
-                              name="rating"
-                              value={3}
-                              onChange={handleRatingChange}
-                              checked={reviews?.rating}
-                            />
-                            <label
-                              className="full"
-                              htmlFor="star3"
-                              title="Meh - 3 stars"
-                            ></label>
-                            <input
-                              type="radio"
-                              id="star2half"
-                              name="rating"
-                              value={2.5}
-                              onChange={handleRatingChange}
-                            />
-                            <label
-                              className="half"
-                              htmlFor="star2half"
-                              title="Kinda bad - 2.5 stars"
-                            ></label>
-                            <input
-                              type="radio"
-                              id="star2"
-                              name="rating"
-                              value={2}
-                              onChange={handleRatingChange}
-                            />
-                            <label
-                              className="full"
-                              htmlFor="star2"
-                              title="Kinda bad - 2 stars"
-                            ></label>
-                            <input
-                              type="radio"
-                              id="star1half"
-                              name="rating"
-                              value={1.5}
-                              onChange={handleRatingChange}
-                              checked={reviews?.rating}
-                            />
-                            <label
-                              className="half"
-                              htmlFor="star1half"
-                              title="Meh - 1.5 stars"
-                            ></label>
-                            <input
-                              type="radio"
-                              id="star1"
-                              name="rating"
-                              value={1}
-                              onChange={handleRatingChange}
-                            />
-                            <label
-                              className="full"
-                              htmlFor="star1"
-                              title="Sucks big time - 1 star"
-                            ></label>
-                            <input
-                              type="radio"
-                              id="starhalf"
-                              name="rating"
-                              value={0.5}
-                              onChange={handleRatingChange}
-                            />
-                            <label
-                              className="half"
-                              htmlFor="starhalf"
-                              title="Sucks big time - 0.5 stars"
-                            ></label>
-                          </fieldset> */}
+                              <span className="_description">
+                                {formatDate(review?.createdAt)}{" "}
+                              </span>
                             </span>
                             <span></span>
-                            <span className="_description">{review?.text}</span>
+                            <span className="_description">
+                              {review?.comment}
+                            </span>
                           </div>
+                          {user && user?.role === "admin" && (
+                            <button
+                              className="close-btn"
+                              onClick={() => handleRemoveReview(review.id)}
+                            >
+                              X
+                            </button>
+                          )}
                         </div>
                       </Fragment>
                     ))}
-                  </div>
-                  <div className="_review_box d-flex flex-column">
-                    <textarea
-                      rows="3"
-                      name="description"
-                      placeholder="Write review ..."
-                      value={reviewText}
-                      onChange={handleReviewTextChange}
-                      required
-                    ></textarea>
-                    <fieldset className="rating">
-                      <input
-                        type="radio"
-                        id="star5"
-                        name="rating"
-                        value="5"
-                        onChange={handleRatingChange}
-                      />
-                      <label
-                        className="full"
-                        htmlFor="star5"
-                        title="Awesome - 5 stars"
-                      ></label>
-                      <input
-                        type="radio"
-                        id="star4half"
-                        name="rating"
-                        value={4.5}
-                        onChange={handleRatingChange}
-                      />
-                      <label
-                        className="half"
-                        htmlFor="star4half"
-                        title="Pretty good - 4.5 stars"
-                      ></label>
-                      <input
-                        type="radio"
-                        id="star4"
-                        name="rating"
-                        value={4}
-                        onChange={handleRatingChange}
-                      />
-                      <label
-                        className="full"
-                        htmlFor="star4"
-                        title="Pretty good - 4 stars"
-                      ></label>
-                      <input
-                        type="radio"
-                        id="star3half"
-                        name="rating"
-                        value={3.5}
-                        onChange={handleRatingChange}
-                      />
-                      <label
-                        className="half"
-                        htmlFor="star3half"
-                        title="Meh - 3.5 stars"
-                      ></label>
-                      <input
-                        type="radio"
-                        id="star3"
-                        name="rating"
-                        value={3}
-                        onChange={handleRatingChange}
-                      />
-                      <label
-                        className="full"
-                        htmlFor="star3"
-                        title="Meh - 3 stars"
-                      ></label>
-                      <input
-                        type="radio"
-                        id="star2half"
-                        name="rating"
-                        value={2.5}
-                        onChange={handleRatingChange}
-                      />
-                      <label
-                        className="half"
-                        htmlFor="star2half"
-                        title="Kinda bad - 2.5 stars"
-                      ></label>
-                      <input
-                        type="radio"
-                        id="star2"
-                        name="rating"
-                        value={2}
-                        onChange={handleRatingChange}
-                      />
-                      <label
-                        className="full"
-                        htmlFor="star2"
-                        title="Kinda bad - 2 stars"
-                      ></label>
-                      <input
-                        type="radio"
-                        id="star1half"
-                        name="rating"
-                        value={1.5}
-                        onChange={handleRatingChange}
-                      />
-                      <label
-                        className="half"
-                        htmlFor="star1half"
-                        title="Meh - 1.5 stars"
-                      ></label>
-                      <input
-                        type="radio"
-                        id="star1"
-                        name="rating"
-                        value={1}
-                        onChange={handleRatingChange}
-                      />
-                      <label
-                        className="full"
-                        htmlFor="star1"
-                        title="Sucks big time - 1 star"
-                      ></label>
-                      <input
-                        type="radio"
-                        id="starhalf"
-                        name="rating"
-                        value={0.5}
-                        onChange={handleRatingChange}
-                      />
-                      <label
-                        className="half"
-                        htmlFor="starhalf"
-                        title="Sucks big time - 0.5 stars"
-                      ></label>
-                    </fieldset>
+                    {showAllComments &&
+                      reviews?.slice(3).map((review, i) => (
+                        <Fragment key={i}>
+                          <div className="_review_box">
+                            <div className="_review_img">
+                              <img
+                                src={review?.image}
+                                alt="Profile Picture"
+                                onError={(e) => {
+                                  e.target.onerror = null;
+                                  e.target.src = logo;
+                                }}
+                              />
+                            </div>
+                          </div>
+                          <div className="_review_box">
+                            <div className="_review_text d-flex flex-column">
+                              <span className="d-flex flex-column _medium_title lh-1">
+                                {review?.username}
+                                <span className="_description">
+                                  {formatDate(review?.createdAt)}{" "}
+                                </span>
+                              </span>
+                              <span></span>
+                              <span className="_description">
+                                {review?.comment}
+                              </span>
+                            </div>
+                            {user && user?.role === "admin" && (
+                              <button
+                                className="close-btn"
+                                onClick={() => handleRemoveReview(review.id)}
+                              >
+                                X
+                              </button>
+                            )}
+                          </div>
+                        </Fragment>
+                      ))}
+                  </>
+                ) : (
+                  <>
+                    {reviews?.map((review, i) => (
+                      <Fragment key={i}>
+                        <div className="_review_box">
+                          <div className="_review_img">
+                            <img
+                              src={review?.image}
+                              alt="Profile Picture"
+                              onError={(e) => {
+                                e.target.onerror = null;
+                                e.target.src = logo;
+                              }}
+                            />
+                          </div>
+                        </div>
+                        <div className="_review_box">
+                          <div className="_review_text d-flex flex-column">
+                            <span className="d-flex flex-column _medium_title lh-1">
+                              {review?.username}
+                              <span className="_description">
+                                {formatDate(review?.createdAt)}{" "}
+                              </span>
+                            </span>
+                            <span></span>
+                            <span className="_description">
+                              {review?.comment}
+                            </span>
+                          </div>
+                          {user && user?.role === "admin" && (
+                            <button
+                              className="close-btn"
+                              onClick={() => handleRemoveReview(review.id)}
+                            >
+                              X
+                            </button>
+                          )}
+                        </div>
+                      </Fragment>
+                    ))}
+                  </>
+                )}
 
-                    <div className="square" id="_review_button">
-                      <button onClick={handleSubmit}>Submit</button>
-                    </div>
+                <div className="_review_box"></div>
+                {reviews?.length > 3 && (
+                  <div className="_review_box">
+                    <button
+                      onClick={handleViewMoreClick}
+                      style={{
+                        color: "#07d25f",
+                        textDecoration: "underline",
+                        fontWeight: 600,
+                      }}
+                    >
+                      {showAllComments ? "Weniger anzeigen" : "Mehr anzeigen..."}
+                    </button>
                   </div>
-                </>
+                )}
+              </div>
+              {user ? (
+                <div className="_review_box d-flex flex-column">
+                  <textarea
+                    rows="3"
+                    name="description"
+                    placeholder="Write review ..."
+                    value={reviewText}
+                    onChange={handleReviewTextChange}
+                    required
+                  ></textarea>
+                  <fieldset className="rating">
+                    <input
+                      type="radio"
+                      id="star5"
+                      name="rating"
+                      value="5"
+                      onChange={handleRatingChange}
+                    />
+                    <label
+                      className="full"
+                      htmlFor="star5"
+                      title="Awesome - 5 stars"
+                    ></label>
+                    <input
+                      type="radio"
+                      id="star4half"
+                      name="rating"
+                      value={4.5}
+                      onChange={handleRatingChange}
+                    />
+                    <label
+                      className="half"
+                      htmlFor="star4half"
+                      title="Pretty good - 4.5 stars"
+                    ></label>
+                    <input
+                      type="radio"
+                      id="star4"
+                      name="rating"
+                      value={4}
+                      onChange={handleRatingChange}
+                    />
+                    <label
+                      className="full"
+                      htmlFor="star4"
+                      title="Pretty good - 4 stars"
+                    ></label>
+                    <input
+                      type="radio"
+                      id="star3half"
+                      name="rating"
+                      value={3.5}
+                      onChange={handleRatingChange}
+                    />
+                    <label
+                      className="half"
+                      htmlFor="star3half"
+                      title="Meh - 3.5 stars"
+                    ></label>
+                    <input
+                      type="radio"
+                      id="star3"
+                      name="rating"
+                      value={3}
+                      onChange={handleRatingChange}
+                    />
+                    <label
+                      className="full"
+                      htmlFor="star3"
+                      title="Meh - 3 stars"
+                    ></label>
+                    <input
+                      type="radio"
+                      id="star2half"
+                      name="rating"
+                      value={2.5}
+                      onChange={handleRatingChange}
+                    />
+                    <label
+                      className="half"
+                      htmlFor="star2half"
+                      title="Kinda bad - 2.5 stars"
+                    ></label>
+                    <input
+                      type="radio"
+                      id="star2"
+                      name="rating"
+                      value={2}
+                      onChange={handleRatingChange}
+                    />
+                    <label
+                      className="full"
+                      htmlFor="star2"
+                      title="Kinda bad - 2 stars"
+                    ></label>
+                    <input
+                      type="radio"
+                      id="star1half"
+                      name="rating"
+                      value={1.5}
+                      onChange={handleRatingChange}
+                    />
+                    <label
+                      className="half"
+                      htmlFor="star1half"
+                      title="Meh - 1.5 stars"
+                    ></label>
+                    <input
+                      type="radio"
+                      id="star1"
+                      name="rating"
+                      value={1}
+                      onChange={handleRatingChange}
+                    />
+                    <label
+                      className="full"
+                      htmlFor="star1"
+                      title="Sucks big time - 1 star"
+                    ></label>
+                    <input
+                      type="radio"
+                      id="starhalf"
+                      name="rating"
+                      value={0.5}
+                      onChange={handleRatingChange}
+                    />
+                    <label
+                      className="half"
+                      htmlFor="starhalf"
+                      title="Sucks big time - 0.5 stars"
+                    ></label>
+                  </fieldset>
+
+                  <div className="square" id="_review_button">
+                    <button onClick={handleSubmit}>Submit</button>
+                  </div>
+                </div>
               ) : (
-                <p className="mt-3 mb-3">
-                  Please{" "}
-                  <button onClick={() => setShowLoginReview(true)}>
-                    log in
+                <p className="mt-3 mb-3 text-center">
+                  Bitte{" "}
+                  <button
+                    style={{
+                      color: "#07d25f",
+                      textDecoration: "underline",
+                      fontWeight: 600,
+                    }}
+                    onClick={() => setShowLoginReview(true)}
+                  >
+                    melden Sie
                   </button>{" "}
-                  to share your feedback. Please
+                  sich an, um Ihr Feedback zu teilen.
                 </p>
               )}
               <div className="_mobile-box left_sqaure">
@@ -1010,7 +1188,9 @@ console.log(card)
             </div>
             <div className="right_side">
               <div className="right_box">
-                <span className="_details_title">reservation details :</span>
+                <span className="_details_title text-nowrap ">
+                  reservation details :
+                </span>
                 <div
                   className="right_box_inner_container"
                   style={{ marginBottom: "1rem" }}
@@ -1079,7 +1259,7 @@ console.log(card)
                                   viewBox="0 0 33 34"
                                   xmlns="http://www.w3.org/2000/svg"
                                 >
-                                  <g clippath="url(#clip0_43_907)">
+                                  <g clipPath="url(#clip0_43_907)">
                                     <path d="M14.6259 27.9957L16.8503 30.2202L19.0747 27.9957H14.6259Z" />
                                     <path d="M14.4039 12.9843H10.2348C5.69474 12.9843 1.97525 16.5651 1.75208 21.0507H22.8866C22.6634 16.5651 18.944 12.9843 14.4039 12.9843ZM8.93075 18.558H6.78216V16.6472H8.93075V18.558ZM13.3937 17.3969H11.2451V15.4861H13.3937V17.3969ZM17.8566 18.558H15.708V16.6472H17.8566V18.558Z" />
                                     <path d="M17.5549 32.2177H20.5632C21.8502 32.2177 22.8972 31.1708 22.8972 29.8838V27.9957H21.7769L17.5549 32.2177Z" />
@@ -1104,7 +1284,7 @@ console.log(card)
                                   viewBox="0 0 34 35"
                                   xmlns="http://www.w3.org/2000/svg"
                                 >
-                                  <g clippath="url(#clip0_189_3766)">
+                                  <g clipPath="url(#clip0_189_3766)">
                                     <path d="M7.76363 7.11829H6.66895V9.30758H7.76363C8.36722 9.30758 8.8583 8.8165 8.8583 8.2129C8.8583 7.60931 8.36722 7.11829 7.76363 7.11829Z" />
                                     <path d="M31.4808 29.5394C32.7522 29.0861 33.6701 27.8824 33.6701 26.4571V24.2679C33.6701 22.7449 32.6231 21.4726 31.2146 21.1028L29.734 16.6615C29.2865 15.3185 28.035 14.4159 26.619 14.4159H18.0983C16.6823 14.4159 15.4308 15.3184 14.9832 16.6612L13.5025 21.1027C12.0941 21.4725 11.0472 22.7448 11.0472 24.2678V26.4571C11.0472 27.8823 11.9651 29.086 13.2365 29.5393V30.8357C13.2365 31.2213 13.3156 31.5863 13.4382 31.9303H8.85783V17.9774C12.5652 17.4433 15.4258 14.2548 15.4258 10.4022V8.21292C15.4258 3.98782 11.9886 0.550293 7.76321 0.550293C3.53785 0.550293 0.100586 3.98782 0.100586 8.21292V10.4022C0.100586 14.2548 2.9612 17.4433 6.66853 17.9774V31.9305H1.19527C0.590949 31.9305 0.100586 32.4204 0.100586 33.0251C0.100586 33.6298 0.590949 34.1198 1.19527 34.1198H32.5755C33.1798 34.1198 33.6701 33.6298 33.6701 33.0251C33.6701 32.4204 33.1798 31.9304 32.5755 31.9304H31.2791C31.4017 31.5863 31.4808 31.2215 31.4808 30.8357V29.5394ZM6.66853 11.4969V12.5916C6.66853 13.1963 6.17817 13.6863 5.57385 13.6863C4.96954 13.6863 4.47917 13.1963 4.47917 12.5916V10.4023V6.02356C4.47917 5.41885 4.96954 4.92888 5.57385 4.92888H7.76315C9.574 4.92888 11.0471 6.402 11.0471 8.21285C11.0471 10.0237 9.574 11.4968 7.76315 11.4968H6.66853V11.4969ZM17.06 17.3536C17.2097 16.906 17.6266 16.6053 18.0984 16.6053H26.6191C27.0909 16.6053 27.5078 16.906 27.6575 17.354L28.8674 20.9839C24.8817 20.9839 19.9467 20.9839 15.8498 20.9839L17.06 17.3536ZM14.3311 27.5518C13.7275 27.5518 13.2364 27.0607 13.2364 26.4571V24.2679C13.2364 23.6643 13.7275 23.1732 14.3311 23.1732H15.7317L17.1913 27.5518H14.3311ZM19.6027 31.9305C19.7253 31.5864 19.8044 31.2215 19.8044 30.8358V29.7411H24.9128V30.8358C24.9128 31.2215 24.9919 31.5864 25.1144 31.9305H19.6027ZM30.3861 27.5518H27.526L28.9855 23.1732H30.3862C30.9898 23.1732 31.4808 23.6643 31.4808 24.2679V26.4571C31.4808 27.0607 30.9897 27.5518 30.3861 27.5518Z" />
                                   </g>
@@ -1130,16 +1310,21 @@ console.log(card)
                     )}
                   </div>
                 </div>
-                <span className="_details_title">Payment Details :</span>
+                <span className="_details_title text-nowrap ">
+                  Payment Details :
+                </span>
                 <div className="right_box_inner_container">
                   <div className="first_square h-100 pt-2">
                     <span className="_medium_title">night fees</span>
                   </div>
 
                   <div className="square">
-                    <span>{nightsPrice} €</span>
+                    <span>{totalPrice} €</span>
                     <span className="_small_title">
-                      {bookingData?.nightsCount} * 200€
+                      Normal : {normalNightsCount} * {normalNightsPrice}€
+                    </span>
+                    <span className="_small_title">
+                      Special : {specialNightsCount} * {specialNightsPrice}€
                     </span>
                   </div>
                   <div className="first_square h-100">
@@ -1147,14 +1332,14 @@ console.log(card)
                   </div>
                   <div className="square">
                     {bookingData?.services?.map((service, index) => (
-                      <>
+                      <div key={index}>
                         {service.name === "Parking" && (
                           <span className="_small_title">
                             <svg
                               viewBox="0 0 34 35"
                               xmlns="http://www.w3.org/2000/svg"
                             >
-                              <g clippath="url(#clip0_189_3766)">
+                              <g clipPath="url(#clip0_189_3766)">
                                 <path d="M7.76363 7.11829H6.66895V9.30758H7.76363C8.36722 9.30758 8.8583 8.8165 8.8583 8.2129C8.8583 7.60931 8.36722 7.11829 7.76363 7.11829Z" />
                                 <path d="M31.4808 29.5394C32.7522 29.0861 33.6701 27.8824 33.6701 26.4571V24.2679C33.6701 22.7449 32.6231 21.4726 31.2146 21.1028L29.734 16.6615C29.2865 15.3185 28.035 14.4159 26.619 14.4159H18.0983C16.6823 14.4159 15.4308 15.3184 14.9832 16.6612L13.5025 21.1027C12.0941 21.4725 11.0472 22.7448 11.0472 24.2678V26.4571C11.0472 27.8823 11.9651 29.086 13.2365 29.5393V30.8357C13.2365 31.2213 13.3156 31.5863 13.4382 31.9303H8.85783V17.9774C12.5652 17.4433 15.4258 14.2548 15.4258 10.4022V8.21292C15.4258 3.98782 11.9886 0.550293 7.76321 0.550293C3.53785 0.550293 0.100586 3.98782 0.100586 8.21292V10.4022C0.100586 14.2548 2.9612 17.4433 6.66853 17.9774V31.9305H1.19527C0.590949 31.9305 0.100586 32.4204 0.100586 33.0251C0.100586 33.6298 0.590949 34.1198 1.19527 34.1198H32.5755C33.1798 34.1198 33.6701 33.6298 33.6701 33.0251C33.6701 32.4204 33.1798 31.9304 32.5755 31.9304H31.2791C31.4017 31.5863 31.4808 31.2215 31.4808 30.8357V29.5394ZM6.66853 11.4969V12.5916C6.66853 13.1963 6.17817 13.6863 5.57385 13.6863C4.96954 13.6863 4.47917 13.1963 4.47917 12.5916V10.4023V6.02356C4.47917 5.41885 4.96954 4.92888 5.57385 4.92888H7.76315C9.574 4.92888 11.0471 6.402 11.0471 8.21285C11.0471 10.0237 9.574 11.4968 7.76315 11.4968H6.66853V11.4969ZM17.06 17.3536C17.2097 16.906 17.6266 16.6053 18.0984 16.6053H26.6191C27.0909 16.6053 27.5078 16.906 27.6575 17.354L28.8674 20.9839C24.8817 20.9839 19.9467 20.9839 15.8498 20.9839L17.06 17.3536ZM14.3311 27.5518C13.7275 27.5518 13.2364 27.0607 13.2364 26.4571V24.2679C13.2364 23.6643 13.7275 23.1732 14.3311 23.1732H15.7317L17.1913 27.5518H14.3311ZM19.6027 31.9305C19.7253 31.5864 19.8044 31.2215 19.8044 30.8358V29.7411H24.9128V30.8358C24.9128 31.2215 24.9919 31.5864 25.1144 31.9305H19.6027ZM30.3861 27.5518H27.526L28.9855 23.1732H30.3862C30.9898 23.1732 31.4808 23.6643 31.4808 24.2679V26.4571C31.4808 27.0607 30.9897 27.5518 30.3861 27.5518Z" />
                               </g>
@@ -1178,7 +1363,7 @@ console.log(card)
                               viewBox="0 0 33 34"
                               xmlns="http://www.w3.org/2000/svg"
                             >
-                              <g clippath="url(#clip0_43_907)">
+                              <g clipPath="url(#clip0_43_907)">
                                 <path d="M14.6259 27.9957L16.8503 30.2202L19.0747 27.9957H14.6259Z" />
                                 <path d="M14.4039 12.9843H10.2348C5.69474 12.9843 1.97525 16.5651 1.75208 21.0507H22.8866C22.6634 16.5651 18.944 12.9843 14.4039 12.9843ZM8.93075 18.558H6.78216V16.6472H8.93075V18.558ZM13.3937 17.3969H11.2451V15.4861H13.3937V17.3969ZM17.8566 18.558H15.708V16.6472H17.8566V18.558Z" />
                                 <path d="M17.5549 32.2177H20.5632C21.8502 32.2177 22.8972 31.1708 22.8972 29.8838V27.9957H21.7769L17.5549 32.2177Z" />
@@ -1244,7 +1429,7 @@ console.log(card)
                             {service.price}
                           </span>
                         )}
-                      </>
+                      </div>
                     ))}
                     {bookingData?.services?.length == 0 && (
                       <div className="_small_title">No Services Selected</div>
@@ -1267,10 +1452,28 @@ console.log(card)
           </div>
         </div>
       </div>
-      <Modals show={showModal2} onHide={closeModal2} size={"md"}>
-        <span className="_description d-flex justify-content-center">
-          please contact the owner on whatsapp.
+      <Modals
+        show={showModal2}
+        onHide={closeModal2}
+        customClass={"whatsapp_modal"}
+        customBackdropClass={"whatsapp_backdrop"}
+      >
+        <span className="whatsapp_title d-flex justify-content-center">
+          Bitte kontaktieren Sie den Besitzer über WhatsApp.
         </span>
+        <span className="whatsapp_number">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">
+            <path
+              fillRule="evenodd"
+              clipRule="evenodd"
+              d="M44.5951 40.2089C43.2325 40.7658 42.362 42.8991 41.4789 43.9889C41.0261 44.5472 40.4861 44.6344 39.79 44.3545C34.6754 42.3169 30.7548 38.9039 27.9325 34.1972C27.4544 33.4673 27.5401 32.8908 28.1167 32.213C28.9689 31.2089 30.0404 30.0684 30.2711 28.7156C30.7829 25.7231 26.8708 16.4405 21.7042 20.6466C6.83732 32.7614 46.5048 64.8928 53.664 47.5144C55.689 42.5883 46.8536 39.2836 44.5951 40.2089ZM36.0001 65.7113C30.7422 65.7113 25.5686 64.3134 21.039 61.6669C20.312 61.2408 19.4331 61.1283 18.6203 61.3491L8.77794 64.0505L12.2064 56.4975C12.6733 55.4695 12.5537 54.2728 11.8942 53.3587C8.2267 48.2752 6.28748 42.2733 6.28748 36C6.28748 19.6158 19.6159 6.28734 36.0001 6.28734C52.3844 6.28734 65.7114 19.6158 65.7114 36C65.7114 52.3828 52.3829 65.7113 36.0001 65.7113ZM36.0001 0C16.1495 0 0.000132218 16.1494 0.000132218 36C0.000132218 42.9834 1.98294 49.6898 5.75029 55.5103L0.281382 67.5548C-0.223462 68.6672 -0.0392427 69.9694 0.75107 70.8961C1.35857 71.6062 2.23748 72 3.14451 72C5.17232 72 16.2297 68.5252 19.0436 67.7531C24.2453 70.5361 30.0798 72 36.0001 72C55.8493 72 72.0001 55.8492 72.0001 36C72.0001 16.1494 55.8493 0 36.0001 0Z"
+            />
+          </svg>
+          <span>49 176 83174731</span>
+        </span>
+        <div className="whatsapp_button">
+          <button className="btn" onClick={closeModal2}>OK</button>
+        </div>
       </Modals>
       <Modals show={showModal} onHide={closeModal} size={"md"}>
         <span className="_details_title">reservation details :</span>

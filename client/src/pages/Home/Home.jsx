@@ -1,10 +1,5 @@
 import React, { useEffect } from "react";
 import "./Home.css";
-import Navbar from "../../components/navbar/Navbar";
-import logo from "../../assets/homepage_mats/logo.png";
-import name from "../../assets/homepage_mats/name.png";
-import house from "../../assets/homepage_mats/Vector.png";
-import RangeSlider from "../../components/sliders/RangeSlider";
 import Logo from "../../assets/homepage_mats/Group_50.png";
 import Cards from "../../components/cards/Cards";
 import TestimonialsSlider from "../../components/sliders/TestimonialsSlider";
@@ -12,11 +7,9 @@ import Footer from "../../components/footer/Footer";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-// import { apartmentList } from "../../Dummy/AppData";
+import { apartmentList } from "../../Dummy/AppData";
 
-// import joinLogo from '../../assets/homepage_mats/'
-
-import MultiFunc from "../../components/multi/MultiFunc";
+// import MultiFunc from "../../components/multi/MultiFunc";
 
 export default function Home() {
   const apartmentList = useSelector(
@@ -30,7 +23,7 @@ export default function Home() {
       {/* <div className="home_container"> */}
       <div className="_home">
         <section className="landingpage" id="home">
-          <div className="container d-flex align-items-center justify-content-center">
+          <div className="container d-flex align-items-center mb-5">
             <div className="lp-alignment">
               <img
                 src={Logo}
@@ -42,9 +35,9 @@ export default function Home() {
               <span className="_title_small_">
                 am <span className="special_span">borussia park</span>
               </span>
-              <div className="">
+              {/* <div className="">
                 <MultiFunc />
-              </div>
+              </div> */}
             </div>
           </div>
         </section>
@@ -52,9 +45,10 @@ export default function Home() {
         {apartmentList && (
           <div className="_cards_container" id="properties">
             <div className="cards_layer"></div>
+            <p className="title">Unsere Wohnungen</p>
             <div className="card_ctr">
               {apartmentList?.map((card, i) => (
-                <Cards card={card} key={i} />
+                <Cards card={card} key={i} type={"normal"} />
               ))}
             </div>
           </div>
@@ -71,13 +65,13 @@ export default function Home() {
                       alt=""
                     />
                     <p>
-                      Indulge In the luxury of living in this stunning home that
-                      combines elegance
+                      Tauchen Sie ein in den Luxus des Lebens in diesem
+                      prächtigen Anwesen, das Eleganz nahtlos vereint.
                     </p>
                   </div>
                   <div className="girl_box">
                     <img src="https://i.ibb.co/8x9xK4H/team.jpg" alt="" />
-                    <p>hello i want to rent</p>
+                    <p>Hallo! Ich möchte mieten.</p>
                   </div>
                 </div>
               </div>
@@ -86,43 +80,25 @@ export default function Home() {
               <div className="_content">
                 <div className="search_title">
                   <h1>
-                    Just Click, <span>Big Move</span> !
+                    Einfach klicken, <span>großer Schritt</span> !
                   </h1>
                 </div>
                 <div className="search_description">
                   <p>
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                    Quibusdam quod, aliquid repudiandae vero cumque eligendi
-                    modi iusto ut delectus distinctio reiciendis autem quia,
-                    accusamus, minus aspernatur rerum sunt a maxime.
+                    Willkommen in unseren charmanten Apartments im Herzen von
+                    Mönchengladbach, Nordrhein-Westfalen, Deutschland. Mit
+                    modernen Annehmlichkeiten und einer gemütlichen Atmosphäre
+                    bieten unsere Unterkünfte den perfekten Rückzugsort für
+                    Ihren Aufenthalt. Dank der günstigen Lage in der Nähe von
+                    Sehenswürdigkeiten und öffentlichen Verkehrsmitteln bieten
+                    unsere Apartments einfachen Zugang zu allem, was die Stadt
+                    zu bieten hat. Buchen Sie Ihren Aufenthalt bei uns und
+                    erleben Sie Komfort, Bequemlichkeit und Gastfreundschaft wie
+                    nie zuvor.
                   </p>
                 </div>
                 <div className="search_boxes">
                   <div className="_box" title="Searching for houses">
-                    {/* <svg
-                      viewBox="0 0 47 51"
-                      fill="transparent"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M28.9263 38.2476V51H18.0737V38.2476C18.0737 36.7982 18.6454 35.408 19.663 34.3831C20.6807 33.3582 22.0609 32.7824 23.5 32.7824C24.9391 32.7824 26.3193 33.3582 27.337 34.3831C28.3546 35.408 28.9263 36.7982 28.9263 38.2476ZM46.2 14.8744L24.4948 0.300291C24.1995 0.104401 23.8536 0 23.5 0C23.1464 0 22.8005 0.104401 22.5052 0.300291L0.799983 14.8744C0.479218 15.0915 0.235915 15.4063 0.105727 15.7728C-0.0244604 16.1393 -0.0346881 16.5381 0.0765432 16.9109C0.187774 17.2836 0.414616 17.6107 0.723828 17.8442C1.03304 18.0776 1.40837 18.2052 1.7948 18.2082H3.60357V45.5347C3.60357 46.9842 4.17527 48.3743 5.1929 49.3993C6.21053 50.4242 7.59073 51 9.02987 51H14.4562V38.2476C14.4562 35.8318 15.409 33.515 17.105 31.8067C18.8011 30.0985 21.1014 29.1388 23.5 29.1388C25.8986 29.1388 28.1989 30.0985 29.895 31.8067C31.591 33.515 32.5438 35.8318 32.5438 38.2476V51H37.9701C39.4093 51 40.7895 50.4242 41.8071 49.3993C42.8247 48.3743 43.3964 46.9842 43.3964 45.5347V18.2082H45.2052C45.5916 18.2052 45.967 18.0776 46.2762 17.8442C46.5854 17.6107 46.8122 17.2836 46.9235 16.9109C47.0347 16.5381 47.0245 16.1393 46.8943 15.7728C46.7641 15.4063 46.5208 15.0915 46.2 14.8744Z"
-                        fill="url(#paint0_linear_1_204)"
-                      />
-                      <defs>
-                        <linearGradient
-                          id="paint0_linear_1_204"
-                          x1="38.2823"
-                          y1="39.8049"
-                          x2="7.30959"
-                          y2="11.4916"
-                          gradientUnits="userSpaceOnUse"
-                        >
-                          <stop stopColor="#07D25F" />
-                          <stop offset={1} stopColor="#028139" />
-                        </linearGradient>
-                      </defs>
-                    </svg> */}
-
                     <div className="icon">
                       <svg
                         viewBox="0 0 79 92"
@@ -471,7 +447,7 @@ export default function Home() {
             <div className="join_flower_ctr">
               <div className="join_ctr">
                 <div className="join_title">
-                  <span>Join Us</span>
+                  <span>Treten Sie uns bei</span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 88 112"
@@ -485,14 +461,21 @@ export default function Home() {
                   </svg>
                 </div>
                 <h5>
-                  stay connected with us! follow us on social media to stay in
-                  the loop with our latest updates
+                  Bleiben Sie mit uns in Verbindung! Folgen Sie uns auf Social
+                  Media, um stets über unsere neuesten Updates informiert zu
+                  bleiben.
                 </h5>
                 <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Culpa, explicabo quibusdam. Fugiat a ad atque soluta
-                  necessitatibus unde corporis consequatur molestiae maxime
-                  obcaecati neque corrupti id, praesentium nam amet minima.
+                  Eingebettet in eine ruhige Nachbarschaft, bietet dieses
+                  Zuhause luxuriöse Annehmlichkeiten und exquisites Design. Vom
+                  prächtigen Eingang bis zu den sorgfältig gestalteten
+                  Innenräumen strahlt jedes Detail Eleganz aus. Unterhalten Sie
+                  Ihre Gäste in den großzügigen Wohnbereichen oder ziehen Sie
+                  sich in den ruhigen Komfort der privaten Schlafzimmer zurück.
+                  Genießen Sie entspannte Spaziergänge durch wunderschön
+                  angelegte Gärten oder entspannen Sie in den luxuriösen,
+                  spa-ähnlichen Badezimmern. Erleben Sie das Höchstmaß an
+                  raffiniertem Wohnen in diesem außergewöhnlichen Rückzugsort.
                 </p>
               </div>
               <div className="flower_ctr">

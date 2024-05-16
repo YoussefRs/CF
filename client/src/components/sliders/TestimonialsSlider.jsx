@@ -13,19 +13,19 @@ export default function TestimonialsSlider() {
     {
       name: "EMILIANO AQUILANI",
       content:
-        "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi obcaecati cumque voluptates perspiciatis, totam quae? Illo, facilis cumque deserunt velit placeat ipsa eos numquam modi adipisci est dolore illum voluptatibus?",
+        "Die Apartments waren unglaublich! Sie waren geräumig, sauber und hatten eine fantastische Lage. Ich werde auf jeden Fall wiederkommen!",
       image: ep3,
     },
     {
       name: "ANNA ITURBE",
       content:
-        "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi obcaecati cumque voluptates perspiciatis, totam quae? Illo, facilis cumque deserunt velit placeat ipsa eos numquam modi adipisci est dolore illum voluptatibus?",
+        "Unser Aufenthalt in den Apartments war einfach perfekt! Die Einrichtung war stilvoll, und die Ausstattung ließ keine Wünsche offen. Ich kann sie nur weiterempfehlen!",
       image: ep2,
     },
     {
       name: "LARA ATKINSON",
       content:
-        "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi obcaecati cumque voluptates perspiciatis, totam quae? Illo, facilis cumque deserunt velit placeat ipsa eos numquam modi adipisci est dolore illum voluptatibus?",
+        "Wir haben unseren Aufenthalt in diesen Apartments sehr genossen. Sie waren gemütlich eingerichtet und boten alles, was wir für einen angenehmen Aufenthalt brauchten. Wir kommen gerne wieder!",
       image: ep3,
     },
   ];

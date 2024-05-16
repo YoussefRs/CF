@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./Cards.css";
 import { Link } from "react-router-dom";
 
-export default function Cards({ card }) {
+export default function Cards({ card, type, customClass }) {
   // const [liked, setLiked] = useState(false);
 
   // const handleClick = () => {
@@ -22,20 +22,27 @@ export default function Cards({ card }) {
   //   }
   // };
 
-  
-
-  
   return (
-    <div className="card_box">
+    <div className={`card_box ${customClass ? customClass : ""}`}>
       <div className="material-card" href="/some-article">
         <Link to={`/details/${card.id}`} state={{ card }}>
-          {<img className="card-picture" src={card?.images[0]?.image_url} alt="Apartment" />}
+          {
+            <img
+              className="card-picture"
+              src={
+                type === "normal"
+                  ? card?.images[0]?.image_url
+                  : card?.pictures[0]
+              }
+              alt="Apartment"
+            />
+          }
           {/* {<img className="card-picture" src={card?.pictures[0]} alt="Apartment" />} */}
         </Link>
         <div className="card-info">
           <div className="cart-title-rating row">
-            <h2 className="card-title col-8">{card?.name} </h2>
-            <span className="card-rating col-3">
+            <h2 className="card-title col">{type === "normal" ? card?.name : card.apartmentName} </h2>
+            {/* <span className="card-rating col-3 ps-0 ">
               <svg
                 width="21"
                 height="19"
@@ -49,7 +56,7 @@ export default function Cards({ card }) {
                 />
               </svg>
               4.5
-            </span>
+            </span> */}
           </div>
           <div className="card-location">
             <span className="card-span">
@@ -155,12 +162,12 @@ export default function Cards({ card }) {
         <div className="card-price-btn">
           <div className="card-price">
             <p>
-              {card?.default_special_date?.price} € <span>/ Month</span>
+              2000 € <span>/Tag</span>
             </p>
           </div>
           <div className="card-btn">
             <Link to={`/details/${card.id}`} state={{ card }}>
-              <button>More +</button>
+              <button>MEHR +</button>
             </Link>
           </div>
         </div>

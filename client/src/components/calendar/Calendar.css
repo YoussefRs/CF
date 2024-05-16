@@ -87,11 +87,43 @@
 
   & .sd {
     color: #fff !important;
+    border: none !important;
   }
 }
 
 ._details_calendar.rmdp-shadow {
   box-shadow: none !important;
+}
+
+._calendar_ctr {
+  & ._details_calendar {
+    height: max-content;
+  }
+
+  @media (min-width: 1400px) {
+    width: 50%;
+  }
+
+  @media (min-width: 992px) and (max-width: 1399px) {
+    width: 60%;
+  }
+
+  @media (min-width: 850px) and (max-width: 991px) {
+    width: 40%;
+  }
+
+  @media (min-width: 769px) and (max-width: 849px) {
+    width: 50%;
+  }
+
+  @media (min-width: 769px) and (max-width: 849px) {
+    width: 50%;
+  }
+
+  @media (min-width: 576px) and (max-width: 767px) {
+    width: 70%;
+    margin: 0 auto;
+  }
 }
 
 @media (max-width: 768px) {
@@ -103,4 +135,10 @@
   ._details_calendar.rmdp-wrapper {
     width: 70% !important;
   }
+}
+
+.disabled-date {
+  opacity: 0.5 !important;
+  pointer-events: none !important;
+
 }

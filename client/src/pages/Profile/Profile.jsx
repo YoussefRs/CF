@@ -9,16 +9,56 @@ import { useModal } from "../../hooks/useModal";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserBookings } from "../../redux/BookingSlice";
 import { Link } from "react-router-dom";
+import { favoritess } from "../../Dummy/AppData";
+import Cards from "../../components/cards/Cards";
+import axios from "axios";
 
 export default function Profile() {
   const dispatch = useDispatch();
+  const BASE_URL = import.meta.env.VITE_API_URL;
+
+  const user = useSelector((state) => state?.auth?.user?.user);
+
   const [activeTab, setActiveTab] = useState("profile");
   const { showModal, openModal, closeModal } = useModal();
-  const user = useSelector((state) => state.auth.user);
+
+  // const user = useSelector((state) => state.auth.user);
   const Rentals = useSelector((state) => state.bookings?.bookings);
-  const [favorites, setFavorites] = useState(
-    JSON.parse(localStorage.getItem("favorites")) || []
-  );
+  // const [favorites, setFavorites] = useState(
+  //   JSON.parse(localStorage.getItem("favorites")) || favorites
+  // );
+  const [favorites, setFavorites] = useState([]);
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const handleImageChange = async (e) => {
+    setSelectedImage(e.target.files[0]);
+    await uploadImage(e.target.files[0]);
+  };
+
+  const uploadImage = async (image) => {
+    try {
+      const formData = new FormData();
+      formData.append("file", image);
+      formData.append("upload_preset", "cityflat");
+
+      const response = await axios.post(
+        "https://api.cloudinary.com/v1_1/dlspkc0so/image/upload",
+        formData
+      );
+
+      if (response.data && response.data.secure_url) {
+        const imageUrl = response.data.secure_url;
+
+        const userId = "USER_ID"; // Replace with the actual user ID
+        await axios.put(`${BASE_URL}/user/${user?.id}`, { image: imageUrl });
+        console.log("User profile image updated successfully");
+      } else {
+        throw new Error("Failed to upload image");
+      }
+    } catch (error) {
+      console.error("Error uploading image:", error);
+    }
+  };
 
   const removeFav = (id) => {
     const updatedFavorites = favorites.filter((fav) => fav.id !== id);
@@ -27,25 +67,49 @@ export default function Profile() {
   };
 
   useEffect(() => {
-    dispatch(getUserBookings());
+    // dispatch(getUserBookings());
+    setFavorites(favoritess);
   }, []);
 
   const handleTabClick = (tab, event) => {
     event.preventDefault();
     setActiveTab(tab);
   };
+
+  const [fullName, setFullName] = useState(user.username);
+  const [mobileNumber, setMobileNumber] = useState(user.phone);
+  const [email, setEmail] = useState(user.email);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.put(`${BASE_URL}/user/${user.id}`, {
+        username: fullName,
+        phone: mobileNumber,
+        email: email,
+      });
+
+      const currentUser = JSON.parse(localStorage.getItem("user"));
+      const updatedUser = { ...currentUser, user: response.data.user };
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+
+    } catch (error) {
+      console.error("Error updating user information:", error);
+    }
+  };
+
   return (
     <>
       <div className="profile-ctr mb-5">
         <div className="profile-container d-flex align-items-center justify-content-center">
           <div className="container-fluid" style={{ width: 1340 }}>
             <div className="row">
-              <div className="col col-xl-4 col-lg-12 profile_ctr mb-4">
-                <div className="panel panel-default px-4">
+              <div className="col-lg-3 col-12 profile_ctr mb-4">
+                <div className="panel panel-default">
                   <div className="panel-body py-5 text-center d-flex justify-content-center align-items-center flex-column">
                     <div className="profile-pic">
                       <img
-                        src={user?.user.image || profilePic}
+                        src={user?.image}
                         alt="Profile Picture"
                         onError={(e) => {
                           e.target.onerror = null;
@@ -54,31 +118,46 @@ export default function Profile() {
                       />
                     </div>
                     <br />
-                    <button className="profile-btn d-flex align-items-center justify-content-center gap-1">
-                      <svg
-                        width="18"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M20.25 5.99254L17.5725 5.99254C17.4254 5.99206 17.2816 5.94847 17.159 5.86716C17.0363 5.78585 16.9402 5.67039 16.8825 5.53504L16.3275 4.22254C16.1297 3.8354 15.824 3.51389 15.4473 3.29692C15.0706 3.07995 14.6391 2.97683 14.205 3.00004L9.75 3.00004C9.31116 2.97675 8.87508 3.08217 8.49534 3.30335C8.1156 3.52453 7.80875 3.85183 7.6125 4.24503L7.095 5.52753C7.03903 5.66623 6.94252 5.78481 6.81808 5.86777C6.69363 5.95074 6.54705 5.99422 6.3975 5.99253L3.75 5.99253C3.1538 5.99427 2.58251 6.23188 2.16093 6.65347C1.73935 7.07505 1.50174 7.64633 1.5 8.24253L1.5 18.75C1.50174 19.3462 1.73936 19.9175 2.16094 20.3391C2.58252 20.7607 3.1538 20.9983 3.75 21L20.25 21C20.8462 20.9983 21.4175 20.7607 21.8391 20.3391C22.2606 19.9175 22.4983 19.3462 22.5 18.75L22.5 8.24254C22.4983 7.64634 22.2606 7.07505 21.8391 6.65347C21.4175 6.23189 20.8462 5.99428 20.25 5.99254ZM6.645 12.75C6.64584 11.3301 7.2103 9.96849 8.21438 8.96441C9.21845 7.96034 10.58 7.39588 12 7.39504C19.088 7.64338 19.0862 17.8578 11.9999 18.105C10.5799 18.1042 9.2184 17.5397 8.21434 16.5356C7.21029 15.5316 6.64584 14.17 6.645 12.75ZM18.99 9.75004C18.815 9.75003 18.6471 9.68049 18.5233 9.55671C18.3995 9.43294 18.33 9.26506 18.33 9.09002C18.33 8.91498 18.3996 8.7471 18.5233 8.62333C18.6471 8.49956 18.815 8.43003 18.99 8.43004C19.1651 8.43004 19.333 8.49958 19.4567 8.62336C19.5805 8.74714 19.65 8.91501 19.65 9.09006C19.65 9.2651 19.5805 9.43297 19.4567 9.55674C19.3329 9.68051 19.165 9.75004 18.99 9.75004Z"
-                          fill="white"
-                        />
-                        <path
-                          d="M15.8545 12.75C15.6883 7.65629 8.30999 7.65749 8.14453 12.7501C8.31079 17.8437 15.689 17.8425 15.8545 12.75Z"
-                          fill="white"
-                        />
-                      </svg>
-                      change
-                    </button>
+                    <div className="upload__box">
+                      <div className="upload_profile__btn_box">
+                        <label className="upload_profile__btn">
+                          <p className="d-flex align-items-center justify-content-center gap-1">
+                            {" "}
+                            <svg
+                              width="18"
+                              height="24"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M20.25 5.99254L17.5725 5.99254C17.4254 5.99206 17.2816 5.94847 17.159 5.86716C17.0363 5.78585 16.9402 5.67039 16.8825 5.53504L16.3275 4.22254C16.1297 3.8354 15.824 3.51389 15.4473 3.29692C15.0706 3.07995 14.6391 2.97683 14.205 3.00004L9.75 3.00004C9.31116 2.97675 8.87508 3.08217 8.49534 3.30335C8.1156 3.52453 7.80875 3.85183 7.6125 4.24503L7.095 5.52753C7.03903 5.66623 6.94252 5.78481 6.81808 5.86777C6.69363 5.95074 6.54705 5.99422 6.3975 5.99253L3.75 5.99253C3.1538 5.99427 2.58251 6.23188 2.16093 6.65347C1.73935 7.07505 1.50174 7.64633 1.5 8.24253L1.5 18.75C1.50174 19.3462 1.73936 19.9175 2.16094 20.3391C2.58252 20.7607 3.1538 20.9983 3.75 21L20.25 21C20.8462 20.9983 21.4175 20.7607 21.8391 20.3391C22.2606 19.9175 22.4983 19.3462 22.5 18.75L22.5 8.24254C22.4983 7.64634 22.2606 7.07505 21.8391 6.65347C21.4175 6.23189 20.8462 5.99428 20.25 5.99254ZM6.645 12.75C6.64584 11.3301 7.2103 9.96849 8.21438 8.96441C9.21845 7.96034 10.58 7.39588 12 7.39504C19.088 7.64338 19.0862 17.8578 11.9999 18.105C10.5799 18.1042 9.2184 17.5397 8.21434 16.5356C7.21029 15.5316 6.64584 14.17 6.645 12.75ZM18.99 9.75004C18.815 9.75003 18.6471 9.68049 18.5233 9.55671C18.3995 9.43294 18.33 9.26506 18.33 9.09002C18.33 8.91498 18.3996 8.7471 18.5233 8.62333C18.6471 8.49956 18.815 8.43003 18.99 8.43004C19.1651 8.43004 19.333 8.49958 19.4567 8.62336C19.5805 8.74714 19.65 8.91501 19.65 9.09006C19.65 9.2651 19.5805 9.43297 19.4567 9.55674C19.3329 9.68051 19.165 9.75004 18.99 9.75004Z"
+                                fill="white"
+                              />
+                              <path
+                                d="M15.8545 12.75C15.6883 7.65629 8.30999 7.65749 8.14453 12.7501C8.31079 17.8437 15.689 17.8425 15.8545 12.75Z"
+                                fill="white"
+                              />
+                            </svg>{" "}
+                            Hochladen
+                          </p>
+                          <input
+                            type="file"
+                            multiple
+                            data-max_length="20"
+                            className="upload__inputfile"
+                            onChange={handleImageChange}
+                            required
+                          />
+                        </label>
+                      </div>
+                    </div>
                     <br />
-                    <h3>Hello, {user?.user?.username} </h3>
+                    <h3>Hallo, {user?.username} </h3>
                   </div>
                 </div>
               </div>
-              <div className="col col-xl-8 col-lg-12">
+              <div className="col-lg-9 col-12">
                 <div className="_container ">
                   <div className="container-fluid d-flex align-items-center justify-content-center p-0">
                     <ul className="nav nav-pills nav-justified">
@@ -106,7 +185,7 @@ export default function Profile() {
                               stroke="#848998"
                             />
                           </svg>
-                          <span>My Profile</span>
+                          <span>Profil</span>
                         </a>
                       </li>
                       <li className="nav-item">
@@ -129,7 +208,7 @@ export default function Profile() {
                               fill="#848998"
                             />
                           </svg>
-                          <span>My Favorite</span>
+                          <span>Favoriten</span>
                         </a>
                       </li>
                       <li className="nav-item">
@@ -153,7 +232,7 @@ export default function Profile() {
                               stroke="#848998"
                             />
                           </svg>
-                          <span>My Rentals</span>
+                          <span>Vermietungen</span>
                         </a>
                       </li>
                       <li className="nav-item">
@@ -189,7 +268,7 @@ export default function Profile() {
                             />
                           </svg>
 
-                          <span>My Orders</span>
+                          <span>Bestellungen</span>
                         </a>
                       </li>
                     </ul>
@@ -205,20 +284,21 @@ export default function Profile() {
                     >
                       <div className="profile_container">
                         <div className="col px-5 edit_information">
-                          <form action="" method="POST">
+                          <form onSubmit={handleSubmit}>
                             <div className="row">
                               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <div className="form-group">
                                   <label className="profile_details_text">
-                                    Full Name:
+                                    Vollständiger Name:
                                   </label>
                                   <input
                                     type="text"
                                     name="text"
                                     className="form-control profile_input"
-                                    value={user?.user?.username}
-                                    required
-                                    style={{ pointerEvents: "none" }}
+                                    value={fullName}
+                                    onChange={(e) =>
+                                      setFullName(e.target.value)
+                                    }
                                   />
                                 </div>
                               </div>
@@ -227,15 +307,16 @@ export default function Profile() {
                               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <div className="form-group">
                                   <label className="profile_details_text">
-                                    Mobile Number:
+                                    Telefonnummer :
                                   </label>
                                   <input
                                     type="tel"
                                     name="phone"
                                     className="form-control profile_input"
-                                    value={user?.user?.phone}
-                                    required
-                                    style={{ pointerEvents: "none" }}
+                                    value={mobileNumber}
+                                    onChange={(e) =>
+                                      setMobileNumber(e.target.value)
+                                    }
                                   />
                                 </div>
                               </div>
@@ -250,21 +331,24 @@ export default function Profile() {
                                     type="email"
                                     name="email"
                                     className="form-control profile_input"
-                                    value={user?.user?.email}
-                                    style={{ pointerEvents: "none" }}
-                                    required
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
                                   />
                                 </div>
                               </div>
                             </div>
                             <div className="row mt-5">
-                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 submit d-flex justify-content-sm-center justify-content-between  gap-2">
-                                <div className="customer-form-btn d-flex form-group col-5 col-md-2">
+                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 submit d-flex justify-content-center gap-2">
+                                <div className="customer-form-btn d-flex form-group col-5 col-md-2 me-3">
                                   <button className="col">cancel</button>
                                 </div>
                                 <div className="customer-form-btn d-flex form-group col-5 col-md-2">
-                                  <button className="col" id="special-btn">
-                                    change
+                                  <button
+                                    type="submit"
+                                    className="col"
+                                    id="special-btn"
+                                  >
+                                    Ändern
                                   </button>
                                 </div>
                               </div>
@@ -283,78 +367,90 @@ export default function Profile() {
                     >
                       <ul className="profile_cards scrollable-container mt-4">
                         {favorites?.map((fav, i) => (
-                          <li className="profile_cards_item" key={i}>
-                            <div className="profile_card">
-                              <div className="app_card_image">
-                                <img src={fav?.pictures[0]} alt="app" />
-                              </div>
-
-                              <div className="app_card_content">
-                                <div className="app_card_heading d-flex justify-content-between">
-                                  <span className="app_title">
-                                    {fav.apartmentName}
-                                  </span>
-                                  <span className="app_title">
+                          <>
+                            {/* <li className="profile_cards_item" key={i}>
+                              <div className="profile_card">
+                                <div className="app_card_image">
+                                  <img src={fav?.pictures[0]} alt="app" />
+                                </div>
+  
+                                <div className="app_card_content">
+                                  <div className="app_card_heading d-flex justify-content-between">
+                                    <span className="app_title">
+                                      {fav.apartmentName}
+                                    </span>
+                                    <span className="app_title">
+                                      <svg
+                                        width="16"
+                                        height="15"
+                                        viewBox="0 0 16 15"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        style={{ paddingRight: 5 }}
+                                      >
+                                        <path
+                                          d="M7.66418 0.360352L9.46181 5.62357H15.279L10.5728 8.87641L12.3704 14.1396L7.66418 10.8868L2.95794 14.1396L4.75556 8.87641L0.0493164 5.62357H5.86656L7.66418 0.360352Z"
+                                          fill="#F1AF07"
+                                        />
+                                      </svg>
+                                      4.7
+                                    </span>
+                                    <button
+                                      className="remove_fav"
+                                      onClick={() => removeFav(fav.id)}
+                                    ></button>
+                                  </div>
+                                  <p className="card-span">
                                     <svg
-                                      width="16"
-                                      height="15"
-                                      viewBox="0 0 16 15"
+                                      width="9"
+                                      height="9"
+                                      viewBox="0 0 9 9"
                                       fill="none"
                                       xmlns="http://www.w3.org/2000/svg"
-                                      style={{ paddingRight: 5 }}
                                     >
-                                      <path
-                                        d="M7.66418 0.360352L9.46181 5.62357H15.279L10.5728 8.87641L12.3704 14.1396L7.66418 10.8868L2.95794 14.1396L4.75556 8.87641L0.0493164 5.62357H5.86656L7.66418 0.360352Z"
-                                        fill="#F1AF07"
-                                      />
-                                    </svg>
-                                    4.7
-                                  </span>
-                                  <button
-                                    className="remove_fav"
-                                    onClick={() => removeFav(fav.id)}
-                                  ></button>
-                                </div>
-                                <p className="card-span">
-                                  <svg
-                                    width="9"
-                                    height="9"
-                                    viewBox="0 0 9 9"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <g clipPath="url(#clip0_161_2953)">
-                                      <path
-                                        d="M4.50296 0.195417C6.27031 0.135857 7.72168 1.55078 7.72168 3.30467C7.72168 5.29514 5.81151 6.73968 4.74087 8.81713C4.68651 8.92261 4.53467 8.92274 4.48012 8.81728C3.51157 6.948 1.85618 5.69454 1.5494 3.8937C1.23176 2.03018 2.61367 0.259112 4.50296 0.195417ZM4.61065 4.93425C5.51063 4.93425 6.24023 4.20463 6.24023 3.30467C6.24023 2.40471 5.51061 1.67509 4.61065 1.67509C3.71067 1.67509 2.98105 2.40471 2.98105 3.30467C2.98105 4.20463 3.71067 4.93425 4.61065 4.93425Z"
-                                        fill="#DEC25F"
-                                      />
-                                    </g>
-                                    <defs>
-                                      <clipPath id="clip0_161_2953">
-                                        <rect
-                                          width="8.7027"
-                                          height="8.7027"
-                                          fill="white"
-                                          transform="matrix(-1 0 0 1 8.96387 0.193665)"
+                                      <g clipPath="url(#clip0_161_2953)">
+                                        <path
+                                          d="M4.50296 0.195417C6.27031 0.135857 7.72168 1.55078 7.72168 3.30467C7.72168 5.29514 5.81151 6.73968 4.74087 8.81713C4.68651 8.92261 4.53467 8.92274 4.48012 8.81728C3.51157 6.948 1.85618 5.69454 1.5494 3.8937C1.23176 2.03018 2.61367 0.259112 4.50296 0.195417ZM4.61065 4.93425C5.51063 4.93425 6.24023 4.20463 6.24023 3.30467C6.24023 2.40471 5.51061 1.67509 4.61065 1.67509C3.71067 1.67509 2.98105 2.40471 2.98105 3.30467C2.98105 4.20463 3.71067 4.93425 4.61065 4.93425Z"
+                                          fill="#DEC25F"
                                         />
-                                      </clipPath>
-                                    </defs>
-                                  </svg>
-                                  {fav.description}
-                                </p>
-                                <div className="app_card_heading d-flex justify-content-between">
-                                  <p className="d-flex align-items-center gap-1">
-                                    3000 € <span>/ month</span>
+                                      </g>
+                                      <defs>
+                                        <clipPath id="clip0_161_2953">
+                                          <rect
+                                            width="8.7027"
+                                            height="8.7027"
+                                            fill="white"
+                                            transform="matrix(-1 0 0 1 8.96387 0.193665)"
+                                          />
+                                        </clipPath>
+                                      </defs>
+                                    </svg>
+                                    {fav.description}
                                   </p>
-                                  <div className="d-flex gap-2">
-                                    <button className="profile-btn">
-                                      More
-                                    </button>
+                                  <div className="app_card_heading d-flex justify-content-between">
+                                    <p className="d-flex align-items-center gap-1">
+                                      3000 € <span>/ month</span>
+                                    </p>
+                                    <div className="d-flex gap-2">
+                                      <button className="profile-btn">
+                                        More
+                                      </button>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
-                            </div>
-                          </li>
+                            </li> */}
+                            <Cards
+                              card={fav}
+                              key={i}
+                              type={"fav"}
+                              customClass={"profile_cards_item"}
+                            />
+                            {/* <button
+                              className="remove_fav"
+                              onClick={() => removeFav(fav.id)}
+                            ></button> */}
+                          </>
                         ))}
                       </ul>
                     </div>
@@ -451,13 +547,15 @@ export default function Profile() {
                                 <div className="card-price-btn mt-3">
                                   <div className="card-price">
                                     <p>
-                                      {rental?.appartment?.defaultSpecialDate
-                                        ?.price} €{" "}
-                                      <span>/ Month</span>
+                                      {
+                                        rental?.appartment?.defaultSpecialDate
+                                          ?.price
+                                      }{" "}
+                                      € <span> / Nacht</span>
                                     </p>
                                   </div>
                                   <div className="profile_card-btn">
-                                      <button>More +</button>
+                                    <button>Mehr +</button>
                                   </div>
                                 </div>
                               </div>
@@ -479,16 +577,14 @@ export default function Profile() {
                           className="mb-0 text-start"
                           style={{ color: "#000", paddingLeft: 10 }}
                         >
-                          Invoices (1)
+                          Rechnungen (1)
                         </h3>
                       </div>
                       <div className="_profile-table scrollable-container">
                         <section className="tables">
                           <div className="table__wrapper scrollable-container">
                             <table className="invoice_table">
-                              <tbody
-                                id="profile_orders_table"
-                              >
+                              <tbody id="profile_orders_table">
                                 <tr
                                   onClick={() => {
                                     openModal();
@@ -916,12 +1012,12 @@ export default function Profile() {
             </defs>
           </svg>
           <br />
-          <h3>Are you sure</h3>
+          <h3>Sind Sie sicher</h3>
           <br />
           <div className="customer-form-btn row d-flex justify-content-center gap-2">
-            <button className="col">No</button>
+            <button className="col">Nein</button>
             <button className="col" id="special-btn">
-              yes
+              Ja
             </button>
           </div>
         </div>

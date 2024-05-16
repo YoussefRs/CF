@@ -1,4 +1,4 @@
-.card_box {
+.card_box:not(.profile_cards_item) {
   /* @media (min-width: 1920px) {
     width: 440px;
 
@@ -137,6 +137,7 @@
 
     margin-bottom: 3rem;
   }
+
   @media (min-width: 576px) and (max-width: 843px) {
 
     width: 450px;
@@ -144,6 +145,7 @@
     margin: 0 auto 3rem;
 
   }
+
   @media (min-width: 425px) and (max-width: 575px) {
 
     width: 400px;
@@ -151,6 +153,7 @@
     margin: 0 auto 3rem;
 
   }
+
   @media (max-width: 424px) {
 
     width: 340px;
@@ -171,7 +174,7 @@
 /* Material Web Card */
 /* Block */
 .material-card {
-  border-radius: 56px;
+  border-radius: 30px;
   background: #fff;
   box-shadow: 0px 16px 31.9px 0px rgba(0, 0, 0, 0.23);
   /* width: 300px;
@@ -193,7 +196,7 @@
 }
 
 .card-info {
-  padding: 0px 30px 20px 30px;
+  padding: 0px 20px 20px 50px;
   margin-bottom: 10px;
   position: relative;
 }
@@ -209,18 +212,20 @@
 .card-title {
   color: #1a1b1a;
 
-  @media (min-width: 1200px) {
+  /* @media (min-width: 1200px) {
     font-size: 1.7rem;
   }
 
   @media (min-width: 992px) and (max-width: 1199px) {
-    font-size: 1.4rem;
-  }
+    font-size: 1.7rem;
+  } */
+
+  font-size: 1.7rem;
 
   font-style: normal;
   font-weight: 700;
   font-family: "Helvetica Neue",
-  sans-serif;
+    sans-serif;
   line-height: 59.147px;
   /* 197.158% */
   text-transform: capitalize;
@@ -237,7 +242,7 @@
   font-family: "Helvetica Neue", sans-serif;
 
   @media (min-width: 1200px) {
-    font-size: 1.7rem;
+    font-size: 1.2rem;
   }
 
   @media (min-width: 992px) and (max-width: 1199px) {
@@ -275,8 +280,7 @@
 
 .card-price-btn {
   position: relative;
-  border-bottom-left-radius: 30px;
-  border-bottom-right-radius: 30px;
+  padding: 0px 20px 20px 50px;
   width: 100%;
   height: 70px;
   display: flex;
@@ -287,8 +291,7 @@
 .card-btn {
   width: 40%;
   height: 100%;
-  border-bottom-right-radius: 56px;
-  border-top-left-radius: 56px;
+  border-radius: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -309,7 +312,7 @@
 }
 
 .card-price {
-  padding-left: 30px;
+  /* padding-left: 30px; */
   color: #038b3e;
   font-family: "Helvetica Neue";
 
@@ -321,7 +324,7 @@
     font-size: 1.7rem;
   }
 
-  @media (min-width: 991px) {
+  @media (max-width: 991px) {
     font-size: 1.5rem;
   }
 

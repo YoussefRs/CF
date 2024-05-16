@@ -1,13 +1,62 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Calendar.css";
 import { Calendar } from "react-multi-date-picker";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 export default function CalendarComp({ setBookingData, bookingData, card }) {
+  const BASE_URL = import.meta.env.VITE_API_URL;
   const [datePickerValue, setDatePickerValue] = useState([]);
 
+  const [approvedBookings, setApprovedBookings] = useState([]);
+
+  useEffect(() => {
+    const fetchApprovedBookings = async () => {
+      try {
+        const response = await axios.get(`${BASE_URL}/reservations/unpaid`);
+        setApprovedBookings(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchApprovedBookings();
+  }, []);
+
+  const isDateDisabled = (date) => {
+    for (const booking of approvedBookings) {
+      const startDate = new Date(booking.startDate);
+      const endDate = new Date(booking.endDate);
+
+      // Disable dates within the range of approved bookings
+      if (date >= startDate && date <= endDate) {
+        return true;
+      }
+    }
+    return false;
+  };
   const handleDateChange = (value) => {
     if (value.length === 2) {
       const [startDate, endDate] = value;
+
+      const currentDate = new Date(startDate);
+      const lastDate = new Date(endDate);
+      const allDatesInRange = [];
+
+      while (currentDate <= lastDate) {
+        allDatesInRange.push(new Date(currentDate));
+        currentDate.setDate(currentDate.getDate() + 1);
+      }
+
+      const rangeIncludesDisabled = allDatesInRange.some((date) =>
+        isDateDisabled(date)
+      );
+
+      if (rangeIncludesDisabled) {
+        toast.error("Sie können diesen Datumsbereich nicht auswählen, da deaktivierte Daten enthalten sind.")
+        return;
+      }
+
       const formattedStartDate = `${startDate.year}-${String(
         startDate.month.index + 1
       ).padStart(2, "0")}-${String(startDate.day).padStart(2, "0")}`;
@@ -17,12 +66,9 @@ export default function CalendarComp({ setBookingData, bookingData, card }) {
       const start = new Date(formattedStartDate);
       const end = new Date(formattedEndDate);
 
-      // Calculating the difference in milliseconds between the start and end dates
       const diffTime = Math.abs(end - start);
-      // Converting the difference in milliseconds to days
       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-      // Set booking data with both start and end dates and the calculated nights count
       setBookingData({
         ...bookingData,
         startDate: formattedStartDate,
@@ -31,15 +77,6 @@ export default function CalendarComp({ setBookingData, bookingData, card }) {
       });
     }
   };
-
-  function formatDailySalesDate(inputDate) {
-    const date = new Date(inputDate);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0"); // Adding leading zero if needed
-    const day = String(date.getDate()).padStart(2, "0"); // Adding leading zero if needed
-
-    return `${month}-${day}-${year}`;
-  }
 
   return (
     <div className="_calendar_ctr">
@@ -60,11 +97,18 @@ export default function CalendarComp({ setBookingData, bookingData, card }) {
               props.className = "special-date";
               props.style = {
                 fontWeight: "bold",
-                backgroundColor: "#028139",
-                color: "white",
+                border: "1px solid #028139",
+                color: "#028139",
               };
             }
           });
+
+          if (isDateDisabled(date)) {
+            props.className = props.className
+              ? `${props.className} disabled-date`
+              : "disabled-date";
+            props.onClick = () => {}; // Disable click event
+          }
 
           return props;
         }}

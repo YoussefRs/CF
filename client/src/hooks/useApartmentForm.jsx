@@ -10,21 +10,16 @@ const BASE_URL = import.meta.env.VITE_API_URL;
 const initialFormData = {
   apartmentName: "",
   location: "",
-  bedroom: 0,
-  bathroom: 0,
+  bedroom: 1,
+  bathroom: 1,
   parking: false,
   rent: false,
   food: false,
   laundry: false,
   pictures: [],
-  defaultSpecialDate: {
-    price: 0,
-    startDate: "",
-    endDate: "",
-  },
-  specialDates: [],
+  price: "", // Added for price
+  specialDates: [], // Added for specialDates
   description: "",
-  more: [],
 };
 
 const useAppartementsForm = () => {
@@ -55,18 +50,34 @@ const useAppartementsForm = () => {
   }, [showModal]);
 
   const handleInputChange = (event) => {
-    const { name, value } = event.target;
+    const { name, value, type, checked } = event.target;
+
+    // If the input type is checkbox, handle the checked state
+    const inputValue = type === "checkbox" ? checked : value;
+
+    // If the name includes '.', it means it's nested data (e.g., defaultSpecialDate.price)
     if (name.includes(".")) {
       const [parent, child] = name.split(".");
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        [parent]: {
-          ...prevFormData[parent],
-          [child]: value,
-        },
-      }));
+
+      // If the child field is 'startDate' or 'endDate', update directly
+      if (child === "startDate" || child === "endDate") {
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          [child]: inputValue,
+        }));
+      } else {
+        // Otherwise, update nested data
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          [parent]: {
+            ...prevFormData[parent],
+            [child]: inputValue,
+          },
+        }));
+      }
     } else {
-      setFormData({ ...formData, [name]: value });
+      // For top-level fields, update directly
+      setFormData({ ...formData, [name]: inputValue });
     }
   };
 
@@ -74,11 +85,25 @@ const useAppartementsForm = () => {
     setInputRows([...inputRows, { price: "", startDate: "", endDate: "" }]);
   };
 
+  const handleRemoveRow = (indexToRemove) => {
+    setInputRows(inputRows.filter((_, index) => index !== indexToRemove));
+  };
+
+  // Function to remove an existing row
+  const handleRemoveExistingRow = (indexToRemove) => {
+    setEditApartment((prevEditApartment) => {
+      const updatedPrices = prevEditApartment.prices.filter(
+        (_, index) => index !== indexToRemove
+      );
+      return { ...prevEditApartment, prices: updatedPrices };
+    });
+  };
+
   const handleSpecialDateInputChange = (index, event) => {
     const { name, value } = event.target;
     const newSpecialDate = [...formData.specialDates];
     newSpecialDate[index] = { ...newSpecialDate[index], [name]: value };
-    setFormData((prevFormData) => ({
+    setEditApartment((prevFormData) => ({
       ...prevFormData,
       specialDates: newSpecialDate,
     }));
@@ -126,15 +151,7 @@ const useAppartementsForm = () => {
   //   }));
   // };
 
-  // const handleRemoveImage = (id) => {
-  //   const updatedPictures = formData.pictures.filter(
-  //     (image) => image.id !== id
-  //   );
-  //   setFormData((prevFormData) => ({
-  //     ...prevFormData,
-  //     pictures: updatedPictures,
-  //   }));
-  // };
+  
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -172,17 +189,14 @@ const useAppartementsForm = () => {
         food: formData.food,
         laundry: formData.laundry,
         pictures: uploadedImages, // Use uploaded image URLs
-        defaultSpecialDate: {
-          price: formData.defaultSpecialDate.price,
-          startDate: formData.defaultSpecialDate.startDate,
-          endDate: formData.defaultSpecialDate.endDate,
-        },
+        price: formData.price,
         specialDates: formData.specialDates,
         description: formData.description,
       });
 
       setFormData(initialFormData);
       closeModal();
+      dispatch(getAllApartments());
     } catch (error) {
       console.error("Error uploading images or submitting form:", error);
     } finally {
@@ -213,10 +227,14 @@ const useAppartementsForm = () => {
 
   const handleEditSpecialDateInputChange = (index, event) => {
     const { name, value } = event.target;
+
+    // Convert date string to the format compatible with MySQL (YYYY-MM-DD)
+    const formattedValue = value;
+
     setEditApartment((prevEditApartment) => {
       const newSpecialDate = prevEditApartment.prices.map((item, i) => {
         if (i === index) {
-          return { ...item, [name]: value };
+          return { ...item, [name]: formattedValue };
         }
         return item;
       });
@@ -227,9 +245,9 @@ const useAppartementsForm = () => {
   const handleEditAddRow = () => {
     setEditApartment((prevEditApartment) => ({
       ...prevEditApartment,
-      specialDate: [
-        ...prevEditApartment.specialDate,
-        { price: "", startDate: "", endDate: "" },
+      prices: [
+        ...prevEditApartment.prices,
+        { price: "", start_date: "", end_date: "" },
       ],
     }));
   };
@@ -296,18 +314,19 @@ const useAppartementsForm = () => {
 
   const handleEditSubmit = async (e, id) => {
     e.preventDefault();
-
     try {
       setLoadingEdit(true);
 
       // Filter out existing images and get only the new ones to upload
-      const newImages = editApartment.images.filter((image) => !image.id);
+      const newImages = editApartment.images.filter(
+        (image) => image instanceof File
+      );
 
       // Upload new images to Cloudinary
       const uploadedImages = await Promise.all(
         newImages.map(async (image) => {
           const formData = new FormData();
-          formData.append("file", image.file);
+          formData.append("file", image);
           formData.append("upload_preset", "cityflat");
 
           const response = await axios.post(
@@ -323,20 +342,17 @@ const useAppartementsForm = () => {
         })
       );
 
-      // Update the editApartment state with the uploaded image URLs
-      const updatedImages = newImages.map((image, index) => ({
-        ...image,
-        image_url: uploadedImages[index],
+      // Create an array of new image objects with the uploaded image URLs
+      const updatedImages = uploadedImages.map((imageUrl) => ({
+        apartment_id: id, // Add apartment_id property
+        image_url: imageUrl,
       }));
 
-      // Update the editApartment state with only the newly uploaded images
-      setEditApartment((prevEditApartment) => ({
-        ...prevEditApartment,
-        images: [
-          ...prevEditApartment.images.filter((image) => image.id),
-          ...updatedImages,
-        ],
-      }));
+      // Merge existing images with newly uploaded images
+      const finalImages = [
+        ...editApartment.images.filter((image) => !(image instanceof File)),
+        ...updatedImages,
+      ];
 
       // Submit form data with uploaded image URLs
       await axios.put(`${BASE_URL}/appartments/${id}`, {
@@ -348,13 +364,9 @@ const useAppartementsForm = () => {
         rent: editApartment.rent,
         food: editApartment.food,
         laundry: editApartment.laundry,
-        pictures: uploadedImages, // Use uploaded image URLs
-        default_special_date: {
-          price: editApartment.default_special_date.price,
-          startDate: editApartment.default_special_date.startDate,
-          endDate: editApartment.default_special_date.endDate,
-        },
-        specialDates: editApartment.specialDates,
+        pictures: finalImages,
+        price: editApartment.price,
+        specialDates: editApartment.prices,
         description: editApartment.description,
       });
 
@@ -367,7 +379,14 @@ const useAppartementsForm = () => {
     }
   };
 
+  const handleKeyDown = (event) => {
+    if (event.key === "-" && event.target.name === "price") {
+      event.preventDefault();
+    }
+  };
+
   return {
+    handleKeyDown,
     handleEditSubmit,
     handleEditImageChange,
     handleEditRemoveImage,
@@ -398,6 +417,8 @@ const useAppartementsForm = () => {
     OpenDeleteAppModal,
     closeDeleteAppModal,
     loadingAdd,
+    handleRemoveRow,
+    handleRemoveExistingRow,
   };
 };
 

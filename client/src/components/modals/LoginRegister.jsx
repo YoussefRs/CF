@@ -7,6 +7,8 @@ import { loginUser } from "../../redux/authSlice";
 import validationSchema from "../../validations/validationSchema";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 export function handleSignInClick() {
   const container = document.getElementById("container");
@@ -18,6 +20,7 @@ export function handleSignUpClick() {
 }
 
 export default function LoginRegister({ closeLoginModal }) {
+  const BASE_URL = import.meta.env.VITE_API_URL;
   const navigate = useNavigate();
   const { user, isLoading, isAuthenticated } = useSelector(
     (state) => state.auth
@@ -28,35 +31,33 @@ export default function LoginRegister({ closeLoginModal }) {
 
   const handleSubmit = (values) => {
     setIsLoading(true); // Set loading state to true before dispatching the action
-
+  
     // Dispatch action to login user
     dispatch(loginUser(values))
       .then(() => {
-        // If the user is an admin, navigate to the dashboard
-        // Otherwise, navigate to the home page
-        if (user?.role === "admin") {
+        if (user && user?.role === "admin") {
           navigate("/dashboard");
-        } else {
+          window.location.reload();
+        } else if (user && user?.role === "user") {
           navigate("/");
+          window.location.reload();
         }
       })
       .catch((error) => {
-        console.error("Login failed", error);
+        console.error("Anmeldung fehlgeschlagen", error);
       })
       .finally(() => {
-        // Show loading for two seconds before hiding the form
-        setTimeout(() => {
-          setIsLoading(false);
-          closeLoginModal();
-        }, 2000); // 2000 milliseconds = 2 seconds
+        // Hide loading after dispatching the action
+        setIsLoading(false);
       });
   };
+  
 
   const [Loading, setIsLoading] = useState(false);
   const handleSignUpSubmit = async (values) => {
     try {
       setIsLoading(true); // Set loading state to true before making the request
-
+  
       const registrationData = {
         username: values.username,
         gsm: values.gsm,
@@ -64,26 +65,37 @@ export default function LoginRegister({ closeLoginModal }) {
         password: values.password,
         img: imgUrl,
       };
-
+  
       const response = await axios.post(
-        "http://127.0.0.1:3001/user/register",
+        `${BASE_URL}/user/register`,
         registrationData
       );
-
-      // Handle successful response
-      console.log("Registration successful", response.data);
+      toast.success("Registrierung erfolgreich");
+      closeLoginModal(); 
+  
+      setIsLoading(false); 
     } catch (error) {
       console.error("Registration failed", error);
-    } finally {
-      setTimeout(() => {
-        setIsLoading(false);
-        closeLoginModal();
-      }, 2000);
+      toast.error(error.response.data.message);
+      setIsLoading(false); 
     }
   };
+  
 
   return (
     <div className="modal_container" id="container">
+       <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       {isLoading ? (
         <Loader />
       ) : (
@@ -105,13 +117,14 @@ export default function LoginRegister({ closeLoginModal }) {
                   <Loader />
                 ) : (
                   <>
-                    <h1>Sign Up</h1>
-                    <div className="input_custom w-100 relative d-flex align-items-center">
+                    <h1 className="mt-3">Registrieren</h1>
+                    <div className="input_custom relative d-flex align-items-center">
                       <Field
                         type="text"
                         name="username"
-                        placeholder="Full Name"
+                        placeholder="Vollständiger Name"
                         required
+                        autoComplete="off"
                       />
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -125,12 +138,13 @@ export default function LoginRegister({ closeLoginModal }) {
                       </svg>
                       {/* <ErrorMessage name="username" component="div" /> */}
                     </div>
-                    <div className="input_custom w-100 relative d-flex align-items-center">
+                    <div className="input_custom relative d-flex align-items-center">
                       <Field
                         type="number"
                         name="gsm"
-                        placeholder="Gsm"
+                        placeholder="Handynummer"
                         required
+                        autoComplete="off"
                       />
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -146,12 +160,13 @@ export default function LoginRegister({ closeLoginModal }) {
                       {/* <ErrorMessage name="gsm" component="div" /> */}
                     </div>
 
-                    <div className="input_custom w-100 relative d-flex align-items-center">
+                    <div className="input_custom relative d-flex align-items-center">
                       <Field
                         type="email"
                         name="email"
                         placeholder="Email"
                         required
+                        autoComplete="off"
                       />
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -167,12 +182,13 @@ export default function LoginRegister({ closeLoginModal }) {
                       {/* <ErrorMessage name="email" component="div" /> */}
                     </div>
 
-                    <div className="input_custom w-100 relative d-flex align-items-center">
+                    <div className="input_custom relative d-flex align-items-center">
                       <Field
                         type="password"
                         name="password"
-                        placeholder="Password"
+                        placeholder="Passwort"
                         required
+                        autoComplete="new-password"
                       />
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -187,12 +203,14 @@ export default function LoginRegister({ closeLoginModal }) {
                       {/* <ErrorMessage name="password" component="div" /> */}
                     </div>
 
-                    <button type="submit">Sign Up</button>
+                    <button type="submit" className="mb-3">
+                      Registrieren
+                    </button>
 
                     <span>
-                      Already have an account ?{" "}
+                      Haben Sie bereits ein Konto?{" "}
                       <a id="SignIn" onClick={handleSignInClick}>
-                        Login
+                        Anmelden
                       </a>
                     </span>
                   </>
@@ -211,13 +229,14 @@ export default function LoginRegister({ closeLoginModal }) {
                   <Loader />
                 ) : (
                   <>
-                    <h1>Sign In</h1>
-                    <div className="input_custom w-100 relative d-flex align-items-center">
+                    <h1>Anmelden</h1>
+                    <div className="input_custom relative d-flex align-items-center">
                       <Field
                         type="email"
                         name="email"
                         placeholder="Email"
                         required
+                        autoComplete="off"
                       />
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -232,12 +251,13 @@ export default function LoginRegister({ closeLoginModal }) {
                       </svg>
                       {/* <ErrorMessage name="email" component="div" /> */}
                     </div>
-                    <div className="input_custom w-100 relative d-flex align-items-center">
+                    <div className="input_custom relative d-flex align-items-center">
                       <Field
                         type="password"
                         name="password"
-                        placeholder="Password"
+                        placeholder="Passwort"
                         required
+                        autoComplete="new-password"
                       />
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -253,12 +273,16 @@ export default function LoginRegister({ closeLoginModal }) {
                       {/* <ErrorMessage name="password" component="div" /> */}
                     </div>
 
-                    <a href="#">Forgot your password?</a>
-                    <button type="submit">Sign In</button>
+                    <a href="#" className="mb-4 rs_pw_link">
+                      Passwort vergessen?
+                    </a>
+                    <button type="submit" className="mb-4">
+                      Anmelden
+                    </button>
                     <span>
-                      You don't have an account ?{" "}
+                      Sie haben noch kein Konto?{" "}
                       <a id="SignUp" onClick={handleSignUpClick}>
-                        create an account
+                        Erstellen Sie ein Konto
                       </a>
                     </span>
                   </>
@@ -274,7 +298,7 @@ export default function LoginRegister({ closeLoginModal }) {
                   id="SignIn"
                   onClick={handleSignInClick}
                 >
-                  Sign In
+                  Anmelden
                 </button>
               </div>
               <div className="overlay-panel overlay-right">
@@ -283,7 +307,7 @@ export default function LoginRegister({ closeLoginModal }) {
                   id="SignUp"
                   onClick={handleSignUpClick}
                 >
-                  Sign Up
+                  Registrieren
                 </button>
               </div>
             </div>
