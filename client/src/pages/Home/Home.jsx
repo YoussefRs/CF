@@ -12,10 +12,6 @@ import { apartmentList } from "../../Dummy/AppData";
 // import MultiFunc from "../../components/multi/MultiFunc";
 
 export default function Home() {
-  const apartmentList = useSelector(
-    (state) => state.apartments.apartments.apartments
-  );
-  const user = useSelector((state) => state.auth.user);
 
   return (
     <>

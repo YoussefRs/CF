@@ -1,15 +1,15 @@
 export const apartmentList = [
   {
     // smth
-    id: "244fzGb",
-    name: "Luxury Apartment",
+    id: "smoobuApartment1978163de",
+    name: "Penthouse am Borussia Park -L11-",
+    loadCalendarUrl:
+      "https://login.smoobu.com/de/cockpit/widget/single-calendar/1978163",
+    verification:
+      "1399b10e610ab6085c0d7e4ef3fe7438637e9d61583da543793e346b3a05ebd2",
     location: "Düsseldorf, Allemagne",
     bedroom: 3,
     bathroom: 2,
-    parking: 1,
-    rent: 1,
-    food: 1,
-    laundry: 1,
     images: [
       { image_url: "https://picsum.photos/200/300" },
       { image_url: "https://picsum.photos/200/300" },
@@ -18,69 +18,32 @@ export const apartmentList = [
       { image_url: "https://picsum.photos/200/300" },
       { image_url: "https://picsum.photos/200/300" },
     ],
-    default_special_date: {
-      price: 2000,
-      startDate: "2024-05-01",
-      endDate: "2024-05-04",
-    },
-    specialDates: [
-      {
-        price: 500,
-        startDate: "2024-06-01",
-        endDate: "2024-06-04",
-      },
-      {
-        price: 130,
-        startDate: "2024-07-01",
-        endDate: "2024-07-04",
-      },
-    ],
     description:
       "Spacious luxury apartment with great amenities, Spacious luxury apartment with great amenities, Spacious luxury apartment with great amenities, Spacious luxury apartment with great amenities, Spacious luxury apartment with great amenities .",
   },
   {
-    id: "244fzGb",
-    name: "Luxury Apartment",
+    id: "smoobuApartment1978148de",
+    name: "Townloft - am Borussia Park -L1-",
     location: "Düsseldorf, Allemagne",
-    bedroom: 3,
+    loadCalendarUrl:
+      "https://login.smoobu.com/de/cockpit/widget/single-calendar/1978148",
+    verification:
+      "8a61d6afab791aa45ba845c2e0f8bdececb3dbf1b8ca03e5cb9bc8478843a01f",
     bathroom: 2,
     parking: 1,
-    rent: 1,
-    food: 2,
-    laundry: 1,
-    images: [
-      { image_url: "https://picsum.photos/200/300" },
-    ],
-    default_special_date: {
-      price: 2000,
-      startDate: "2024-05-01",
-      endDate: "2024-05-04",
-    },
-    specialDates: [
-      {
-        price: 500,
-        startDate: "2024-06-01",
-        endDate: "2024-06-04",
-      },
-      {
-        price: 130,
-        startDate: "2024-07-01",
-        endDate: "2024-07-04",
-      },
-    ],
+    images: [{ image_url: "https://picsum.photos/200/300" }],
     description:
       "Spacious luxury apartment with great amenities, Spacious luxury apartment with great amenities, Spacious luxury apartment with great amenities, Spacious luxury apartment with great amenities, Spacious luxury apartment with great amenities .",
   },
   {
-    id: "244fzGb",
-    name: "Luxury Apartment",
+    id: "smoobuApartment1978151de",
+    name: "Townloft - am Borussia Park -L2-",
     location: "Düsseldorf, Allemagne",
     bedroom: 3,
     bathroom: 2,
-    parking: 1,
-    rent: 1,
-    food: 1,
-    laundry: 1,
+    loadCalendarUrl:"https://login.smoobu.com/de/cockpit/widget/single-calendar/1978154",
+        verification:"0e509e6d2f2584f4adaa79f39c03117f20a04cdf47f9a97bad2ba18caa6a7b04",
+  
     images: [
       { image_url: "https://picsum.photos/200/300" },
       { image_url: "https://picsum.photos/200/301" },
@@ -88,35 +51,17 @@ export const apartmentList = [
       { image_url: "https://picsum.photos/200/303" },
       { image_url: "https://picsum.photos/200/304" },
     ],
-    default_special_date: {
-      price: 2000,
-      startDate: "2024-05-01",
-      endDate: "2024-05-04",
-    },
-    specialDates: [
-      {
-        price: 500,
-        startDate: "2024-06-01",
-        endDate: "2024-06-04",
-      },
-      {
-        price: 130,
-        startDate: "2024-07-01",
-        endDate: "2024-07-04",
-      },
-    ],
     description:
       "Spacious luxury apartment with great amenities, Spacious luxury apartment with great amenities, Spacious luxury apartment with great amenities, Spacious luxury apartment with great amenities, Spacious luxury apartment with great amenities .",
   },
   {
-    id: "244fzGb",
-    name: "Luxury Apartment",
+    id: "smoobuApartment1978154de",
+    name: "Townloft - am Borussia Park -L3-",
     location: "Düsseldorf, Allemagne",
     bedroom: 3,
     bathroom: 2,
-    parking: 1,
-    rent: 2,
-    food: 1,
+    loadCalendarUrl:"https://login.smoobu.com/de/cockpit/widget/single-calendar/1978157",
+        verification:"31ada151aee67435dbc5d04aa222ef8bc353a11b4941f39df3a5f36e9912cadb",
     laundry: 2,
     images: [
       { image_url: "https://picsum.photos/200/300" },
@@ -124,227 +69,38 @@ export const apartmentList = [
       { image_url: "https://picsum.photos/200/300" },
       { image_url: "https://picsum.photos/200/300" },
     ],
-    default_special_date: {
-      price: 2000,
-      startDate: "2024-05-01",
-      endDate: "2024-05-04",
-    },
-    specialDates: [
-      {
-        price: 500,
-        startDate: "2024-06-01",
-        endDate: "2024-06-04",
-      },
-      {
-        price: 130,
-        startDate: "2024-07-01",
-        endDate: "2024-07-04",
-      },
-    ],
     description:
       "Spacious luxury apartment with great amenities, Spacious luxury apartment with great amenities, Spacious luxury apartment with great amenities, Spacious luxury apartment with great amenities, Spacious luxury apartment with great amenities .",
   },
   {
-    id: "244fzGb",
-    name: "Luxury Apartment",
+    id: "smoobuApartment1978157de",
+    name: "Townloft - am Borussia Park -L6-",
     location: "Düsseldorf, Allemagne",
     bedroom: 3,
     bathroom: 2,
-    parking: 2,
-    rent: 2,
-    food: 1,
-    laundry: 1,
+    loadCalendarUrl:"https://login.smoobu.com/de/cockpit/widget/single-calendar/1978157",
+    verification:"31ada151aee67435dbc5d04aa222ef8bc353a11b4941f39df3a5f36e9912cadb",
+   
     images: [
       { image_url: "https://picsum.photos/200/300" },
       { image_url: "https://picsum.photos/200/300" },
     ],
-    default_special_date: {
-      price: 2000,
-      startDate: "2024-05-01",
-      endDate: "2024-05-04",
-    },
-    specialDates: [
-      {
-        price: 500,
-        startDate: "2024-06-01",
-        endDate: "2024-06-04",
-      },
-      {
-        price: 130,
-        startDate: "2024-07-01",
-        endDate: "2024-07-04",
-      },
-    ],
     description:
       "Spacious luxury apartment with great amenities, Spacious luxury apartment with great amenities, Spacious luxury apartment with great amenities, Spacious luxury apartment with great amenities, Spacious luxury apartment with great amenities .",
   },
-];
-
-export const user = {
-  createdAt: "2024-05-04T10:47:24.000Z",
-  email: "yeseuce@gmail.com",
-  id: 2,
-  image: "",
-  password: "$2b$10$Iy.DQs9rXXxKuz05rXkizOQ1or6gt.JxGoOrgGljom6dnaT5BrwEa",
-  phone: "26279409",
-  role: "admin",
-  username: "admin",
-};
-
-export const favoritess = [
   {
-    apartmentName: "test close Edit mopdal",
-    bathroom: 3,
-    bedroom: 1,
-    defaultDateAndPrice: {
-      price: 225,
-      startDate: "2024-03-14T00:00:00.000Z",
-      endDate: "2024-03-19T00:00:00.000Z",
-    },
+    id: "smoobuApartment1978160de",
+    name: "Townloft - am Borussia Park -L7-",
+    location: "Düsseldorf, Allemagne",
+    bedroom: 3,
+    bathroom: 2,
+    loadCalendarUrl:"https://login.smoobu.com/de/cockpit/widget/single-calendar/1978160",
+    verification:"5a7b80431b6c4220efaa15fc31ddc30cdc87ead259f390514f97f98fa409070e",
+    images: [
+      { image_url: "https://picsum.photos/200/300" },
+      { image_url: "https://picsum.photos/200/300" },
+    ],
     description:
-      "fhuzehifhzhgzhgiezhgzehgzhegiuhzeghzegzhifhuzehifhzhgzhgiezhgzehgzhegiuhzeghzegzhifhuzehifhzhgzhgiezhgzehgzhegiuhzeghzegzhifhuzehifhzhgzhgiezhgzehgzhegiuhzeghzegzhifhuzehifhzhgzhgiezhgzehgzhegiuhzeghzegzhi",
-    food: true,
-    id: "65e59211c01db4dba7ea93bc",
-    laundry: true,
-    location: "eazgezg",
-    more: [
-      "https://res.cloudinary.com/dlspkc0so/image/upload/v1709543944/ctuoi89l9mfo8wluk01a.png",
-    ],
-    parking: false,
-    pictures: [
-      "https://res.cloudinary.com/dlspkc0so/image/upload/v1709543937/mgzsip6cyeuwxf70xqwy.png",
-    ],
-    rent: true,
-    specialDate: [
-      {
-        price: 2254,
-        startDate: "2024-03-20T00:00:00.000Z",
-        endDate: "2024-03-22T00:00:00.000Z",
-      },
-    ],
-  },
-  {
-    apartmentName: "test close Edit mopdal",
-    bathroom: 3,
-    bedroom: 1,
-    defaultDateAndPrice: {
-      price: 225,
-      startDate: "2024-03-14T00:00:00.000Z",
-      endDate: "2024-03-19T00:00:00.000Z",
-    },
-    description:
-      "fhuzehifhzhgzhgiezhgzehgzhegiuhzeghzegzhifhuzehifhzhgzhgiezhgzehgzhegiuhzeghzegzhifhuzehifhzhgzhgiezhgzehgzhegiuhzeghzegzhifhuzehifhzhgzhgiezhgzehgzhegiuhzeghzegzhifhuzehifhzhgzhgiezhgzehgzhegiuhzeghzegzhi",
-    food: true,
-    id: "65e59211c01db4dba7ea93bc",
-    laundry: true,
-    location: "eazgezg",
-    more: [
-      "https://res.cloudinary.com/dlspkc0so/image/upload/v1709543944/ctuoi89l9mfo8wluk01a.png",
-    ],
-    parking: false,
-    pictures: [
-      "https://res.cloudinary.com/dlspkc0so/image/upload/v1709543937/mgzsip6cyeuwxf70xqwy.png",
-    ],
-    rent: true,
-    specialDate: [
-      {
-        price: 2254,
-        startDate: "2024-03-20T00:00:00.000Z",
-        endDate: "2024-03-22T00:00:00.000Z",
-      },
-    ],
-  },
-  {
-    apartmentName: "test close Edit mopdal",
-    bathroom: 3,
-    bedroom: 1,
-    defaultDateAndPrice: {
-      price: 225,
-      startDate: "2024-03-14T00:00:00.000Z",
-      endDate: "2024-03-19T00:00:00.000Z",
-    },
-    description:
-      "fhuzehifhzhgzhgiezhgzehgzhegiuhzeghzegzhifhuzehifhzhgzhgiezhgzehgzhegiuhzeghzegzhifhuzehifhzhgzhgiezhgzehgzhegiuhzeghzegzhifhuzehifhzhgzhgiezhgzehgzhegiuhzeghzegzhifhuzehifhzhgzhgiezhgzehgzhegiuhzeghzegzhi",
-    food: true,
-    id: "65e59211c01db4dba7ea93bc",
-    laundry: true,
-    location: "eazgezg",
-    more: [
-      "https://res.cloudinary.com/dlspkc0so/image/upload/v1709543944/ctuoi89l9mfo8wluk01a.png",
-    ],
-    parking: false,
-    pictures: [
-      "https://res.cloudinary.com/dlspkc0so/image/upload/v1709543937/mgzsip6cyeuwxf70xqwy.png",
-    ],
-    rent: true,
-    specialDate: [
-      {
-        price: 2254,
-        startDate: "2024-03-20T00:00:00.000Z",
-        endDate: "2024-03-22T00:00:00.000Z",
-      },
-    ],
-  },
-  {
-    apartmentName: "test close Edit mopdal",
-    bathroom: 3,
-    bedroom: 1,
-    defaultDateAndPrice: {
-      price: 225,
-      startDate: "2024-03-14T00:00:00.000Z",
-      endDate: "2024-03-19T00:00:00.000Z",
-    },
-    description:
-      "fhuzehifhzhgzhgiezhgzehgzhegiuhzeghzegzhifhuzehifhzhgzhgiezhgzehgzhegiuhzeghzegzhifhuzehifhzhgzhgiezhgzehgzhegiuhzeghzegzhifhuzehifhzhgzhgiezhgzehgzhegiuhzeghzegzhifhuzehifhzhgzhgiezhgzehgzhegiuhzeghzegzhi",
-    food: true,
-    id: "65e59211c01db4dba7ea93bc",
-    laundry: true,
-    location: "eazgezg",
-    more: [
-      "https://res.cloudinary.com/dlspkc0so/image/upload/v1709543944/ctuoi89l9mfo8wluk01a.png",
-    ],
-    parking: false,
-    pictures: [
-      "https://res.cloudinary.com/dlspkc0so/image/upload/v1709543937/mgzsip6cyeuwxf70xqwy.png",
-    ],
-    rent: true,
-    specialDate: [
-      {
-        price: 2254,
-        startDate: "2024-03-20T00:00:00.000Z",
-        endDate: "2024-03-22T00:00:00.000Z",
-      },
-    ],
-  },
-  {
-    apartmentName: "test close Edit mopdal",
-    bathroom: 3,
-    bedroom: 1,
-    defaultDateAndPrice: {
-      price: 225,
-      startDate: "2024-03-14T00:00:00.000Z",
-      endDate: "2024-03-19T00:00:00.000Z",
-    },
-    description:
-      "fhuzehifhzhgzhgiezhgzehgzhegiuhzeghzegzhifhuzehifhzhgzhgiezhgzehgzhegiuhzeghzegzhifhuzehifhzhgzhgiezhgzehgzhegiuhzeghzegzhifhuzehifhzhgzhgiezhgzehgzhegiuhzeghzegzhifhuzehifhzhgzhgiezhgzehgzhegiuhzeghzegzhi",
-    food: true,
-    id: "65e59211c01db4dba7ea93bc",
-    laundry: true,
-    location: "eazgezg",
-    more: [
-      "https://res.cloudinary.com/dlspkc0so/image/upload/v1709543944/ctuoi89l9mfo8wluk01a.png",
-    ],
-    parking: false,
-    pictures: [
-      "https://res.cloudinary.com/dlspkc0so/image/upload/v1709543937/mgzsip6cyeuwxf70xqwy.png",
-    ],
-    rent: true,
-    specialDate: [
-      {
-        price: 2254,
-        startDate: "2024-03-20T00:00:00.000Z",
-        endDate: "2024-03-22T00:00:00.000Z",
-      },
-    ],
+      "Spacious luxury apartment with great amenities, Spacious luxury apartment with great amenities, Spacious luxury apartment with great amenities, Spacious luxury apartment with great amenities, Spacious luxury apartment with great amenities .",
   },
 ];

@@ -2,24 +2,15 @@ import React, { useState } from "react";
 import "./Navbar.css";
 import Logo from "../../assets/homepage_mats/logo_h.png";
 import LogoSm from "../../assets/homepage_mats/logo.png";
-import { Modal } from "react-bootstrap";
-import LoginRegister, {
-  handleSignInClick,
-  handleSignUpClick,
-} from "../modals/LoginRegister";
 import loader from "../../assets/homepage_mats/logo.png";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { useModal } from "../../hooks/useModal";
 
 export default function Navbar({ setShow, show }) {
-  const user = useSelector((state) => state?.auth?.user?.user);
-  const { loginModal, openLoginModal, closeLoginModal } = useModal();
 
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Check if the current route is "/"
   const isHomePage = location.pathname === "/";
   const [activeIndex, setActiveIndex] = useState(0);
   const [menuActive, setMenuActive] = useState(false);
@@ -344,7 +335,7 @@ export default function Navbar({ setShow, show }) {
                   </svg>
                 </a>
               </div>
-              <div>
+              {/* <div>
                 {!user ? (
                   <div className="d-flex">
                     <button
@@ -578,7 +569,7 @@ export default function Navbar({ setShow, show }) {
                     </div>
                   </>
                 )}
-              </div>
+              </div> */}
             </li>
             <li className="small-screens">
               <div className="small-screens-brand">
@@ -721,7 +712,7 @@ export default function Navbar({ setShow, show }) {
                     </svg>
                   </i>
                 </button>
-                {!user ? (
+                {/* {!user ? (
                   <i
                     onClick={() => {
                       openLoginModal();
@@ -979,24 +970,12 @@ export default function Navbar({ setShow, show }) {
                       </ul>
                     </div>
                   </>
-                )}
+                )} */}
               </div>
             </li>
           </ul>
         </div>
       </nav>
-      <Modal
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-        className="login_signin_modal"
-        show={loginModal}
-        onHide={onHide}
-        backdropClassName="login_signin_modal_backdrop"
-      >
-        <Modal.Body className="d-flex justify-content-center flex-column items-center">
-          <LoginRegister closeLoginModal={closeLoginModal} />
-        </Modal.Body>
-      </Modal>
     </>
   );
 }
