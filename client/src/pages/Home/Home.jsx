@@ -66,7 +66,7 @@ export default function Home() {
               <div className="_content">
                 <div className="search_title">
                   <h1>
-                    Einfach klicken, <span>großer Schritt</span> !
+                    Reservieren <span>und relaxen</span> !
                   </h1>
                 </div>
                 <div className="search_description">
@@ -82,270 +82,6 @@ export default function Home() {
                     erleben Sie Komfort, Bequemlichkeit und Gastfreundschaft wie
                     nie zuvor.
                   </p>
-                </div>
-                <div className="search_boxes">
-                  <div className="_box" title="Searching for houses">
-                    <div className="icon">
-                      <svg
-                        viewBox="0 0 79 92"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <g filter="url(#filter0_d_1_204)">
-                          <path
-                            d="M56.9263 38.2476V51H46.0737V38.2476C46.0737 36.7982 46.6454 35.408 47.663 34.3831C48.6807 33.3582 50.0609 32.7824 51.5 32.7824C52.9391 32.7824 54.3193 33.3582 55.337 34.3831C56.3546 35.408 56.9263 36.7982 56.9263 38.2476ZM74.2 14.8744L52.4948 0.300291C52.1995 0.104401 51.8536 0 51.5 0C51.1464 0 50.8005 0.104401 50.5052 0.300291L28.8 14.8744C28.4792 15.0915 28.2359 15.4063 28.1057 15.7728C27.9755 16.1393 27.9653 16.5381 28.0765 16.9109C28.1878 17.2836 28.4146 17.6107 28.7238 17.8442C29.033 18.0776 29.4084 18.2052 29.7948 18.2082H31.6036V45.5347C31.6036 46.9842 32.1753 48.3743 33.1929 49.3993C34.2105 50.4242 35.5907 51 37.0299 51H42.4562V38.2476C42.4562 35.8318 43.409 33.515 45.105 31.8067C46.8011 30.0985 49.1014 29.1388 51.5 29.1388C53.8986 29.1388 56.1989 30.0985 57.895 31.8067C59.591 33.515 60.5438 35.8318 60.5438 38.2476V51H65.9701C67.4093 51 68.7895 50.4242 69.8071 49.3993C70.8247 48.3743 71.3964 46.9842 71.3964 45.5347V18.2082H73.2052C73.5916 18.2052 73.967 18.0776 74.2762 17.8442C74.5854 17.6107 74.8122 17.2836 74.9235 16.9109C75.0347 16.5381 75.0245 16.1393 74.8943 15.7728C74.7641 15.4063 74.5208 15.0915 74.2 14.8744Z"
-                            fill="url(#paint0_linear_1_204)"
-                          />
-                        </g>
-                        <defs>
-                          <filter
-                            id="filter0_d_1_204"
-                            x="0.6"
-                            y={0}
-                            width="77.8"
-                            height="91.4"
-                            filterUnits="userSpaceOnUse"
-                            colorInterpolationFilters="sRGB"
-                          >
-                            <feFlood
-                              floodOpacity={0}
-                              result="BackgroundImageFix"
-                            />
-                            <feColorMatrix
-                              in="SourceAlpha"
-                              type="matrix"
-                              values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-                              result="hardAlpha"
-                            />
-                            <feOffset dx={-12} dy={25} />
-                            <feGaussianBlur stdDeviation="7.7" />
-                            <feComposite in2="hardAlpha" operator="out" />
-                            <feColorMatrix
-                              type="matrix"
-                              values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"
-                            />
-                            <feBlend
-                              mode="normal"
-                              in2="BackgroundImageFix"
-                              result="effect1_dropShadow_1_204"
-                            />
-                            <feBlend
-                              mode="normal"
-                              in="SourceGraphic"
-                              in2="effect1_dropShadow_1_204"
-                              result="shape"
-                            />
-                          </filter>
-                          <linearGradient
-                            id="paint0_linear_1_204"
-                            x1="66.2823"
-                            y1="39.8049"
-                            x2="35.3096"
-                            y2="11.4916"
-                            gradientUnits="userSpaceOnUse"
-                          >
-                            <stop stopColor="#07D25F" />
-                            <stop offset={1} stopColor="#028139" />
-                          </linearGradient>
-                        </defs>
-                      </svg>
-                    </div>
-
-                    <p>Searching for houses</p>
-                  </div>
-                  <div className="_box" title="Create you profile">
-                  
-                    <div className="icon">
-                      <svg
-                        viewBox="0 0 80 86"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <g filter="url(#filter0_d_484_2)">
-                          <path
-                            d="M55.8681 22.9418C56.5119 21.8203 56.9377 20.6365 57.1038 19.5669C57.5711 19.5254 58.1942 18.8712 58.8588 16.5036C59.7207 13.4714 58.9211 12.8691 58.1319 12.8691C58.2046 12.6095 58.2669 12.3499 58.3188 12.1007C59.6999 3.74138 55.5877 3.45062 55.5877 3.45062C55.5877 3.45062 54.9024 2.14221 53.1059 1.14532C51.9013 0.428811 50.2295 -0.121553 48.0177 0.0653633C47.3011 0.0965159 46.6262 0.241895 45.9927 0.449579C45.1828 0.719569 44.4351 1.12455 43.7601 1.59184C42.9294 2.12144 42.1506 2.75488 41.4652 3.49215C40.3749 4.60327 39.3988 6.04667 38.9834 7.84314C38.6303 9.18271 38.7134 10.5846 39.0042 12.0903C39.0561 12.3499 39.1184 12.6095 39.1911 12.8691C38.4226 12.8899 37.6542 13.5233 38.5057 16.5036C39.1703 18.8608 39.7934 19.5254 40.2606 19.5669C40.4268 20.6365 40.8422 21.8203 41.4964 22.9418V27.1474C41.4756 27.3032 41.3925 27.4382 41.2575 27.5005C40.053 28.0924 34.1132 31.0934 28.5992 35.6209C27.5919 36.4413 27 37.677 27 38.975V42.8795C27 44.0944 27.9865 45.0809 29.2015 45.0809H57.9242C54.9751 42.6095 53.0955 38.8919 53.0955 34.7486C53.0955 31.6749 54.134 28.84 55.8681 26.5659V22.9418Z"
-                            fill="url(#paint0_linear_484_2)"
-                          />
-                        </g>
-                        <g filter="url(#filter1_d_484_2)">
-                          <path
-                            d="M66.626 24.3333C60.8939 24.3333 56.2522 28.975 56.2522 34.7071C56.2522 40.4392 60.9043 45.0809 66.626 45.0809C72.3581 45.0809 76.9999 40.4392 76.9999 34.7071C76.9999 28.975 72.3581 24.3333 66.626 24.3333ZM71.6935 36.1193H68.0383V39.7746H65.2242V36.1193H61.5689V33.3052H65.2242V29.65H68.0383V33.3052H71.6935V36.1193Z"
-                            fill="url(#paint1_linear_484_2)"
-                          />
-                        </g>
-                        <defs>
-                          <filter
-                            id="filter0_d_484_2"
-                            x={0}
-                            y="0.0285645"
-                            width="62.2312"
-                            height="85.0524"
-                            filterUnits="userSpaceOnUse"
-                            colorInterpolationFilters="sRGB"
-                          >
-                            <feFlood
-                              floodOpacity={0}
-                              result="BackgroundImageFix"
-                            />
-                            <feColorMatrix
-                              in="SourceAlpha"
-                              type="matrix"
-                              values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-                              result="hardAlpha"
-                            />
-                            <feOffset dx={-12} dy={25} />
-                            <feGaussianBlur stdDeviation="7.5" />
-                            <feComposite in2="hardAlpha" operator="out" />
-                            <feColorMatrix
-                              type="matrix"
-                              values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"
-                            />
-                            <feBlend
-                              mode="normal"
-                              in2="BackgroundImageFix"
-                              result="effect1_dropShadow_484_2"
-                            />
-                            <feBlend
-                              mode="normal"
-                              in="SourceGraphic"
-                              in2="effect1_dropShadow_484_2"
-                              result="shape"
-                            />
-                          </filter>
-                          <filter
-                            id="filter1_d_484_2"
-                            x="29.2522"
-                            y="24.3333"
-                            width="50.7477"
-                            height="60.7477"
-                            filterUnits="userSpaceOnUse"
-                            colorInterpolationFilters="sRGB"
-                          >
-                            <feFlood
-                              floodOpacity={0}
-                              result="BackgroundImageFix"
-                            />
-                            <feColorMatrix
-                              in="SourceAlpha"
-                              type="matrix"
-                              values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-                              result="hardAlpha"
-                            />
-                            <feOffset dx={-12} dy={25} />
-                            <feGaussianBlur stdDeviation="7.5" />
-                            <feComposite in2="hardAlpha" operator="out" />
-                            <feColorMatrix
-                              type="matrix"
-                              values="0 0 0 0 0.0156863 0 0 0 0 0.341176 0 0 0 0 0.972549 0 0 0 0.1 0"
-                            />
-                            <feBlend
-                              mode="normal"
-                              in2="BackgroundImageFix"
-                              result="effect1_dropShadow_484_2"
-                            />
-                            <feBlend
-                              mode="normal"
-                              in="SourceGraphic"
-                              in2="effect1_dropShadow_484_2"
-                              result="shape"
-                            />
-                          </filter>
-                          <linearGradient
-                            id="paint0_linear_484_2"
-                            x1="53.2528"
-                            y1="35.1914"
-                            x2="27.3221"
-                            y2="16.7898"
-                            gradientUnits="userSpaceOnUse"
-                          >
-                            <stop stopColor="#07D25F" />
-                            <stop offset={1} stopColor="#028139" />
-                          </linearGradient>
-                          <linearGradient
-                            id="paint1_linear_484_2"
-                            x1="73.1515"
-                            y1="40.5265"
-                            x2="60.5009"
-                            y2="27.978"
-                            gradientUnits="userSpaceOnUse"
-                          >
-                            <stop stopColor="#07D25F" />
-                            <stop offset={1} stopColor="#028139" />
-                          </linearGradient>
-                        </defs>
-                      </svg>
-                    </div>
-                    <p>Create you profile</p>
-                  </div>
-                  <div className="_box" title="Deal and pay">
-
-                    <div className="icon">
-                      <svg
-                        viewBox="0 0 84 81"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <g filter="url(#filter0_d_1_216)">
-                          <path
-                            d="M75.3042 0H32.6958C29.5553 0 27 2.5351 27 5.65074V8.46719V17.2847V35.3493C27 38.4649 29.5553 41 32.6958 41H75.3042C78.4447 41 81 38.4649 81 35.3493V17.2847V8.46779V5.65134C81 2.5351 78.4447 0 75.3042 0ZM74.8761 32.6101H70.0796C69.5832 32.6101 69.1803 32.211 69.1803 31.7179C69.1803 31.2248 69.5832 30.8257 70.0796 30.8257H74.8761C75.3725 30.8257 75.7754 31.2248 75.7754 31.7179C75.7754 32.211 75.3725 32.6101 74.8761 32.6101ZM49.8942 24.1221H34.9052C34.4088 24.1221 34.0059 23.723 34.0059 23.2299C34.0059 22.7368 34.4088 22.3377 34.9052 22.3377H49.8942C50.3906 22.3377 50.7936 22.7368 50.7936 23.2299C50.7936 23.723 50.3906 24.1221 49.8942 24.1221ZM50.7936 31.7179C50.7936 32.211 50.3906 32.6101 49.8942 32.6101H45.0977C44.6013 32.6101 44.1984 32.211 44.1984 31.7179C44.1984 31.2248 44.6013 30.8257 45.0977 30.8257H49.8942C50.3906 30.8257 50.7936 31.2254 50.7936 31.7179ZM52.3926 31.7179C52.3926 31.2248 52.7955 30.8257 53.2919 30.8257H58.0884C58.5848 30.8257 58.9877 31.2248 58.9877 31.7179C58.9877 32.211 58.5848 32.6101 58.0884 32.6101H53.2919C52.7955 32.6101 52.3926 32.211 52.3926 31.7179ZM60.7864 31.7179C60.7864 31.2248 61.1893 30.8257 61.6858 30.8257H66.4823C66.9787 30.8257 67.3816 31.2248 67.3816 31.7179C67.3816 32.211 66.9787 32.6101 66.4823 32.6101H61.6858C61.1893 32.6101 60.7864 32.211 60.7864 31.7179ZM79.2013 16.3931H28.7987V9.36001H79.2013V16.3931Z"
-                            fill="url(#paint0_linear_1_216)"
-                          />
-                        </g>
-                        <defs>
-                          <filter
-                            id="filter0_d_1_216"
-                            x={0}
-                            y={0}
-                            width={84}
-                            height={81}
-                            filterUnits="userSpaceOnUse"
-                            colorInterpolationFilters="sRGB"
-                          >
-                            <feFlood
-                              floodOpacity={0}
-                              result="BackgroundImageFix"
-                            />
-                            <feColorMatrix
-                              in="SourceAlpha"
-                              type="matrix"
-                              values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-                              result="hardAlpha"
-                            />
-                            <feOffset dx={-12} dy={25} />
-                            <feGaussianBlur stdDeviation="7.5" />
-                            <feComposite in2="hardAlpha" operator="out" />
-                            <feColorMatrix
-                              type="matrix"
-                              values="0 0 0 0 0.0486109 0 0 0 0 0.0486109 0 0 0 0 0.0486109 0 0 0 0.1 0"
-                            />
-                            <feBlend
-                              mode="normal"
-                              in2="BackgroundImageFix"
-                              result="effect1_dropShadow_1_216"
-                            />
-                            <feBlend
-                              mode="normal"
-                              in="SourceGraphic"
-                              in2="effect1_dropShadow_1_216"
-                              result="shape"
-                            />
-                          </filter>
-                          <linearGradient
-                            id="paint0_linear_1_216"
-                            x1="70.9839"
-                            y1={32}
-                            x2="46.8512"
-                            y2="0.471887"
-                            gradientUnits="userSpaceOnUse"
-                          >
-                            <stop stopColor="#07D25F" />
-                            <stop offset={1} stopColor="#028139" />
-                          </linearGradient>
-                        </defs>
-                      </svg>
-                    </div>
-                    <p>deal and pay</p>
-                  </div>
                 </div>
               </div>
             </div>
@@ -363,17 +99,6 @@ export default function Home() {
               <div className="join_ctr">
                 <div className="join_title">
                   <span>Treten Sie uns bei</span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 88 112"
-                    fill="none"
-                  >
-                    <path
-                      d="M67.624 85.5413C71.4456 80.6578 74.7642 75.4046 77.502 70.9062C77.9531 70.1665 78.4146 69.4219 78.8554 68.7025C81.8629 63.8292 84.7096 59.2295 86.3171 53.7634C88.106 47.6997 88.4741 41.2458 87.3956 35.1061C83.9733 15.6686 66.3536 0.582568 46.4109 0.0151974C45.9961 0.00506581 45.5761 0 45.1612 0C26.4112 0 8.01886 11.8895 2.02465 28.0697C-0.0028103 33.5407 -0.521341 39.7312 0.531277 45.9672C2.30984 56.5243 8.1848 66.6965 13.702 75.2577C19.0065 83.4896 25.5452 91.7976 33.6861 100.668L33.9299 100.936C42.0501 109.837 44.1968 111.635 44.7412 112C50.4036 106.382 55.5007 100.212 60.432 94.2443C62.112 92.2079 63.8491 90.1056 65.5914 88.0489C66.2654 87.2535 66.9447 86.4126 67.624 85.5463V85.5413ZM21.4125 62.0258C15.3768 56.1292 12.053 48.2924 12.053 39.9541C12.053 31.6157 15.3768 23.7789 21.4125 17.8823C27.4482 11.9857 35.4699 8.73852 44.0049 8.73852C51.9333 8.73852 59.4157 11.5399 65.2751 16.6615V16.6513H44.3316V71.1544C44.2227 71.1544 44.1138 71.1544 44.0049 71.1544C35.4699 71.1544 27.4482 67.9072 21.4125 62.0106V62.0258ZM41.21 95.6932L43.0353 90.6932L43.5538 89.2697C42.5323 88.8037 41.8219 87.7905 41.8219 86.6152C41.8219 84.9942 43.1649 83.6821 44.8242 83.6821C46.4835 83.6821 47.8265 84.9942 47.8265 86.6152C47.8265 87.7652 47.1472 88.7581 46.1568 89.2393L46.6857 90.6932L48.511 95.6932M45.3583 71.1392V36.4738H60.1935V35.5721H45.3583V17.5733H65.2699V63.2466C59.7475 68.0744 52.7785 70.8403 45.3583 71.1442V71.1392Z"
-                      fill="#DEC25F"
-                      fillOpacity="0.5"
-                    />
-                  </svg>
                 </div>
                 <h5>
                   Bleiben Sie mit uns in Verbindung! Folgen Sie uns auf Social
@@ -490,19 +215,19 @@ export default function Home() {
         </div>
         <div className="_contact_ctr" id="contact_us">
           <div className="_contact_box">
-            <span>Contact Us</span>
+            <span>Kontaktieren Sie uns</span>
             <div className="contact_inputs">
               <div className="contact_fields">
-                <input placeholder="first name.." />
-                <input placeholder="last name.." />
-                <input placeholder="phone.." />
-                <input placeholder="email.." />
+                <input placeholder="Vorname" />
+                <input placeholder="Nachname" />
+                <input placeholder="Telefonnummer" />
+                <input placeholder="email" />
               </div>
               <div className="message_field">
                 <textarea placeholder="message..."></textarea>
               </div>
             </div>
-            <button>Send</button>
+            <button>Absenden</button>
           </div>
         </div>
         <Footer />
