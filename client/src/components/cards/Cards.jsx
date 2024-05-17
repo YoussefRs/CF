@@ -3,24 +3,6 @@ import "./Cards.css";
 import { Link } from "react-router-dom";
 
 export default function Cards({ card, type, customClass }) {
-  // const [liked, setLiked] = useState(false);
-
-  // const handleClick = () => {
-  //   const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
-  //   const isFavorite = favorites.some((favorite) => favorite.id === card.id);
-
-  //   if (isFavorite) {
-  //     const updatedFavorites = favorites.filter(
-  //       (favorite) => favorite.id !== card.id
-  //     );
-  //     localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
-  //     setLiked(false);
-  //   } else {
-  //     const updatedFavorites = [...favorites, card];
-  //     localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
-  //     setLiked(true);
-  //   }
-  // };
 
   return (
     <div className={`card_box ${customClass ? customClass : ""}`}>
@@ -37,7 +19,6 @@ export default function Cards({ card, type, customClass }) {
               alt="Apartment"
             />
           }
-          {/* {<img className="card-picture" src={card?.pictures[0]} alt="Apartment" />} */}
         </Link>
         <div className="card-info">
           <div className="cart-title-rating row">
@@ -162,7 +143,6 @@ export default function Cards({ card, type, customClass }) {
         <div className="card-price-btn">
           <div className="card-price">
             <p>
-              {/* 2000 € <span>/Tag</span> */}
             </p>
           </div>
           <div className="card-btn">
