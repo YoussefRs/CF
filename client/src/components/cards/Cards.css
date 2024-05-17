@@ -174,7 +174,7 @@
 /* Material Web Card */
 /* Block */
 .material-card {
-  border-radius: 30px;
+  border-radius: 25px;
   background: #fff;
   box-shadow: 0px 16px 31.9px 0px rgba(0, 0, 0, 0.23);
   /* width: 300px;
@@ -190,7 +190,7 @@
 
 /* Elements */
 .card-picture {
-  border-radius: 56px;
+  border-radius: 45px;
   transition: 200ms cubic-bezier(0.2, 0, 0, 1);
   padding: 20px 20px 10px 20px;
 }
@@ -291,7 +291,7 @@
 .card-btn {
   width: 40%;
   height: 100%;
-  border-radius: 20px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
