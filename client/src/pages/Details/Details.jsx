@@ -316,9 +316,7 @@ export default function Details() {
                 <span className="_details_title p-0">description</span>
                 <span className="_description">{card.description}</span>
               </div>
-              <div className="reservation-container">
                 <ReservationComp id="1978163" />
-              </div>
               <div className="_mobile-box left_sqaure">
                 <button onClick={() => openModal()}>Rent now</button>
               </div>
