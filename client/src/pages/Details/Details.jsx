@@ -3,10 +3,9 @@ import "./Details.css";
 import GLightbox from "glightbox";
 import "glightbox/dist/css/glightbox.css";
 import Footer from "../../components/footer/Footer";
-import { useParams, useLocation, Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useModal } from "../../hooks/useModal";
 import Modals from "../../components/modals/Modal";
-import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CalendarComp from "../../components/calendar/CalendarComp";
 import ReservationComp from "../../components/reservation/ReservationComp";
@@ -33,19 +32,6 @@ export default function Details() {
 
   return (
     <>
-      {/* <Navbar /> */}
-      <ToastContainer
-        position="top-right"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
       <div className="_details">
         <div className="_details_big_container">
           <div className="_container">

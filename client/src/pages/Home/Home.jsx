@@ -1,29 +1,22 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./Home.css";
 import Logo from "../../assets/homepage_mats/Group_50.png";
 import Cards from "../../components/cards/Cards";
 import TestimonialsSlider from "../../components/sliders/TestimonialsSlider";
 import Footer from "../../components/footer/Footer";
-import { Link } from "react-router-dom";
-import { useState } from "react";
-import { useSelector } from "react-redux";
 import { apartmentList } from "../../Dummy/AppData";
 
-// import MultiFunc from "../../components/multi/MultiFunc";
 
 export default function Home() {
 
   return (
     <>
-      {/* <Navbar /> */}
-      {/* <div className="home_container"> */}
       <div className="_home">
         <section className="landingpage" id="home">
           <div className="container d-flex align-items-center mb-5">
             <div className="lp-alignment">
               <img
                 src={Logo}
-                // style={{ maxWidth: 250, marginLeft: "-5px" }}
                 srcSet={`${Logo} 1x, ${Logo} 2x, ${Logo} 3x`}
                 alt="Logo"
               />
@@ -31,9 +24,6 @@ export default function Home() {
               <span className="_title_small_">
                 am <span className="special_span">borussia park</span>
               </span>
-              {/* <div className="">
-                <MultiFunc />
-              </div> */}
             </div>
           </div>
         </section>
@@ -164,45 +154,7 @@ export default function Home() {
                     <p>Searching for houses</p>
                   </div>
                   <div className="_box" title="Create you profile">
-                    {/* <svg
-                      viewBox="0 0 50 46"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M28.8681 22.9418C29.5119 21.8203 29.9377 20.6365 30.1038 19.5669C30.5711 19.5254 31.1942 18.8712 31.8588 16.5036C32.7207 13.4714 31.9211 12.8691 31.1319 12.8691C31.2046 12.6095 31.2669 12.3499 31.3188 12.1007C32.6999 3.74138 28.5877 3.45062 28.5877 3.45062C28.5877 3.45062 27.9024 2.14221 26.1059 1.14532C24.9013 0.428811 23.2295 -0.121553 21.0177 0.0653633C20.3011 0.0965159 19.6262 0.241895 18.9927 0.449579C18.1828 0.719569 17.4351 1.12455 16.7601 1.59184C15.9294 2.12144 15.1506 2.75488 14.4652 3.49215C13.3749 4.60327 12.3988 6.04667 11.9834 7.84314C11.6303 9.18271 11.7134 10.5846 12.0042 12.0903C12.0561 12.3499 12.1184 12.6095 12.1911 12.8691C11.4226 12.8899 10.6542 13.5233 11.5057 16.5036C12.1703 18.8608 12.7934 19.5254 13.2606 19.5669C13.4268 20.6365 13.8422 21.8203 14.4964 22.9418V27.1474C14.4756 27.3032 14.3925 27.4382 14.2575 27.5005C13.053 28.0924 7.11319 31.0934 1.59917 35.6209C0.5919 36.4413 0 37.677 0 38.975V42.8795C0 44.0944 0.986501 45.0809 2.20145 45.0809H30.9242C27.9751 42.6095 26.0955 38.8919 26.0955 34.7486C26.0955 31.6749 27.134 28.84 28.8681 26.5659V22.9418Z"
-                        fill="url(#paint0_linear_1022_2)"
-                      />
-                      <path
-                        d="M39.626 24.3333C33.8939 24.3333 29.2522 28.975 29.2522 34.7071C29.2522 40.4392 33.9043 45.0809 39.626 45.0809C45.3581 45.0809 49.9999 40.4392 49.9999 34.7071C49.9999 28.975 45.3581 24.3333 39.626 24.3333ZM44.6935 36.1193H41.0383V39.7746H38.2242V36.1193H34.5689V33.3052H38.2242V29.65H41.0383V33.3052H44.6935V36.1193Z"
-                        fill="url(#paint1_linear_1022_2)"
-                      />
-                      <defs>
-                        <linearGradient
-                          id="paint0_linear_1022_2"
-                          x1="26.2528"
-                          y1="35.1914"
-                          x2="0.322119"
-                          y2="16.7898"
-                          gradientUnits="userSpaceOnUse"
-                        >
-                          <stop stopColor="#07D25F" />
-                          <stop offset={1} stopColor="#028139" />
-                        </linearGradient>
-                        <linearGradient
-                          id="paint1_linear_1022_2"
-                          x1="46.1515"
-                          y1="40.5265"
-                          x2="33.5009"
-                          y2="27.978"
-                          gradientUnits="userSpaceOnUse"
-                        >
-                          <stop stopColor="#07D25F" />
-                          <stop offset={1} stopColor="#028139" />
-                        </linearGradient>
-                      </defs>
-                    </svg> */}
-
+                  
                     <div className="icon">
                       <svg
                         viewBox="0 0 80 86"
@@ -326,29 +278,6 @@ export default function Home() {
                     <p>Create you profile</p>
                   </div>
                   <div className="_box" title="Deal and pay">
-                    {/* <svg
-                      viewBox="0 0 54 41"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M48.3042 0H5.69582C2.55533 0 0 2.5351 0 5.65074V8.46719V17.2847V35.3493C0 38.4649 2.55533 41 5.69582 41H48.3042C51.4447 41 54 38.4649 54 35.3493V17.2847V8.46779V5.65134C54 2.5351 51.4447 0 48.3042 0ZM47.8761 32.6101H43.0796C42.5832 32.6101 42.1803 32.211 42.1803 31.7179C42.1803 31.2248 42.5832 30.8257 43.0796 30.8257H47.8761C48.3725 30.8257 48.7754 31.2248 48.7754 31.7179C48.7754 32.211 48.3725 32.6101 47.8761 32.6101ZM22.8942 24.1221H7.9052C7.40877 24.1221 7.00586 23.723 7.00586 23.2299C7.00586 22.7368 7.40877 22.3377 7.9052 22.3377H22.8942C23.3906 22.3377 23.7936 22.7368 23.7936 23.2299C23.7936 23.723 23.3906 24.1221 22.8942 24.1221ZM23.7936 31.7179C23.7936 32.211 23.3906 32.6101 22.8942 32.6101H18.0977C17.6013 32.6101 17.1984 32.211 17.1984 31.7179C17.1984 31.2248 17.6013 30.8257 18.0977 30.8257H22.8942C23.3906 30.8257 23.7936 31.2254 23.7936 31.7179ZM25.3926 31.7179C25.3926 31.2248 25.7955 30.8257 26.2919 30.8257H31.0884C31.5848 30.8257 31.9877 31.2248 31.9877 31.7179C31.9877 32.211 31.5848 32.6101 31.0884 32.6101H26.2919C25.7955 32.6101 25.3926 32.211 25.3926 31.7179ZM33.7864 31.7179C33.7864 31.2248 34.1893 30.8257 34.6858 30.8257H39.4823C39.9787 30.8257 40.3816 31.2248 40.3816 31.7179C40.3816 32.211 39.9787 32.6101 39.4823 32.6101H34.6858C34.1893 32.6101 33.7864 32.211 33.7864 31.7179ZM52.2013 16.3931H1.79868V9.36001H52.2013V16.3931Z"
-                        fill="url(#paint0_linear_1_216)"
-                      />
-                      <defs>
-                        <linearGradient
-                          id="paint0_linear_1_216"
-                          x1="43.9839"
-                          y1={32}
-                          x2="19.8512"
-                          y2="0.471887"
-                          gradientUnits="userSpaceOnUse"
-                        >
-                          <stop stopColor="#07D25F" />
-                          <stop offset={1} stopColor="#028139" />
-                        </linearGradient>
-                      </defs>
-                    </svg> */}
 
                     <div className="icon">
                       <svg
@@ -428,16 +357,6 @@ export default function Home() {
             <TestimonialsSlider />
           </div>
         </div>
-
-        {/* <section className="_testimonial_container">
-            <p>testimonials</p>
-          <div className="_testimonial_content">
-            <div className="testo_ctr">
-              <div className="testo_left"></div>
-              <div className="testo_right"></div>
-            </div>
-          </div>
-        </section> */}
         <div className="_socials_container" id="followus">
           <div className="socials_ctr">
             <div className="join_flower_ctr">
@@ -567,23 +486,6 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            {/* <div className="contact_ctr">
-              <div className="_contact_box">
-                <span>Contact Us</span>
-                <div className="contact_inputs">
-                  <div className="contact_fields">
-                    <input placeholder="first name.." />
-                    <input placeholder="last name.." />
-                    <input placeholder="phone.." />
-                    <input placeholder="email.." />
-                  </div>
-                  <div className="message_field">
-                    <textarea placeholder="message..."></textarea>
-                  </div>
-                </div>
-                <button>Send</button>
-              </div>
-            </div> */}
           </div>
         </div>
         <div className="_contact_ctr" id="contact_us">
@@ -605,7 +507,6 @@ export default function Home() {
         </div>
         <Footer />
       </div>
-      {/* </div> */}
     </>
   );
 }
