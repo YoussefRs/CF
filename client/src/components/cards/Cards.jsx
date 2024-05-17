@@ -162,7 +162,7 @@ export default function Cards({ card, type, customClass }) {
         <div className="card-price-btn">
           <div className="card-price">
             <p>
-              2000 € <span>/Tag</span>
+              {/* 2000 € <span>/Tag</span> */}
             </p>
           </div>
           <div className="card-btn">

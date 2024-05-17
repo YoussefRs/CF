@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Details.css";
+import GLightbox from "glightbox";
 import "glightbox/dist/css/glightbox.css";
 import Footer from "../../components/footer/Footer";
 import { useParams, useLocation, Link } from "react-router-dom";
@@ -17,7 +18,19 @@ export default function Details() {
 
   const { card } = location.state || {};
 
-  console.log(card);
+  useEffect(() => {
+    const lightbox = GLightbox({
+      touchNavigation: true,
+      loop: true,
+      width: "90vw",
+      height: "90vh",
+    });
+
+    return () => {
+      lightbox.destroy();
+    };
+  }, []);
+
   return (
     <>
       {/* <Navbar /> */}
