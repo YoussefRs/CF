@@ -83,7 +83,7 @@ export default function Home() {
                     nie zuvor.
                   </p>
                 </div>
-                <div className="search_boxes">
+                {/* <div className="search_boxes">
                   <div className="_box" title="Searching for houses">
                     <div className="icon">
                       <svg
@@ -346,7 +346,7 @@ export default function Home() {
                     </div>
                     <p>deal and pay</p>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
