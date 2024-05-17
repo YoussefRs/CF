@@ -219,13 +219,11 @@
   line-height: 115.014px;
   /* 119.806% */
   letter-spacing: 9.6px;
-  font-family: "Coda Caption", sans-serif;
   text-transform: capitalize;
 }
 
 ._home_text span {
   font-size: 36px;
-  font-family: "Coda Caption", sans-serif;
 }
 
 ._home_img {
@@ -261,7 +259,6 @@
   justify-content: center;
   flex-direction: column;
   color: #1a1b1a;
-  font-family: "Caviar Dreams";
   font-size: 15px;
   font-style: normal;
   font-weight: 700;
@@ -285,7 +282,6 @@
   justify-content: center; */
   /* gap: 1rem; */
   color: #1a1b1a;
-  font-family: "Caviar Dreams";
   /* font-size: 15px; */
   font-style: normal;
   font-weight: 700;
@@ -315,7 +311,7 @@
   justify-content: center;
   gap: 2rem;
   color: #1a1b1a;
-  font-family: "Helvetica Neue";
+  
   font-size: 26px;
   font-style: normal;
   font-weight: 700;
@@ -335,7 +331,6 @@
   background: rgba(105, 119, 111, 0.1);
   padding: 5px;
   color: #028139;
-  font-family: "Caviar Dreams";
   font-size: 25px;
   font-style: normal;
   text-transform: uppercase;
@@ -361,7 +356,7 @@
   justify-content: center;
   gap: 1rem;
   color: #fff;
-  font-family: "Caviar Dreams", sans-serif;
+  
   font-size: 20px;
   font-style: normal;
   font-weight: 700;
@@ -567,7 +562,7 @@
 .guy_box p,
 .girl_box p {
   color: #252f44;
-  font-family: "Helvetica Neue", sans-serif;
+  
   font-size: clamp(10px, 1vw, 13px);
   font-style: normal;
   font-weight: 700;
@@ -619,7 +614,7 @@
 
 .search_title h1 {
   color: #fff;
-  font-family: "Helvetica Neue", sans-serif;
+  
 
   text-wrap: nowrap;
   text-overflow: ellipsis;
@@ -649,7 +644,7 @@
 
 .search_title>h1>span {
   color: #dec25f;
-  font-family: "Helvetica Neue", sans-serif;
+  
   /* font-size: clamp(1.5rem, 4vw, 5.625rem); */
   font-style: normal;
   font-weight: 700;
@@ -664,7 +659,7 @@
 
 .search_description p {
   color: rgba(255, 255, 255, 0.45);
-  font-family: "Caviar Dreams", sans-serif;
+  
 
   @media (min-width: 1200px) {
     font-size: clamp(13px, 1vw, 2rem);
@@ -735,7 +730,7 @@
 
 ._box p {
   color: #252f44;
-  font-family: "Helvetica Neue", sans-serif;
+  
   font-size: clamp(1rem, 0.9vw, 2rem);
   font-style: normal;
   font-weight: 700;
@@ -857,7 +852,7 @@
 ._testimonial_container p {
   color: #1a1b1a;
   text-align: center;
-  font-family: "Helvetica Neue", sans-serif;
+  
 
   /* font-size: clamp(1.5rem, 4vw, 5.625rem); */
   @media (min-width: 1200px) {
@@ -1049,7 +1044,7 @@
 .join_title span {
   color: #1a1b1a;
   justify-content: center;
-  font-family: "Helvetica Neue", sans-serif;
+  
   font-size: clamp(1.5rem, 4vw, 5.625rem);
   font-style: normal;
   font-weight: 700;
@@ -1063,7 +1058,7 @@
 .join_ctr h5 {
   color: #69776f;
   text-align: center;
-  font-family: "Helvetica Neue", sans-serif;
+  
   font-size: 14px;
   font-style: normal;
   font-weight: 700;
@@ -1075,7 +1070,7 @@
 .join_ctr p {
   color: #a1a4a2;
   text-align: center;
-  font-family: "Caviar Dreams", sans-serif;
+  
   font-size: 12px;
   font-style: italic;
   font-weight: 700;
@@ -1123,7 +1118,7 @@
   margin-top: 15px;
   color: #fff;
   text-align: center;
-  font-family: "Helvetica Neue", sans-serif;
+  
   font-size: 30px;
   font-style: normal;
   font-weight: 700;
@@ -1140,7 +1135,7 @@
 ._contact_box button {
   color: #07b854;
   text-align: center;
-  font-family: "Helvetica Neue", sans-serif;
+  
   font-size: 20px;
   font-style: normal;
   font-weight: 700;
@@ -1183,7 +1178,7 @@
 
 .contact_fields input::placeholder {
   color: #fff;
-  font-family: "Caviar Dreams", sans-serif;
+  
   font-size: 16px;
   font-style: normal;
   font-weight: 700;
@@ -1206,7 +1201,7 @@
 
 .message_field textarea::placeholder {
   color: #fff;
-  font-family: "Caviar Dreams", sans-serif;
+  
   font-size: 16px;
   font-style: normal;
   font-weight: 700;
@@ -1326,7 +1321,6 @@
     width: 60%;
     padding: 10px 30px;
     color: rgba(0, 0, 0, 1);
-    font-family: Helvetica, sans-serif;
     font-size: 20px;
     font-style: normal;
     font-weight: 400;

@@ -30,7 +30,7 @@
 ._details_calendar .rmdp-header-values {
   color: #2d3136;
   text-align: center;
-  font-family: "TT Commons", sans-serif;
+  
   font-size: 18;
   font-style: normal;
   font-weight: 700;
@@ -42,7 +42,7 @@
 ._details_calendar .rmdp-week-day {
   color: #9f9f9f;
   text-align: center;
-  font-family: "TT Commons", sans-serif;
+  
   font-size: 12px;
   font-style: normal;
   font-weight: 500;
@@ -54,7 +54,7 @@
 ._details_calendar .sd {
   color: #2d3136;
   text-align: center;
-  font-family: "TT Commons", sans-serif;
+  
   font-size: 12px;
   font-style: normal;
   font-weight: 600;

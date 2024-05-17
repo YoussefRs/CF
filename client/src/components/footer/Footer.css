@@ -38,7 +38,7 @@
 ._item_3 ul {
   color: #fff;
   text-align: center;
-  font-family: "Helvetica Neue", sans-serif;
+  
   font-size: 18px;
   font-style: normal;
   font-weight: 700;
@@ -51,7 +51,6 @@
   position: relative;
   margin-left: 25px;
   color: #bebebe;
-  font-family: "Caviar Dreams";
   font-size: 12px;
   font-style: normal;
   font-weight: 700;
@@ -72,7 +71,7 @@
 }
 ._item_1 p {
   color: #bebebe;
-  font-family: "Caviar Dreams", sans-serif;
+  
   font-size: 10px;
   font-style: normal;
   font-weight: 700;
@@ -88,7 +87,7 @@
   border-top: 1px solid #DEC25F;
   color: #dec25f;
   text-align: center;
-  font-family: "Caviar Dreams", sans-serif;
+  
   font-size: 13px;
   font-style: normal;
   font-weight: 700;

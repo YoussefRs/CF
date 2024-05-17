@@ -21,7 +21,7 @@
   display: flex;
   align-items: center;
   color: #1a1b1a;
-  font-family: "Helvetica Neue", sans-serif;
+  
   font-size: 25px;
   font-style: normal;
   font-weight: 700;
@@ -360,7 +360,7 @@
 
 ._details_title {
   color: #2d3136;
-  font-family: "Helvetica Neue", sans-serif;
+  
   font-size: 1.7rem;
   font-style: normal;
   font-weight: 700;
@@ -427,7 +427,7 @@
 
 #_right_box_button button {
   color: #fff;
-  font-family: Montserrat, sans-serif;
+  
   font-size: 16px;
   font-style: normal;
   font-weight: 700;
@@ -482,7 +482,7 @@
 ._description {
   word-break: break-word;
   color: #848998c6;
-  font-family: "TT Commons", sans-serif;
+  
   font-size: .9rem;
   font-style: normal;
   font-weight: 300;
@@ -498,7 +498,7 @@
   background: #f0f1f1;
   color: #bcbcbc;
 
-  font-family: Montserrat, sans-serif;
+  
   font-size: 14px;
   font-style: normal;
   font-weight: 700;
@@ -524,7 +524,7 @@
   color: #fdfdff;
   background: var(--Linear,
       linear-gradient(315deg, #07d25f 20.24%, #028139 80.97%));
-  font-family: Montserrat, sans-serif;
+  
   font-size: 14px;
   font-style: normal;
   font-weight: 700;
@@ -568,7 +568,7 @@
 
 .days_title {
   color: #0db254;
-  font-family: "TT Commons", sans-serif;
+  
   font-size: 15px;
   font-style: normal;
   font-weight: 700;
@@ -640,7 +640,7 @@
 
 #_review_button button {
   color: #fdfdff;
-  font-family: Montserrat, sans-serif;
+  
   font-size: 14px;
   font-style: normal;
   font-weight: 700;
@@ -660,7 +660,6 @@
 .rating>label:before {
   margin: 5px;
   font-size: 1.25em;
-  font-family: FontAwesome;
   display: inline-block;
   content: "\f005";
 }
@@ -849,7 +848,7 @@
 
 .button_select span {
   color: #bcbcbc;
-  font-family: "TT Commons", sans-serif;
+  
   font-size: 13.428px;
   font-style: normal;
   font-weight: 600;

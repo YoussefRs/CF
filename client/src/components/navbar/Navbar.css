@@ -67,7 +67,6 @@
   text-decoration: none;
   padding: 0 1rem 0 0;
   transition: 0.1s ease-in-out;
-  font-family: "montserrat", sans-serif;
   font-size: 10px;
   font-style: normal;
   font-weight: 400;
@@ -99,7 +98,7 @@
   background: var(--Linear,
       linear-gradient(315deg, #07d25f 20.24%, #028139 80.97%));
   color: #fff;
-  font-family: "Helvetica Neue";
+  
   font-size: 16.758px;
   font-style: normal;
   font-weight: 700;
@@ -117,7 +116,7 @@
 
 .login {
   color: #028139;
-  font-family: "Helvetica Neue";
+  
   font-size: 16.758px;
   font-style: normal;
   font-weight: 700;

@@ -1,8 +1,10 @@
-@import url("https://fonts.cdnfonts.com/css/caviar-dreams");
-@import url("https://fonts.cdnfonts.com/css/helvetica-neue-5");
+@import url('https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Danfo&family=Reddit+Sans:ital,wght@0,200..900;1,200..900&display=swap');
 @import url("https://fonts.cdnfonts.com/css/coda-caption");
-@import url('https://fonts.cdnfonts.com/css/montserrat');
 @import url('https://fonts.cdnfonts.com/css/qualy');
+
+* {
+  font-family: "Reddit Sans", sans-serif;
+}
 
 *,
 *::before,
@@ -61,7 +63,7 @@ body {
 /* *************************************************Reused_Styles***************************************** */
 ._title {
   color: #2d3136;
-  font-family: "Helvetica Neue", sans-serif;
+
   font-size: 22px;
   font-style: normal;
   font-weight: 700;
@@ -73,7 +75,7 @@ body {
 
 ._medium_title {
   color: #2d3136;
-  font-family: "TT Commons", sans-serif;
+
   font-size: 1rem;
   font-style: normal;
   font-weight: 600;
@@ -84,7 +86,7 @@ body {
 
 ._medium_title2 {
   color: #2d3136;
-  font-family: "TT Commons", sans-serif;
+
   font-size: 1.3rem;
   font-style: normal;
   font-weight: 600;
@@ -95,7 +97,7 @@ body {
 
 ._small_title {
   color: #2d3136;
-  font-family: "TT Commons", sans-serif;
+
   font-size: 13px;
   font-style: normal;
   font-weight: 400;
@@ -109,7 +111,7 @@ body {
 
 ._very_small_title {
   color: #2d3136;
-  font-family: "TT Commons", sans-serif;
+
   font-size: 1.2rem;
   font-style: normal;
   font-weight: 400;

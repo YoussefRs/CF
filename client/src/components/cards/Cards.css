@@ -224,8 +224,6 @@
 
   font-style: normal;
   font-weight: 700;
-  font-family: "Helvetica Neue",
-    sans-serif;
   line-height: 59.147px;
   /* 197.158% */
   text-transform: capitalize;
@@ -239,7 +237,7 @@
   align-items: center;
   gap: 0.3rem;
   color: #000;
-  font-family: "Helvetica Neue", sans-serif;
+  
 
   @media (min-width: 1200px) {
     font-size: 1.2rem;
@@ -261,7 +259,7 @@
   align-items: center;
   gap: 0.3rem;
   color: #69776f;
-  font-family: "Caviar Dreams", sans-serif;
+  
   font-size: 13.69px;
   font-style: normal;
   font-weight: 700;
@@ -301,7 +299,7 @@
 
 .card-btn button {
   color: #fff;
-  font-family: "Helvetica Neue";
+  
   font-size: 17px;
   font-style: normal;
   font-weight: 700;
@@ -314,7 +312,7 @@
 .card-price {
   /* padding-left: 30px; */
   color: #038b3e;
-  font-family: "Helvetica Neue";
+  
 
   @media (min-width: 1200px) {
     font-size: 2rem;
@@ -337,7 +335,7 @@
 
 .card-price p span {
   color: #69776f;
-  font-family: "Helvetica Neue";
+  
   font-size: 1rem;
   font-style: normal;
   font-weight: 700;

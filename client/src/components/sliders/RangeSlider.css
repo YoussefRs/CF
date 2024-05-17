@@ -114,7 +114,7 @@
 .slider__left-value {
   left: 6px;
   color: #1a1b1a;
-  font-family: "Helvetica Neue";
+  
   font-size: 20px;
   font-style: normal;
   font-weight: 700;
@@ -129,7 +129,7 @@
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   -webkit-text-strokewidth: 1;
   -webkit-text-stroke-color: #000;
-  font-family: "Helvetica Neue";
+  
   font-size: 23px;
   font-style: normal;
   font-weight: 700;
