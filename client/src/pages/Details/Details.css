@@ -338,6 +338,24 @@
   }
 }
 
+.desktop-calendar {
+  /* max-width: 350px; */
+  /* min-width: 250px; */
+  width: 100%;
+  margin: 0 auto;
+  .multiCalendarWidget .fullCalendar {
+    width: 100% !important;
+  }
+  .multiCalendarWidget .fullCalendar {
+    width: 100% !important;
+  }
+}
+
+@media (min-width: 991px) {
+  .desktop-calendar {
+    display: none;
+  }
+}
 .right_box {
   /* @media (min-width: 1200px) {
     width: 90%;
@@ -358,7 +376,6 @@
 }
 
 .multiCalendarWidget {
-
   & .fullCalendar:nth-of-type(2),
   & .logo {
     display: none !important;
@@ -425,8 +442,10 @@
 
 #_right_box_button {
   border-radius: 60px;
-  background: var(--Linear,
-      linear-gradient(315deg, #07d25f 20.24%, #028139 80.97%));
+  background: var(
+    --Linear,
+    linear-gradient(315deg, #07d25f 20.24%, #028139 80.97%)
+  );
   padding: 15px;
   margin-bottom: 1rem;
   text-align: center;
@@ -481,7 +500,7 @@
 .small_sqaure {
   /* width: 80%; */
 
-  &>div {
+  & > div {
     width: 100%;
   }
 }
@@ -528,8 +547,10 @@
   padding: 15px;
   border-radius: 60px;
   color: #fdfdff;
-  background: var(--Linear,
-      linear-gradient(315deg, #07d25f 20.24%, #028139 80.97%));
+  background: var(
+    --Linear,
+    linear-gradient(315deg, #07d25f 20.24%, #028139 80.97%)
+  );
 
   font-size: 14px;
   font-style: normal;
@@ -545,9 +566,8 @@
 } */
 
 ._details_calendar {
-
   & .rmdp-day-picker,
-  & .rmdp-day-picker>div,
+  & .rmdp-day-picker > div,
   &.rmdp-wrapper,
   & .rmdp-calendar {
     width: 100% !important;
@@ -636,8 +656,10 @@
 
 #_review_button {
   border-radius: 60px;
-  background: var(--Linear,
-      linear-gradient(315deg, #07d25f 20.24%, #028139 80.97%));
+  background: var(
+    --Linear,
+    linear-gradient(315deg, #07d25f 20.24%, #028139 80.97%)
+  );
   padding: 15px;
   margin-bottom: 1rem;
   width: 200px;
@@ -659,37 +681,37 @@
   float: left;
 }
 
-.rating>input {
+.rating > input {
   display: none;
 }
 
-.rating>label:before {
+.rating > label:before {
   margin: 5px;
   font-size: 1.25em;
   display: inline-block;
   content: "\f005";
 }
 
-.rating>.half:before {
+.rating > .half:before {
   content: "\f089";
   position: absolute;
 }
 
-.rating>label {
+.rating > label {
   color: #ddd;
   float: right;
 }
 
-.rating>input:checked~label,
-.rating:not(:checked)>label:hover,
-.rating:not(:checked)>label:hover~label {
+.rating > input:checked ~ label,
+.rating:not(:checked) > label:hover,
+.rating:not(:checked) > label:hover ~ label {
   color: #ffd700;
 }
 
-.rating>input:checked+label:hover,
-.rating>input:checked~label:hover,
-.rating>label:hover~input:checked~label,
-.rating>input:checked~label:hover~label {
+.rating > input:checked + label:hover,
+.rating > input:checked ~ label:hover,
+.rating > label:hover ~ input:checked ~ label,
+.rating > input:checked ~ label:hover ~ label {
   color: #ffed85;
 }
 
@@ -710,8 +732,10 @@
 ._mobile-box button {
   width: 100%;
   color: #fdfdff;
-  background: var(--Linear,
-      linear-gradient(315deg, #07d25f 20.24%, #028139 80.97%));
+  background: var(
+    --Linear,
+    linear-gradient(315deg, #07d25f 20.24%, #028139 80.97%)
+  );
 }
 
 @media (max-width: 768px) {
@@ -734,7 +758,7 @@
     display: flex;
     justify-content: space-between;
 
-    &>div {
+    & > div {
       width: 100%;
     }
   }
@@ -760,7 +784,7 @@
   position: relative;
 }
 
-.btn-group .select input:checked+label {
+.btn-group .select input:checked + label {
   /* background: var(--Linear,
       linear-gradient(315deg, #07d25f 20.24%, #028139 80.97%)); */
   border: 0.959px solid #07d25f;
@@ -780,9 +804,9 @@
   background: rgba(255, 255, 255, 0.46);
 }
 
-.btn-group .select input:checked+label:hover,
-.btn-group .select input:checked+label:focus,
-.btn-group .select input:checked+label:active {
+.btn-group .select input:checked + label:hover,
+.btn-group .select input:checked + label:focus,
+.btn-group .select input:checked + label:active {
   /* background: var(--Linear,
       linear-gradient(315deg, #07d25f 20.24%, #028139 80.97%)); */
 }
@@ -829,16 +853,20 @@
   position: absolute;
 }
 
-.option input:checked+span {
-  background: var(--Linear,
-      linear-gradient(315deg, #07d25f 20.24%, #028139 80.97%));
+.option input:checked + span {
+  background: var(
+    --Linear,
+    linear-gradient(315deg, #07d25f 20.24%, #028139 80.97%)
+  );
 }
 
-.option input:checked+span:hover,
-.option input:checked+span:focus,
-.option input:checked+span:active {
-  background: var(--Linear,
-      linear-gradient(315deg, #07d25f 20.24%, #028139 80.97%));
+.option input:checked + span:hover,
+.option input:checked + span:focus,
+.option input:checked + span:active {
+  background: var(
+    --Linear,
+    linear-gradient(315deg, #07d25f 20.24%, #028139 80.97%)
+  );
 }
 
 .option .btn-option {
@@ -867,9 +895,11 @@
 
 .whatsapp_backdrop {
   background-color: rgba(17, 18, 18, 0.8) !important;
-  background: linear-gradient(0deg,
-      rgba(17, 18, 18, 0.8) 5.4%,
-      rgba(17, 18, 18, 0) 100%);
+  background: linear-gradient(
+    0deg,
+    rgba(17, 18, 18, 0.8) 5.4%,
+    rgba(17, 18, 18, 0) 100%
+  );
   opacity: 1 !important;
 }
 

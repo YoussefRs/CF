@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import "./ReservationComp.css";
 
-function ReservationComp({ id }) {
+function ReservationComp({ Rid }) {
   useEffect(() => {
     const scriptUrl = 'https://login.smoobu.com/js/Settings/BookingToolIframe.js';
     let script = document.querySelector(`script[src="${scriptUrl}"]`);
@@ -9,9 +9,9 @@ function ReservationComp({ id }) {
     const initializeBookingTool = () => {
       const initializeScript = document.createElement('script');
       initializeScript.innerHTML = `BookingToolIframe.initialize({
-        "url": "https://login.smoobu.com/en/booking-tool/iframe/753953/${id}",
+        "url": "https://login.smoobu.com/en/booking-tool/iframe/753953/${Rid}",
         "baseUrl": "https://login.smoobu.com",
-        "target": "#apartmentIframe${id}"
+        "target": "#apartmentIframe${Rid}"
       });`;
 
       document.body.appendChild(initializeScript);
@@ -36,9 +36,9 @@ function ReservationComp({ id }) {
         script.onload = null; // Remove the onload handler to prevent memory leaks
       }
     };
-  }, [id]);
+  }, [Rid]);
 
-  return <div id={`apartmentIframe${id}`}></div>;
+  return <div id={`apartmentIframe${Rid}`}></div>;
 }
 
 export default ReservationComp;

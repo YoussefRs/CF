@@ -31,6 +31,7 @@ export const apartmentList = [
   {
     // smth
     id: "smoobuApartment1978163de",
+    Rid: "1978163",
     name: "Penthouse am Borussia Park -L11-",
     loadCalendarUrl:
       "https://login.smoobu.com/de/cockpit/widget/single-calendar/1978163",
@@ -53,6 +54,7 @@ export const apartmentList = [
   {
     id: "smoobuApartment1978148de",
     name: "Townloft - am Borussia Park -L1-",
+    Rid: "1978148",
     location: "Mönchengladbach, Germany",
     loadCalendarUrl:
       "https://login.smoobu.com/de/cockpit/widget/single-calendar/1978148",
@@ -74,6 +76,7 @@ export const apartmentList = [
   {
     id: "smoobuApartment1978151de",
     name: "Townloft - am Borussia Park -L2-",
+    Rid: "1978151",
     location: "Mönchengladbach, Germany",
     bedroom: 1,
     bathroom: 1,
@@ -96,6 +99,7 @@ export const apartmentList = [
   {
     id: "smoobuApartment1978154de",
     name: "Townloft - am Borussia Park -L3-",
+    Rid: "1978154",
     location: "Mönchengladbach, Germany",
     bedroom: 1,
     bathroom: 1,
@@ -117,6 +121,7 @@ export const apartmentList = [
   },
   {
     id: "smoobuApartment1978157de",
+    Rid: "1978157",
     name: "Townloft - am Borussia Park -L6-",
     location: "Mönchengladbach, Germany",
     bedroom: 1,
@@ -139,6 +144,7 @@ export const apartmentList = [
   },
   {
     id: "smoobuApartment1978160de",
+    Rid: "1978160",
     name: "Townloft - am Borussia Park -L7-",
     location: "Mönchengladbach, Germany",
     bedroom: 1,

@@ -302,10 +302,18 @@ export default function Details() {
                 <span className="_details_title p-0">Beschreibung </span>
                 <span className="_description">{card.description}</span>
               </div>
-              <ReservationComp id="1978163" />
-              <div className="_mobile-box left_sqaure">
-                <button onClick={() => openModal()}>Jetzt mieten</button>
+              <div className="desktop-calendar">
+                <span className="_details_title p-0">Verfügbare Termine</span>
+                <CalendarComp
+                  id={card?.id}
+                  loadCalendarUrl={card?.loadCalendarUrl}
+                  verification={card?.verification}
+                />
               </div>
+              <ReservationComp Rid={card.Rid} />
+              {/* <div className="_mobile-box left_sqaure">
+                <button onClick={() => openModal()}>Jetzt mieten</button>
+              </div> */}
             </div>
             <div className="right_side">
               <div className="right_box">
@@ -344,13 +352,13 @@ export default function Details() {
           </button>
         </div>
       </Modals>
-      <Modals show={showModal} onHide={closeModal} size={"md"}>
+      {/* <Modals show={showModal} onHide={closeModal} size={"md"}>
         <CalendarComp
           id={card?.id}
           loadCalendarUrl={card?.loadCalendarUrl}
           verification={card?.verification}
         />
-      </Modals>
+      </Modals> */}
       <Footer />
     </>
   );
