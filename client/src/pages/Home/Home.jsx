@@ -6,9 +6,7 @@ import TestimonialsSlider from "../../components/sliders/TestimonialsSlider";
 import Footer from "../../components/footer/Footer";
 import { apartmentList } from "../../Dummy/AppData";
 
-
 export default function Home() {
-
   return (
     <>
       <div className="_home">
@@ -352,7 +350,7 @@ export default function Home() {
           </div>
         </section>
         <div className="_testimonial_container" id="testimonails">
-          <p>testimonials</p>
+          <p>Referenzen</p>
           <div className="testo_ctr">
             <TestimonialsSlider />
           </div>
