@@ -302,7 +302,7 @@ export default function Details() {
                 <span className="_details_title p-0">description</span>
                 <span className="_description">{card.description}</span>
               </div>
-                <ReservationComp id="1978163" />
+              <ReservationComp id="1978163" />
               <div className="_mobile-box left_sqaure">
                 <button onClick={() => openModal()}>Rent now</button>
               </div>
