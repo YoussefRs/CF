@@ -37,8 +37,8 @@ export const apartmentList = [
     verification:
       "1399b10e610ab6085c0d7e4ef3fe7438637e9d61583da543793e346b3a05ebd2",
     location: "Mönchengladbach, Germany",
-    bedroom: 3,
-    bathroom: 2,
+    bedroom: 1,
+    bathroom: 1,
     images: [
       { image_url: pent1 },
       { image_url: pent2 },
@@ -58,9 +58,16 @@ export const apartmentList = [
       "https://login.smoobu.com/de/cockpit/widget/single-calendar/1978148",
     verification:
       "8a61d6afab791aa45ba845c2e0f8bdececb3dbf1b8ca03e5cb9bc8478843a01f",
-    bathroom: 2,
+    bathroom: 1,
     parking: 1,
-    images: [{ image_url: "https://picsum.photos/200/300" }],
+    images: [
+      { image_url: pent1 },
+      { image_url: pent2 },
+      { image_url: pent3 },
+      { image_url: pent4 },
+      { image_url: pent5 },
+      { image_url: pent6 },
+    ],
     description:
       "Über unsere Unterkunft:Ob Sie geschäftlich im Nordpark unterwegs sind, ein Heimspiel im Borussia-Park besuchen oder ein Konzert oder eine Veranstaltung genießen – wir möchten Ihnen ein zweites Zuhause bieten und hoffen, dass es Ihnen gefällt.Fühlen Sie sich wohl mit CityFlat",
   },
@@ -68,20 +75,20 @@ export const apartmentList = [
     id: "smoobuApartment1978151de",
     name: "Townloft - am Borussia Park -L2-",
     location: "Mönchengladbach, Germany",
-    bedroom: 3,
-    bathroom: 2,
+    bedroom: 1,
+    bathroom: 1,
     loadCalendarUrl:
       "https://login.smoobu.com/de/cockpit/widget/single-calendar/1978154",
     verification:
       "0e509e6d2f2584f4adaa79f39c03117f20a04cdf47f9a97bad2ba18caa6a7b04",
 
     images: [
-      { image_url: L2 },
-      { image_url: L21 },
-      { image_url: L2122 },
-      { image_url: L212 },
-      { image_url: L2121 },
-      { image_url: L21212 },
+      { image_url: pent1 },
+      { image_url: pent2 },
+      { image_url: pent3 },
+      { image_url: pent4 },
+      { image_url: pent5 },
+      { image_url: pent6 },
     ],
     description:
       "Über unsere Unterkunft:Ob Sie geschäftlich im Nordpark unterwegs sind, ein Heimspiel im Borussia-Park besuchen oder ein Konzert oder eine Veranstaltung genießen – wir möchten Ihnen ein zweites Zuhause bieten und hoffen, dass es Ihnen gefällt.Fühlen Sie sich wohl mit CityFlat",
@@ -90,18 +97,20 @@ export const apartmentList = [
     id: "smoobuApartment1978154de",
     name: "Townloft - am Borussia Park -L3-",
     location: "Mönchengladbach, Germany",
-    bedroom: 3,
-    bathroom: 2,
+    bedroom: 1,
+    bathroom: 1,
     loadCalendarUrl:
       "https://login.smoobu.com/de/cockpit/widget/single-calendar/1978157",
     verification:
       "31ada151aee67435dbc5d04aa222ef8bc353a11b4941f39df3a5f36e9912cadb",
     laundry: 2,
     images: [
-      { image_url: L3 },
-      { image_url: L31 },
-      { image_url: L313 },
-      { image_url: L3131 },
+      { image_url: pent1 },
+      { image_url: pent2 },
+      { image_url: pent3 },
+      { image_url: pent4 },
+      { image_url: pent5 },
+      { image_url: pent6 },
     ],
     description:
       "Über unsere Unterkunft:Ob Sie geschäftlich im Nordpark unterwegs sind, ein Heimspiel im Borussia-Park besuchen oder ein Konzert oder eine Veranstaltung genießen – wir möchten Ihnen ein zweites Zuhause bieten und hoffen, dass es Ihnen gefällt.Fühlen Sie sich wohl mit CityFlat",
@@ -110,19 +119,20 @@ export const apartmentList = [
     id: "smoobuApartment1978157de",
     name: "Townloft - am Borussia Park -L6-",
     location: "Mönchengladbach, Germany",
-    bedroom: 3,
-    bathroom: 2,
+    bedroom: 1,
+    bathroom: 1,
     loadCalendarUrl:
       "https://login.smoobu.com/de/cockpit/widget/single-calendar/1978157",
     verification:
       "31ada151aee67435dbc5d04aa222ef8bc353a11b4941f39df3a5f36e9912cadb",
 
     images: [
-      { image_url: L6 },
-      { image_url: L61 },
-      { image_url: L616 },
-      { image_url: L6161 },
-      { image_url: L61616 },
+      { image_url: pent1 },
+      { image_url: pent2 },
+      { image_url: pent3 },
+      { image_url: pent4 },
+      { image_url: pent5 },
+      { image_url: pent6 },
     ],
     description:
       "Über unsere Unterkunft:Ob Sie geschäftlich im Nordpark unterwegs sind, ein Heimspiel im Borussia-Park besuchen oder ein Konzert oder eine Veranstaltung genießen – wir möchten Ihnen ein zweites Zuhause bieten und hoffen, dass es Ihnen gefällt.Fühlen Sie sich wohl mit CityFlat",
@@ -131,15 +141,19 @@ export const apartmentList = [
     id: "smoobuApartment1978160de",
     name: "Townloft - am Borussia Park -L7-",
     location: "Mönchengladbach, Germany",
-    bedroom: 3,
-    bathroom: 2,
+    bedroom: 1,
+    bathroom: 1,
     loadCalendarUrl:
       "https://login.smoobu.com/de/cockpit/widget/single-calendar/1978160",
     verification:
       "5a7b80431b6c4220efaa15fc31ddc30cdc87ead259f390514f97f98fa409070e",
     images: [
-      { image_url: "https://picsum.photos/200/300" },
-      { image_url: "https://picsum.photos/200/300" },
+      { image_url: pent1 },
+      { image_url: pent2 },
+      { image_url: pent3 },
+      { image_url: pent4 },
+      { image_url: pent5 },
+      { image_url: pent6 },
     ],
     description:
       "Über unsere Unterkunft:Ob Sie geschäftlich im Nordpark unterwegs sind, ein Heimspiel im Borussia-Park besuchen oder ein Konzert oder eine Veranstaltung genießen – wir möchten Ihnen ein zweites Zuhause bieten und hoffen, dass es Ihnen gefällt.Fühlen Sie sich wohl mit CityFlat",
