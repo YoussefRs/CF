@@ -486,7 +486,7 @@ export default function Home() {
                 <input placeholder="email" />
               </div>
               <div className="message_field">
-                <textarea placeholder="message..."></textarea>
+                <textarea placeholder="Nachricht..."></textarea>
               </div>
             </div>
             <button>Absenden</button>
