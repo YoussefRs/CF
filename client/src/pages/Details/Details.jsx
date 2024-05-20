@@ -231,9 +231,9 @@ export default function Details() {
                       </svg>
                     </aside>
                     <div className="ms-2">
-                      <section className="_small_title">Bedroom</section>
+                      <section className="_small_title">Schlafzimmer</section>
                       <section className="_rooms_number">
-                        {card.bedroom} rooms
+                        {card.bedroom} Schlafzimmer
                       </section>
                     </div>
                   </div>
@@ -290,21 +290,21 @@ export default function Details() {
                       </svg>
                     </aside>
                     <div className="ms-2">
-                      <section className="_small_title">bathroom</section>
+                      <section className="_small_title">Badezimmer</section>
                       <section className="_rooms_number">
-                        {card.bathroom} rooms
+                        {card.bathroom} Badezimmer
                       </section>
                     </div>
                   </div>
                 </div>
               </div>
               <div className="d-flex flex-column mt-2">
-                <span className="_details_title p-0">description</span>
+                <span className="_details_title p-0">Beschreibung </span>
                 <span className="_description">{card.description}</span>
               </div>
               <ReservationComp id="1978163" />
               <div className="_mobile-box left_sqaure">
-                <button onClick={() => openModal()}>Rent now</button>
+                <button onClick={() => openModal()}>Jetzt mieten</button>
               </div>
             </div>
             <div className="right_side">

@@ -21,7 +21,7 @@ export default function Footer() {
           </div>
           <div className="_item_2">
             <ul>
-              Company
+              Firma
               <li>Über uns</li>
               <li>Preise</li>
               <li>Referenzen</li>
@@ -29,7 +29,7 @@ export default function Footer() {
           </div>
           <div className="_item_3">
             <ul>
-              Resources
+              Ressourcen
               <li>AGB</li>
               <li>Datenschutzrichtlinie</li>
               <li>Widerrufsrecht</li>
