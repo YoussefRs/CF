@@ -20,7 +20,7 @@ export default function Footer() {
             </p>
           </div>
           <div className="_item_2">
-            <ul>
+            <ul className="p-0">
               Firma
               <li>Über uns</li>
               <li>Preise</li>
