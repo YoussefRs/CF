@@ -237,7 +237,7 @@
   align-items: center;
   gap: 0.3rem;
   color: #000;
-  
+
 
   @media (min-width: 1200px) {
     font-size: 1.2rem;
@@ -259,7 +259,7 @@
   align-items: center;
   gap: 0.3rem;
   color: #69776f;
-  
+
   font-size: 13.69px;
   font-style: normal;
   font-weight: 700;
@@ -293,13 +293,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--Linear,
-      linear-gradient(315deg, #07d25f 20.24%, #028139 80.97%));
+  background-color: #24BD66;
 }
 
 .card-btn button {
   color: #fff;
-  
+
   font-size: 17px;
   font-style: normal;
   font-weight: 700;
@@ -312,7 +311,7 @@
 .card-price {
   /* padding-left: 30px; */
   color: #038b3e;
-  
+
 
   @media (min-width: 1200px) {
     font-size: 2rem;
@@ -335,7 +334,7 @@
 
 .card-price p span {
   color: #69776f;
-  
+
   font-size: 1rem;
   font-style: normal;
   font-weight: 700;
@@ -655,15 +654,18 @@ svg #main-circ {
 .card-rooms {
   display: flex;
   margin-top: .5rem;
+
   & ._room {
     display: flex;
     align-items: center;
     margin-right: .75rem;
+
     & .icon {
       margin-right: .5rem;
+
       & svg {
-        width: 50px;
-        height: 50px;
+        width: 40px;
+        height: 40px;
       }
     }
 

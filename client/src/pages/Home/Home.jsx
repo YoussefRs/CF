@@ -1,26 +1,27 @@
 import React from "react";
 import "./Home.css";
-import Logo from "../../assets/homepage_mats/Group_50.png";
 import Cards from "../../components/cards/Cards";
-import TestimonialsSlider from "../../components/sliders/TestimonialsSlider";
 import Footer from "../../components/footer/Footer";
 import { apartmentList } from "../../Dummy/AppData";
+
+import banner from "../../assets/homepage_mats/city-flat.jpg";
 
 export default function Home() {
   return (
     <div className="_home">
       <section className="landingpage" id="home">
-        <div className="container d-flex align-items-center mb-5">
+        <img src={banner} alt="" />
+        <div className="container d-flex align-items-center mb-5 title_container">
           <div className="lp-alignment">
             {/* <img
                 src={Logo}
                 srcSet={`${Logo} 1x, ${Logo} 2x, ${Logo} 3x`}
                 alt="Logo"
               /> */}
-            <h1 className="_title_">Town Lofts</h1>
+            <h1 className="_title_">TownLofts</h1>
             <span className="_title_small_">
               <small>am</small>{" "}
-              <span className="special_span">borussia park</span>
+              <span className="special_span">borussia-park</span>
             </span>
           </div>
         </div>
@@ -29,7 +30,7 @@ export default function Home() {
       {apartmentList && (
         <div className="_cards_container" id="properties">
           <div className="cards_layer"></div>
-          <p className="title">Unsere Wohnungen</p>
+          <p className="title">Unsere Apartments</p>
           <div className="card_ctr">
             {apartmentList?.map((card, i) => (
               <Cards card={card} key={i} type={"normal"} />
@@ -349,12 +350,12 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <div className="_testimonial_container" id="testimonails">
+      {/* <div className="_testimonial_container" id="testimonails">
         <p>Referenzen</p>
         <div className="testo_ctr">
           <TestimonialsSlider />
         </div>
-      </div>
+      </div> */}
       <div className="_socials_container" id="followus">
         <div className="socials_ctr">
           <div className="join_flower_ctr">

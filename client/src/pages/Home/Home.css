@@ -10,28 +10,40 @@
 
 .landingpage {
   width: 100%;
+  position: relative;
+  background-color: #fff;
+  position: relative;
 
-  @media (min-width: 768px) {
-    height: 700px;
+  &::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 10px;
+    background-color: #fff;
+    bottom: -5px;
   }
 
-  @media (max-width: 767px) {
-    height: 450px;
+  & img {
+    width: 100%;
+    background-color: #fff;
+
   }
-  background-image: url("../../assets/homepage_mats/city-flat.jpg");
-  background-size: 100% 102%;
-  background-position: center;
+
+  & .title_container {
+    position: absolute;
+    top: 50%;
+  }
+
   /* margin-top: 5rem; */
   display: flex;
   justify-content: center;
-  padding-top: 200px;
   padding-bottom: 1rem;
 }
 
 ._title_ {
   color: #000;
   /* text-shadow: -15px 58px 16.8px rgba(0, 0, 0, 0.54); */
-  font-family: "Coda Caption", sans-serif;
+  font-family: sans-serif;
   font-style: normal;
   font-weight: 800;
   letter-spacing: 6px;
@@ -63,13 +75,15 @@
   align-items: end;
 
   & small {
+    margin-right: .75rem;
+
     @media (max-width: 767px) {
       font-size: 1.2rem;
       font-weight: 900;
     }
 
     @media (min-width: 768px) {
-      font-size: 2.5rem;
+      font-size: 3rem;
     }
   }
 
@@ -414,7 +428,22 @@
   justify-content: center;
 
   & .title {
-    font-size: 40px;
+    @media (min-width: 1200px) {
+      font-size: clamp(1.5rem, 3.5vw, 4rem);
+    }
+
+    @media (min-width: 768px) and (max-width: 1200px) {
+      font-size: clamp(1rem, 3.5vw, 4.5rem);
+    }
+
+    @media (min-width: 576px) and (max-width: 768px) {
+      font-size: clamp(1.3rem, 4.2vw, 5.2rem);
+    }
+
+    @media (max-width: 576px) {
+      font-size: clamp(1rem, 5vw, 5rem);
+    }
+
     font-weight: 800;
     margin-top: 59px;
     color: #000;
@@ -495,7 +524,7 @@
   position: relative;
   align-items: center;
   justify-content: center;
-  padding: 3% 5%;
+  padding: 6% 5%;
 }
 
 .search_ctr {
@@ -636,8 +665,7 @@
 }
 
 .search_title {
-  padding: 20px;
-  background: url('data:image/svg+xml,<svg width="50" height="112" viewBox="0 0 88 112" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M67.624 85.5413C71.4456 80.6578 74.7642 75.4046 77.502 70.9062C77.9531 70.1665 78.4146 69.4219 78.8554 68.7025C81.8629 63.8292 84.7096 59.2295 86.3171 53.7634C88.106 47.6997 88.4741 41.2458 87.3956 35.1061C83.9733 15.6686 66.3536 0.582568 46.4109 0.0151974C45.9961 0.00506581 45.5761 0 45.1612 0C26.4112 0 8.01886 11.8895 2.02465 28.0697C-0.0028103 33.5407 -0.521341 39.7312 0.531277 45.9672C2.30984 56.5243 8.1848 66.6965 13.702 75.2577C19.0065 83.4896 25.5452 91.7976 33.6861 100.668L33.9299 100.936C42.0501 109.837 44.1968 111.635 44.7412 112C50.4036 106.382 55.5007 100.212 60.432 94.2443C62.112 92.2079 63.8491 90.1056 65.5914 88.0489C66.2655 87.2535 66.9447 86.4126 67.624 85.5463V85.5413ZM21.4125 62.0258C15.3768 56.1292 12.053 48.2924 12.053 39.9541C12.053 31.6157 15.3768 23.7789 21.4125 17.8823C27.4482 11.9857 35.4699 8.73852 44.0049 8.73852C51.9333 8.73852 59.4157 11.5399 65.2751 16.6615V16.6513H44.3316V71.1544C44.2227 71.1544 44.1138 71.1544 44.0049 71.1544C35.4699 71.1544 27.4482 67.9072 21.4125 62.0106V62.0258ZM41.21 95.6932L43.0353 90.6932L43.5538 89.2697C42.5323 88.8037 41.8219 87.7905 41.8219 86.6152C41.8219 84.9942 43.1649 83.6821 44.8242 83.6821C46.4835 83.6821 47.8265 84.9942 47.8265 86.6152C47.8265 87.7652 47.1472 88.7581 46.1568 89.2393L46.6857 90.6932L48.511 95.6932M45.3583 71.1392V36.4738H60.1935V35.5721H45.3583V17.5733H65.2699V63.2466C59.7475 68.0744 52.7785 70.8403 45.3583 71.1442V71.1392Z" fill="%23DEC25F" fill-opacity="0.2"/></svg>');
+  padding: 20px 20px 0 0;
   background-position: left;
   /* background-attachment: fixed; */
   background-repeat: no-repeat;
@@ -648,13 +676,11 @@
 
 .search_title h1 {
   color: #fff;
-
-
   text-wrap: nowrap;
   text-overflow: ellipsis;
 
   @media (min-width: 1200px) {
-    font-size: clamp(1.5rem, 3.5vw, 5.625rem);
+    font-size: clamp(1.5rem, 3.5vw, 4rem);
   }
 
   @media (min-width: 768px) and (max-width: 1200px) {
@@ -677,7 +703,7 @@
 }
 
 .search_title>h1>span {
-  color: #dec25f;
+  color: #24BD66;
 
   /* font-size: clamp(1.5rem, 4vw, 5.625rem); */
   font-style: normal;
@@ -692,7 +718,7 @@
 }
 
 .search_description p {
-  color: rgba(255, 255, 255, 0.45);
+  color: rgb(255, 255, 255);
 
 
   @media (min-width: 1200px) {
@@ -789,7 +815,6 @@
 ._testimonial_container {
   @media (min-width: 768px) {
     margin-top: 8rem;
-    height: 60%;
   }
 
   @media (min-width: 480px) and (max-width: 768px) {
@@ -832,13 +857,10 @@
     @media (max-height: 649px) {
       margin-top: 37rem;
     }
-
-    height: 60%;
   }
 
   @media (max-width: 480px) {
     margin-top: 8rem;
-    height: 65%;
 
     @media (min-height: 950px) {
       margin-top: 1rem;
@@ -961,6 +983,88 @@
   padding: 5% 2%;
   flex-direction: column;
   align-items: center;
+
+  @media (min-width: 768px) {
+    margin-top: 8rem;
+  }
+
+  @media (min-width: 480px) and (max-width: 768px) {
+    @media (min-height: 1050px) {
+      margin-top: 8rem;
+    }
+
+    @media (min-height: 1000px) and (max-height: 1049px) {
+      margin-top: 13rem;
+    }
+
+    @media (min-height: 950px) and (max-height: 999px) {
+      margin-top: 16rem;
+    }
+
+    @media (min-height: 900px) and (max-height: 949px) {
+      margin-top: 18rem;
+    }
+
+    @media (min-height: 850px) and (max-height: 899px) {
+      margin-top: 22rem;
+    }
+
+    @media (min-height: 800px) and (max-height: 849px) {
+      margin-top: 24rem;
+    }
+
+    @media (min-height: 750px) and (max-height: 799px) {
+      margin-top: 28rem;
+    }
+
+    @media (min-height: 700px) and (max-height: 749px) {
+      margin-top: 31rem;
+    }
+
+    @media (min-height: 650px) and (max-height: 699px) {
+      margin-top: 33rem;
+    }
+
+    @media (max-height: 649px) {
+      margin-top: 37rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    margin-top: 8rem;
+
+    @media (min-height: 950px) {
+      margin-top: 1rem;
+    }
+
+    @media (min-height: 900px) and (max-height: 949px) {
+      margin-top: 3rem;
+    }
+
+    @media (min-height: 850px) and (max-height: 899px) {
+      margin-top: 9rem;
+    }
+
+    @media (min-height: 800px) and (max-height: 849px) {
+      margin-top: 11rem;
+    }
+
+    @media (min-height: 750px) and (max-height: 799px) {
+      margin-top: 15rem;
+    }
+
+    @media (min-height: 700px) and (max-height: 749px) {
+      margin-top: 19rem;
+    }
+
+    @media (min-height: 650px) and (max-height: 699px) {
+      margin-top: 21rem;
+    }
+
+    @media (max-height: 649px) {
+      margin-top: 23rem;
+    }
+  }
 }
 
 .socials_ctr {
@@ -1034,8 +1138,7 @@
   height: 100px;
   width: 100px;
   justify-self: self-end;
-  background: var(--Linear,
-      linear-gradient(315deg, #07d25f 20.24%, #028139 80.97%));
+  background: #24BD66;
   box-shadow: 24px 14px 46.8px 0px rgba(0, 0, 0, 0.2);
 }
 
@@ -1084,7 +1187,22 @@
   color: #1a1b1a;
   justify-content: center;
 
-  font-size: clamp(1.5rem, 4vw, 4.625rem);
+  @media (min-width: 1200px) {
+    font-size: clamp(1.5rem, 3.5vw, 4rem);
+  }
+
+  @media (min-width: 768px) and (max-width: 1200px) {
+    font-size: clamp(1rem, 3.5vw, 4.5rem);
+  }
+
+  @media (min-width: 576px) and (max-width: 768px) {
+    font-size: clamp(1.3rem, 4.2vw, 5.2rem);
+  }
+
+  @media (max-width: 576px) {
+    font-size: clamp(1rem, 5vw, 5rem);
+  }
+
   font-style: normal;
   font-weight: 700;
   line-height: 121.147px;
@@ -1142,10 +1260,8 @@
   /* position: absolute; */
   /* top: 0%; */
   /* z-index: 99999999; */
-  border-radius: 0px 100px;
-  background: var(--Linear,
-      linear-gradient(315deg, #07d25f 20.24%, #028139 80.97%));
-  box-shadow: 35px 63px 46.8px 0px rgba(0, 0, 0, 0.8);
+  border-radius: 25px;
+  background: #24BD66;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1186,8 +1302,8 @@
   margin-top: 1rem;
   width: 20%;
   height: 60px;
-  border-top-left-radius: 56px;
-  border-bottom-right-radius: 56px;
+  border-radius: 15px;
+  margin-bottom: 25px;
 }
 
 .contact_inputs {
@@ -1208,7 +1324,7 @@
 }
 
 .contact_fields input {
-  border-radius: 20px;
+  border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.4);
   background: rgba(255, 255, 255, 0.09);
   padding: 14px;
@@ -1220,15 +1336,15 @@
 
   font-size: 16px;
   font-style: normal;
-  font-weight: 700;
+  font-weight: 500;
   line-height: 33px;
   /* 206.25% */
   text-transform: capitalize;
-  opacity: 0.5;
+  opacity: 0.85;
 }
 
 .message_field textarea {
-  border-radius: 20px;
+  border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.4);
   background: rgba(255, 255, 255, 0.09);
   display: block;
@@ -1243,11 +1359,11 @@
 
   font-size: 16px;
   font-style: normal;
-  font-weight: 700;
+  font-weight: 500;
   line-height: 33px;
   /* 206.25% */
   text-transform: capitalize;
-  opacity: 0.5;
+  opacity: 0.85;
 }
 
 @keyframes float {

@@ -1,7 +1,7 @@
 import React from "react";
 import "./Footer.css";
 import name from "../../assets/homepage_mats/name.png";
-import logo from "../../assets/homepage_mats/logo.png";
+import logo from "../../assets/homepage_mats/logo3.png";
 
 export default function Footer() {
   return (
@@ -11,7 +11,6 @@ export default function Footer() {
           <div className="_item_1">
             <div className="_footer_img">
               <img src={logo} />
-              <img src={name} />
             </div>
             <p>
               Entdecken Sie gemütliche Apartments in Mönchengladbach,
