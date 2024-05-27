@@ -45,7 +45,7 @@ export default function TestimonialsSlider() {
           disableOnInteraction: true,
         }}
         initialSlide={1}
-        className="swiper-wrapper"
+        className=""
       >
         {testimonials.map((testim, i) => (
           <SwiperSlide className="swiper-slide" key={i}>

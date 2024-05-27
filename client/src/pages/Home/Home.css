@@ -1,5 +1,5 @@
 ._home {
-  height: 100vh;
+  min-height: 100vh;
   width: 100vw;
   position: relative;
   overflow-x: hidden;
@@ -10,8 +10,15 @@
 
 .landingpage {
   width: 100%;
-  height: auto;
-  background-image: url("../../assets/homepage_mats/city-flat.png");
+
+  @media (min-width: 768px) {
+    height: 700px;
+  }
+
+  @media (max-width: 767px) {
+    height: 450px;
+  }
+  background-image: url("../../assets/homepage_mats/city-flat.jpg");
   background-size: 100% 102%;
   background-position: center;
   /* margin-top: 5rem; */
@@ -22,12 +29,12 @@
 }
 
 ._title_ {
-  color: #fff;
-  text-shadow: -15px 58px 16.8px rgba(0, 0, 0, 0.54);
+  color: #000;
+  /* text-shadow: -15px 58px 16.8px rgba(0, 0, 0, 0.54); */
   font-family: "Coda Caption", sans-serif;
   font-style: normal;
   font-weight: 800;
-  letter-spacing: 9.6px;
+  letter-spacing: 6px;
   text-transform: capitalize;
 
   @media (min-width: 768px) {
@@ -35,32 +42,58 @@
   }
 
   margin-bottom: 0;
+
+  & span {
+    font-weight: normal;
+    text-transform: lowercase;
+
+    @media (min-width: 768px) {
+      font-size: clamp(1rem, 7vw, 4rem);
+    }
+  }
 }
 
 ._title_small_ {
-  color: #fff;
-  text-shadow: -15px 58px 16.8px rgba(0, 0, 0, 0.54);
+  color: #000;
   font-family: "Coda Caption", sans-serif;
   font-style: normal;
   font-weight: 800;
-  letter-spacing: 9.6px;
+  letter-spacing: 6px;
+  display: flex;
+  align-items: end;
 
-  @media (min-width: 768px) {
-    font-size: clamp(1.5rem, 7vw, 2rem);
+  & small {
+    @media (max-width: 767px) {
+      font-size: 1.2rem;
+      font-weight: 900;
+    }
+
+    @media (min-width: 768px) {
+      font-size: 2.5rem;
+    }
   }
 
   line-height: 20px;
 }
 
 .special_span {
-  color: #dec25f;
-  text-shadow: -15px 58px 16.8px rgba(0, 0, 0, 0.54);
-  font-family: "qualy", sans-serif;
-  font-style: normal;
-  font-weight: 800;
+  background: linear-gradient(to right, #07D25F, #028139);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 900;
+  text-transform: uppercase;
   letter-spacing: 7px;
-  text-transform: capitalize;
   font-size: clamp(1.5rem, 7vw, 3.5rem);
+  margin-bottom: -.3rem;
+
+  @media (max-width: 767px) {
+    margin-bottom: -.2rem;
+  }
+
+  @media (min-width: 768px) {
+    margin-bottom: -.3rem;
+  }
 }
 
 .half-title-clr {
@@ -369,7 +402,7 @@
 
 ._cards_container {
   /* height: 100%; */
-  background-image: url(../../assets/Mask_group2.png);
+  /* background-image: url(../../assets/Mask_group2.png); */
   background-size: cover;
   background-position: top;
   background-repeat: no-repeat;
@@ -381,10 +414,10 @@
   justify-content: center;
 
   & .title {
-    font-size: 35px;
-    font-weight: 700;
+    font-size: 40px;
+    font-weight: 800;
     margin-top: 59px;
-    color: #fff;
+    color: #000;
   }
 }
 
@@ -882,6 +915,7 @@
 .testo_ctr {
   width: 100%;
   height: 100%;
+  min-height: 450px;
   display: flex;
   /* Allow items to wrap to the next line */
   /* Align items to the top of the container */
@@ -893,6 +927,10 @@
   background-repeat: no-repeat;
   background-size: cover;
   mix-blend-mode: soft-light;
+}
+
+.swiper-wrapper {
+  height: 100% !important;
 }
 
 .testo_left {
@@ -944,7 +982,7 @@
   padding: 1%;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: end;
 }
 
 ._flower_box {
@@ -953,9 +991,9 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
-  width: 300px;
+  width: 350px;
   /* Adjust width as needed */
-  height: 300px;
+  height: 350px;
   /* Adjust height as needed */
   gap: 0.4rem;
 }
@@ -993,8 +1031,8 @@
   border-top-left-radius: 100px;
   border-bottom-left-radius: 100px;
   border-bottom-right-radius: 100px;
-  height: 80px;
-  width: 80px;
+  height: 100px;
+  width: 100px;
   justify-self: self-end;
   background: var(--Linear,
       linear-gradient(315deg, #07d25f 20.24%, #028139 80.97%));
@@ -1016,7 +1054,7 @@
 }
 
 .join_ctr {
-  width: 30%;
+  width: 40%;
   height: 100%;
   padding: 0 10px 10px;
   display: flex;
@@ -1046,7 +1084,7 @@
   color: #1a1b1a;
   justify-content: center;
 
-  font-size: clamp(1.5rem, 4vw, 5.625rem);
+  font-size: clamp(1.5rem, 4vw, 4.625rem);
   font-style: normal;
   font-weight: 700;
   line-height: 121.147px;

@@ -5,7 +5,7 @@ import Details from "./pages/Details/Details";
 import Home from "./pages/Home/Home";
 import Navbar from "./components/navbar/Navbar";
 import Loader from "./components/Loader/Loader";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -18,16 +18,28 @@ function App() {
     return () => clearTimeout(timer);
   }, []);
 
+  const [scrolled, setScrolled] = useState(false);
+  const scrollPosition = useRef(0);
 
-  const Layout = ({ children }) => {
-    return (
-      <div>
-        <Navbar />
-        <div>{children}</div>
-        {/* <Footer /> */}
-      </div>
-    );
-  };
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY >= 120 && scrollPosition.current < 120) {
+        setScrolled(true);
+      } else if (currentScrollY < 120 && scrollPosition.current >= 120) {
+        setScrolled(false);
+      }
+      scrollPosition.current = currentScrollY;
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  console.log(scrolled);
 
   return (
     <>
@@ -38,23 +50,10 @@ function App() {
       ) : (
         <>
           <Router>
+            <Navbar scrolled={scrolled} />
             <Routes>
-              <Route
-                path="/"
-                element={
-                  <Layout>
-                    <Home />
-                  </Layout>
-                }
-              />
-              <Route
-                path="/details/:id"
-                element={
-                  <Layout>
-                    <Details />
-                  </Layout>
-                }
-              />
+              <Route path="/" element={<Home />} />
+              <Route path="/details/:id" element={<Details />} />
             </Routes>
           </Router>
         </>
