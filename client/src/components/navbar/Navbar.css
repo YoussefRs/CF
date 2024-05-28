@@ -100,7 +100,7 @@
   list-style: none;
   /* padding-left: 15%; */
   flex: 1;
-  color: #fff;
+  color: #000;
   position: relative;
 }
 
@@ -108,9 +108,9 @@
   text-decoration: none;
   padding: 0 1rem 0 0;
   transition: 0.1s ease-in-out;
-  font-size: 16px;
+  font-size: 19px;
   font-style: normal;
-  font-weight: 300;
+  font-weight: 500;
   line-height: 16px;
   /* 160% */
   letter-spacing: 1.2px;
@@ -306,6 +306,7 @@
     /* Add this line */
     gap: 1rem;
     transition: 2s all ease;
+    color: #000;
 
   }
 
@@ -337,7 +338,7 @@
     position: absolute;
     width: 100%;
     height: calc(100vh - 50px);
-    background: #333;
+    background: #fff;
     top: 78px;
     left: -110%;
     transition: 0.5s;
@@ -349,7 +350,7 @@
 
   .__nav_sidemenu nav.active {
     left: 0;
-    background-color: rgba(38, 38, 38, 0.85);
+    background-color: rgba(255, 255, 255, 0.85);
     width: 100%;
   }
 }
