@@ -523,7 +523,14 @@
   position: relative;
   align-items: center;
   justify-content: center;
-  padding: 6% 5%;
+
+  @media (min-width: 576px) {
+    padding: 6% 5%;
+  }
+
+  @media (max-width: 575px) {
+    padding: 6% 3%;
+  }
 }
 
 .search_ctr {
@@ -704,7 +711,7 @@
   }
 
   @media (max-width: 575px) {
-    font-size: clamp(1rem, 5vw, 5rem);
+    font-size: 28px;
   }
 
   font-style: normal;
