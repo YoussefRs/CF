@@ -36,7 +36,6 @@ export default function Details() {
         <div className="_details_big_container">
           <div className="_container">
             <div className="photos-grid-title-container">
-              <span>
                 <svg
                   width="22"
                   height="22"
@@ -64,6 +63,7 @@ export default function Details() {
                     </clipPath>
                   </defs>
                 </svg>
+              <span>
                 / {card?.name}
               </span>
             </div>
