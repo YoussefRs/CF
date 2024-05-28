@@ -8,7 +8,7 @@
 #img {
     animation: rotateX 2s linear infinite alternate;
     height: 80px;
-    width: 90px;
+    width: 75px;
   }
   
   @keyframes rotateX {

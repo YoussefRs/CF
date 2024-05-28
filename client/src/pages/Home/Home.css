@@ -1,8 +1,7 @@
 ._home {
   min-height: 100vh;
-  width: 100vw;
   position: relative;
-  overflow-x: hidden;
+  overflow-x: hidden !important;
   z-index: 0;
 }
 
@@ -556,15 +555,28 @@
     width: 80%;
   }
 
-  @media (max-width: 1400px) {
+  @media (min-width: 768px) and (max-width: 1400px) {
     width: 90%;
   }
 
-  height: 600px;
+  @media (max-width: 767px) {
+    width: 75%;
+  }
+
   position: absolute;
-  top: 50%;
   left: 50%;
-  transform: translate(-50%, -40%);
+
+  @media (min-width: 768px) {
+    top: 50%;
+    transform: translate(-50%, -40%);
+    height: 500px;
+  }
+
+  @media (max-width: 767px) {
+    transform: translateX(-50%);
+    height: 650px;
+  }
+
   border-top-left-radius: 80px;
   border-bottom-right-radius: 80px;
   z-index: 3;
@@ -684,14 +696,14 @@
   }
 
   @media (min-width: 768px) and (max-width: 1200px) {
-    font-size: clamp(1rem, 3.5vw, 4.5rem);
+    font-size: clamp(1rem, 3.5vw, 4rem);
   }
 
-  @media (min-width: 576px) and (max-width: 768px) {
+  @media (min-width: 576px) and (max-width: 767px) {
     font-size: clamp(1.3rem, 4.2vw, 5.2rem);
   }
 
-  @media (max-width: 576px) {
+  @media (max-width: 575px) {
     font-size: clamp(1rem, 5vw, 5rem);
   }
 
@@ -1100,6 +1112,10 @@
   height: 350px;
   /* Adjust height as needed */
   gap: 0.4rem;
+
+  @media (max-width: 767px) {
+    margin: 0 auto;
+  }
 }
 
 .leaf {
@@ -1244,6 +1260,19 @@
   align-items: center;
   justify-content: center;
   background: linear-gradient(to bottom, white 50%, #1a1b1a 50%);
+
+  & ._contact_box {
+    z-index: 10;
+  }
+
+  &::after {
+    position: absolute;
+    content: "";
+    background: #1A1B1A;
+    width: 100%;
+    height: 10px;
+    bottom: -5px;
+  }
 }
 
 /* .contact_ctr {
@@ -1299,7 +1328,7 @@
   letter-spacing: 2.4px;
   text-transform: uppercase;
   background-color: white;
-  margin-top: 1rem;
+  margin-top: 2rem;
   width: 20%;
   height: 60px;
   border-radius: 15px;
@@ -1380,7 +1409,7 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   ._search_container {
     flex-direction: column;
     align-items: center;
@@ -1598,7 +1627,7 @@
   }
 }
 
-@media (min-width: 481px) and (max-width: 768px) {
+@media (min-width: 481px) and (max-width: 767px) {
   ._home_img {
     align-items: flex-start;
   }
@@ -1661,7 +1690,7 @@
   }
 }
 
-@media (min-width: 769px) and (max-width: 1024px) {
+@media (min-width: 768px) and (max-width: 1024px) {
   ._price_wrapper {
     padding: 2.5rem 10%;
   }
