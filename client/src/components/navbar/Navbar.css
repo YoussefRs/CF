@@ -16,15 +16,33 @@
   /* color: #454548; */
   font-weight: 900;
 
+
+
   &._nav_home {
     & span {
       color: #fff;
+    }
+
+    & .side_toggler {
+      border: 1px solid #fff;
+
+      & path {
+        fill: #fff;
+      }
     }
   }
 
   &:not(._nav_home) {
     & span {
       color: #000;
+    }
+
+    & .side_toggler {
+      border: 1px solid #000;
+
+      & path {
+        fill: #000;
+      }
     }
   }
 
@@ -35,6 +53,14 @@
 
     & span {
       color: #000;
+    }
+
+    & .side_toggler {
+      border: 1px solid #000;
+
+      & path {
+        fill: #000;
+      }
     }
   }
 }
